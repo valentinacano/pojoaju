@@ -1,0 +1,20 @@
+# Entornos virtuales
+venv/
+.env/
+.venv/
+
+# Archivos de Python compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de sistema
+.DS_Store
+
+# Checkpoints de notebooks
+.ipynb_checkpoints
+
+# Archivos temporales
+*.log
+*.tmp
+*.bak
