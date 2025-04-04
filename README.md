@@ -1,59 +1,29 @@
-Este proyecto requiere Python 3.10 y algunas dependencias específicas. A continuación se detallan los pasos para configurar el entorno y la estructura de carpetas sugerida.
+# Proyecto Pojoaju
+
+Este proyecto requiere **Python 3.10** y algunas dependencias específicas. A continuación se detallan los pasos para configurar el entorno y la estructura del proyecto.
 
 ## Setup del entorno
 
-1. Asegurate de tener Homebrew instalado.  
-2. Instalá Python 3.10:  
-   ```bash
-   brew install python@3.10
-   ```
-3. Instalá hdf5:  
-   ```bash
-   brew install hdf5
-   ```
-4. Creá el entorno virtual con Pipenv:  
-   ```bash
-   pipenv --python 3.10
-   ```
-5. Activá el entorno virtual:  
-   ```bash
-   pipenv shell
-   ```
-6. Instalá el paquete tables desde binarios:  
-   ```bash
-   pip install tables==3.10 --only-binary :all:
-   ```
-7. Instalá los requerimientos del proyecto:  
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+brew install python@3.10
+brew install hdf5
+pipenv --python 3.10
+pipenv shell
+pip install tables==3.10 --only-binary :all:
+pip install -r requirements.txt
+```
 
 ## Documentación
 
-1. Instalá sphinx:
-   ```bash
-   pip install sphinx
-   ```
-2. Configuración del entorno:
-   ```bash
-   sphinx-quickstart docs
-   ```
-3. Crear/actualizar documentos:
-   ```bash
-   sphinx-apidoc -o docs/source app ml
-   ```
-4. Compilar archivos html:
-   ```bash
-   make html
-   ```
-5. Abrir documentación: 
-   ```bash
-   open docs/build/html/index.html
-   ```
-o simplemente ejercutar:
 ```bash
-   open docs/build/html/index.html
-   ```
+pip install sphinx
+sphinx-quickstart docs
+sphinx-apidoc -o docs/source app ml
+make html
+open docs/build/html/index.html
+# o ejecutar
+python build_docs.py
+```
 
 
 ## Estructura de carpetas propuesta
@@ -112,74 +82,24 @@ pojoaju/
 | `requirements.txt`  | Lista de dependencias del proyecto.                                          |
 | `instalacion.sh`    | Script para automatizar instalación de entorno y dependencias.              |
 | `README.md`         | Documentación general del proyecto. 
->>>>>>> develop
 
-## Traducción Incial
 
-1. A - Z
-2. a - z
-3. 0 - 9
-4. Saludos y expresiones básicas
-   - Hola
-   - Chau
-   - Buenos días
-   - Buenas tardes
-   - Buenas noches
-   - Gracias
-   - Por favor
-   - Perdón
-5. Colores
-   - Rojo
-   - Azul
-   - Verde
-   - Amarillo
-   - Negro
-   - Blanco
-   - Naranja
-6. Animales
-   - Perro
-   - Gato
-   - Vaca
-   - Caballo
-   - Cerdo
-   - Gallina
-   - Pájaro
-   - Ratón
-7. Días de la semana y Meses
-8. Tiempo
-   - Hoy
-   - Ayer
-   - Mañana
-   - Tarde
-   - Noche
-   - Hora
-   - Minuto
-9. Familia y personas
-   - Mamá
-   - Papá
-   - Hermano
-   - Hermana
-   - Abuela
-   - Abuelo
-   - Mujer
-   - Hombre
-10. Básicos
-   - Desayuno
-   - Almuerzo
-   - Cena
-   - Baño
-   - Comer
-   - Tomar
-   - Dormir
-   - Sueño
-   - Hambre
-   - Sed
-11. Emociones
-   - Feliz
-   - Triste
-   - Enojado/a
-   - Asustado/a
-   - Cansado/a
-   - Llorar
-   - Reír
-   - Amar
+## Traducción Inicial
+
+### A - Z & 0 - 9
+Incluye todas las letras mayúsculas y minúsculas (A-Z, a-z) y números del 0 al 9.
+
+### Meses y días
+Incluye todos los nombres de los meses del año y días de la semana.
+
+### Palabras por categoría
+
+| Categoría                     | Palabra                                                                           |
+|-------------------------------|-----------------------------------------------------------------------------------|
+| Animales                      | Perro, Gato, Vaca, Caballo, Cerdo, Gallina, Pájaro, Ratón                         |
+| Básicos                       | Desayuno, Almuerzo, Cena, Baño, Comer, Tomar, Dormir, Sueño, Hambre, Sed          |
+| Colores                       | Rojo, Azul, Verde, Amarillo, Negro, Blanco, Naranja                               |
+| Emociones                     | Feliz, Triste, Enojado/a, Asustado/a, Cansado/a, Llorar, Reír, Amar               |
+| Familia y personas            | Mamá, Papá, Hermano, Hermana, Abuela, Abuelo, Mujer, Hombre                       |
+| Saludos y expresiones básicas | Hola, Chau, Buenos días, Buenas tardes, Buenas noches, Gracias, Por favor, Perdón |
+| Tiempo                        | Hoy, Ayer, Mañana, Tarde, Noche, Hora, Minuto                                     |
