@@ -28,6 +28,34 @@ Este proyecto requiere Python 3.10 y algunas dependencias específicas. A contin
    pip install -r requirements.txt
    ```
 
+## Documentación
+
+1. Instalá sphinx:
+   ```bash
+   pip install sphinx
+   ```
+2. Configuración del entorno:
+   ```bash
+   sphinx-quickstart docs
+   ```
+3. Crear/actualizar documentos:
+   ```bash
+   sphinx-apidoc -o docs/source app ml
+   ```
+4. Compilar archivos html:
+   ```bash
+   make html
+   ```
+5. Abrir documentación: 
+   ```bash
+   open docs/build/html/index.html
+   ```
+o simplemente ejercutar:
+```bash
+   open docs/build/html/index.html
+   ```
+
+
 ## Estructura de carpetas propuesta
 
 ```plaintext

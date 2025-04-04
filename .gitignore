@@ -18,3 +18,6 @@ __pycache__/
 *.log
 *.tmp
 *.bak
+
+# Documentación
+docs/build/html
