@@ -2,8 +2,8 @@ import os
 import cv2
 import numpy as np
 from mediapipe.python.solutions.holistic import Holistic
-from app.utils.capture_samples import save_frames, draw_keypoints
-from app.utils.general import create_folder, mediapipe_detection, there_hand
+from ml.utils.capture_samples import save_frames, draw_keypoints
+from ml.utils.general import create_folder, mediapipe_detection, there_hand
 from app.config import FONT, FONT_POS, FONT_SIZE
 from datetime import datetime
 
