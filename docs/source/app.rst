@@ -1,14 +1,6 @@
 app package
 ===========
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   app.utils
-
 Submodules
 ----------
 
