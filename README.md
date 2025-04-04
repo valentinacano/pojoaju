@@ -28,6 +28,34 @@ Este proyecto requiere Python 3.10 y algunas dependencias específicas. A contin
    pip install -r requirements.txt
    ```
 
+## Documentación
+
+1. Instalá sphinx:
+   ```bash
+   pip install sphinx
+   ```
+2. Configuración del entorno:
+   ```bash
+   sphinx-quickstart docs
+   ```
+3. Crear/actualizar documentos:
+   ```bash
+   sphinx-apidoc -o docs/source app ml
+   ```
+4. Compilar archivos html:
+   ```bash
+   make html
+   ```
+5. Abrir documentación: 
+   ```bash
+   open docs/build/html/index.html
+   ```
+o simplemente ejercutar:
+```bash
+   open docs/build/html/index.html
+   ```
+
+
 ## Estructura de carpetas propuesta
 
 ```plaintext
@@ -85,3 +113,73 @@ pojoaju/
 | `instalacion.sh`    | Script para automatizar instalación de entorno y dependencias.              |
 | `README.md`         | Documentación general del proyecto. 
 >>>>>>> develop
+
+## Traducción Incial
+
+1. A - Z
+2. a - z
+3. 0 - 9
+4. Saludos y expresiones básicas
+   - Hola
+   - Chau
+   - Buenos días
+   - Buenas tardes
+   - Buenas noches
+   - Gracias
+   - Por favor
+   - Perdón
+5. Colores
+   - Rojo
+   - Azul
+   - Verde
+   - Amarillo
+   - Negro
+   - Blanco
+   - Naranja
+6. Animales
+   - Perro
+   - Gato
+   - Vaca
+   - Caballo
+   - Cerdo
+   - Gallina
+   - Pájaro
+   - Ratón
+7. Días de la semana y Meses
+8. Tiempo
+   - Hoy
+   - Ayer
+   - Mañana
+   - Tarde
+   - Noche
+   - Hora
+   - Minuto
+9. Familia y personas
+   - Mamá
+   - Papá
+   - Hermano
+   - Hermana
+   - Abuela
+   - Abuelo
+   - Mujer
+   - Hombre
+10. Básicos
+   - Desayuno
+   - Almuerzo
+   - Cena
+   - Baño
+   - Comer
+   - Tomar
+   - Dormir
+   - Sueño
+   - Hambre
+   - Sed
+11. Emociones
+   - Feliz
+   - Triste
+   - Enojado/a
+   - Asustado/a
+   - Cansado/a
+   - Llorar
+   - Reír
+   - Amar
