@@ -7,7 +7,7 @@ from app.config import ROOT_PATH, FRAME_ACTIONS_PATH, KEYPOINTS_PATH, words_text
 
 
 if __name__ == "__main__":
-    accion = "keyword"
+    accion = "keypoints"
 
     if accion == "capture samples":
         word_name = "buenos_dias"

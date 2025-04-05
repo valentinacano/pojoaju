@@ -20,4 +20,4 @@ __pycache__/
 *.bak
 
 # Documentación
-docs/build/html
+docs/build/
