@@ -1,3 +1,11 @@
+"""
+Captura de muestras en video con detección de keypoints usando MediaPipe.
+
+Este módulo permite grabar muestras de lenguaje de señas desde la cámara web.
+Detecta la presencia de manos mediante MediaPipe y guarda secuencias válidas
+de frames en carpetas numeradas para su posterior análisis y entrenamiento.
+"""
+
 import os
 import cv2
 import numpy as np
@@ -10,13 +18,19 @@ from datetime import datetime
 
 def capture_samples(path, margin_frame=1, min_cant_frames=5, delay_frames=3):
     """
-    ### CAPTURA DE MUESTRAS PARA UNA PALABRA
-    Recibe como parámetro la ubicación de guardado y guarda los frames
+    Captura muestras de una palabra o gesto desde la cámara web.
 
-    `path` ruta de la carpeta de la palabra \n
-    `margin_frame` cantidad de frames que se ignoran al comienzo y al final \n
-    `min_cant_frames` cantidad de frames minimos para cada muestra \n
-    `delay_frames` cantidad de frames que espera antes de detener la captura después de no detectar manos
+    Graba automáticamente una secuencia de frames cuando se detectan manos usando MediaPipe.
+    Agrega un margen de inicio y fin, y guarda los frames como imágenes en una carpeta con timestamp.
+
+    Args:
+        path (str): Ruta a la carpeta donde se guardarán las muestras.
+        margin_frame (int): Cantidad de frames que se ignoran al comienzo y al final de la captura.
+        min_cant_frames (int): Cantidad mínima de frames requeridos para guardar una muestra.
+        delay_frames (int): Cantidad de frames adicionales que se graban antes de finalizar la muestra cuando ya no se detectan manos.
+
+    Returns:
+        None: Esta función no retorna ningún valor. Guarda los archivos en disco.
     """
     create_folder(path)
 
