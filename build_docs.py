@@ -4,7 +4,6 @@ import sys
 import webbrowser
 
 DOCS_DIR = "docs"
-SOURCE_DIR = os.path.join(DOCS_DIR, "source")
 BUILD_HTML = os.path.join(DOCS_DIR, "build", "html", "index.html")
 
 
@@ -18,8 +17,8 @@ def run_command(command, cwd=None, stop_on_error=True):
 
 
 if __name__ == "__main__":
-    print("📚 Generando archivos .rst desde los módulos...")
-    run_command(f"sphinx-apidoc -o {SOURCE_DIR} app ml")
+    print("🧹 Limpiando documentación anterior...")
+    run_command("make clean", cwd=DOCS_DIR)
 
     print("🛠️  Compilando documentación HTML...")
     if run_command("make html", cwd=DOCS_DIR):

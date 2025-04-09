@@ -13,7 +13,9 @@ Esta documentación presenta una guía técnica completa del proyecto, incluyend
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contenido
+   :caption: Contenido general
 
    introduccion
    instalacion
+   index_ml
+
