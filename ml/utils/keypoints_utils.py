@@ -73,7 +73,7 @@ def get_keypoints(model, sample_path):
             keypoints_sequence.append(extract_keypoints(results))
     return np.array(keypoints_sequence)
 
-|
+
 def insert_keypoints_sequence(df, sample_id, keypoints_sequence):
     """
     Inserta la secuencia de keypoints al DataFrame con ID de muestra y número de frame.

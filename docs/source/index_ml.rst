@@ -7,10 +7,10 @@ Utils (`ml/utils/`)
 .. toctree::
    :maxdepth: 3
 
-   ml_utils_general
-   ml_utils_capture_samples
-   ml_utils_normalize_samples
-   ml_utils_create_keypoints
+   common_utils
+   capture_utils
+   normalize_utils
+   keypoints_utils
 
 Features (`ml/features/`)
 -------------------------
@@ -18,6 +18,6 @@ Features (`ml/features/`)
 .. toctree::
    :maxdepth: 2
 
-   ml_features_capture_samples
-   ml_features_normalize_samples
-   ml_features_create_keypoints
+   capture_samples
+   normalize_samples
+   create_keypoints
