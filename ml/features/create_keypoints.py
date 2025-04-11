@@ -27,6 +27,7 @@ def create_keypoints(word_id, words_path, hdf_path):
     Returns:
         None: Esta función no retorna ningún valor. Guarda los datos en el archivo `.h5`.
     """
+
     data = pd.DataFrame([])
     frames_path = os.path.join(words_path, word_id)
 
