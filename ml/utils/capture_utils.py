@@ -1,8 +1,7 @@
 """
-Funciones para visualizar y guardar imágenes con keypoints detectados.
+Funciones para visualizar y guardar imágenes con keypoints.
 
-Este módulo permite dibujar landmarks detectados por MediaPipe en una imagen
-y guardar una secuencia de frames en una carpeta.
+Dibuja landmarks detectados por MediaPipe y guarda secuencias de frames.
 """
 
 import os
@@ -17,17 +16,14 @@ from mediapipe.python.solutions.drawing_utils import draw_landmarks, DrawingSpec
 
 def draw_keypoints(image, results):
     """
-    Dibuja los keypoints detectados por MediaPipe en una imagen.
-
-    Esta función renderiza los landmarks de rostro, cuerpo y ambas manos,
-    utilizando distintos colores para cada tipo de landmark.
+    Dibuja los keypoints en una imagen usando MediaPipe.
 
     Args:
-        image (numpy.ndarray): Imagen sobre la cual se dibujarán los keypoints.
-        results: Resultado devuelto por el modelo de MediaPipe.
+        image (np.ndarray): Imagen original.
+        results: Resultados de detección.
 
     Returns:
-        None: Esta función modifica la imagen en lugar de devolver un valor.
+        None
     """
     draw_landmarks(
         image,
@@ -61,17 +57,15 @@ def draw_keypoints(image, results):
 
 def save_frames(frames, output_folder):
     """
-    Guarda una secuencia de imágenes como archivos .jpg numerados.
-
-    Recorre todos los frames y los guarda en la carpeta destino con nombres secuenciales.
+    Guarda una secuencia de frames en archivos numerados.
 
     Args:
-        frames (list): Lista de imágenes en formato numpy (BGR).
-        output_folder (str): Ruta a la carpeta donde se guardarán los archivos.
+        frames (list[np.ndarray]): Lista de imágenes.
+        output_folder (str): Carpeta destino.
 
     Returns:
-        None: Esta función no retorna ningún valor.
+        None
     """
-    for num_frame, frame in enumerate(frames):
-        frame_path = os.path.join(output_folder, f"{num_frame + 1}.jpg")
-        cv2.imwrite(frame_path, cv2.cvtColor(frame, cv2.COLOR_BGR2BGRA))
+    for i, frame in enumerate(frames, start=1):
+        path = os.path.join(output_folder, f"{i}.jpg")
+        cv2.imwrite(path, cv2.cvtColor(frame, cv2.COLOR_BGR2BGRA))
