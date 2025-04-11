@@ -1,45 +1,62 @@
 """
-Captura de muestras en video con detección de keypoints usando MediaPipe.
+Captura de muestras en video con detección de keypoints mediante MediaPipe.
 
 Este módulo permite grabar muestras de lenguaje de señas desde la cámara web.
-Detecta la presencia de manos mediante MediaPipe y guarda secuencias válidas
-de frames en carpetas numeradas para su posterior análisis y entrenamiento.
+Detecta manos usando MediaPipe y guarda secuencias válidas de frames en carpetas
+con timestamp para su posterior análisis o entrenamiento.
 """
 
 import os
 import cv2
-import numpy as np
-from mediapipe.python.solutions.holistic import Holistic
-from ml.utils.capture_samples import save_frames, draw_keypoints
-from ml.utils.general import create_folder, mediapipe_detection, there_hand
-from app.config import FONT, FONT_POS, FONT_SIZE
+
 from datetime import datetime
+from mediapipe.python.solutions.holistic import Holistic
+
+from ml.utils.capture_utils import save_frames, draw_keypoints
+from ml.utils.common_utils import create_folder, mediapipe_detection, there_hand
+from app.config import FONT, FONT_POS, FONT_SIZE
 
 
-def capture_samples(path, margin_frame=1, min_cant_frames=5, delay_frames=3):
+def _save_sample(frames, path, margin_frames, delay_frames):
     """
-    Captura muestras de una palabra o gesto desde la cámara web.
-
-    Graba automáticamente una secuencia de frames cuando se detectan manos usando MediaPipe.
-    Agrega un margen de inicio y fin, y guarda los frames como imágenes en una carpeta con timestamp.
+    Guarda una muestra recortada (frames) en una carpeta con timestamp.
 
     Args:
-        path (str): Ruta a la carpeta donde se guardarán las muestras.
-        margin_frame (int): Cantidad de frames que se ignoran al comienzo y al final de la captura.
-        min_cant_frames (int): Cantidad mínima de frames requeridos para guardar una muestra.
-        delay_frames (int): Cantidad de frames adicionales que se graban antes de finalizar la muestra cuando ya no se detectan manos.
+        frames (list): Lista de frames capturados.
+        path (str): Ruta donde se debe guardar la muestra.
+        margin_frames (int): Frames a eliminar del inicio y final.
+        delay_frames (int): Frames a eliminar del cierre.
 
     Returns:
-        None: Esta función no retorna ningún valor. Guarda los archivos en disco.
+        None
+    """
+    trimmed = frames[: -(margin_frames + delay_frames)]
+    folder = os.path.join(path, f"sample_{datetime.now().strftime('%y%m%d%H%M%S%f')}")
+    create_folder(folder)
+    save_frames(trimmed, folder)
+
+
+def capture_samples_from_camera(path, margin_frames=1, min_frames=5, delay_frames=3):
+    """
+    Captura automáticamente muestras de video al detectar manos en cámara.
+
+    Graba frames cuando se detectan manos usando MediaPipe y guarda la muestra
+    si cumple los requisitos de cantidad mínima y márgenes definidos.
+
+    Args:
+        path (str): Ruta donde se guardarán las muestras.
+        margin_frames (int): Frames a ignorar al inicio y fin.
+        min_frames (int): Mínimo de frames válidos para guardar muestra.
+        delay_frames (int): Frames adicionales al perder la detección de manos.
+
+    Returns:
+        None
     """
     create_folder(path)
-
-    count_frame = 0
-    frames = []
-    fix_frames = 0
+    frames, frame_count, fix_frames = [], 0, 0
     recording = False
 
-    with Holistic() as holistic_model:
+    with Holistic() as model:
         video = cv2.VideoCapture(0)
 
         while video.isOpened():
@@ -47,31 +64,26 @@ def capture_samples(path, margin_frame=1, min_cant_frames=5, delay_frames=3):
             if not ret:
                 break
 
+            results = mediapipe_detection(frame, model)
             image = frame.copy()
-            results = mediapipe_detection(frame, holistic_model)
 
             if there_hand(results) or recording:
                 recording = False
-                count_frame += 1
-                if count_frame > margin_frame:
+                frame_count += 1
+                if frame_count > margin_frames:
                     cv2.putText(
                         image, "Capturando...", FONT_POS, FONT, FONT_SIZE, (255, 50, 0)
                     )
-                    frames.append(np.asarray(frame))
+                    frames.append(frame)
             else:
-                if len(frames) >= min_cant_frames + margin_frame:
+                if len(frames) >= min_frames + margin_frames:
                     fix_frames += 1
                     if fix_frames < delay_frames:
                         recording = True
                         continue
-                    frames = frames[: -(margin_frame + delay_frames)]
-                    today = datetime.now().strftime("%y%m%d%H%M%S%f")
-                    output_folder = os.path.join(path, f"sample_{today}")
-                    create_folder(output_folder)
-                    save_frames(frames, output_folder)
+                    _save_sample(frames, path, margin_frames, delay_frames)
 
-                recording, fix_frames = False, 0
-                frames, count_frame = [], 0
+                recording, fix_frames, frames, frame_count = False, 0, [], 0
                 cv2.putText(
                     image,
                     "Listo para capturar...",
