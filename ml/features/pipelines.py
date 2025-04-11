@@ -28,7 +28,7 @@ def create_samples_from_camera(
         None
     """
     word_path = os.path.join(root_path, word_name)
-    hdf_path = os.path.join(keypoints_path, f"{word_name}.h5")
+    keypoints_path = os.path.join(keypoints_path, f"{word_name}.h5")
 
     print(f"\n📸 Iniciando captura para la palabra: {word_name}")
     capture_samples_from_camera(word_path)
@@ -36,8 +36,8 @@ def create_samples_from_camera(
     print(f"\n🌀 Normalizando muestras en: {word_path}")
     normalize_samples(word_path, target_frame_count)
 
-    print(f"\n🎯 Extrayendo keypoints y guardando en: {hdf_path}")
+    print(f"\n🎯 Extrayendo keypoints y guardando en: {keypoints_path}")
     create_folder(keypoints_path)
-    create_keypoints(word_name, root_path, hdf_path)
+    create_keypoints(word_name, root_path, keypoints_path)
 
     print("\n✅ Proceso completado con éxito.")

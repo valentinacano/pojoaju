@@ -15,16 +15,16 @@ from ml.utils.normalize_utils import (
 )
 
 
-def normalize_samples(word_directory, target_frame_count=15):
+def normalize_samples(root_path, target_frame_count=15):
     """
     Normaliza todas las muestras dentro de un directorio de palabra.
 
-    Para cada subcarpeta encontrada en `word_directory`, lee los frames,
+    Para cada subcarpeta encontrada en `root_path`, lee los frames,
     los normaliza a una cantidad fija (`target_frame_count`), elimina los
     archivos originales y guarda los nuevos frames normalizados.
 
     Args:
-        word_directory (str): Ruta a la carpeta que contiene las muestras.
+        root_path (str): Ruta a la carpeta que contiene las muestras.
         target_frame_count (int): Cantidad fija de frames por muestra.
 
     Returns:
@@ -32,14 +32,14 @@ def normalize_samples(word_directory, target_frame_count=15):
     """
     sample_folders = [
         name
-        for name in os.listdir(word_directory)
-        if os.path.isdir(os.path.join(word_directory, name))
+        for name in os.listdir(root_path)
+        if os.path.isdir(os.path.join(root_path, name))
     ]
 
     print(f"🔄 Normalizando {len(sample_folders)} muestras...")
 
     for i, folder in enumerate(sample_folders, start=1):
-        sample_path = os.path.join(word_directory, folder)
+        sample_path = os.path.join(root_path, folder)
         frames = read_frames_from_directory(sample_path)
 
         if not frames:

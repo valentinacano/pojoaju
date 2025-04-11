@@ -64,30 +64,30 @@ def get_keypoints(model, sample_path):
     Returns:
         numpy.ndarray: Secuencia de vectores de keypoints.
     """
-    kp_seq = []
+    keypoints_sequence = []
     for img_name in sorted(os.listdir(sample_path)):
         img_path = os.path.join(sample_path, img_name)
         frame = cv2.imread(img_path)
         if frame is not None:
             results = mediapipe_detection(frame, model)
-            kp_seq.append(extract_keypoints(results))
-    return np.array(kp_seq)
+            keypoints_sequence.append(extract_keypoints(results))
+    return np.array(keypoints_sequence)
 
-
-def insert_keypoints_sequence(df, sample_id, keypoints_seq):
+|
+def insert_keypoints_sequence(df, sample_id, keypoints_sequence):
     """
     Inserta la secuencia de keypoints al DataFrame con ID de muestra y número de frame.
 
     Args:
         df (pandas.DataFrame): DataFrame original.
         sample_id (int): ID de la muestra.
-        keypoints_seq (np.ndarray): Secuencia a insertar.
+        keypoints_sequence (np.ndarray): Secuencia a insertar.
 
     Returns:
         pandas.DataFrame: DataFrame actualizado.
     """
     records = [
         {"sample": sample_id, "frame": i + 1, "keypoints": [kp]}
-        for i, kp in enumerate(keypoints_seq)
+        for i, kp in enumerate(keypoints_sequence)
     ]
     return pd.concat([df, pd.DataFrame(records)], ignore_index=True)
