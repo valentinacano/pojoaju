@@ -12,12 +12,11 @@ opencv-contrib-python = "==4.9.0.80"
 pandas = "==2.2.2"
 pygame = "==2.5.2"
 tensorflow = "*"
-flask = "==3.0.2"
 protobuf = "==4.25.3"
-pyqt5 = "==5.15.10"
 opencv-python = "==4.7.0.72"
 sphinx = "*"
 sphinx-rtd-theme = "*"
+flask = "*"
 
 [dev-packages]
 
