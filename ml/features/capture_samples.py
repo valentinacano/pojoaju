@@ -36,7 +36,7 @@ def _save_sample(frames, path, margin_frames, delay_frames):
     save_frames(trimmed, folder)
 
 
-def capture_samples_from_camera(path, margin_frames=1, min_frames=5, delay_frames=3):
+def capture_samples_from_camera(path, margin_frames=1, min_frames=5, delay_frames=3, debug=False):
     """
     Captura automáticamente muestras de video al detectar manos en cámara.
 
@@ -52,10 +52,9 @@ def capture_samples_from_camera(path, margin_frames=1, min_frames=5, delay_frame
     Returns:
         None
     """
-    create_folder(path)
+    print(f"\n📸 Iniciando captura de muestras en: {path}")
     frames, frame_count, fix_frames = [], 0, 0
     recording = False
-
     with Holistic() as model:
         video = cv2.VideoCapture(1)
 
@@ -94,57 +93,63 @@ def capture_samples_from_camera(path, margin_frames=1, min_frames=5, delay_frame
                 )
 
             draw_keypoints(image, results)
-            cv2.imshow(f'Toma de muestras para "{os.path.basename(path)}"', image)
-            if cv2.waitKey(10) & 0xFF == ord("q"):
-                break
+            if debug:
+                cv2.imshow(f'Toma de muestras para "{os.path.basename(path)}"', image)
+                if cv2.waitKey(10) & 0xFF == ord("q"):
+                    break
+            else:
+                ret, buffer = cv2.imencode('.jpg', image)
+                frame = buffer.tobytes()
+                yield (b'--frame\r\n'
+                       b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
         video.release()
         cv2.destroyAllWindows()
 
-def generate_frames(word_name, root_path):
-    from mediapipe.python.solutions.holistic import Holistic
+# def generate_frames(word_name, root_path):
+#     from mediapipe.python.solutions.holistic import Holistic
 
-    word_path = os.path.join(root_path, word_name)
-    create_folder(word_path)
-    frames, frame_count, fix_frames = [], 0, 0
-    recording = False
+#     word_path = os.path.join(root_path, word_name)
+#     create_folder(word_path)
+#     frames, frame_count, fix_frames = [], 0, 0
+#     recording = False
 
-    with Holistic() as model:
-        cap = cv2.VideoCapture(1)
+    # with Holistic() as model:
+    #     cap = cv2.VideoCapture(1)
 
-        while cap.isOpened():
-            success, frame = cap.read()
-            if not success:
-                break
+    #     while cap.isOpened():
+    #         success, frame = cap.read()
+    #         if not success:
+    #             break
 
-            results = mediapipe_detection(frame, model)
-            image = frame.copy()
+    #         results = mediapipe_detection(frame, model)
+    #         image = frame.copy()
 
-            if there_hand(results) or recording:
-                recording = False
-                frame_count += 1
-                if frame_count > 1:
-                    cv2.putText(image, "Capturando...", FONT_POS, FONT, FONT_SIZE, (255, 50, 0))
-                    frames.append(frame)
-            else:
-                if len(frames) >= 6:
-                    fix_frames += 1
-                    if fix_frames < 3:
-                        recording = True
-                        continue
-                    _save_sample(frames, word_path, margin_frames=1, delay_frames=3)
+    #         if there_hand(results) or recording:
+    #             recording = False
+    #             frame_count += 1
+    #             if frame_count > 1:
+    #                 cv2.putText(image, "Capturando...", FONT_POS, FONT, FONT_SIZE, (255, 50, 0))
+    #                 frames.append(frame)
+    #         else:
+    #             if len(frames) >= 6:
+    #                 fix_frames += 1
+    #                 if fix_frames < 3:
+    #                     recording = True
+    #                     continue
+    #                 _save_sample(frames, word_path, margin_frames=1, delay_frames=3)
 
-                recording, fix_frames, frames, frame_count = False, 0, [], 0
-                cv2.putText(image, "Listo para capturar...", FONT_POS, FONT, FONT_SIZE, (0, 220, 100))
+    #             recording, fix_frames, frames, frame_count = False, 0, [], 0
+    #             cv2.putText(image, "Listo para capturar...", FONT_POS, FONT, FONT_SIZE, (0, 220, 100))
 
-            draw_keypoints(image, results)
+    #         draw_keypoints(image, results)
 
             # Codificamos la imagen como JPEG
-            ret, buffer = cv2.imencode('.jpg', image)
-            frame = buffer.tobytes()
+        #     ret, buffer = cv2.imencode('.jpg', image)
+        #     frame = buffer.tobytes()
 
-            # Enviamos el frame como parte de una respuesta multipart
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        #     # Enviamos el frame como parte de una respuesta multipart
+        #     yield (b'--frame\r\n'
+        #            b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-        cap.release()
+        # cap.release()
