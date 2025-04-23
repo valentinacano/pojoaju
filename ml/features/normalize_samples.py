@@ -19,16 +19,16 @@ def normalize_samples(root_path, target_frame_count=15):
     """
     Normaliza todas las muestras dentro de un directorio de palabra.
 
-    Para cada subcarpeta encontrada en `root_path`, lee los frames,
-    los normaliza a una cantidad fija (`target_frame_count`), elimina los
-    archivos originales y guarda los nuevos frames normalizados.
+    Para cada subcarpeta encontrada en `root_path`, lee los frames de la muestra,
+    los ajusta a una cantidad fija mediante interpolación o recorte, y sobrescribe
+    los archivos con los frames normalizados.
 
     Args:
-        root_path (str): Ruta a la carpeta que contiene las muestras.
-        target_frame_count (int): Cantidad fija de frames por muestra.
+        root_path (str): Ruta a la carpeta que contiene las subcarpetas con muestras.
+        target_frame_count (int): Cantidad fija de frames a la que se deben normalizar las muestras.
 
     Returns:
-        None
+        None: Esta función no retorna ningún valor. Modifica los archivos en disco.
     """
     sample_folders = [
         name

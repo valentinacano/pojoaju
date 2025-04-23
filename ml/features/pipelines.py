@@ -12,20 +12,20 @@ from ml.features.create_keypoints import create_keypoints
 from ml.utils.common_utils import create_folder
 
 
-def create_samples_from_camera(
-    word_name, root_path, target_frame_count=15
-):
+def create_samples_from_camera(word_name, root_path, target_frame_count=15):
     """
-    Captura desde cámara para una palabra dada.
+    Inicia la captura de muestras para una palabra desde la cámara.
+
+    Crea la carpeta correspondiente, lanza la detección con MediaPipe y devuelve
+    un generador de frames en formato JPEG para transmisión en vivo (streaming).
 
     Args:
-        word_name (str): Palabra que se va a grabar.
-        root_path (str): Carpeta base donde se guardarán los frames por palabra.
-        keypoints_path (str): Ruta del archivo `.h5` de salida.
-        target_frame_count (int): Número de frames a normalizar por muestra.
+        word_name (str): Palabra que se desea grabar.
+        root_path (str): Carpeta base donde se almacenarán los samples.
+        target_frame_count (int): Número de frames deseado por muestra (no usado directamente aquí, pero útil para coherencia del pipeline).
 
     Returns:
-        None
+        Generator[bytes]: Flujo de imágenes codificadas en JPEG para visualización en tiempo real.
     """
     word_path = os.path.join(root_path, word_name)
     create_folder(word_path)
@@ -34,21 +34,23 @@ def create_samples_from_camera(
     return result
 
 
-
-def normalize_samples_from_camera(
+def save_samples(
     word_name, root_path, keypoints_path, target_frame_count=15
 ):
     """
-    Normaliza muestras desde cámara para una palabra dada.
+    Normaliza y extrae keypoints de las muestras grabadas para una palabra.
+
+    Este proceso ajusta la cantidad de frames por muestra a un valor fijo, y luego
+    genera un archivo HDF5 con los vectores de keypoints listos para entrenamiento.
 
     Args:
-        word_name (str): Palabra que se va a grabar.
-        root_path (str): Carpeta base donde se guardarán los frames por palabra.
-        keypoints_path (str): Ruta del archivo `.h5` de salida.
-        target_frame_count (int): Número de frames a normalizar por muestra.
+        word_name (str): Palabra correspondiente a las muestras capturadas.
+        root_path (str): Carpeta base donde están los frames capturados.
+        keypoints_path (str): Ruta donde se guardará el archivo `.h5` con los keypoints.
+        target_frame_count (int): Número de frames a los que se normalizarán las muestras.
 
     Returns:
-        None
+        None: Esta función no retorna ningún valor, pero genera un archivo `.h5` con los resultados.
     """
     word_path = os.path.join(root_path, word_name)
     keypoints_path = os.path.join(keypoints_path, f"{word_name}.h5")

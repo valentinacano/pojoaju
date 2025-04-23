@@ -16,16 +16,17 @@ def create_keypoints(word_name, words_path, hdf_path):
     """
     Crea y guarda los keypoints de todas las muestras asociadas a una palabra.
 
-    Recorre todas las carpetas de muestras dentro de una palabra, extrae los
-    keypoints de cada frame y guarda la secuencia en un archivo `.h5`.
+    Recorre todas las subcarpetas dentro de una palabra, interpreta cada una como una muestra.
+    Usa MediaPipe Holistic para extraer los vectores de keypoints por frame, y guarda la
+    información en un archivo HDF5.
 
     Args:
-        word_name (str): Identificador de la palabra (nombre de carpeta).
-        words_path (str): Ruta raíz que contiene todas las palabras y sus muestras.
-        hdf_path (str): Ruta del archivo `.h5` donde se guardarán los keypoints.
+        word_name (str): Nombre de la palabra (coincide con el nombre de la carpeta).
+        words_path (str): Ruta raíz que contiene todas las palabras y sus carpetas de muestras.
+        hdf_path (str): Ruta al archivo `.h5` donde se almacenarán los vectores resultantes.
 
     Returns:
-        None
+        None: Esta función no retorna ningún valor. Guarda el archivo `.h5` en disco.
     """
     data = pd.DataFrame([])
     word_path = os.path.join(words_path, word_name)

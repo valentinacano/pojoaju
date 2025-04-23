@@ -36,27 +36,34 @@ def _save_sample(frames, path, margin_frames, delay_frames):
     save_frames(trimmed, folder)
 
 
-def capture_samples_from_camera(path, margin_frames=1, min_frames=5, delay_frames=3, debug=False):
+def capture_samples_from_camera(
+    path, margin_frames=1, min_frames=5, delay_frames=3, debug=False
+):
     """
     Captura automáticamente muestras de video al detectar manos en cámara.
 
-    Graba frames cuando se detectan manos usando MediaPipe y guarda la muestra
-    si cumple los requisitos de cantidad mínima y márgenes definidos.
+    Esta función utiliza la cámara web para detectar manos mediante MediaPipe Holistic.
+    Cuando se detectan manos, comienza a grabar frames. Una vez que se deja de detectar,
+    verifica si la muestra tiene la cantidad mínima de frames válidos y la guarda.
+    Puede funcionar en modo visual (`debug=True`) o como generador de imágenes JPEG en tiempo real.
 
     Args:
-        path (str): Ruta donde se guardarán las muestras.
-        margin_frames (int): Frames a ignorar al inicio y fin.
-        min_frames (int): Mínimo de frames válidos para guardar muestra.
-        delay_frames (int): Frames adicionales al perder la detección de manos.
+        path (str): Ruta donde se guardarán las muestras capturadas.
+        margin_frames (int): Cantidad de frames a descartar al inicio y fin de la muestra.
+        min_frames (int): Cantidad mínima de frames necesarios para que una muestra sea válida.
+        delay_frames (int): Frames adicionales a grabar antes de finalizar la muestra al perder detección de manos.
+        debug (bool): Si es True, se muestra la imagen con los keypoints en pantalla.
+                      Si es False, se comporta como generador de imágenes codificadas JPEG para streaming.
 
     Returns:
-        None
+        None: Si debug=True, no retorna nada y muestra los frames en pantalla.
+        Generator[bytes]: Si debug=False, retorna un generador de imágenes JPEG para transmisión en vivo.
     """
     print(f"\n📸 Iniciando captura de muestras en: {path}")
     frames, frame_count, fix_frames = [], 0, 0
     recording = False
     with Holistic() as model:
-        video = cv2.VideoCapture(1)
+        video = cv2.VideoCapture(0)
 
         while video.isOpened():
             ret, frame = video.read()
@@ -105,51 +112,3 @@ def capture_samples_from_camera(path, margin_frames=1, min_frames=5, delay_frame
 
         video.release()
         cv2.destroyAllWindows()
-
-# def generate_frames(word_name, root_path):
-#     from mediapipe.python.solutions.holistic import Holistic
-
-#     word_path = os.path.join(root_path, word_name)
-#     create_folder(word_path)
-#     frames, frame_count, fix_frames = [], 0, 0
-#     recording = False
-
-    # with Holistic() as model:
-    #     cap = cv2.VideoCapture(1)
-
-    #     while cap.isOpened():
-    #         success, frame = cap.read()
-    #         if not success:
-    #             break
-
-    #         results = mediapipe_detection(frame, model)
-    #         image = frame.copy()
-
-    #         if there_hand(results) or recording:
-    #             recording = False
-    #             frame_count += 1
-    #             if frame_count > 1:
-    #                 cv2.putText(image, "Capturando...", FONT_POS, FONT, FONT_SIZE, (255, 50, 0))
-    #                 frames.append(frame)
-    #         else:
-    #             if len(frames) >= 6:
-    #                 fix_frames += 1
-    #                 if fix_frames < 3:
-    #                     recording = True
-    #                     continue
-    #                 _save_sample(frames, word_path, margin_frames=1, delay_frames=3)
-
-    #             recording, fix_frames, frames, frame_count = False, 0, [], 0
-    #             cv2.putText(image, "Listo para capturar...", FONT_POS, FONT, FONT_SIZE, (0, 220, 100))
-
-    #         draw_keypoints(image, results)
-
-            # Codificamos la imagen como JPEG
-        #     ret, buffer = cv2.imencode('.jpg', image)
-        #     frame = buffer.tobytes()
-
-        #     # Enviamos el frame como parte de una respuesta multipart
-        #     yield (b'--frame\r\n'
-        #            b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-        # cap.release()
