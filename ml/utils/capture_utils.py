@@ -16,14 +16,17 @@ from mediapipe.python.solutions.drawing_utils import draw_landmarks, DrawingSpec
 
 def draw_keypoints(image, results):
     """
-    Dibuja los keypoints en una imagen usando MediaPipe.
+    Dibuja los keypoints detectados por MediaPipe sobre una imagen.
+
+    Esta función renderiza los landmarks de rostro, cuerpo y ambas manos, utilizando
+    colores personalizados para cada tipo de conexión.
 
     Args:
-        image (np.ndarray): Imagen original.
-        results: Resultados de detección.
+        image (np.ndarray): Imagen original donde se dibujarán los keypoints.
+        results: Resultados devueltos por MediaPipe tras procesar la imagen.
 
     Returns:
-        None
+        None: Esta función no retorna ningún valor, modifica la imagen directamente.
     """
     draw_landmarks(
         image,
@@ -57,14 +60,17 @@ def draw_keypoints(image, results):
 
 def save_frames(frames, output_folder):
     """
-    Guarda una secuencia de frames en archivos numerados.
+    Guarda una secuencia de imágenes como archivos numerados en una carpeta.
+
+    Convierte los frames de BGR a BGRA y los guarda como archivos JPEG secuenciales
+    en el directorio especificado.
 
     Args:
-        frames (list[np.ndarray]): Lista de imágenes.
-        output_folder (str): Carpeta destino.
+        frames (list[np.ndarray]): Lista de imágenes en formato BGR.
+        output_folder (str): Ruta al directorio donde se guardarán los archivos.
 
     Returns:
-        None
+        None: Esta función no retorna ningún valor. Guarda archivos en disco.
     """
     for i, frame in enumerate(frames, start=1):
         path = os.path.join(output_folder, f"{i}.jpg")

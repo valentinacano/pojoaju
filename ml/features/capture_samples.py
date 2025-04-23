@@ -36,26 +36,32 @@ def _save_sample(frames, path, margin_frames, delay_frames):
     save_frames(trimmed, folder)
 
 
-def capture_samples_from_camera(path, margin_frames=1, min_frames=5, delay_frames=3):
+def capture_samples_from_camera(
+    path, margin_frames=1, min_frames=5, delay_frames=3, debug=False
+):
     """
     Captura automáticamente muestras de video al detectar manos en cámara.
 
-    Graba frames cuando se detectan manos usando MediaPipe y guarda la muestra
-    si cumple los requisitos de cantidad mínima y márgenes definidos.
+    Esta función utiliza la cámara web para detectar manos mediante MediaPipe Holistic.
+    Cuando se detectan manos, comienza a grabar frames. Una vez que se deja de detectar,
+    verifica si la muestra tiene la cantidad mínima de frames válidos y la guarda.
+    Puede funcionar en modo visual (`debug=True`) o como generador de imágenes JPEG en tiempo real.
 
     Args:
-        path (str): Ruta donde se guardarán las muestras.
-        margin_frames (int): Frames a ignorar al inicio y fin.
-        min_frames (int): Mínimo de frames válidos para guardar muestra.
-        delay_frames (int): Frames adicionales al perder la detección de manos.
+        path (str): Ruta donde se guardarán las muestras capturadas.
+        margin_frames (int): Cantidad de frames a descartar al inicio y fin de la muestra.
+        min_frames (int): Cantidad mínima de frames necesarios para que una muestra sea válida.
+        delay_frames (int): Frames adicionales a grabar antes de finalizar la muestra al perder detección de manos.
+        debug (bool): Si es True, se muestra la imagen con los keypoints en pantalla.
+                      Si es False, se comporta como generador de imágenes codificadas JPEG para streaming.
 
     Returns:
-        None
+        None: Si debug=True, no retorna nada y muestra los frames en pantalla.
+        Generator[bytes]: Si debug=False, retorna un generador de imágenes JPEG para transmisión en vivo.
     """
-    create_folder(path)
+    print(f"\n📸 Iniciando captura de muestras en: {path}")
     frames, frame_count, fix_frames = [], 0, 0
     recording = False
-
     with Holistic() as model:
         video = cv2.VideoCapture(0)
 
@@ -94,9 +100,15 @@ def capture_samples_from_camera(path, margin_frames=1, min_frames=5, delay_frame
                 )
 
             draw_keypoints(image, results)
-            cv2.imshow(f'Toma de muestras para "{os.path.basename(path)}"', image)
-            if cv2.waitKey(10) & 0xFF == ord("q"):
-                break
+            if debug:
+                cv2.imshow(f'Toma de muestras para "{os.path.basename(path)}"', image)
+                if cv2.waitKey(10) & 0xFF == ord("q"):
+                    break
+            else:
+                ret, buffer = cv2.imencode('.jpg', image)
+                frame = buffer.tobytes()
+                yield (b'--frame\r\n'
+                       b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
         video.release()
         cv2.destroyAllWindows()

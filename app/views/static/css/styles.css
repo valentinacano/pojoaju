@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+* {
+    font-family: 'Manrope', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #F7FAFE !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none !important;
+    color: inherit !important;
+
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1.5px solid #c7d2de;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px !important;
+    border-radius: 12px !important;
+    border: 1.5px solid #c7d2de;
+    font-size: 16px;
+    color: #6b788a;
+}
+
+.icon-primary-button {
+    background: #8883F0;
+    color: #fff;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.icon-primary-button:hover {
+    background: #726dce;
+    transition: all 0.3s;
+    scale: 1.05;
+}
+
+.header-bold {
+    font-weight: 600;
+}
+
+.box-action-menu {
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px #E8F2FE;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.box-action-menu:hover {
+    box-shadow: 0 4px 20px #d2ddea;
+    transition: all 0.3s;
+    transform: scale(1.05);
+    cursor: pointer;
+    background-color: #8883F0;
+}
+
+.box-action-menu:hover>* {
+    filter: brightness(0) invert(1);
+    transition: all 0s;
+}
+
+
+
+.btn-link-home {
+    color: #9EAEC4;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 10px;
+}
+
+.btn-link-home:hover {
+    color: #7d89b7;
+    transition: all 0.3s;
+}
+
+.credit-text {
+    font-size: 17px;
+    color: #6b788a;
+    text-align: center;
+    margin-top: 14px;
+}

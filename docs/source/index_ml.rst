@@ -5,7 +5,7 @@ Utils (`ml/utils/`)
 -------------------
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
    common_utils
    capture_utils
@@ -21,3 +21,4 @@ Features (`ml/features/`)
    capture_samples
    normalize_samples
    create_keypoints
+   pipelines

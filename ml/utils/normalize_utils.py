@@ -13,13 +13,15 @@ import shutil
 
 def read_frames_from_directory(directory):
     """
-    Lee todos los frames .jpg desde un directorio dado.
+    Lee todos los frames `.jpg` desde un directorio dado.
+
+    Ordena alfabéticamente los archivos `.jpg` y los carga como imágenes en memoria.
 
     Args:
         directory (str): Ruta que contiene los frames.
 
     Returns:
-        list[numpy.ndarray]: Lista de imágenes leídas.
+        list[numpy.ndarray]: Lista de imágenes leídas desde el directorio.
     """
     frames = []
     for filename in sorted(os.listdir(directory)):
@@ -32,16 +34,16 @@ def read_frames_from_directory(directory):
 
 def interpolate_frames(frames, target_frame_count=15):
     """
-    Interpola frames para alcanzar una cantidad deseada.
+    Interpola una lista de frames para alcanzar una longitud fija.
 
-    Usa `cv2.addWeighted` para generar nuevos frames interpolados.
+    Utiliza interpolación lineal con `cv2.addWeighted` entre pares de imágenes.
 
     Args:
-        frames (list[numpy.ndarray]): Lista original.
-        target_frame_count (int): Longitud deseada.
+        frames (list[numpy.ndarray]): Lista de imágenes original.
+        target_frame_count (int): Cantidad deseada de frames.
 
     Returns:
-        list[numpy.ndarray]: Frames interpolados.
+        list[numpy.ndarray]: Lista con los frames interpolados.
     """
     current = len(frames)
     if current == target_frame_count:
@@ -61,16 +63,17 @@ def interpolate_frames(frames, target_frame_count=15):
 
 def normalize_frames(frames, target_frame_count=15):
     """
-    Normaliza una secuencia de frames a una longitud fija.
+    Normaliza una secuencia de frames a una cantidad fija.
 
-    Interpola si hay menos, recorta si hay más.
+    Si hay menos frames que los deseados, interpola. Si hay más, recorta uniformemente.
+    Si la cantidad coincide, se devuelve sin modificar.
 
     Args:
-        frames (list[numpy.ndarray]): Lista original.
+        frames (list[numpy.ndarray]): Lista original de imágenes.
         target_frame_count (int): Longitud deseada.
 
     Returns:
-        list[numpy.ndarray]: Lista normalizada.
+        list[numpy.ndarray]: Lista de frames normalizada en longitud.
     """
     current = len(frames)
     if current < target_frame_count:
@@ -85,13 +88,15 @@ def normalize_frames(frames, target_frame_count=15):
 
 def clear_directory(directory):
     """
-    Elimina todos los archivos de un directorio.
+    Elimina todos los archivos y subdirectorios dentro de un directorio.
+
+    Esta función borra recursivamente el contenido del directorio, dejando su interior vacío.
 
     Args:
-        directory (str): Ruta al directorio.
+        directory (str): Ruta al directorio que se desea limpiar.
 
     Returns:
-        None
+        None: No retorna ningún valor.
     """
     for item in os.listdir(directory):
         path = os.path.join(directory, item)
@@ -103,14 +108,17 @@ def clear_directory(directory):
 
 def save_normalized_frames(directory, frames):
     """
-    Guarda los frames como archivos JPEG comprimidos.
+    Guarda una lista de frames como archivos JPEG comprimidos en un directorio.
+
+    Cada frame se guarda con nombre incremental (`frame_01.jpg`, `frame_02.jpg`, etc.)
+    con calidad de compresión reducida para ahorrar espacio.
 
     Args:
-        directory (str): Ruta destino.
-        frames (list[numpy.ndarray]): Lista de imágenes.
+        directory (str): Ruta donde se guardarán los archivos.
+        frames (list[numpy.ndarray]): Lista de imágenes a guardar.
 
     Returns:
-        None
+        None: Esta función no retorna ningún valor.
     """
     for i, frame in enumerate(frames, start=1):
         filename = f"frame_{i:02}.jpg"
