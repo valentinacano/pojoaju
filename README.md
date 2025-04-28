@@ -4,15 +4,34 @@ Este proyecto requiere **Python 3.10** y algunas dependencias específicas. A co
 
 ## Setup del entorno
 
+### Instalación de herramientas bases
+
+#### Python y gestor de paquetes:
 ```bash
 brew install python@3.10
-brew install hdf5
-pipenv --python 3.10
-pipenv shell
-pip install tables==3.10 --only-binary :all:
-pip install -r requirements.txt
 ```
-
+#### Librería para archivos HDF5
+```bash
+brew install hdf5
+```
+#### Base de datos PostgreSQL
+```bash
+brew install postgresql
+brew services start postgresql (activacion de la base de datos)
+```
+### Crear y activar entorno virtual
+#### Crear entorno virtual usando Python 3.10
+```bash
+pipenv --python 3.10
+```
+#### Instalar dependencias en el entorno
+```bash
+pipenv install
+```
+#### Activar entorno
+```bash
+pipenv shell
+```
 ## Documentación
 
 ```bash

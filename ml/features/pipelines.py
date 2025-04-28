@@ -12,7 +12,9 @@ from ml.features.create_keypoints import create_keypoints
 from ml.utils.common_utils import create_folder
 
 
-def create_samples_from_camera(word_name, root_path, target_frame_count=15):
+def create_samples_from_camera(
+    word_name, root_path, debug_value=False, target_frame_count=15
+):
     """
     Inicia la captura de muestras para una palabra desde la cámara.
 
@@ -30,13 +32,18 @@ def create_samples_from_camera(word_name, root_path, target_frame_count=15):
     word_path = os.path.join(root_path, word_name)
     create_folder(word_path)
     print(f"\n📸 Iniciando captura para la palabra: {word_name}")
-    result = capture_samples_from_camera(word_path, debug=False)
-    return result
+    generator = capture_samples_from_camera(path=word_path, debug=debug_value)
+
+    if debug_value:
+        # Si es consola, consumimos el generator
+        for _ in generator:
+            pass
+    else:
+        # Si es Flask, retornamos el generator
+        return generator
 
 
-def save_samples(
-    word_name, root_path, keypoints_path, target_frame_count=15
-):
+def save_keypoints(word_name, root_path, keypoints_path, target_frame_count=15):
     """
     Normaliza y extrae keypoints de las muestras grabadas para una palabra.
 
@@ -53,13 +60,13 @@ def save_samples(
         None: Esta función no retorna ningún valor, pero genera un archivo `.h5` con los resultados.
     """
     word_path = os.path.join(root_path, word_name)
-    keypoints_path = os.path.join(keypoints_path, f"{word_name}.h5")
+    hdf_path = os.path.join(keypoints_path, f"{word_name}.h5")
 
     print(f"\n🌀 Normalizando muestras en: {word_path}")
     normalize_samples(word_path, target_frame_count)
 
     print(f"\n🎯 Extrayendo keypoints y guardando en: {keypoints_path}")
     create_folder(keypoints_path)
-    create_keypoints(word_name, root_path, keypoints_path)
+    create_keypoints(word_name, root_path, hdf_path)
 
     print("\n✅ Proceso completado con éxito.")

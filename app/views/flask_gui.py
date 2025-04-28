@@ -13,10 +13,10 @@ Incluye las siguientes rutas:
 - Normalización de muestras capturadas
 """
 
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response
 from ml.features.pipelines import (
     create_samples_from_camera,
-    save_samples,
+    save_keypoints,
 )
 from app.config import FRAME_ACTIONS_PATH, KEYPOINTS_PATH
 
@@ -83,7 +83,7 @@ def video_feed(word):
     """
     return Response(
         create_samples_from_camera(word, FRAME_ACTIONS_PATH),
-        mimetype='multipart/x-mixed-replace; boundary=frame'
+        mimetype="multipart/x-mixed-replace; boundary=frame",
     )
 
 
@@ -98,5 +98,5 @@ def save_samples(word):
     Returns:
         str: Render de la plantilla `save_samples.html` al completar el proceso.
     """
-    save_samples(word, FRAME_ACTIONS_PATH, KEYPOINTS_PATH)
+    save_keypoints(word, FRAME_ACTIONS_PATH, KEYPOINTS_PATH)
     return render_template("save_samples.html", word=word)
