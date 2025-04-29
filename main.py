@@ -7,7 +7,7 @@ from ml.features.pipelines import create_samples_from_camera, save_keypoints
 if __name__ == "__main__":
     word_name = "buenos_dias"
 
-    modo_consola = True
+    modo_consola = False
 
     if modo_consola:
         create_samples_from_camera(

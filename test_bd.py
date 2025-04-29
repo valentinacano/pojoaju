@@ -1,17 +1,10 @@
-import psycopg2
-
+from app.database.connection import get_connection
 
 def test_connection():
     try:
         # Conexión a la base de datos
-        conn = psycopg2.connect(
-            dbname="pojoaju",
-            user="valentinacano",
-            password="",  # Si no tiene clave, podés dejarlo vacío o directamente no usar el parámetro
-            host="localhost",
-            port="5432",
-        )
-        print("✅ Conexión exitosa a PostgreSQL")
+        conn = get_connection()
+        print("🔌 Conexión exitosa a la base de datos")
 
         # Crear cursor y ejecutar prueba
         cur = conn.cursor()

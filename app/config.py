@@ -15,6 +15,14 @@ MODEL_FOLDER_PATH = os.path.join(ROOT_PATH, "models")
 MODEL_PATH = os.path.join(MODEL_FOLDER_PATH, f"actions_{MODEL_FRAMES}.keras")
 KEYPOINTS_PATH = os.path.join(DATA_PATH, "keypoints")
 WORDS_JSON_PATH = os.path.join(MODEL_FOLDER_PATH, "words.json")
+DB_CONFIG = {
+    "dbname": "pojoaju",
+    "user": "valentinacano",
+    "password": "",  # o ponerlo en un .env si preferís más seguridad
+    "host": "localhost",
+    "port": "5432",
+}
+
 
 # SHOW IMAGE PARAMETERS
 FONT = cv2.FONT_HERSHEY_PLAIN
