@@ -18,16 +18,18 @@ def create_samples_from_camera(
     """
     Inicia la captura de muestras para una palabra desde la cámara.
 
-    Crea la carpeta correspondiente, lanza la detección con MediaPipe y devuelve
-    un generador de frames en formato JPEG para transmisión en vivo (streaming).
+    Crea la carpeta correspondiente y lanza el proceso de detección y captura usando MediaPipe Holistic.
+    En modo consola (`debug=True`), ejecuta el flujo completo internamente.
+    En modo Flask (`debug=False`), retorna un generador de imágenes codificadas JPEG para streaming.
 
     Args:
         word_name (str): Palabra que se desea grabar.
-        root_path (str): Carpeta base donde se almacenarán los samples.
-        target_frame_count (int): Número de frames deseado por muestra (no usado directamente aquí, pero útil para coherencia del pipeline).
+        root_path (str): Carpeta base donde se almacenarán las muestras por palabra.
+        debug_value (bool): Indica si se ejecuta en consola (`True`) o en servidor Flask (`False`).
+        target_frame_count (int): Número deseado de frames por muestra (no usado directamente aquí).
 
     Returns:
-        Generator[bytes]: Flujo de imágenes codificadas en JPEG para visualización en tiempo real.
+        Generator[bytes] | None: En modo Flask, retorna un generador de imágenes JPEG para streaming. En modo consola, no retorna nada.
     """
     word_path = os.path.join(root_path, word_name)
     create_folder(word_path)
@@ -35,38 +37,35 @@ def create_samples_from_camera(
     generator = capture_samples_from_camera(path=word_path, debug=debug_value)
 
     if debug_value:
-        # Si es consola, consumimos el generator
+        # Modo consola: consume el generador internamente
         for _ in generator:
             pass
     else:
-        # Si es Flask, retornamos el generator
+        # Modo servidor (Flask): retorna el generador para streaming
         return generator
 
 
-def save_keypoints(word_name, root_path, keypoints_path, target_frame_count=15):
+def save_keypoints(word_name, word_id, root_path, target_frame_count=15):
     """
-    Normaliza y extrae keypoints de las muestras grabadas para una palabra.
+    Normaliza las muestras y extrae los keypoints para una palabra.
 
-    Este proceso ajusta la cantidad de frames por muestra a un valor fijo, y luego
-    genera un archivo HDF5 con los vectores de keypoints listos para entrenamiento.
+    Este pipeline ajusta la longitud de cada muestra a una cantidad fija de frames
+    y luego guarda los vectores de keypoints extraídos en la base de datos.
 
     Args:
-        word_name (str): Palabra correspondiente a las muestras capturadas.
-        root_path (str): Carpeta base donde están los frames capturados.
-        keypoints_path (str): Ruta donde se guardará el archivo `.h5` con los keypoints.
-        target_frame_count (int): Número de frames a los que se normalizarán las muestras.
+        word_name (str): Nombre de la palabra (debe coincidir con la carpeta de muestras).
+        word_id (int): ID único de la palabra usado para la base de datos.
+        root_path (str): Ruta donde se encuentran las carpetas de muestras.
+        target_frame_count (int): Cantidad fija de frames por muestra.
 
     Returns:
-        None: Esta función no retorna ningún valor, pero genera un archivo `.h5` con los resultados.
+        None: Esta función no retorna nada. Inserta los resultados en base de datos.
     """
     word_path = os.path.join(root_path, word_name)
-    hdf_path = os.path.join(keypoints_path, f"{word_name}.h5")
 
     print(f"\n🌀 Normalizando muestras en: {word_path}")
     normalize_samples(word_path, target_frame_count)
 
-    print(f"\n🎯 Extrayendo keypoints y guardando en: {keypoints_path}")
-    create_folder(keypoints_path)
-    create_keypoints(word_name, root_path, hdf_path)
+    create_keypoints(word_name, root_path, word_id)
 
     print("\n✅ Proceso completado con éxito.")

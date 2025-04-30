@@ -13,7 +13,6 @@ DATA_PATH = os.path.join(ROOT_PATH, "data")
 DATA_JSON_PATH = os.path.join(DATA_PATH, "data.json")
 MODEL_FOLDER_PATH = os.path.join(ROOT_PATH, "models")
 MODEL_PATH = os.path.join(MODEL_FOLDER_PATH, f"actions_{MODEL_FRAMES}.keras")
-KEYPOINTS_PATH = os.path.join(DATA_PATH, "keypoints")
 WORDS_JSON_PATH = os.path.join(MODEL_FOLDER_PATH, "words.json")
 DB_CONFIG = {
     "dbname": "pojoaju",

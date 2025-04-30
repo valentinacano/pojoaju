@@ -18,7 +18,7 @@ from ml.features.pipelines import (
     create_samples_from_camera,
     save_keypoints,
 )
-from app.config import FRAME_ACTIONS_PATH, KEYPOINTS_PATH
+from app.config import FRAME_ACTIONS_PATH
 
 app = Flask(__name__)
 
@@ -87,16 +87,22 @@ def video_feed(word):
     )
 
 
-@app.route("/save_samples/<word>")
-def save_samples(word):
+@app.route("/save_samples/<word>/<word_id>")
+def save_samples(word, word_id):
     """
-    Normaliza las muestras capturadas y genera los keypoints en formato `.h5`.
+    Normaliza las muestras capturadas y extrae los keypoints para una palabra.
+
+    Este endpoint ejecuta el pipeline completo de procesamiento:
+    - Normaliza los frames capturados
+    - Extrae los keypoints usando MediaPipe Holistic
+    - Guarda los resultados en la base de datos (tabla `keypoints`)
 
     Args:
-        word (str): Palabra que se desea normalizar.
+        word (str): Palabra que fue capturada y debe procesarse.
+        word_id (str): ID correspondiente a la palabra en la base de datos.
 
     Returns:
         str: Render de la plantilla `save_samples.html` al completar el proceso.
     """
-    save_keypoints(word, FRAME_ACTIONS_PATH, KEYPOINTS_PATH)
-    return render_template("save_samples.html", word=word)
+    save_keypoints(word, word_id, FRAME_ACTIONS_PATH)
+    return render_template("save_samples.html", word=word, word_id=word_id)

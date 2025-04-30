@@ -25,9 +25,8 @@ def get_connection():
     """
     try:
         conn = psycopg2.connect(**DB_CONFIG)
+        print("🔗 Conectado a:", conn.get_dsn_parameters())
         return conn
     except Exception as e:
         print("❌ Error al conectar a la base de datos:", e)
         raise
-
-
