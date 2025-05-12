@@ -1,25 +1,14 @@
-from app.config import FRAME_ACTIONS_PATH
+from app.config import FRAME_ACTIONS_PATH, words, categories
 from app.views.flask_gui import app
 
 from ml.features.pipelines import create_samples_from_camera, save_keypoints
 
+from app.database.schema import create_words_table, create_categories_table
+from app.database.database_utils import insert_words, insert_categories
 
 if __name__ == "__main__":
-    word_name = "buenos_dias"
-    word_id = 200
+    create_categories_table()
+    insert_categories(categories)
 
-    modo_consola = False
-
-    if modo_consola:
-        # create_samples_from_camera(
-        #    word_name=word_name, root_path=FRAME_ACTIONS_PATH, debug_value=True
-        # )
-
-        save_keypoints(
-            word_name=word_name,
-            word_id=word_id,
-            root_path=FRAME_ACTIONS_PATH,
-        )
-
-    else:
-        app.run()
+    create_words_table()
+    insert_words(words)

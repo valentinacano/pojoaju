@@ -82,3 +82,20 @@ def get_word_ids(json_path):
     except Exception as e:
         print(f"⚠️  Error al leer archivo JSON: {e}")
         return None
+
+
+def clean_word(word):
+    """
+    Limpia y normaliza una palabra.
+
+    Esta función elimina espacios en blanco al inicio y al final,
+    y convierte todos los caracteres a minúsculas para estandarizar
+    el formato de las palabras.
+
+    Args:
+        word (str): Palabra que se desea limpiar y normalizar.
+
+    Returns:
+        str: Palabra limpia y normalizada en minúsculas.
+    """
+    return word.strip().lower()
