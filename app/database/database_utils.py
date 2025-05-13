@@ -147,3 +147,48 @@ def insert_categories(categories):
     except Exception as e:
         print("❌ Error al insertar categorías:", e)
         raise
+
+
+def fetch_all_words():
+    try:
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT w.word_id, w.word, c.category
+            FROM words w
+            JOIN categories c ON w.category_id = c.category_id
+            ORDER BY c.category, w.word;
+        """
+        )
+        words = cur.fetchall()
+        cur.close()
+        conn.close()
+        return words
+    except Exception as e:
+        print(f"❌ Error al obtener palabras: {e}")
+        return []
+
+
+def search_word(word):
+    try:
+        clean_word_value = clean_word(word)
+        word_id = hashlib.sha256(clean_word_value.encode("utf-8")).digest()
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT w.word_id, w.word, c.category
+            FROM words w
+            JOIN categories c ON w.category_id = c.category_id
+            WHERE w.word_id = %s;
+        """,
+            (word_id,),
+        )
+        result = cur.fetchone()
+        cur.close()
+        conn.close()
+        return result
+    except Exception as e:
+        print(f"❌ Error al buscar palabra: {e}")
+        return None

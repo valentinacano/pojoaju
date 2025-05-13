@@ -9,7 +9,7 @@ de datos PostgreSQL, utilizando la tabla `keypoints`.
 import os
 from mediapipe.python.solutions.holistic import Holistic
 from ml.utils.keypoints_utils import get_keypoints
-from app.database.database_utils import save_keypoints_to_db
+from app.database.database_utils import insert_keypoints
 
 
 def create_keypoints(word_name, words_path, word_id):
@@ -41,4 +41,4 @@ def create_keypoints(word_name, words_path, word_id):
         for i, folder in enumerate(sample_folders, start=1):
             sample_path = os.path.join(word_path, folder)
             keypoints_seq = get_keypoints(model, sample_path)
-            save_keypoints_to_db(word_id, i, keypoints_seq)
+            insert_keypoints(word_id, i, keypoints_seq)
