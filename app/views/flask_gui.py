@@ -57,8 +57,8 @@ def capture_form():
     return render_template("capture_form.html")
 
 
-@app.route("/capture/<word>")
-def capture(word):
+@app.route("/training/capture/<word_id>/<word>")
+def capture(word_id, word):
     """
     Página de captura para una palabra específica.
 
@@ -68,7 +68,7 @@ def capture(word):
     Returns:
         str: Render de la plantilla `capture.html` con la palabra en contexto.
     """
-    return render_template("capture.html", word=word)
+    return render_template("capture.html", word_id=word_id, word=word)
 
 
 @app.route("/video_feed/<word>")

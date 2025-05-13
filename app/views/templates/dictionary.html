@@ -15,9 +15,11 @@
         </div>
         <ul id="words-list" class="bg-white rounded-lg shadow-md p-5">
             {% for word_id, word, category in words %}
-                <li class="py-2 border-b border-gray-200 hover:bg-gray-100 cursor-pointer" onclick="selectWord('{{ word_id.hex() }}', '{{ word }}', '{{ category }}')">
+            <a href="/training/capture/{{ word_id.hex() }}/{{ word }}">
+                <li class="py-2 border-b border-gray-200 hover:bg-gray-100 cursor-pointer">
                     <span class="font-semibold">{{ word }}</span> <span class="text-gray-500">({{ category }})</span>
                 </li>
+            </a>
             {% endfor %}
         </ul>
         <div id="word-info" class="mt-5 hidden bg-blue-100 border border-blue-300 p-4 rounded-lg"></div>
@@ -31,12 +33,6 @@
                 const text = item.textContent.toLowerCase();
                 item.style.display = text.includes(input) ? '' : 'none';
             });
-        }
-
-        function selectWord(wordId, word, category) {
-            const infoBox = document.getElementById('word-info');
-            infoBox.innerHTML = `<strong>ID:</strong> ${wordId}<br><strong>Palabra:</strong> ${word}<br><strong>Categoría:</strong> ${category}`;
-            infoBox.classList.remove('hidden');
         }
     </script>
 </body>
