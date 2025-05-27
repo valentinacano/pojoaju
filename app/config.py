@@ -13,7 +13,6 @@ DATA_PATH = os.path.join(ROOT_PATH, "data")
 DATA_JSON_PATH = os.path.join(DATA_PATH, "data.json")
 MODEL_FOLDER_PATH = os.path.join(ROOT_PATH, "models")
 MODEL_PATH = os.path.join(MODEL_FOLDER_PATH, f"actions_{MODEL_FRAMES}.keras")
-KEYPOINTS_PATH = os.path.join(DATA_PATH, "keypoints")
 WORDS_JSON_PATH = os.path.join(MODEL_FOLDER_PATH, "words.json")
 DB_CONFIG = {
     "dbname": "pojoaju",
@@ -29,8 +28,71 @@ FONT = cv2.FONT_HERSHEY_PLAIN
 FONT_SIZE = 1.5
 FONT_POS = (5, 30)
 
-# PALABRAS INICIALES A SER ENTRENADAS
+# PALABRAS & CATEGORIAS INICIALES A SER ENTRENADAS
 
-words_text = {
-    "buenos_dias": "BUENOS DÍAS",
+categories = [
+    "Animales",
+    "Básicos",
+    "Colores",
+    "Emociones",
+    "Familia y personas",
+    "Saludos y expresiones básicas",
+    "Tiempo",
+]
+
+words = {
+    "Animales": [
+        "Perro",
+        "Gato",
+        "Vaca",
+        "Caballo",
+        "Cerdo",
+        "Gallina",
+        "Pájaro",
+        "Ratón",
+    ],
+    "Básicos": [
+        "Desayuno",
+        "Almuerzo",
+        "Cena",
+        "Baño",
+        "Comer",
+        "Tomar",
+        "Dormir",
+        "Sueño",
+        "Hambre",
+        "Sed",
+    ],
+    "Colores": ["Rojo", "Azul", "Verde", "Amarillo", "Negro", "Blanco", "Naranja"],
+    "Emociones": [
+        "Feliz",
+        "Triste",
+        "Enojado/a",
+        "Asustado/a",
+        "Cansado/a",
+        "Llorar",
+        "Reír",
+        "Amar",
+    ],
+    "Familia y personas": [
+        "Mamá",
+        "Papá",
+        "Hermano",
+        "Hermana",
+        "Abuela",
+        "Abuelo",
+        "Mujer",
+        "Hombre",
+    ],
+    "Saludos y expresiones básicas": [
+        "Hola",
+        "Chau",
+        "Buenos días",
+        "Buenas tardes",
+        "Buenas noches",
+        "Gracias",
+        "Por favor",
+        "Perdón",
+    ],
+    "Tiempo": ["Hoy", "Ayer", "Mañana", "Tarde", "Noche", "Hora", "Minuto"],
 }

@@ -56,7 +56,13 @@ nav {
     font-size: 16px;
     border: none;
     transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
+
+
 
 .icon-primary-button:hover {
     background: #726dce;

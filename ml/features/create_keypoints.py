@@ -1,34 +1,32 @@
 """
 Generación de keypoints para una palabra a partir de secuencias de imágenes.
 
-Este módulo procesa carpetas de muestras (frames) de una palabra específica,
-extrae los keypoints utilizando MediaPipe Holistic y guarda el resultado en un
-archivo HDF5 compatible con modelos de machine learning.
+Este módulo procesa carpetas de muestras (frames) correspondientes a una palabra específica,
+extrae los keypoints utilizando MediaPipe Holistic y los guarda directamente en una base
+de datos PostgreSQL, utilizando la tabla `keypoints`.
 """
 
 import os
-import pandas as pd
 from mediapipe.python.solutions.holistic import Holistic
-from ml.utils.keypoints_utils import get_keypoints, insert_keypoints_sequence
+from ml.utils.keypoints_utils import get_keypoints
+from app.database.database_utils import insert_keypoints
 
 
-def create_keypoints(word_name, words_path, hdf_path):
+def create_keypoints(word_name, words_path, word_id):
     """
-    Crea y guarda los keypoints de todas las muestras asociadas a una palabra.
+        Extrae keypoints desde secuencias de imágenes y los guarda en la base de datos.
 
-    Recorre todas las subcarpetas dentro de una palabra, interpreta cada una como una muestra.
-    Usa MediaPipe Holistic para extraer los vectores de keypoints por frame, y guarda la
-    información en un archivo HDF5.
+        Recorre todas las subcarpetas (muestras) asociadas a una palabra, extrae los keypoints
+    de cada frame usando MediaPipe Holistic, y guarda los resultados en la tabla `keypoints`.
 
-    Args:
-        word_name (str): Nombre de la palabra (coincide con el nombre de la carpeta).
-        words_path (str): Ruta raíz que contiene todas las palabras y sus carpetas de muestras.
-        hdf_path (str): Ruta al archivo `.h5` donde se almacenarán los vectores resultantes.
+        Args:
+            word_name (str): Nombre descriptivo de la palabra (usado para impresión en consola).
+            words_path (str): Ruta raíz que contiene carpetas por palabra, cada una con subcarpetas de muestras.
+            word_id (int): Identificador numérico de la palabra en la base de datos (columna `word_id`).
 
-    Returns:
-        None: Esta función no retorna ningún valor. Guarda el archivo `.h5` en disco.
+        Returns:
+            None: Esta función no retorna ningún valor. Inserta los datos directamente en la base de datos.
     """
-    data = pd.DataFrame([])
     word_path = os.path.join(words_path, word_name)
 
     sample_folders = [
@@ -37,14 +35,10 @@ def create_keypoints(word_name, words_path, hdf_path):
         if os.path.isdir(os.path.join(word_path, name))
     ]
 
-    print(f"🧠 Creando keypoints para '{word_name}'...")
+    print(f"🧠 Procesando palabra '{word_name}' (ID: {word_id})")
 
     with Holistic() as model:
         for i, folder in enumerate(sample_folders, start=1):
             sample_path = os.path.join(word_path, folder)
             keypoints_seq = get_keypoints(model, sample_path)
-            data = insert_keypoints_sequence(data, i, keypoints_seq)
-            print(f"✔️  Muestra {i}/{len(sample_folders)} procesada")
-
-    data.to_hdf(hdf_path, key="data", mode="w")
-    print(f"\n✅ Keypoints guardados en: {hdf_path}")
+            insert_keypoints(word_id, i, keypoints_seq)

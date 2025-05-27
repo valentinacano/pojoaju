@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diccionario de Palabras</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+<nav>
+    <!--back button-->
+    <a href="{{ url_for('training') }}" class="btn btn-light back-button">
+        <img src="{{ url_for('static', filename='img/BackButton.svg') }}" alt="Back" class="back-arrow">
+    </a>
+    <button class="icon-primary-button">
+        <img src="{{ url_for('static', filename='img/InfoWhite.svg') }}" alt="Help" class="help-icon">
+        <span>Ayuda</span>
+    </button>
+</nav>
+
+<body>
+
+    <div class="container mx-auto p-4">
+        <!-- Header with back button and help -->
+        <h1 class="text-4xl header-bold my-5 pb-4">Diccionario de Palabras</h1>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Total Customers -->
+            <div class="bg-white rounded-xl p-6 flex items-center shadow-sm">
+                <div class="bg-green-50 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                    <i class="fas fa-users text-green-500"></i>
+                </div>
+                <div>
+                    <div class="text-gray-500 text text-lg">Total Palabras</div>
+                    <div class="flex items-center">
+                        <h3 class="text-3xl font-semibold mr-2">5,423</h3>
+                        <span class="text-green-500 text-sm">
+                            <i class="fas fa-arrow-up"></i> +16% este mes
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Members -->
+            <div class="bg-white rounded-xl p-6 flex items-center shadow-sm">
+                <div class="bg-green-50 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                    <i class="fas fa-user text-green-500"></i>
+                </div>
+                <div>
+                    <div class="text-gray-500 text-md">Palabras Entrenadas</div>
+                    <div class="flex items-center">
+                        <h3 class="text-3xl font-semibold mr-2">1,893</h3>
+                        <span class="text-red-500 text-sm">
+                            <i class="fas fa-arrow-down"></i> -1% este mes
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Now -->
+            <div class="bg-white rounded-xl p-6 flex items-center shadow-sm">
+                <div class="bg-green-50 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                    <i class="fas fa-desktop text-green-500"></i>
+                </div>
+                <div>
+                    <div class="text-gray-500 text-md">Palabras sin Entrenar</div>
+                    <h3 class="text-3xl font-semibold">189</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customers Table Section -->
+        <div class="bg-white rounded-lg p-6 shadow-sm mt-6">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h5 class="text-lg font-medium mb-1">Todas las Palabras</h5>
+                    <div class="text-green-500 text-sm">Palabras Registradas</div>
+                </div>
+                <div class="flex items-center">
+                    <div class="relative mr-4">
+                        <input type="text" class="border border-gray-200 rounded-lg px-4 py-2 pr-10"
+                            placeholder="Buscar...">
+                        <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                    </div>
+                    <div class="relative">
+                        <button class="flex items-center bg-gray-100 px-4 py-2 rounded-lg">
+                            <span class="mr-2">Ordenar por: Más Nuevo</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-gray-100">
+                            <th class="text-left py-3 px-4 font-normal text-gray-500">Palabra</th>
+                            <th class="text-left py-3 px-4 font-normal text-gray-500">Categoría</th>
+                            <th class="text-left py-3 px-4 font-normal text-gray-500">Creada</th>
+                            <th class="text-left py-3 px-4 font-normal text-gray-500">Último Entrenamiento</th>
+                            <th class="text-left py-3 px-4 font-normal text-gray-500">Estado</th>
+                            <th class="text-left py-3 px-4 font-normal text-gray-500">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for word_id, word, category in words %}
+                        <tr class="border-b border-gray-50">
+                            <td class="py-3 px-4">{{ word|title }}</td>
+                            <td class="py-3 px-4">{{ category|title }}</td>
+                            <td class="py-3 px-4">13/05/2025</td>
+                            <td class="py-3 px-4">13/05/2025</td>
+                            <td class="py-3 px-4"><span
+                                    class="bg-green-50 text-green-600 px-4 py-1 rounded-full text-sm">Entrenado</span>
+                            </td>
+                            <td class="py-3 px-4">
+                                <a href="/training/capture/{{ word_id.hex() }}/{{ word }}">
+                                    <button class="text-blue-500">Entrenar</button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function filterTableWords() {
+            const input = document.querySelector('input[placeholder="Buscar..."]').value.toLowerCase();
+            const tableRows = document.querySelector('table tbody').getElementsByTagName('tr');
+            let matchCount = 0;
+
+            Array.from(tableRows).forEach(row => {
+                const word = row.cells[0].textContent.toLowerCase();
+                const category = row.cells[1].textContent.toLowerCase();
+                const matchFound = word.includes(input) || category.includes(input);
+                row.style.display = matchFound ? '' : 'none';
+                if (matchFound) matchCount++;
+            });
+
+            // Get or create the message element
+            let messageEl = document.getElementById('noResultsMessage');
+            if (!messageEl) {
+                messageEl = document.createElement('div');
+                messageEl.id = 'noResultsMessage';
+                messageEl.className = 'text-center py-4 text-gray-500';
+                document.querySelector('table').parentNode.appendChild(messageEl);
+            }
+
+            // Show/hide message based on results
+            messageEl.style.display = matchCount === 0 ? 'block' : 'none';
+            messageEl.textContent = matchCount === 0 ? 'No se encontraron resultados' : '';
+        }
+
+        // Add event listener to search input
+        document.querySelector('input[placeholder="Buscar..."]').addEventListener('keyup', filterTableWords);
+    </script>
+</body>
+
+</html>

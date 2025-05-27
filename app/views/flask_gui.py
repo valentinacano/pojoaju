@@ -18,7 +18,8 @@ from ml.features.pipelines import (
     create_samples_from_camera,
     save_keypoints,
 )
-from app.config import FRAME_ACTIONS_PATH, KEYPOINTS_PATH
+from app.database.database_utils import fetch_all_words
+from app.config import FRAME_ACTIONS_PATH
 
 app = Flask(__name__)
 
@@ -56,8 +57,8 @@ def capture_form():
     return render_template("capture_form.html")
 
 
-@app.route("/capture/<word>")
-def capture(word):
+@app.route("/training/capture/<word_id>/<word>")
+def capture(word_id, word):
     """
     Página de captura para una palabra específica.
 
@@ -67,7 +68,7 @@ def capture(word):
     Returns:
         str: Render de la plantilla `capture.html` con la palabra en contexto.
     """
-    return render_template("capture.html", word=word)
+    return render_template("capture.html", word_id=word_id, word=word)
 
 
 @app.route("/video_feed/<word>")
@@ -87,16 +88,45 @@ def video_feed(word):
     )
 
 
-@app.route("/save_samples/<word>")
-def save_samples(word):
+@app.route("/save_samples/<word>/<word_id>")
+def save_samples(word, word_id):
     """
-    Normaliza las muestras capturadas y genera los keypoints en formato `.h5`.
+    Normaliza las muestras capturadas y extrae los keypoints para una palabra.
+
+    Este endpoint ejecuta el pipeline completo de procesamiento:
+    - Normaliza los frames capturados
+    - Extrae los keypoints usando MediaPipe Holistic
+    - Guarda los resultados en la base de datos (tabla `keypoints`)
 
     Args:
-        word (str): Palabra que se desea normalizar.
+        word (str): Palabra que fue capturada y debe procesarse.
+        word_id (str): ID correspondiente a la palabra en la base de datos.
 
     Returns:
         str: Render de la plantilla `save_samples.html` al completar el proceso.
     """
-    save_keypoints(word, FRAME_ACTIONS_PATH, KEYPOINTS_PATH)
-    return render_template("save_samples.html", word=word)
+    save_keypoints(word, word_id, FRAME_ACTIONS_PATH)
+    return render_template("save_samples.html", word=word, word_id=word_id)
+
+
+def filter_words(filter_text, words):
+    filter_text = filter_text.strip().lower()
+    return [
+        word
+        for word in words
+        if filter_text in word[1].lower() or filter_text in word[2].lower()
+    ]
+
+
+@app.route("/training/dictionary")
+def dictionary():
+    words = fetch_all_words()
+    return render_template("dictionary.html", words=words, page=1, total_pages=5)
+
+
+@app.route("/training/dictionary/search", methods=["POST"])
+def dictionary_search():
+    filter_text = request.form.get("filter")
+    words = fetch_all_words()
+    filtered_words = filter_words(filter_text, words)
+    return render_template("dictionary.html", words=filtered_words)
