@@ -121,7 +121,7 @@ def filter_words(filter_text, words):
 @app.route("/training/dictionary")
 def dictionary():
     words = fetch_all_words()
-    return render_template("dictionary.html", words=words)
+    return render_template("dictionary.html", words=words, page=1, total_pages=5)
 
 
 @app.route("/training/dictionary/search", methods=["POST"])
