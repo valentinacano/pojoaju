@@ -30,20 +30,28 @@ def normalize_samples(root_path, target_frame_count=15):
     Returns:
         None: Esta función no retorna ningún valor. Modifica los archivos en disco.
     """
+
+    print(f"🧪 Entrando a normalize_samples con path: {root_path}")
+
     sample_folders = [
         name
         for name in os.listdir(root_path)
         if os.path.isdir(os.path.join(root_path, name))
     ]
 
+    print(f"📁 Se encontraron {len(sample_folders)} carpetas de muestra")
+    print("👉 Carpetas:", sample_folders)
+
     print(f"🔄 Normalizando {len(sample_folders)} muestras...")
 
     for i, folder in enumerate(sample_folders, start=1):
         sample_path = os.path.join(root_path, folder)
         frames = read_frames_from_directory(sample_path)
+        print(f"📷 Leyendo muestra: {sample_path} - {len(frames)} frames")
 
         if not frames:
             print(f"⚠️  Muestra vacía omitida: {folder}")
+            print(f"⚠️ Muestra vacía omitida: {sample_path}")
             continue
 
         normalized = normalize_frames(frames, target_frame_count)

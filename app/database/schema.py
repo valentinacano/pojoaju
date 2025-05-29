@@ -25,7 +25,7 @@ def create_keypoints_table():
     query = """
     CREATE TABLE IF NOT EXISTS keypoints (
         keypoints_id SERIAL PRIMARY KEY,
-        word_id INT NOT NULL,
+        word_id BYTEA NOT NULL,
         sample INT NOT NULL,
         frame INT NOT NULL,
         keypoints JSONB NOT NULL,

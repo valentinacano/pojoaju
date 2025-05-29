@@ -13,7 +13,8 @@ Incluye las siguientes rutas:
 - Normalización de muestras capturadas
 """
 
-from flask import Flask, render_template, Response
+
+from flask import Flask, render_template, Response, redirect, url_for, request
 from ml.features.pipelines import (
     create_samples_from_camera,
     save_keypoints,
@@ -21,7 +22,9 @@ from ml.features.pipelines import (
 from app.database.database_utils import fetch_all_words
 from app.config import FRAME_ACTIONS_PATH
 
+# -------- VARIABLES
 app = Flask(__name__)
+stop_capture = False  # Flag global para detener la captura de datos
 
 
 @app.route("/")
@@ -33,6 +36,9 @@ def index():
         str: Render de la plantilla `index.html`.
     """
     return render_template("index.html")
+
+
+# -------- ENTRENADOR
 
 
 @app.route("/training")
@@ -71,6 +77,20 @@ def capture(word_id, word):
     return render_template("capture.html", word_id=word_id, word=word)
 
 
+@app.route("/stop_capture", methods=["POST"])
+def stop_capture_route():
+    global stop_capture
+    stop_capture = True
+
+    word = request.form.get("word")
+    word_id = request.form.get("word_id")
+
+    if word and word_id:
+        return redirect(url_for("save_samples", word=word, word_id=word_id))
+
+    return redirect(url_for("training"))
+
+
 @app.route("/video_feed/<word>")
 def video_feed(word):
     """
@@ -107,6 +127,9 @@ def save_samples(word, word_id):
     """
     save_keypoints(word, word_id, FRAME_ACTIONS_PATH)
     return render_template("save_samples.html", word=word, word_id=word_id)
+
+
+# -------- DICCIONARIO
 
 
 def filter_words(filter_text, words):

@@ -17,6 +17,9 @@ from ml.utils.common_utils import create_folder, mediapipe_detection, there_hand
 from app.config import FONT, FONT_POS, FONT_SIZE
 
 
+stop_capture = False
+
+
 def _save_sample(frames, path, margin_frames, delay_frames):
     """
     Guarda una muestra recortada (frames) en una carpeta con timestamp.
@@ -54,6 +57,8 @@ def capture_samples_from_camera(
         generator | None: Si debug=False, retorna frames para streaming. Si debug=True, muestra ventana.
     """
 
+    global stop_capture  # variable global para poder tener captura de pantalla con flask
+
     create_folder(path)
     frames, frame_count, fix_frames = [], 0, 0
     recording = False
@@ -62,6 +67,9 @@ def capture_samples_from_camera(
         cap = cv2.VideoCapture(camera_index)
 
         while cap.isOpened():
+            if stop_capture:  # Detener la captura
+                break
+
             ret, frame = cap.read()
             if not ret:
                 break
@@ -116,3 +124,5 @@ def capture_samples_from_camera(
         cap.release()
         if debug:
             cv2.destroyAllWindows()
+
+        stop_capture = False  # se resetea nuevamente la variable

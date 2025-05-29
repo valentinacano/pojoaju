@@ -5,7 +5,7 @@ Este flujo realiza la captura de muestras con MediaPipe Holistic, las normaliza
 y genera los vectores de keypoints para su uso posterior en modelos de IA.
 """
 
-import os
+import os, re
 from ml.features.capture_samples import capture_samples_from_camera
 from ml.features.normalize_samples import normalize_samples
 from ml.features.create_keypoints import create_keypoints
@@ -61,6 +61,19 @@ def save_keypoints(word_name, word_id, root_path, target_frame_count=15):
     Returns:
         None: Esta función no retorna nada. Inserta los resultados en base de datos.
     """
+    print("\n🚀 save_keypoints() fue llamado")
+
+    # ✅ Validar formato del hash: 64 caracteres hexadecimales
+    if isinstance(word_id, str):
+        if not re.fullmatch(r"[0-9a-f]{64}", word_id):
+            print(f"❌ word_id inválido: {word_id}")
+            return
+        try:
+            word_id = bytes.fromhex(word_id)
+        except ValueError:
+            print("❌ Error al convertir word_id de hex a bytes.")
+            return
+
     word_path = os.path.join(root_path, word_name)
 
     print(f"\n🌀 Normalizando muestras en: {word_path}")
