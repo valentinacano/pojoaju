@@ -24,15 +24,19 @@ def _save_sample(frames, path, margin_frames, delay_frames):
     """
     Guarda una muestra recortada (frames) en una carpeta con timestamp.
 
+    Corta los frames excedentes del inicio y final, genera una carpeta con
+    nombre único (timestamp) y guarda las imágenes como archivos individuales.
+
     Args:
-        frames (list): Lista de frames capturados.
+        frames (list): Lista de frames capturados (np.ndarray).
         path (str): Ruta donde se debe guardar la muestra.
-        margin_frames (int): Frames a eliminar del inicio y final.
-        delay_frames (int): Frames a eliminar del cierre.
+        margin_frames (int): Cantidad de frames descartados del inicio.
+        delay_frames (int): Cantidad de frames descartados del cierre.
 
     Returns:
-        None
+        None: Esta función no retorna ningún valor.
     """
+
     trimmed = frames[: -(margin_frames + delay_frames)]
     folder = os.path.join(path, f"sample_{datetime.now().strftime('%y%m%d%H%M%S%f')}")
     create_folder(folder)
@@ -43,18 +47,28 @@ def capture_samples_from_camera(
     path, margin_frames=1, min_frames=5, delay_frames=3, debug=False, camera_index=0
 ):
     """
-    Captura muestras desde la cámara y guarda las secuencias.
+    Captura muestras desde la cámara y guarda las secuencias válidas.
+
+    Usa MediaPipe Holistic para detectar manos en tiempo real. Cuando se detecta
+    actividad válida (una mano presente), comienza a grabar frames. Si no hay
+    manos detectadas por varios frames seguidos (`delay_frames`), finaliza la muestra
+    y la guarda si cumple con la cantidad mínima de frames requeridos.
+
+    En modo `debug=True`, se muestra una ventana OpenCV para visualizar el proceso.
+    En modo `debug=False`, se retorna un generador de imágenes JPEG para streaming (por ejemplo en Flask).
 
     Args:
         path (str): Ruta donde guardar las muestras.
-        margin_frames (int): Frames a descartar al inicio y fin.
-        min_frames (int): Mínimo de frames válidos requeridos.
-        delay_frames (int): Frames adicionales antes de cortar la muestra.
-        debug (bool): Si True, muestra ventana OpenCV. Si False, retorna frames JPEG.
-        camera_index (int): Índice de la cámara (0 por defecto).
+        margin_frames (int, optional): Frames a descartar al inicio y fin. Default es 1.
+        min_frames (int, optional): Mínimo de frames válidos requeridos. Default es 5.
+        delay_frames (int, optional): Frames adicionales antes de cortar la muestra. Default es 3.
+        debug (bool, optional): Modo visual. Si True, muestra ventana. Si False, genera streaming. Default es False.
+        camera_index (int, optional): Índice del dispositivo de cámara. Default es 0.
 
     Returns:
-        generator | None: Si debug=False, retorna frames para streaming. Si debug=True, muestra ventana.
+        generator | None:
+            - Si `debug=False`, retorna un generador de imágenes JPEG codificadas.
+            - Si `debug=True`, no retorna nada (usa visualización OpenCV).
     """
 
     global stop_capture  # variable global para poder tener captura de pantalla con flask

@@ -5,11 +5,12 @@ Este flujo realiza la captura de muestras con MediaPipe Holistic, las normaliza
 y genera los vectores de keypoints para su uso posterior en modelos de IA.
 """
 
-import os, re
+import os, re, shutil
 from ml.features.capture_samples import capture_samples_from_camera
 from ml.features.normalize_samples import normalize_samples
-from ml.features.create_keypoints import create_keypoints
+from ml.features.create_keypoints import get_keypoints
 from ml.utils.common_utils import create_folder
+from app.database.database_utils import insert_sample, insert_keypoints
 
 
 def create_samples_from_camera(
@@ -54,7 +55,7 @@ def save_keypoints(word_name, word_id, root_path, target_frame_count=15):
 
     Args:
         word_name (str): Nombre de la palabra (debe coincidir con la carpeta de muestras).
-        word_id (int): ID único de la palabra usado para la base de datos.
+        word_id (str | bytes): ID único de la palabra usado para la base de datos.
         root_path (str): Ruta donde se encuentran las carpetas de muestras.
         target_frame_count (int): Cantidad fija de frames por muestra.
 
@@ -79,6 +80,29 @@ def save_keypoints(word_name, word_id, root_path, target_frame_count=15):
     print(f"\n🌀 Normalizando muestras en: {word_path}")
     normalize_samples(word_path, target_frame_count)
 
-    create_keypoints(word_name, root_path, word_id)
+    sample_folders = sorted(
+        [
+            f
+            for f in os.listdir(word_path)
+            if os.path.isdir(os.path.join(word_path, f)) and f.startswith("sample_")
+        ]
+    )
+
+    for folder in sample_folders:
+        full_path = os.path.join(word_path, folder)
+        from mediapipe.python.solutions.holistic import Holistic
+
+        with Holistic() as model:
+            keypoints_sequence = get_keypoints(model, full_path)
+
+        if keypoints_sequence is None or len(keypoints_sequence) == 0:
+            print(f"⚠️ No se generaron keypoints para {folder}, se omite.")
+            continue
+
+        sample_id = insert_sample(word_id)
+        insert_keypoints(word_id, sample_id, keypoints_sequence)
+
+        # Eliminar carpeta de muestra una vez procesada
+        shutil.rmtree(full_path)
 
     print("\n✅ Proceso completado con éxito.")
