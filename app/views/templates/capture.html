@@ -28,7 +28,12 @@
 <body>
     <h1>Capturando muestra para: "{{ word }}"</h1>
     <img src="{{ url_for('video_feed', word=word) }}" width="720" height="540">
-    <p>Presioná 'q' en la ventana original para detener la captura.</p>
+
+    <form action="{{ url_for('stop_capture_route') }}" method="POST">
+        <input type="hidden" name="word" value="{{ word }}">
+        <input type="hidden" name="word_id" value="{{ word_id }}">
+        <button type="submit">Finalizar entrenamiento</button>
+    </form>
 </body>
 
 </html>

@@ -1,36 +1,19 @@
 from app.database.connection import get_connection
 
 
-def create_keypoints_table():
+def _execute_query(query: str, table_name: str):
     """
-    Crea la tabla `keypoints` en la base de datos si no existe.
+    Ejecuta una consulta SQL para crear una tabla en la base de datos.
 
-    Esta tabla almacena los vectores de keypoints extraídos de las muestras,
-    incluyendo información sobre la palabra, muestra y frame.
+    Esta función encapsula la lógica de conexión, ejecución y confirmación
+    para crear una tabla, mostrando el estado del proceso por consola.
 
-    Columnas:
-    - `keypoints_id` (SERIAL PRIMARY KEY): Identificador único del registro.
-    - `word_id` (INT): Identificador de la palabra.
-    - `sample` (INT): Número de la muestra.
-    - `frame` (INT): Número del frame dentro de la muestra.
-    - `keypoints` (JSONB): Vectores de keypoints en formato JSON.
-    - `timestamp` (TIMESTAMP): Fecha y hora de creación del registro (por defecto `NOW()`).
+    Args:
+        query (str): Consulta SQL para la creación de tabla.
+        table_name (str): Nombre de la tabla para mostrar en consola.
 
     Returns:
-        None: Esta función no retorna ningún valor.
-
-    Raises:
-        Exception: Lanza cualquier error que ocurra durante la creación de la tabla.
-    """
-    query = """
-    CREATE TABLE IF NOT EXISTS keypoints (
-        keypoints_id SERIAL PRIMARY KEY,
-        word_id INT NOT NULL,
-        sample INT NOT NULL,
-        frame INT NOT NULL,
-        keypoints JSONB NOT NULL,
-        timestamp TIMESTAMP DEFAULT NOW()
-    );
+        None: No retorna ningún valor.
     """
     try:
         conn = get_connection()
@@ -39,30 +22,25 @@ def create_keypoints_table():
         conn.commit()
         cur.close()
         conn.close()
-        print("✅ Tabla 'keypoints' creada (o ya existía).")
+        print(f"✅ Tabla '{table_name}' creada (o ya existía).")
     except Exception as e:
-        print("❌ Error al crear la tabla 'keypoints':", e)
+        print(f"❌ Error al crear la tabla '{table_name}':", e)
         raise
 
 
 def create_categories_table():
     """
-    Crea la tabla `categories` en la base de datos si no existe.
+    Crea la tabla `categories` si no existe.
 
-    Esta tabla almacena las categorías a las que pertenecen las palabras
-    del sistema de reconocimiento de lenguaje de señas.
+    Almacena las categorías a las que pertenece cada palabra capturada.
 
     Columnas:
-    - `category_id` (SERIAL PRIMARY KEY): Identificador único de la categoría.
-    - `category` (VARCHAR): Nombre de la categoría (único).
-    - `created_at` (TIMESTAMP): Fecha y hora de creación del registro (por defecto `NOW()`).
-    - `updated_at` (TIMESTAMP): Fecha y hora de la última actualización del registro (por defecto `NOW()`).
+    - `category_id` (SERIAL): ID autoincremental de la categoría.
+    - `category` (VARCHAR): Nombre único de la categoría.
+    - `created_at`, `updated_at` (TIMESTAMP): Tiempos de registro.
 
     Returns:
-        None: Esta función no retorna ningún valor.
-
-    Raises:
-        Exception: Lanza cualquier error que ocurra durante la creación de la tabla.
+        None
     """
     query = """
     CREATE TABLE IF NOT EXISTS categories (
@@ -72,38 +50,23 @@ def create_categories_table():
         updated_at TIMESTAMP DEFAULT NOW()
     );
     """
-    try:
-        conn = get_connection()
-        cur = conn.cursor()
-        cur.execute(query)
-        conn.commit()
-        cur.close()
-        conn.close()
-        print("✅ Tabla 'categories' creada (o ya existía).")
-    except Exception as e:
-        print("❌ Error al crear la tabla 'categories':", e)
-        raise
+    _execute_query(query, "categories")
 
 
 def create_words_table():
     """
-    Crea la tabla `words` en la base de datos si no existe.
+    Crea la tabla `words` si no existe.
 
-    Esta tabla almacena las palabras capturadas y asociadas a categorías
-    en el sistema de reconocimiento de lenguaje de señas.
+    Almacena las palabras reconocidas, asociadas a una categoría.
 
     Columnas:
-    - `word_id` (BYTEA PRIMARY KEY): Identificador único de la palabra (hash).
-    - `category_id` (INT): Identificador de la categoría (FK).
-    - `word` (VARCHAR): Texto de la palabra (único).
-    - `created_at` (TIMESTAMP): Fecha y hora de creación del registro (por defecto `NOW()`).
-    - `updated_at` (TIMESTAMP): Fecha y hora de la última actualización del registro (por defecto `NOW()`).
+    - `word_id` (BYTEA): ID único hash de la palabra.
+    - `category_id` (INT): Clave foránea a `categories`.
+    - `word` (VARCHAR): Texto de la palabra.
+    - `created_at`, `updated_at` (TIMESTAMP): Tiempos de registro.
 
     Returns:
-        None: Esta función no retorna ningún valor.
-
-    Raises:
-        Exception: Lanza cualquier error que ocurra durante la creación de la tabla.
+        None
     """
     query = """
     CREATE TABLE IF NOT EXISTS words (
@@ -114,14 +77,71 @@ def create_words_table():
         updated_at TIMESTAMP DEFAULT NOW()
     );
     """
-    try:
-        conn = get_connection()
-        cur = conn.cursor()
-        cur.execute(query)
-        conn.commit()
-        cur.close()
-        conn.close()
-        print("✅ Tabla 'words' creada (o ya existía).")
-    except Exception as e:
-        print("❌ Error al crear la tabla 'words':", e)
-        raise
+    _execute_query(query, "words")
+
+
+def create_samples_table():
+    """
+    Crea la tabla `samples` en la base de datos si no existe.
+
+    Esta tabla almacena los identificadores de cada muestra por palabra.
+
+    Columnas:
+    - `sample_id` (SERIAL PRIMARY KEY): Identificador único de la muestra.
+    - `word_id` (BYTEA): Identificador de la palabra asociada (FK).
+    - `created_at` (TIMESTAMP): Fecha de inserción automática.
+    """
+    query = """
+    CREATE TABLE IF NOT EXISTS samples (
+        sample_id SERIAL PRIMARY KEY,
+        word_id BYTEA NOT NULL REFERENCES words(word_id),
+        created_at TIMESTAMP DEFAULT NOW()
+    );
+    """
+    _execute_query(query, "samples")
+
+
+def create_keypoints_table():
+    """
+    Crea la tabla `keypoints` si no existe.
+
+    Almacena los vectores de keypoints extraídos por frame.
+
+    Columnas:
+    - `keypoints_id` (SERIAL): ID del frame.
+    - `sample_id` (INT): Clave foránea a `samples`.
+    - `word_id` (BYTEA): Clave foránea a `words`.
+    - `frame` (INT): Número del frame en la muestra.
+    - `keypoints` (JSONB): Coordenadas de keypoints.
+    - `timestamp` (TIMESTAMP): Fecha de creación.
+
+    Returns:
+        None
+    """
+    query = """
+    CREATE TABLE IF NOT EXISTS keypoints (
+        keypoints_id SERIAL PRIMARY KEY,
+        sample_id INT NOT NULL REFERENCES samples(sample_id),
+        word_id BYTEA NOT NULL REFERENCES words(word_id),
+        frame INT NOT NULL,
+        keypoints JSONB NOT NULL,
+        timestamp TIMESTAMP DEFAULT NOW()
+    );
+    """
+    _execute_query(query, "keypoints")
+
+
+def create_all_tables():
+    """
+    Ejecuta la creación de todas las tablas necesarias para el sistema.
+
+    Crea las tablas `categories`, `words`, `samples` y `keypoints`
+    de forma secuencial y segura.
+
+    Returns:
+        None
+    """
+    create_categories_table()
+    create_words_table()
+    create_samples_table()
+    create_keypoints_table()
