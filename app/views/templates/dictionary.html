@@ -25,7 +25,16 @@
 
     <div class="container mx-auto p-4">
         <!-- Header with back button and help -->
-        <h1 class="text-4xl header-bold my-5 pb-4">Diccionario de Palabras</h1>
+        <div class="flex justify-between items-center">
+            <h1 class="text-4xl header-bold my-5 pb-4">Diccionario de Palabras</h1>
+            <a href="{{ url_for('insert_word_form') }}" class="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-white bg-indigo-500 hover:bg-indigo-600 
+               shadow-indigo-400 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out
+               ring-2 ring-indigo-300 ring-offset-2 ring-offset-indigo-100">
+                <span class="text-white text-xl">＋</span>
+                <span class="text-white">Agregar Palabra</span>
+            </a>
+        </div>
+
 
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -134,36 +143,82 @@
 
 
     <script>
-        function filterTableWords() {
-            const input = document.querySelector('input[placeholder="Buscar..."]').value.toLowerCase();
-            const tableRows = document.querySelector('table tbody').getElementsByTagName('tr');
-            let matchCount = 0;
+        function normalizeText(text) {
+            return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        }
 
-            Array.from(tableRows).forEach(row => {
-                const word = row.cells[0].textContent.toLowerCase();
-                const category = row.cells[1].textContent.toLowerCase();
-                const matchFound = word.includes(input) || category.includes(input);
-                row.style.display = matchFound ? '' : 'none';
-                if (matchFound) matchCount++;
+        function filterTableWords() {
+            const input = document.querySelector('input[placeholder="Buscar..."]').value;
+            const normalizedInput = normalizeText(input);
+
+            const table = document.querySelector('table tbody');
+            const rows = Array.from(table.getElementsByTagName('tr'));
+
+            let matchCount = 0;
+            const matchedRows = [];
+
+            rows.forEach(row => {
+                const word = row.cells[0].textContent;
+                const category = row.cells[1].textContent;
+
+                const normalizedWord = normalizeText(word);
+                const normalizedCategory = normalizeText(category);
+
+                const matches =
+                    normalizedWord.includes(normalizedInput) ||
+                    normalizedCategory.includes(normalizedInput);
+
+                row.style.display = 'none'; // Oculta por defecto
+
+                if (matches) {
+                    matchedRows.push({
+                        row: row,
+                        originalText: word,
+                        hasAccent: normalizeText(word) !== word.toLowerCase()
+                    });
+                }
             });
 
-            // Get or create the message element
+            // Prioriza los resultados sin tilde
+            matchedRows.sort((a, b) => {
+                if (a.hasAccent === b.hasAccent) return 0;
+                return a.hasAccent ? 1 : -1;
+            });
+
+            // Mostrar resultados ordenados y contarlos
+            matchedRows.forEach(item => {
+                item.row.style.display = '';
+                matchCount++;
+            });
+
+            // Mensaje si no hay resultados
             let messageEl = document.getElementById('noResultsMessage');
             if (!messageEl) {
                 messageEl = document.createElement('div');
                 messageEl.id = 'noResultsMessage';
                 messageEl.className = 'text-center py-4 text-gray-500';
+                messageEl.innerHTML = `
+                <img src="{{ url_for('static', filename='img/EmptySearch.svg') }}" alt="Sin resultados" class="mx-auto mb-2" style="width: 300px; padding: 20px;">
+                <p>No se encontraron resultados</p>
+            `;
                 document.querySelector('table').parentNode.appendChild(messageEl);
             }
 
-            // Show/hide message based on results
             messageEl.style.display = matchCount === 0 ? 'block' : 'none';
-            messageEl.textContent = matchCount === 0 ? 'No se encontraron resultados' : '';
+            if (matchCount === 0) {
+                messageEl.innerHTML = `
+                <img src="{{ url_for('static', filename='img/EmptySearch.svg') }}" alt="Sin resultados" class="mx-auto mb-2" style="width: 300px; padding: 20px;">
+                <p>No se encontraron resultados</p>
+            `;
+            } else {
+                messageEl.innerHTML = '';
+            }
         }
 
-        // Add event listener to search input
         document.querySelector('input[placeholder="Buscar..."]').addEventListener('keyup', filterTableWords);
     </script>
+
+
 </body>
 
 </html>

@@ -1,13 +1,40 @@
 <!-- templates/save_samples.html -->
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <title>Guardado completo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
-<body>
-  <h1>✅ Muestras guardadas para: {{ word }}</h1>
-  <p>ID de la palabra: {{ word_id }}</p>
-  <a href="{{ url_for('training') }}">Volver al inicio</a>
+
+<body class="min-h-screen flex items-center justify-center text-black" style="background-color: #efefef !important;">
+  <div class="w-full max-w-xl mx-auto p-8 rounded-3xl p-5 text-center bg-gray-50 space-y-6">
+
+    <!-- Icono de éxito -->
+    <div class="text-5xl text-indigo-400">
+      <img src="{{ url_for('static', filename='img/CameraCheck.svg') }}" alt="Help" class="help-icon px-20">
+    </div>
+
+    <!-- Mensaje principal -->
+    <h1 class="text-2xl font-semibold">
+      Muestras guardadas para: <span class="italic">{{ word }}</span>
+    </h1>
+
+    <!-- ID de la palabra -->
+    <p class="text-sm text-gray-700 break-words">
+      ID de la palabra: {{ word_id }}
+    </p>
+
+    <!-- Botón -->
+    <a href="{{ url_for('training') }}"
+      class="inline-block bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition"
+      style="color: #fff !important;">
+      Volver al inicio
+    </a>
+
+  </div>
 </body>
+
 </html>

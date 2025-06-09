@@ -189,3 +189,15 @@ def search_word(word):
         WHERE w.word_id = %s;
     """
     return _execute_query(query, (word_id,), fetch_one=True)
+
+
+def fetch_all_categories():
+    """
+    Obtiene todas las categorías existentes en la base de datos.
+
+    Returns:
+        list[str]: Lista de nombres de categorías ordenadas alfabéticamente.
+    """
+    query = "SELECT category FROM categories ORDER BY category;"
+    result = _execute_query(query, fetch_all=True)
+    return [row[0] for row in result] if result else []
