@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Palabra agregada</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+
+<body class="min-h-screen flex items-center justify-center text-black" style="background-color: #efefef !important;">
+    <div class="w-full max-w-xl mx-auto p-8 rounded-3xl text-center bg-gray-50 space-y-6 shadow-lg">
+
+        <!-- Icono de éxito -->
+        <div class="text-5xl flex items-center justify-center">
+            <img src="{{ url_for('static', filename='img/SuccessIconWordSave.svg') }}" alt="Éxito"
+                style="width: 300px;">
+        </div>
+
+        <!-- Mensaje principal -->
+        <h1 class="text-2xl font-semibold">
+            ✅ Palabra agregada correctamente
+        </h1>
+
+        <!-- Detalles -->
+        <p class="text-lg text-gray-800">
+            La palabra <span class="font-bold text-indigo-600">"{{ word }}"</span> fue insertada en la categoría
+            <span class="font-bold text-indigo-600">"{{ category.capitalize() }}"</span>.
+        </p>
+
+        <!-- Acciones -->
+        <div class="flex justify-center gap-4 mt-6">
+            <a href="{{ url_for('insert_word_form') }}"
+                class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition"
+                style="color: #fff !important;">
+                Insertar otra palabra
+            </a>
+            <a href="{{ url_for('dictionary') }}"
+                class="bg-indigo-100 hover:bg-indigo-200 text-indigo-800 font-semibold py-2 px-4 rounded-lg transition"
+                style="color: #4f46e5 !important;">
+                Ver diccionario
+            </a>
+        </div>
+
+    </div>
+</body>
+
+</html>

@@ -19,12 +19,20 @@ from ml.features.pipelines import (
     create_samples_from_camera,
     save_keypoints,
 )
-from app.database.database_utils import fetch_all_words
+from app.database.database_utils import (
+    fetch_all_words,
+    fetch_all_categories,
+    insert_words,
+)
 from app.config import FRAME_ACTIONS_PATH
+from flask import flash
 
 # -------- VARIABLES
 app = Flask(__name__)
 stop_capture = False  # Flag global para detener la captura de datos
+app.secret_key = (
+    "9f2b3d41a0cd53d0cf99b8f63b867987"  # 🔐 Necesaria para mensajes flash y sesiones
+)
 
 
 @app.route("/")
@@ -153,3 +161,35 @@ def dictionary_search():
     words = fetch_all_words()
     filtered_words = filter_words(filter_text, words)
     return render_template("dictionary.html", words=filtered_words)
+
+
+@app.route("/training/insert_word", methods=["GET", "POST"])
+def insert_word_form():
+
+    if request.method == "POST":
+        word = request.form.get("word", "").strip()
+        category_existing = request.form.get("category_existing", "").strip()
+        category_new = request.form.get("category_new", "").strip()
+
+        if not word:
+            flash("La palabra es obligatoria.", "error")
+            # Se recarga la página con mensaje de error
+        else:
+            # Decidir categoría: nueva o existente
+            if category_new:
+                category = category_new
+            elif category_existing:
+                category = category_existing
+            else:
+                flash("Debe seleccionar o ingresar una categoría.", "error")
+                return redirect(url_for("insert_word_form"))
+
+            # Insertar la palabra con la categoría usando tu función insert_words
+            words_to_insert = {category: [word]}
+            insert_words(words_to_insert)
+
+            return render_template("insert_success.html", word=word, category=category)
+
+    # GET: mostrar formulario
+    categories = fetch_all_categories()
+    return render_template("insert_word_form.html", categories=categories)
