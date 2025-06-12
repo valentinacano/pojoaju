@@ -1,7 +1,7 @@
+import json, hashlib
+
 from app.database.connection import get_connection
 from ml.utils.common_utils import clean_word
-import json
-import hashlib
 
 
 def _execute_query(
@@ -42,6 +42,9 @@ def _execute_query(
         raise
 
 
+# ----- TABLA SAMPLE
+
+
 def insert_sample(word_id):
     """
     Inserta un nuevo registro en la tabla `samples` para una palabra dada.
@@ -58,6 +61,9 @@ def insert_sample(word_id):
         RETURNING sample_id;
     """
     return _execute_query(query, (word_id,), fetch_one=True)[0]
+
+
+# ----- TABLA KEYPOINTS
 
 
 def insert_keypoints(word_id, sample_id, keypoints_sequence):
@@ -93,6 +99,53 @@ def insert_keypoints(word_id, sample_id, keypoints_sequence):
         _execute_query(query, params)
 
     print(f"✅ Insertados {len(keypoints_sequence)} frames en la base.")
+
+
+def fetch_keypoints_by_words(word_ids):
+    """
+    Recupera todos los keypoints correspondientes a una lista de palabras.
+
+    Obtiene el sample_id, frame y los keypoints correspondiente a una lista de palabras.
+
+    Args:
+        word_ids (list[bytes]): Lista de IDs de palabras en formato binario (hash).
+
+    Returns:
+        list[tuple]: Lista de tuplas con (word_id, sample_id, frame, keypoints).
+    """
+    if not word_ids:
+        return []
+
+    placeholders = ",".join(["%s"] * len(word_ids))
+    query = f"""
+        SELECT word_id, sample_id, frame, keypoints
+        FROM keypoints
+        WHERE word_id IN ({placeholders});
+    """
+    return _execute_query(
+        query,
+        fetch_all=True,
+        params=tuple(word_ids),
+    )
+
+
+def fetch_word_ids_with_keypoints():
+    """
+    Devuelve los word_id que tienen al menos un registro en la tabla `keypoints`.
+
+    Returns:
+        list[bytes]: Lista de word_id en formato binario (hash).
+    """
+    query = """
+        SELECT DISTINCT word_id
+        FROM keypoints
+        ORDER BY word_id;
+    """
+    result = _execute_query(query, fetch_all=True)
+    return [row[0] for row in result] if result else []
+
+
+# ----- TABLA WORDS
 
 
 def insert_words(words):
@@ -133,27 +186,6 @@ def insert_words(words):
     print("✅ Palabras insertadas en la tabla 'words'.")
 
 
-def insert_categories(categories):
-    """
-    Inserta categorías en la tabla `categories` si no existen.
-
-    Limpia y normaliza las categorías antes de insertar, evitando duplicados.
-
-    Args:
-        categories (list): Lista de categorías a insertar.
-
-    Returns:
-        None: Esta función no retorna ningún valor.
-    """
-    for category in categories:
-        category_clean = clean_word(category)
-        _execute_query(
-            "INSERT INTO categories (category) VALUES (%s) ON CONFLICT (category) DO NOTHING;",
-            (category_clean,),
-        )
-    print("✅ Categorías insertadas correctamente.")
-
-
 def fetch_all_words():
     """
     Obtiene todas las palabras de la base de datos junto con sus categorías.
@@ -189,6 +221,31 @@ def search_word(word):
         WHERE w.word_id = %s;
     """
     return _execute_query(query, (word_id,), fetch_one=True)
+
+
+# ----- TABLA CATEGORIES
+
+
+def insert_categories(categories):
+    """
+    Inserta categorías en la tabla `categories` si no existen.
+
+    Limpia y normaliza las categorías antes de insertar, evitando duplicados.
+
+    Args:
+        categories (list): Lista de categorías a insertar.
+
+    Returns:
+        None: Esta función no retorna ningún valor.
+    """
+    for category in categories:
+        category_clean = clean_word(category)
+        query = "INSERT INTO categories (category) VALUES (%s) ON CONFLICT (category) DO NOTHING;"
+        _execute_query(
+            query,
+            (category_clean,),
+        )
+    print("✅ Categorías insertadas correctamente.")
 
 
 def fetch_all_categories():

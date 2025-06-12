@@ -6,8 +6,7 @@ Detecta manos usando MediaPipe y guarda secuencias válidas de frames en carpeta
 con timestamp para su posterior análisis o entrenamiento.
 """
 
-import os
-import cv2
+import os, cv2
 
 from datetime import datetime
 from mediapipe.python.solutions.holistic import Holistic

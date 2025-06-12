@@ -4,8 +4,7 @@ Funciones para visualizar y guardar imágenes con keypoints.
 Dibuja landmarks detectados por MediaPipe y guarda secuencias de frames.
 """
 
-import os
-import cv2
+import os, cv2
 from mediapipe.python.solutions.holistic import (
     FACEMESH_CONTOURS,
     POSE_CONNECTIONS,

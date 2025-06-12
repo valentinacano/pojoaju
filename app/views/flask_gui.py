@@ -165,7 +165,6 @@ def dictionary_search():
 
 @app.route("/training/insert_word", methods=["GET", "POST"])
 def insert_word_form():
-
     if request.method == "POST":
         word = request.form.get("word", "").strip()
         category_existing = request.form.get("category_existing", "").strip()

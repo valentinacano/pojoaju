@@ -5,10 +5,10 @@ Incluye lectura, interpolación, recorte y guardado de frames normalizados
 para que todas las muestras tengan la misma longitud.
 """
 
-import os
-import cv2
+import os, cv2, shutil
 import numpy as np
-import shutil
+
+from app.config import MODEL_FRAMES
 
 
 def read_frames_from_directory(directory):
@@ -32,7 +32,7 @@ def read_frames_from_directory(directory):
     return frames
 
 
-def interpolate_frames(frames, target_frame_count=15):
+def interpolate_frames(frames):
     """
     Interpola una lista de frames para alcanzar una longitud fija.
 
@@ -40,16 +40,15 @@ def interpolate_frames(frames, target_frame_count=15):
 
     Args:
         frames (list[numpy.ndarray]): Lista de imágenes original.
-        target_frame_count (int): Cantidad deseada de frames.
 
     Returns:
         list[numpy.ndarray]: Lista con los frames interpolados.
     """
     current = len(frames)
-    if current == target_frame_count:
+    if current == MODEL_FRAMES:
         return frames
 
-    indices = np.linspace(0, current - 1, target_frame_count)
+    indices = np.linspace(0, current - 1, MODEL_FRAMES)
     interpolated = []
     for i in indices:
         low = int(np.floor(i))
@@ -61,7 +60,7 @@ def interpolate_frames(frames, target_frame_count=15):
     return interpolated
 
 
-def normalize_frames(frames, target_frame_count=15):
+def normalize_frames(frames):
     """
     Normaliza una secuencia de frames a una cantidad fija.
 
@@ -70,17 +69,16 @@ def normalize_frames(frames, target_frame_count=15):
 
     Args:
         frames (list[numpy.ndarray]): Lista original de imágenes.
-        target_frame_count (int): Longitud deseada.
 
     Returns:
         list[numpy.ndarray]: Lista de frames normalizada en longitud.
     """
     current = len(frames)
-    if current < target_frame_count:
-        return interpolate_frames(frames, target_frame_count)
-    elif current > target_frame_count:
-        step = current / target_frame_count
-        indices = np.arange(0, current, step).astype(int)[:target_frame_count]
+    if current < MODEL_FRAMES:
+        return interpolate_frames(frames, MODEL_FRAMES)
+    elif current > MODEL_FRAMES:
+        step = current / MODEL_FRAMES
+        indices = np.arange(0, current, step).astype(int)[:MODEL_FRAMES]
         return [frames[i] for i in indices]
     else:
         return frames

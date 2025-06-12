@@ -7,6 +7,7 @@ en la misma carpeta, sobrescribiendo los archivos originales.
 """
 
 import os
+
 from ml.utils.normalize_utils import (
     read_frames_from_directory,
     clear_directory,
@@ -15,7 +16,7 @@ from ml.utils.normalize_utils import (
 )
 
 
-def normalize_samples(root_path, target_frame_count=15):
+def normalize_samples(root_path):
     """
     Normaliza todas las muestras dentro de un directorio de palabra.
 
@@ -25,7 +26,6 @@ def normalize_samples(root_path, target_frame_count=15):
 
     Args:
         root_path (str): Ruta a la carpeta que contiene las subcarpetas con muestras.
-        target_frame_count (int): Cantidad fija de frames a la que se deben normalizar las muestras.
 
     Returns:
         None: Esta función no retorna ningún valor. Modifica los archivos en disco.
@@ -54,7 +54,7 @@ def normalize_samples(root_path, target_frame_count=15):
             print(f"⚠️ Muestra vacía omitida: {sample_path}")
             continue
 
-        normalized = normalize_frames(frames, target_frame_count)
+        normalized = normalize_frames(frames)
         clear_directory(sample_path)
         save_normalized_frames(sample_path, normalized)
 

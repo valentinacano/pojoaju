@@ -10,12 +10,13 @@ from ml.features.capture_samples import capture_samples_from_camera
 from ml.features.normalize_samples import normalize_samples
 from ml.features.create_keypoints import get_keypoints
 from ml.utils.common_utils import create_folder
-from app.database.database_utils import insert_sample, insert_keypoints
+from app.database.database_utils import (
+    insert_sample,
+    insert_keypoints,
+)
 
 
-def create_samples_from_camera(
-    word_name, root_path, debug_value=False, target_frame_count=15
-):
+def create_samples_from_camera(word_name, root_path, debug_value=False):
     """
     Inicia la captura de muestras para una palabra desde la cámara.
 
@@ -27,7 +28,6 @@ def create_samples_from_camera(
         word_name (str): Palabra que se desea grabar.
         root_path (str): Carpeta base donde se almacenarán las muestras por palabra.
         debug_value (bool): Indica si se ejecuta en consola (`True`) o en servidor Flask (`False`).
-        target_frame_count (int): Número deseado de frames por muestra (no usado directamente aquí).
 
     Returns:
         Generator[bytes] | None: En modo Flask, retorna un generador de imágenes JPEG para streaming. En modo consola, no retorna nada.
@@ -46,7 +46,7 @@ def create_samples_from_camera(
         return generator
 
 
-def save_keypoints(word_name, word_id, root_path, target_frame_count=15):
+def save_keypoints(word_name, word_id, root_path):
     """
     Normaliza las muestras y extrae los keypoints para una palabra.
 
@@ -57,7 +57,6 @@ def save_keypoints(word_name, word_id, root_path, target_frame_count=15):
         word_name (str): Nombre de la palabra (debe coincidir con la carpeta de muestras).
         word_id (str | bytes): ID único de la palabra usado para la base de datos.
         root_path (str): Ruta donde se encuentran las carpetas de muestras.
-        target_frame_count (int): Cantidad fija de frames por muestra.
 
     Returns:
         None: Esta función no retorna nada. Inserta los resultados en base de datos.
@@ -78,7 +77,7 @@ def save_keypoints(word_name, word_id, root_path, target_frame_count=15):
     word_path = os.path.join(root_path, word_name)
 
     print(f"\n🌀 Normalizando muestras en: {word_path}")
-    normalize_samples(word_path, target_frame_count)
+    normalize_samples(word_path)
 
     sample_folders = sorted(
         [

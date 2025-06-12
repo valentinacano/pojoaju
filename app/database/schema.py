@@ -22,9 +22,9 @@ def _execute_query(query: str, table_name: str):
         conn.commit()
         cur.close()
         conn.close()
-        print(f"✅ Tabla '{table_name}' creada (o ya existía).")
+        print(f"✅ Codigo ejecutado correctamente en la tabla '{table_name}'")
     except Exception as e:
-        print(f"❌ Error al crear la tabla '{table_name}':", e)
+        print(f"❌ Error al ejecutar codigo en la tabla '{table_name}':", e)
         raise
 
 
