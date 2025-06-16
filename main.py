@@ -19,6 +19,8 @@ from app.database.database_utils import (
     insert_categories,
 )
 
+from ml.training.training_model import training_model
+
 
 def initialize_database():
     """
@@ -41,6 +43,8 @@ def initialize_database():
 
 
 if __name__ == "__main__":
-    if os.environ.get("WERKZEUG_RUN_MAIN") != "true":
-        initialize_database()
-    app.run(debug=True)
+    # if os.environ.get("WERKZEUG_RUN_MAIN") != "true":
+    #    initialize_database()
+    # app.run(debug=True)
+
+    training_model()

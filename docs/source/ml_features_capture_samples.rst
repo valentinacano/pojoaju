@@ -1,9 +1,7 @@
-Conexión a Base de Datos (`app/database/connection.py`)
+Captura de Muestras (`ml/features/capture_samples.py`)
 =======================================================
 
-.. automodule:: app.database.connection
+.. automodule:: ml.features.capture_samples
    :members:
    :undoc-members:
    :show-inheritance:
-
-

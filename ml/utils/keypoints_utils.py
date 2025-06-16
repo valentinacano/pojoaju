@@ -1,12 +1,12 @@
 """
-Funciones para la extracción y manejo de keypoints desde MediaPipe.
+Utilidades para extracción, agrupamiento y manejo de keypoints generados por MediaPipe.
 
-Permite convertir secuencias de imágenes en vectores numéricos de keypoints,
-y guardar la información asociada a muestras en un DataFrame estructurado.
+Este módulo permite transformar imágenes en vectores de keypoints, agrupar las secuencias
+por palabra y muestra, y estructurar los datos en formatos aptos para entrenamiento.
 """
 
-import os
-import cv2
+
+import os, cv2
 import numpy as np
 import pandas as pd
 from ml.utils.common_utils import mediapipe_detection
@@ -97,3 +97,38 @@ def insert_keypoints_sequence(df, sample_id, keypoints_sequence):
         for i, kp in enumerate(keypoints_sequence)
     ]
     return pd.concat([df, pd.DataFrame(records)], ignore_index=True)
+
+
+def group_keypoints_by_word_and_sample(keypoints_data, words_id):
+    """
+    Genera las secuencias de keypoints y sus etiquetas desde datos crudos y `word_ids`.
+
+    Agrupa los vectores de keypoints por palabra y muestra. Cada secuencia corresponde
+    a una muestra, y su etiqueta es el índice de la palabra en `word_ids`.
+
+    Args:
+        keypoints_data (list[tuple]): Tuplas (word_id, sample_id, frame, keypoints).
+        word_ids (list[bytes]): Lista de identificadores de palabra (en formato hash binario).
+
+    Returns:
+        tuple[list[list], list[int]]:
+            - Lista de secuencias de keypoints (una por muestra).
+            - Lista de etiquetas enteras correspondientes a cada palabra.
+    """
+    grouped = {}
+
+    for word_id, sample_id, frame, keypoints in keypoints_data:
+        grouped.setdefault(word_id, {}).setdefault(sample_id, []).append(
+            (frame, keypoints)
+        )
+
+    sequences, labels = [], []
+
+    for word_index, word_id in enumerate(words_id):
+        samples = grouped.get(word_id, {})
+        for frame_list in samples.values():
+            ordered = sorted(frame_list, key=lambda x: x[0])
+            sequences.append([kp for _, kp in ordered])
+            labels.append(word_index)
+
+    return sequences, labels

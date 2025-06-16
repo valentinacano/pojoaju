@@ -1,11 +1,12 @@
 """
-Funciones para visualizar y guardar imágenes con keypoints.
+Utilidades de visualización y guardado de imágenes con keypoints detectados por MediaPipe.
 
-Dibuja landmarks detectados por MediaPipe y guarda secuencias de frames.
+Este módulo permite dibujar landmarks (rostro, cuerpo y manos) sobre imágenes y guardar
+secuencias de frames como archivos JPEG numerados para su posterior análisis o entrenamiento.
 """
 
-import os
-import cv2
+
+import os, cv2
 from mediapipe.python.solutions.holistic import (
     FACEMESH_CONTOURS,
     POSE_CONNECTIONS,
@@ -60,10 +61,10 @@ def draw_keypoints(image, results):
 
 def save_frames(frames, output_folder):
     """
-    Guarda una secuencia de imágenes como archivos numerados en una carpeta.
+    Guarda una secuencia de imágenes como archivos JPEG numerados en una carpeta.
 
-    Convierte los frames de BGR a BGRA y los guarda como archivos JPEG secuenciales
-    en el directorio especificado.
+    Cada frame se convierte de BGR a BGRA y se guarda como `1.jpg`, `2.jpg`, etc.,
+    dentro del directorio especificado. Ideal para almacenar muestras capturadas.
 
     Args:
         frames (list[np.ndarray]): Lista de imágenes en formato BGR.

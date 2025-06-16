@@ -6,9 +6,7 @@ Estas utilidades se utilizan durante el preprocesamiento, detección y organizac
 de los datos en el sistema de reconocimiento de señas.
 """
 
-import os
-import json
-import cv2
+import os, json, cv2
 
 
 def mediapipe_detection(image, model):

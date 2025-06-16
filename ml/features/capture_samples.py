@@ -2,12 +2,15 @@
 Captura de muestras en video con detección de keypoints mediante MediaPipe.
 
 Este módulo permite grabar muestras de lenguaje de señas desde la cámara web.
-Detecta manos usando MediaPipe y guarda secuencias válidas de frames en carpetas
-con timestamp para su posterior análisis o entrenamiento.
+Utiliza MediaPipe Holistic para detectar manos en tiempo real, y guarda
+automáticamente las secuencias válidas de frames en carpetas numeradas con timestamp.
+
+Se puede usar en modo consola (visualización con OpenCV) o en modo servidor
+(transmisión de frames JPEG para streaming en Flask).
 """
 
-import os
-import cv2
+
+import os, cv2
 
 from datetime import datetime
 from mediapipe.python.solutions.holistic import Holistic
@@ -28,7 +31,7 @@ def _save_sample(frames, path, margin_frames, delay_frames):
     nombre único (timestamp) y guarda las imágenes como archivos individuales.
 
     Args:
-        frames (list): Lista de frames capturados (np.ndarray).
+        frames (list[np.ndarray]): Lista de frames capturados.
         path (str): Ruta donde se debe guardar la muestra.
         margin_frames (int): Cantidad de frames descartados del inicio.
         delay_frames (int): Cantidad de frames descartados del cierre.
@@ -49,26 +52,26 @@ def capture_samples_from_camera(
     """
     Captura muestras desde la cámara y guarda las secuencias válidas.
 
-    Usa MediaPipe Holistic para detectar manos en tiempo real. Cuando se detecta
-    actividad válida (una mano presente), comienza a grabar frames. Si no hay
-    manos detectadas por varios frames seguidos (`delay_frames`), finaliza la muestra
-    y la guarda si cumple con la cantidad mínima de frames requeridos.
+    Utiliza MediaPipe Holistic para detectar presencia de manos. Cuando se detecta
+    actividad válida, comienza a grabar. Si no hay detección por una cierta cantidad
+    de frames (`delay_frames`), guarda la muestra si cumple con el mínimo de frames.
 
-    En modo `debug=True`, se muestra una ventana OpenCV para visualizar el proceso.
-    En modo `debug=False`, se retorna un generador de imágenes JPEG para streaming (por ejemplo en Flask).
+    Puede ejecutarse en dos modos:
+    - `debug=True`: visualiza el proceso en una ventana OpenCV.
+    - `debug=False`: retorna un generador de imágenes JPEG para streaming (ej. Flask).
 
     Args:
-        path (str): Ruta donde guardar las muestras.
+        path (str): Ruta donde se guardarán las muestras.
         margin_frames (int, optional): Frames a descartar al inicio y fin. Default es 1.
         min_frames (int, optional): Mínimo de frames válidos requeridos. Default es 5.
         delay_frames (int, optional): Frames adicionales antes de cortar la muestra. Default es 3.
-        debug (bool, optional): Modo visual. Si True, muestra ventana. Si False, genera streaming. Default es False.
+        debug (bool, optional): Modo visual. Si True, muestra ventana OpenCV. Default es False.
         camera_index (int, optional): Índice del dispositivo de cámara. Default es 0.
 
     Returns:
         generator | None:
-            - Si `debug=False`, retorna un generador de imágenes JPEG codificadas.
-            - Si `debug=True`, no retorna nada (usa visualización OpenCV).
+            - En modo Flask (`debug=False`): generador de imágenes JPEG.
+            - En modo consola (`debug=True`): no retorna nada.
     """
 
     global stop_capture  # variable global para poder tener captura de pantalla con flask
