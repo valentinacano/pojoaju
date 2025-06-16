@@ -75,7 +75,7 @@ def normalize_frames(frames):
     """
     current = len(frames)
     if current < MODEL_FRAMES:
-        return interpolate_frames(frames, MODEL_FRAMES)
+        return interpolate_frames(frames)
     elif current > MODEL_FRAMES:
         step = current / MODEL_FRAMES
         indices = np.arange(0, current, step).astype(int)[:MODEL_FRAMES]
