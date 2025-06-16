@@ -147,7 +147,7 @@ Las pruebas están en la carpeta tests/.
 #### Para ejecutar los tests:
 ```bash
 pipenv install --dev pytest
-pipenv run pytest
+pipenv run pytest -v 
 ```
 
 ## Traducción Inicial
