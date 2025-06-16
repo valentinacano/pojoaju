@@ -25,8 +25,50 @@ brew services start postgresql
 pipenv --python 3.10
 pipenv install
 pipenv shell
+
+# Instalar el proyecto en modo editable
+pipenv run pip install -e .
+```
+### ¿Por qué pip install -e .?
+Este comando instala el proyecto en modo editable, lo que significa que cualquier cambio que hagas en el código fuente (app/, ml/, etc.) se aplica automáticamente sin necesidad de reinstalar.
+
+- Solo necesitás ejecutarlo una vez, luego de clonar el proyecto o crear el entorno virtual.
+- Si modificás setup.py o reinstalás el entorno (pipenv --rm + pipenv install), corrélo de nuevo.
+
+Podés verificar si ya está instalado con:
+```bash
+pipenv run pip list
+```
+Y deberías ver:
+```bash
+pojoaju    0.1.0    editable
 ```
 
+###  Control de versiones y CHANGELOG
+Cada vez que el proyecto evoluciona, es recomendable actualizar el número de versión en setup.py.
+```bash
+version="0.1.0"
+```
+#### ¿Cuándo cambiar la versión?
+| Situación                                                       | Ejemplo versión |
+|----------------------------------------------------------------|------------------|
+| Primer release mínimo funcional                                | 0.1.0            |
+| Se agrega una funcionalidad visible o significativa            | 0.2.0            |
+| Se hace una corrección o ajuste menor                          | 0.1.1            |
+| Se rompe compatibilidad o cambia la estructura de uso general  | 1.0.0            |
+
+#### ¿Qué es un changelog?
+Un changelog es un archivo que documenta los cambios por versión. Se recomienda usar un archivo CHANGELOG.md con entradas como esta:
+```bash
+## [0.2.0] - 2025-07-01
+### Agregado
+- Soporte para traducción de colores y emociones
+- Panel de vista previa en Flask
+
+### Corregido
+- Error en normalización de keypoints vacíos
+```
+Esto ayuda a saber qué cambió, cuándo y por qué.
 
 ## Estructura de carpetas propuesta
 
@@ -105,7 +147,7 @@ Las pruebas están en la carpeta tests/.
 #### Para ejecutar los tests:
 ```bash
 pipenv install --dev pytest
-pytest tests/
+pipenv run pytest
 ```
 
 ## Traducción Inicial
