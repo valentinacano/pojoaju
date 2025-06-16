@@ -1,3 +1,16 @@
+"""
+Tests del pipeline de captura y extracción de keypoints.
+
+Este módulo valida el funcionamiento de las funciones principales del pipeline:
+- `create_samples_from_camera`: capturar muestras desde cámara en modo consola o Flask.
+- `save_keypoints`: normalizar muestras y guardar keypoints en la base de datos.
+
+Se simulan estructuras de carpetas con imágenes y se utilizan mocks para evitar
+dependencias con la cámara real. También se verifica que los datos se inserten correctamente
+en la base de datos de pruebas.
+"""
+
+
 import tempfile, pytest, cv2
 import numpy as np
 from unittest.mock import patch

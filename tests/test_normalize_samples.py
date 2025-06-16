@@ -4,6 +4,10 @@ Tests para la función de normalización de muestras.
 Este módulo verifica que las muestras de video se normalicen correctamente
 a una longitud fija (`MODEL_FRAMES`) y que los archivos resultantes conserven
 el formato y las dimensiones esperadas.
+
+Se prueban los siguientes comportamientos:
+- Que todas las muestras queden con la misma cantidad de frames tras la normalización.
+- Que los archivos originales sean sobrescritos correctamente con las dimensiones esperadas.
 """
 
 import os

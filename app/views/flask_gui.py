@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 """
-Aplicación web para captura y procesamiento de lenguaje de señas.
+Interfaz web principal para captura y procesamiento de lenguaje de señas.
 
-Esta aplicación permite al usuario capturar muestras de una palabra desde la cámara,
-visualizar el video en tiempo real, y normalizar las muestras para generar keypoints
-que serán usados en modelos de entrenamiento.
+Este módulo define la aplicación Flask y sus rutas asociadas para:
+- Captura de muestras desde la cámara
+- Procesamiento de keypoints con MediaPipe
+- Normalización de muestras
+- Inserción y visualización de palabras en el diccionario
 
-Incluye las siguientes rutas:
-- Página de inicio
-- Formulario de captura
-- Captura de video por palabra
-- Normalización de muestras capturadas
+El flujo incluye integración con la base de datos PostgreSQL y visualización web
+mediante plantillas HTML.
 """
 
 
@@ -141,6 +140,16 @@ def save_samples(word, word_id):
 
 
 def filter_words(filter_text, words):
+    """
+    Filtra las palabras que contienen el texto buscado en el nombre o la categoría.
+
+    Args:
+        filter_text (str): Texto a buscar (se convierte a minúsculas).
+        words (list[tuple]): Lista de tuplas (word_id, word, category).
+
+    Returns:
+        list[tuple]: Lista filtrada que contiene el texto buscado.
+    """
     filter_text = filter_text.strip().lower()
     return [
         word
@@ -151,12 +160,30 @@ def filter_words(filter_text, words):
 
 @app.route("/training/dictionary")
 def dictionary():
+    """
+    Muestra el diccionario de palabras disponibles en el sistema.
+
+    Recupera todas las palabras y sus categorías desde la base de datos,
+    y las muestra paginadas en la plantilla `dictionary.html`.
+
+    Returns:
+        str: Render de la plantilla con la lista completa de palabras.
+    """
     words = fetch_all_words()
     return render_template("dictionary.html", words=words, page=1, total_pages=5)
 
 
 @app.route("/training/dictionary/search", methods=["POST"])
 def dictionary_search():
+    """
+    Realiza la búsqueda de palabras en el diccionario según un texto ingresado.
+
+    Filtra la lista de palabras por coincidencia en el nombre o la categoría,
+    y renderiza nuevamente el diccionario con los resultados filtrados.
+
+    Returns:
+        str: Render de la plantilla con las palabras filtradas.
+    """
     filter_text = request.form.get("filter")
     words = fetch_all_words()
     filtered_words = filter_words(filter_text, words)
@@ -165,6 +192,15 @@ def dictionary_search():
 
 @app.route("/training/insert_word", methods=["GET", "POST"])
 def insert_word_form():
+    """
+    Muestra el formulario para insertar una nueva palabra y procesa su envío.
+
+    En GET: renderiza el formulario con las categorías existentes.
+    En POST: valida la entrada y guarda la palabra con su categoría en la base de datos.
+
+    Returns:
+        str: Render de la plantilla correspondiente según el resultado.
+    """
     if request.method == "POST":
         word = request.form.get("word", "").strip()
         category_existing = request.form.get("category_existing", "").strip()

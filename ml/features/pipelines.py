@@ -1,9 +1,14 @@
 """
-Pipeline de creación de muestras desde cámara.
+Pipeline completo para captura, normalización y extracción de keypoints desde cámara.
 
-Este flujo realiza la captura de muestras con MediaPipe Holistic, las normaliza
-y genera los vectores de keypoints para su uso posterior en modelos de IA.
+Este módulo permite:
+1. Capturar muestras en tiempo real utilizando MediaPipe Holistic.
+2. Normalizar la cantidad de frames por muestra.
+3. Extraer los vectores de keypoints y guardarlos directamente en la base de datos PostgreSQL.
+
+Es compatible tanto con ejecución en consola como desde una interfaz web Flask.
 """
+
 
 import os, re, shutil
 from ml.features.capture_samples import capture_samples_from_camera
@@ -59,7 +64,7 @@ def save_keypoints(word_name, word_id, root_path):
         root_path (str): Ruta donde se encuentran las carpetas de muestras.
 
     Returns:
-        None: Esta función no retorna nada. Inserta los resultados en base de datos.
+        None: Esta función no retorna ningún valor. Inserta los datos procesados en la base de datos y elimina las carpetas temporales.
     """
     print("\n🚀 save_keypoints() fue llamado")
 

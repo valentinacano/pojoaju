@@ -1,3 +1,16 @@
+"""
+Tests para funciones de manejo de keypoints en MediaPipe.
+
+Este módulo prueba las funciones auxiliares relacionadas con la extracción, inserción
+y agrupamiento de keypoints desde imágenes procesadas por MediaPipe Holistic.
+
+Incluye validaciones de:
+- Extracción de keypoints desde resultados MediaPipe.
+- Procesamiento de carpetas con múltiples frames.
+- Inserción de secuencias en DataFrame.
+- Agrupación de keypoints por palabra y muestra.
+"""
+
 import os, cv2
 import numpy as np
 import pandas as pd

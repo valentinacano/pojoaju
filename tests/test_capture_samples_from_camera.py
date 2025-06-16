@@ -1,9 +1,13 @@
 """
-Test de la función `_save_sample` del módulo de captura.
+Tests para captura de muestras simuladas (`_save_sample`).
 
-Este archivo contiene tests que validan el comportamiento de la función encargada
-de guardar secuencias de frames como imágenes numeradas en una carpeta con timestamp.
+Este módulo contiene pruebas unitarias para validar el correcto funcionamiento
+de la función `_save_sample`, encargada de recortar y guardar secuencias de frames
+como imágenes numeradas dentro de una carpeta con timestamp.
+
+Las pruebas se realizan sobre datos simulados y usan carpetas temporales.
 """
+
 
 import os
 import tempfile

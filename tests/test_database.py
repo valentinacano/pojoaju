@@ -1,3 +1,16 @@
+"""
+Tests funcionales y de conexión para el módulo de base de datos.
+
+Este archivo valida la conexión a la base de datos, la creación de tablas,
+y la inserción y recuperación de datos básicos como palabras, categorías,
+samples y keypoints. Incluye también pruebas sobre la integridad del esquema
+y búsquedas específicas en la base de datos.
+
+Las pruebas están diseñadas para ejecutarse sobre una base de datos aislada
+(`pojoaju_test`) y utilizan fixtures para garantizar un entorno limpio.
+"""
+
+
 import hashlib, pytest, psycopg2
 import numpy as np
 
@@ -105,6 +118,17 @@ def setup_test_schema(clean_test_database):
 
 
 def test_fetch_all_words_and_categories(setup_test_schema):
+    """
+    Verifica que se obtienen correctamente todas las palabras y categorías insertadas.
+
+    - Comprueba que el número de categorías coincida con los datos originales.
+    - Asegura que haya palabras cargadas en la base.
+    - Valida que al menos una palabra coincida con "hola".
+
+    Returns:
+        None: Utiliza aserciones para validar el contenido obtenido.
+    """
+
     all_words = fetch_all_words()
     all_categories = fetch_all_categories()
 
@@ -114,6 +138,17 @@ def test_fetch_all_words_and_categories(setup_test_schema):
 
 
 def test_insert_sample_and_keypoints(setup_test_schema):
+    """
+    Verifica que se puede insertar una muestra y sus keypoints asociados en la base de datos.
+
+    - Inserta una palabra (hash de "hola").
+    - Crea un sample y guarda una secuencia de keypoints.
+    - Valida que se insertaron 5 registros en `keypoints`.
+    - Comprueba que el `word_id` aparece en la lista de palabras con keypoints.
+
+    Returns:
+        None: Usa aserciones para validar inserción y recuperación.
+    """
     word = "hola"
     word_id = hashlib.sha256(word.encode("utf-8")).digest()
     sample_id = insert_sample(word_id)
@@ -129,11 +164,29 @@ def test_insert_sample_and_keypoints(setup_test_schema):
 
 
 def test_search_word_found(setup_test_schema):
+    """
+    Verifica que `search_word` encuentra correctamente una palabra existente.
+
+    Busca la palabra "hola" en la base de datos y comprueba que:
+    - Se retorna una tupla válida.
+    - La palabra encontrada coincida con el texto original.
+
+    Returns:
+        None: Usa aserciones para validar el resultado.
+    """
     result = search_word("hola")
     assert result is not None
     assert result[1] == "hola"
 
 
 def test_search_word_not_found(setup_test_schema):
+    """
+    Verifica que `search_word` retorna `None` si la palabra no existe en la base.
+
+    Busca una palabra inexistente y asegura que no se devuelve ningún resultado.
+
+    Returns:
+        None: Usa aserciones para validar el comportamiento esperado.
+    """
     result = search_word("NoExiste")
     assert result is None

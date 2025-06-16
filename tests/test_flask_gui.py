@@ -1,3 +1,15 @@
+"""
+Tests de rutas y comportamiento de la aplicación Flask.
+
+Este módulo verifica el correcto funcionamiento de las rutas de la interfaz web
+incluidas en `app.views.flask_gui`. Se testean rutas de carga de plantillas, 
+formularios, flujos de captura y respuestas esperadas del servidor.
+
+Incluye también validaciones de errores comunes, redirecciones y comportamiento 
+frente a rutas inexistentes.
+"""
+
+
 import pytest
 from app.views.flask_gui import app
 

@@ -1,3 +1,16 @@
+"""
+Funciones para interacción con la base de datos PostgreSQL.
+
+Este módulo contiene funciones auxiliares para insertar, consultar y manejar datos en las tablas:
+- `categories`: Categorías de palabras.
+- `words`: Palabras registradas con su categoría.
+- `samples`: Muestras capturadas por palabra.
+- `keypoints`: Vectores de keypoints por frame de cada muestra.
+
+También incluye un ejecutor de queries `_execute_query()` para centralizar la ejecución SQL.
+"""
+
+
 import json, hashlib
 
 from app.database.connection import get_connection

@@ -1,9 +1,10 @@
 """
-Funciones para la extracción y manejo de keypoints desde MediaPipe.
+Utilidades para extracción, agrupamiento y manejo de keypoints generados por MediaPipe.
 
-Permite convertir secuencias de imágenes en vectores numéricos de keypoints,
-y guardar la información asociada a muestras en un DataFrame estructurado.
+Este módulo permite transformar imágenes en vectores de keypoints, agrupar las secuencias
+por palabra y muestra, y estructurar los datos en formatos aptos para entrenamiento.
 """
+
 
 import os, cv2
 import numpy as np
@@ -100,17 +101,19 @@ def insert_keypoints_sequence(df, sample_id, keypoints_sequence):
 
 def group_keypoints_by_word_and_sample(keypoints_data, words_id):
     """
-    Genera las secuencias de keypoints y sus etiquetas a partir de datos crudos y lista de word_ids.
+    Genera las secuencias de keypoints y sus etiquetas desde datos crudos y `word_ids`.
 
-    Agrupa los keypoints por palabra y muestra. Cada secuencia corresponde a una muestra,
-    y su etiqueta es el índice de la palabra en `words_id`.
+    Agrupa los vectores de keypoints por palabra y muestra. Cada secuencia corresponde
+    a una muestra, y su etiqueta es el índice de la palabra en `word_ids`.
 
     Args:
         keypoints_data (list[tuple]): Tuplas (word_id, sample_id, frame, keypoints).
-        words_id (list[bytes]): Lista de word_id en formato binario (hash) en el orden deseado.
+        word_ids (list[bytes]): Lista de identificadores de palabra (en formato hash binario).
 
     Returns:
-        tuple[list[list], list[int]]: Lista de secuencias de keypoints y sus etiquetas numéricas.
+        tuple[list[list], list[int]]:
+            - Lista de secuencias de keypoints (una por muestra).
+            - Lista de etiquetas enteras correspondientes a cada palabra.
     """
     grouped = {}
 

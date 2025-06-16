@@ -1,3 +1,12 @@
+"""
+Fixture de pytest para limpiar la base de datos antes de ejecutar tests.
+
+Este módulo define una función `clean_test_database` que se encarga de 
+resetear las tablas principales (`categories`, `words`, `samples`, `keypoints`)
+dejando la base en un estado limpio para pruebas controladas.
+"""
+
+
 import pytest
 import psycopg2
 from app.config import DB_CONFIG
@@ -13,12 +22,9 @@ def clean_test_database():
     `keypoints`, `samples`, `words` y `categories` para garantizar un entorno
     limpio y consistente en cada ejecución de prueba.
 
-    Args:
-        None
-
     Returns:
         None: Esta función no retorna ningún valor. Modifica directamente
-        el contenido de la base de datos de prueba.
+        el contenido de la base de datos.
     """
     conn = psycopg2.connect(**DB_CONFIG)
     cur = conn.cursor()

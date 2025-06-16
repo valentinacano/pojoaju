@@ -1,3 +1,13 @@
+"""
+Entrenamiento del modelo de reconocimiento de lenguaje de señas.
+
+Este módulo recupera los datos de entrenamiento desde la base de datos,
+preprocesa las secuencias de keypoints y entrena un modelo de clasificación
+usando una arquitectura LSTM.
+
+El modelo entrenado se guarda en disco para su uso posterior.
+"""
+
 import numpy as np
 
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -12,6 +22,22 @@ from app.config import MODEL_FRAMES, MODEL_PATH
 
 
 def training_model(epochs=500):
+    """
+    Entrena un modelo LSTM de clasificación multiclase a partir de secuencias de keypoints.
+
+    Este pipeline realiza las siguientes etapas:
+    - Recupera los `word_ids` que tienen keypoints en la base.
+    - Obtiene y preprocesa las secuencias y etiquetas.
+    - Divide los datos en entrenamiento y validación.
+    - Entrena un modelo LSTM usando Keras.
+    - Guarda el modelo entrenado en el disco.
+
+    Args:
+        epochs (int, opcional): Número de épocas de entrenamiento (por defecto 500).
+
+    Returns:
+        None: Esta función no retorna nada. Guarda el modelo entrenado en la ruta definida.
+    """
     print("✅ ----- Obteniendo words ids")
     word_ids = fetch_word_ids_with_keypoints()
 
@@ -42,17 +68,6 @@ def training_model(epochs=500):
     print(model)
 
     print("✅ ----- Enrenando modelo")
-    model.fit(
-        X_train,
-        y_train,
-        validation_data=(X_val, y_val),
-        epochs=epochs,
-        batch_size=8,
-        callbacks=[early_stopping],
-    )
-    print(model)
-
-    # chekear si esta ok el modelo --------------------
     history = model.fit(
         X_train,
         y_train,
@@ -66,12 +81,8 @@ def training_model(epochs=500):
     print("Accuracy final:", history.history["accuracy"][-1])
     print("Val Accuracy final:", history.history["val_accuracy"][-1])
 
-    # chekear si esta ok el modelo --------------------
-
     print("✅ ----- Resumiendo modelo")
     model.summary()
-    print(model)
 
     print("✅ ----- Guardando modelo")
     model.save(MODEL_PATH)
-    print(model)
