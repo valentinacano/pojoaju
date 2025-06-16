@@ -1,10 +1,12 @@
 """
 Módulo de conexión a la base de datos PostgreSQL.
 
-Este módulo proporciona una función para establecer una conexión
-a la base de datos usando los parámetros definidos en la configuración
-del proyecto (`DB_CONFIG`).
+Este módulo proporciona una única función `get_connection()` que establece y retorna
+una conexión activa a la base de datos definida en la configuración global del proyecto (`DB_CONFIG`).
+
+Utiliza `psycopg2` como cliente de base de datos.
 """
+
 
 import psycopg2
 from app.config import DB_CONFIG

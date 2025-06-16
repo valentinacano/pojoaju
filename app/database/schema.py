@@ -1,3 +1,19 @@
+"""
+Creación de tablas para la base de datos PostgreSQL.
+
+Este módulo define las funciones necesarias para crear las tablas principales del sistema
+de reconocimiento de señas. Utiliza una función auxiliar `_execute_query` para ejecutar
+las sentencias SQL y asegurar la conexión y cierre adecuados.
+
+Tablas creadas:
+- `categories`: Agrupa las categorías de palabras (e.g. colores, animales).
+- `words`: Contiene las palabras registradas, asociadas a una categoría.
+- `samples`: Registra cada muestra capturada para una palabra.
+- `keypoints`: Almacena los vectores de keypoints por frame.
+
+La función `create_all_tables()` permite crear todo el esquema completo con una sola llamada.
+"""
+
 from app.database.connection import get_connection
 
 

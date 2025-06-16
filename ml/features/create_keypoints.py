@@ -1,10 +1,14 @@
 """
-Generación de keypoints para una palabra a partir de secuencias de imágenes.
+Generación de keypoints a partir de secuencias de imágenes para una palabra.
 
-Este módulo procesa carpetas de muestras (frames) correspondientes a una palabra específica,
-extrae los keypoints utilizando MediaPipe Holistic y los guarda directamente en una base
+Este módulo forma parte del pipeline de preprocesamiento y extracción de datos. 
+Procesa carpetas de muestras asociadas a una palabra específica, extrae los keypoints 
+utilizando MediaPipe Holistic y guarda los vectores generados directamente en la base 
 de datos PostgreSQL, utilizando la tabla `keypoints`.
+
+Se utiliza como etapa final después de la captura y normalización de muestras.
 """
+
 
 import os
 from mediapipe.python.solutions.holistic import Holistic
@@ -14,18 +18,19 @@ from app.database.database_utils import insert_keypoints
 
 def create_keypoints(word_name, words_path, word_id):
     """
-        Extrae keypoints desde secuencias de imágenes y los guarda en la base de datos.
+    Extrae keypoints desde secuencias de imágenes y los guarda en la base de datos.
 
-        Recorre todas las subcarpetas (muestras) asociadas a una palabra, extrae los keypoints
-    de cada frame usando MediaPipe Holistic, y guarda los resultados en la tabla `keypoints`.
+    Para cada subcarpeta encontrada dentro de la carpeta de palabra, esta función
+    recorre los frames, extrae los vectores de keypoints mediante MediaPipe Holistic,
+    y los inserta en la tabla `keypoints` de PostgreSQL.
 
-        Args:
-            word_name (str): Nombre descriptivo de la palabra (usado para impresión en consola).
-            words_path (str): Ruta raíz que contiene carpetas por palabra, cada una con subcarpetas de muestras.
-            word_id (int): Identificador numérico de la palabra en la base de datos (columna `word_id`).
+    Args:
+        word_name (str): Nombre descriptivo de la palabra (usado para impresión en consola).
+        words_path (str): Ruta raíz que contiene carpetas por palabra, cada una con subcarpetas de muestras.
+        word_id (int | bytes): Identificador único de la palabra en la base de datos (columna `word_id`).
 
-        Returns:
-            None: Esta función no retorna ningún valor. Inserta los datos directamente en la base de datos.
+    Returns:
+        None: Esta función no retorna ningún valor. Inserta los vectores directamente en la base de datos.
     """
     word_path = os.path.join(words_path, word_name)
 

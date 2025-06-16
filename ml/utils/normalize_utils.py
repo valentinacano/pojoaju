@@ -1,9 +1,11 @@
 """
-Funciones de utilidades para normalización de frames.
+Utilidades para la normalización de secuencias de imágenes (frames).
 
-Incluye lectura, interpolación, recorte y guardado de frames normalizados
-para que todas las muestras tengan la misma longitud.
+Este módulo permite unificar la longitud de las muestras de video utilizadas para
+entrenamiento, interpolando o recortando los frames para que todas tengan
+la misma cantidad definida por `MODEL_FRAMES`.
 """
+
 
 import os, cv2, shutil
 import numpy as np
@@ -34,15 +36,16 @@ def read_frames_from_directory(directory):
 
 def interpolate_frames(frames):
     """
-    Interpola una lista de frames para alcanzar una longitud fija.
+    Interpola una lista de frames para alcanzar `MODEL_FRAMES`.
 
-    Utiliza interpolación lineal con `cv2.addWeighted` entre pares de imágenes.
+    Genera nuevos frames mediante interpolación lineal entre los frames existentes
+    usando `cv2.addWeighted`. Es útil cuando hay menos frames que los necesarios.
 
     Args:
         frames (list[numpy.ndarray]): Lista de imágenes original.
 
     Returns:
-        list[numpy.ndarray]: Lista con los frames interpolados.
+        list[numpy.ndarray]: Lista con `MODEL_FRAMES` frames interpolados.
     """
     current = len(frames)
     if current == MODEL_FRAMES:
@@ -75,7 +78,7 @@ def normalize_frames(frames):
     """
     current = len(frames)
     if current < MODEL_FRAMES:
-        return interpolate_frames(frames, MODEL_FRAMES)
+        return interpolate_frames(frames)
     elif current > MODEL_FRAMES:
         step = current / MODEL_FRAMES
         indices = np.arange(0, current, step).astype(int)[:MODEL_FRAMES]

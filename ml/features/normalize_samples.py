@@ -1,10 +1,15 @@
 """
 Normalización de muestras desde un directorio de palabra.
 
-Este módulo recorre todas las carpetas de muestras dentro de una palabra, 
-lee los frames, los normaliza a una cantidad fija y guarda los resultados 
-en la misma carpeta, sobrescribiendo los archivos originales.
+Este módulo forma parte del pipeline de preprocesamiento. Recorre todas las subcarpetas 
+que representan muestras individuales dentro de una carpeta de palabra, lee los frames 
+de cada muestra, los normaliza a una cantidad fija mediante interpolación o recorte, 
+y sobrescribe los archivos originales con los frames procesados.
+
+Está diseñado para asegurar que todas las muestras tengan la misma longitud, 
+facilitando su uso en modelos de entrenamiento secuencial.
 """
+
 
 import os
 
@@ -28,7 +33,7 @@ def normalize_samples(root_path):
         root_path (str): Ruta a la carpeta que contiene las subcarpetas con muestras.
 
     Returns:
-        None: Esta función no retorna ningún valor. Modifica los archivos en disco.
+        None: Esta función no retorna ningún valor. Modifica las carpetas de muestras directamente en disco.
     """
 
     print(f"🧪 Entrando a normalize_samples con path: {root_path}")

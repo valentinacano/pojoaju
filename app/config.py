@@ -12,13 +12,32 @@ FRAME_ACTIONS_PATH = os.path.join(ROOT_PATH, "data/frame_actions")
 DATA_PATH = os.path.join(ROOT_PATH, "data")
 MODEL_FOLDER_PATH = os.path.join(ROOT_PATH, "data/models")
 MODEL_PATH = os.path.join(MODEL_FOLDER_PATH, f"actions_{MODEL_FRAMES}.keras")
-DB_CONFIG = {
+
+# DATABASE
+DB_PROD_CONFIG = {
     "dbname": "pojoaju",
     "user": "valentinacano",
-    "password": "",  # o ponerlo en un .env si preferís más seguridad
+    "password": "",
     "host": "localhost",
     "port": "5432",
 }
+
+DB_TEST_CONFIG = {
+    "dbname": "pojoaju_test",
+    "user": "valentinacano",
+    "password": "",
+    "host": "localhost",
+    "port": "5432",
+}
+
+# Determinar si estamos en entorno de test
+USE_TEST_DB = (
+    os.getenv("TESTING") == "1"
+    or "PYTEST_CURRENT_TEST" in os.environ
+    or any("pytest" in arg for arg in os.sys.argv)
+)
+
+DB_CONFIG = DB_TEST_CONFIG if USE_TEST_DB else DB_PROD_CONFIG
 
 
 # SHOW IMAGE PARAMETERS
