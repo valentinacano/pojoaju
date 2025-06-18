@@ -43,8 +43,7 @@ def initialize_database():
 
 
 if __name__ == "__main__":
-    # if os.environ.get("WERKZEUG_RUN_MAIN") != "true":
-    #    initialize_database()
+    # initialize_database()
     # app.run(debug=True)
 
     training_model()

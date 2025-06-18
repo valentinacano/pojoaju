@@ -8,3 +8,4 @@ Views (`app/view/`)
    :maxdepth: 2
    
    app
+   
