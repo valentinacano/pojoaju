@@ -9,7 +9,6 @@ Incluye también validaciones de errores comunes, redirecciones y comportamiento
 frente a rutas inexistentes.
 """
 
-
 import pytest
 from app.views.flask_gui import app
 

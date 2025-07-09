@@ -5,7 +5,6 @@ Este módulo permite dibujar landmarks (rostro, cuerpo y manos) sobre imágenes 
 secuencias de frames como archivos JPEG numerados para su posterior análisis o entrenamiento.
 """
 
-
 import os, cv2
 from mediapipe.python.solutions.holistic import (
     FACEMESH_CONTOURS,

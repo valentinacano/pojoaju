@@ -10,7 +10,6 @@ dependencias con la cámara real. También se verifica que los datos se inserten
 en la base de datos de pruebas.
 """
 
-
 import tempfile, pytest, cv2
 import numpy as np
 from unittest.mock import patch

@@ -8,7 +8,6 @@ como imágenes numeradas dentro de una carpeta con timestamp.
 Las pruebas se realizan sobre datos simulados y usan carpetas temporales.
 """
 
-
 import os
 import tempfile
 import numpy as np

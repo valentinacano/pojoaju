@@ -9,7 +9,6 @@ de datos PostgreSQL, utilizando la tabla `keypoints`.
 Se utiliza como etapa final después de la captura y normalización de muestras.
 """
 
-
 import os
 from mediapipe.python.solutions.holistic import Holistic
 from ml.utils.keypoints_utils import get_keypoints

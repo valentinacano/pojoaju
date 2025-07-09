@@ -10,7 +10,6 @@ Este módulo contiene funciones auxiliares para insertar, consultar y manejar da
 También incluye un ejecutor de queries `_execute_query()` para centralizar la ejecución SQL.
 """
 
-
 import json, hashlib
 
 from app.database.connection import get_connection

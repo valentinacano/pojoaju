@@ -6,7 +6,6 @@ entrenamiento, interpolando o recortando los frames para que todas tengan
 la misma cantidad definida por `MODEL_FRAMES`.
 """
 
-
 import os, cv2, shutil
 import numpy as np
 

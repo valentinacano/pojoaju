@@ -10,7 +10,6 @@ Las pruebas están diseñadas para ejecutarse sobre una base de datos aislada
 (`pojoaju_test`) y utilizan fixtures para garantizar un entorno limpio.
 """
 
-
 import hashlib, pytest, psycopg2
 import numpy as np
 

@@ -20,6 +20,9 @@ from app.database.database_utils import (
 )
 
 from ml.training.training_model import training_model
+from ml.features.pipelines import create_samples_from_video
+
+from app.config import ( FRAME_ACTIONS_PATH, VIDEO_EXPORT_PATH)
 
 
 def initialize_database():
@@ -46,4 +49,10 @@ if __name__ == "__main__":
     # initialize_database()
     # app.run(debug=True)
 
-    training_model()
+    # training_model()
+
+    create_samples_from_video(
+        word_name="papá",
+        video_path=VIDEO_EXPORT_PATH,
+        root_path=FRAME_ACTIONS_PATH
+    )
