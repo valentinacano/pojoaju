@@ -80,6 +80,7 @@ def capture(word_id, word):
     Página de captura para una palabra específica.
 
     Args:
+        word_id (str): ID de la palabra que se está capturando.
         word (str): Palabra que se está capturando.
 
     Returns:
@@ -122,15 +123,19 @@ def video_feed(word):
 @app.route("/training/upload_video/process/<word_id>/<word>", methods=["POST"])
 def process_uploaded_video(word_id, word):
     """
-    Procesa un video subido por el usuario y ejecuta el pipeline.
+    Procesa un video subido por el usuario y ejecuta el pipeline de captura.
+
+    Guarda el archivo de video con un nombre único (timestamp), lo procesa para
+    extraer muestras usando MediaPipe y luego redirige al procesamiento de keypoints.
 
     Args:
-        word_id (str): ID de la palabra.
-        word (str): Nombre de la palabra.
+        word_id (str): ID único de la palabra.
+        word (str): Nombre textual de la palabra.
 
     Returns:
-        str: Redirección o mensaje con resultado.
+        Response: Redirección a `save_samples` si se procesa exitosamente; de lo contrario, recarga el formulario.
     """
+
     file = request.files.get("video_file")
 
     if file and file.filename.lower().endswith((".mp4", ".mov", ".avi", ".mkv")):
@@ -185,15 +190,16 @@ def save_samples(word, word_id):
 @app.route("/training/upload_video/<word_id>/<word>")
 def upload_video(word_id, word):
     """
-    Página para subir un video de entrenamiento para una palabra específica.
+    Página para subir un archivo de video que será procesado como muestra de una palabra.
 
     Args:
-        word_id (str): ID de la palabra.
-        word (str): Nombre de la palabra.
+        word_id (str): ID de la palabra a la que pertenece el video.
+        word (str): Nombre textual de la palabra.
 
     Returns:
-        str: HTML con formulario de subida.
+        str: Render del formulario `upload_video.html` para cargar el archivo.
     """
+
     return render_template("upload_video.html", word_id=word_id, word=word)
 
 
@@ -294,13 +300,14 @@ def insert_word_form():
 @app.route("/training/dictionary/selector/<word_id>/<word>")
 def training_selector(word_id, word):
     """
-    Seleccionamos el tipo de entrenamiento: si es una grabación de video o si se sube un video existente.
+    Permite elegir el tipo de entrenamiento: en vivo desde cámara o con video cargado.
 
     Args:
-        word_id (str): ID de la palabra a entrenar.
+        word_id (str): ID de la palabra.
         word (str): Nombre de la palabra.
 
     Returns:
-        str: Render de la plantilla con la lista completa de palabras.
+        str: Render de la plantilla `training_selector.html` con opciones de captura.
     """
+
     return render_template("training_selector.html", word_id=word_id, word=word)

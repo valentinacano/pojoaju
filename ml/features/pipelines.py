@@ -115,19 +115,22 @@ def save_keypoints(word_name, word_id, root_path):
 
 def create_samples_from_video(word_name, root_path, video_path, debug_value=False):
     """
-    Inicia la captura de muestras para una palabra desde la cámara.
+    Inicia la captura de muestras para una palabra a partir de un archivo de video.
 
-    Crea la carpeta correspondiente y lanza el proceso de detección y captura usando MediaPipe Holistic.
-    En modo consola (`debug=True`), ejecuta el flujo completo internamente.
-    En modo Flask (`debug=False`), retorna un generador de imágenes codificadas JPEG para streaming.
+    Crea la carpeta correspondiente para la palabra, y ejecuta el proceso de detección
+    y captura de frames utilizando MediaPipe Holistic. Según el modo (`debug_value`),
+    puede ejecutarse como consola interactiva o retornar un generador para streaming Flask.
 
     Args:
-        word_name (str): Palabra que se desea grabar.
+        word_name (str): Nombre de la palabra que se desea capturar.
         root_path (str): Carpeta base donde se almacenarán las muestras por palabra.
-        debug_value (bool): Indica si se ejecuta en consola (`True`) o en servidor Flask (`False`).
+        video_path (str): Ruta al archivo de video que contiene la muestra.
+        debug_value (bool, optional): Si es True, se ejecuta en consola. Si es False, retorna generador. Default: False.
 
     Returns:
-        Generator[bytes] | None: En modo Flask, retorna un generador de imágenes JPEG para streaming. En modo consola, no retorna nada.
+        Generator[bytes] | None:
+            - Si `debug_value=False`: retorna un generador de imágenes JPEG codificadas (para streaming).
+            - Si `debug_value=True`: no retorna nada, ejecuta el flujo directamente.
     """
 
     word_path = os.path.join(root_path, word_name)
