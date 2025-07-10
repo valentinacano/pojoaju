@@ -10,7 +10,6 @@ Este módulo contiene funciones auxiliares para insertar, consultar y manejar da
 También incluye un ejecutor de queries `_execute_query()` para centralizar la ejecución SQL.
 """
 
-
 import json, hashlib
 
 from app.database.connection import get_connection
@@ -227,6 +226,25 @@ def search_word(word):
     """
     word_clean = clean_word(word)
     word_id = hashlib.sha256(word_clean.encode("utf-8")).digest()
+    query = """
+        SELECT w.word_id, w.word, c.category
+        FROM words w
+        JOIN categories c ON w.category_id = c.category_id
+        WHERE w.word_id = %s;
+    """
+    return _execute_query(query, (word_id,), fetch_one=True)
+
+
+def search_word_id(word_id):
+    """
+    Busca una palabra en la base de datos por su word_id (hash).
+
+    Args:
+        word_id (bytes): ID de la palabra.
+
+    Returns:
+        tuple | None: (word_id, word, category) o None si no se encuentra.
+    """
     query = """
         SELECT w.word_id, w.word, c.category
         FROM words w

@@ -8,6 +8,7 @@ MODEL_FRAMES = 15
 
 # PATHS
 ROOT_PATH = os.getcwd()
+VIDEO_EXPORT_PATH = os.path.join(ROOT_PATH, "data/video_exports")
 FRAME_ACTIONS_PATH = os.path.join(ROOT_PATH, "data/frame_actions")
 DATA_PATH = os.path.join(ROOT_PATH, "data")
 MODEL_FOLDER_PATH = os.path.join(ROOT_PATH, "data/models")

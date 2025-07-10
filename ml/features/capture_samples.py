@@ -9,7 +9,6 @@ Se puede usar en modo consola (visualización con OpenCV) o en modo servidor
 (transmisión de frames JPEG para streaming en Flask).
 """
 
-
 import os, cv2
 
 from datetime import datetime

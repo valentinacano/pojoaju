@@ -9,9 +9,9 @@ Este módulo permite:
 Es compatible tanto con ejecución en consola como desde una interfaz web Flask.
 """
 
-
 import os, re, shutil
 from ml.features.capture_samples import capture_samples_from_camera
+from ml.features.capture_samples_video import capture_samples_from_video
 from ml.features.normalize_samples import normalize_samples
 from ml.features.create_keypoints import get_keypoints
 from ml.utils.common_utils import create_folder
@@ -75,6 +75,7 @@ def save_keypoints(word_name, word_id, root_path):
             return
         try:
             word_id = bytes.fromhex(word_id)
+            print("Se convirtio correctamente a hexa el word id")
         except ValueError:
             print("❌ Error al convertir word_id de hex a bytes.")
             return
@@ -110,3 +111,39 @@ def save_keypoints(word_name, word_id, root_path):
         shutil.rmtree(full_path)
 
     print("\n✅ Proceso completado con éxito.")
+
+
+def create_samples_from_video(word_name, root_path, video_path, debug_value=False):
+    """
+    Inicia la captura de muestras para una palabra a partir de un archivo de video.
+
+    Crea la carpeta correspondiente para la palabra, y ejecuta el proceso de detección
+    y captura de frames utilizando MediaPipe Holistic. Según el modo (`debug_value`),
+    puede ejecutarse como consola interactiva o retornar un generador para streaming Flask.
+
+    Args:
+        word_name (str): Nombre de la palabra que se desea capturar.
+        root_path (str): Carpeta base donde se almacenarán las muestras por palabra.
+        video_path (str): Ruta al archivo de video que contiene la muestra.
+        debug_value (bool, optional): Si es True, se ejecuta en consola. Si es False, retorna generador. Default: False.
+
+    Returns:
+        Generator[bytes] | None:
+            - Si `debug_value=False`: retorna un generador de imágenes JPEG codificadas (para streaming).
+            - Si `debug_value=True`: no retorna nada, ejecuta el flujo directamente.
+    """
+
+    word_path = os.path.join(root_path, word_name)
+    create_folder(word_path)
+    print(f"\n📸 Iniciando captura para la palabra: {word_name}")
+    generator = capture_samples_from_video(
+        path=word_path, video_path=video_path, debug=debug_value
+    )
+
+    if debug_value:
+        # Modo consola: consume el generador internamente
+        for _ in generator:
+            pass
+    else:
+        # Modo servidor (Flask): retorna el generador para streaming
+        return generator

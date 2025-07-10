@@ -5,7 +5,6 @@ Este módulo permite transformar imágenes en vectores de keypoints, agrupar las
 por palabra y muestra, y estructurar los datos en formatos aptos para entrenamiento.
 """
 
-
 import os, cv2
 import numpy as np
 import pandas as pd

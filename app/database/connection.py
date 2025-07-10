@@ -7,7 +7,6 @@ una conexión activa a la base de datos definida en la configuración global del
 Utiliza `psycopg2` como cliente de base de datos.
 """
 
-
 import psycopg2
 from app.config import DB_CONFIG
 

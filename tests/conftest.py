@@ -6,7 +6,6 @@ resetear las tablas principales (`categories`, `words`, `samples`, `keypoints`)
 dejando la base en un estado limpio para pruebas controladas.
 """
 
-
 import pytest
 import psycopg2
 from app.config import DB_CONFIG

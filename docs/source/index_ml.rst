@@ -20,6 +20,7 @@ Features (`ml/features/`)
    :maxdepth: 2
 
    ml_features_capture_samples
+   ml_features_capture_samples_video
    ml_features_normalize_samples
    ml_features_create_keypoints
    ml_features_pipelines
