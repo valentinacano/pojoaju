@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Captura para "{{ word }}"</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f3f3f3;
+        }
+
+        h1 {
+            margin-top: 2rem;
+            color: #333;
+        }
+
+        video,
+        img {
+            border: 4px solid #333;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Subir video para la palabra: "{{ word }}"</h1>
+        <form action="{{ url_for('process_uploaded_video', word_id=word_id, word=word) }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="video_file" accept="video/*" required>
+            <button type="submit">Subir y procesar</button>
+        </form>
+    </div>
+</body>
+
+</html>

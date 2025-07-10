@@ -75,6 +75,7 @@ def save_keypoints(word_name, word_id, root_path):
             return
         try:
             word_id = bytes.fromhex(word_id)
+            print("Se convirtio correctamente a hexa el word id")
         except ValueError:
             print("❌ Error al convertir word_id de hex a bytes.")
             return
@@ -111,6 +112,7 @@ def save_keypoints(word_name, word_id, root_path):
 
     print("\n✅ Proceso completado con éxito.")
 
+
 def create_samples_from_video(word_name, root_path, video_path, debug_value=False):
     """
     Inicia la captura de muestras para una palabra desde la cámara.
@@ -127,12 +129,13 @@ def create_samples_from_video(word_name, root_path, video_path, debug_value=Fals
     Returns:
         Generator[bytes] | None: En modo Flask, retorna un generador de imágenes JPEG para streaming. En modo consola, no retorna nada.
     """
-    
+
     word_path = os.path.join(root_path, word_name)
-    video_path = os.path.join(video_path, f"{word_name}.mp4")
     create_folder(word_path)
     print(f"\n📸 Iniciando captura para la palabra: {word_name}")
-    generator = capture_samples_from_video(path=word_path, video_path=video_path, debug=debug_value)
+    generator = capture_samples_from_video(
+        path=word_path, video_path=video_path, debug=debug_value
+    )
 
     if debug_value:
         # Modo consola: consume el generador internamente
@@ -141,4 +144,3 @@ def create_samples_from_video(word_name, root_path, video_path, debug_value=Fals
     else:
         # Modo servidor (Flask): retorna el generador para streaming
         return generator
-

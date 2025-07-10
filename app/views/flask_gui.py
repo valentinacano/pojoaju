@@ -12,10 +12,12 @@ El flujo incluye integración con la base de datos PostgreSQL y visualización w
 mediante plantillas HTML.
 """
 
+import os
 
 from flask import Flask, render_template, Response, redirect, url_for, request
 from ml.features.pipelines import (
     create_samples_from_camera,
+    create_samples_from_video,
     save_keypoints,
 )
 from app.database.database_utils import (
@@ -23,8 +25,10 @@ from app.database.database_utils import (
     fetch_all_categories,
     insert_words,
 )
-from app.config import FRAME_ACTIONS_PATH
+from app.config import FRAME_ACTIONS_PATH, VIDEO_EXPORT_PATH
 from flask import flash
+from werkzeug.utils import secure_filename
+from datetime import datetime
 
 # -------- VARIABLES
 app = Flask(__name__)
@@ -115,6 +119,48 @@ def video_feed(word):
     )
 
 
+@app.route("/training/upload_video/process/<word_id>/<word>", methods=["POST"])
+def process_uploaded_video(word_id, word):
+    """
+    Procesa un video subido por el usuario y ejecuta el pipeline.
+
+    Args:
+        word_id (str): ID de la palabra.
+        word (str): Nombre de la palabra.
+
+    Returns:
+        str: Redirección o mensaje con resultado.
+    """
+    file = request.files.get("video_file")
+
+    if file and file.filename.lower().endswith((".mp4", ".mov", ".avi", ".mkv")):
+        filename = secure_filename(file.filename)
+
+        # Agrega timestamp al nombre del archivo
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        name, ext = os.path.splitext(filename)
+        filename_timestamped = f"{name}_{timestamp}{ext}"
+
+        # Guarda el archivo en una carpeta específica por palabra
+        word_folder = os.path.join(VIDEO_EXPORT_PATH, word)
+        os.makedirs(word_folder, exist_ok=True)
+        video_path = os.path.join(word_folder, filename_timestamped)
+        file.save(video_path)
+
+        # Ejecuta el pipeline con el video subido
+        create_samples_from_video(
+            word_name=word,
+            video_path=video_path,
+            root_path=FRAME_ACTIONS_PATH,
+            debug_value=False,
+        )
+
+        if word and word_id:
+            return redirect(url_for("save_samples", word=word, word_id=word_id))
+
+    return redirect(url_for("upload_video", word_id=word_id, word=word))
+
+
 @app.route("/save_samples/<word>/<word_id>")
 def save_samples(word, word_id):
     """
@@ -134,6 +180,21 @@ def save_samples(word, word_id):
     """
     save_keypoints(word, word_id, FRAME_ACTIONS_PATH)
     return render_template("save_samples.html", word=word, word_id=word_id)
+
+
+@app.route("/training/upload_video/<word_id>/<word>")
+def upload_video(word_id, word):
+    """
+    Página para subir un video de entrenamiento para una palabra específica.
+
+    Args:
+        word_id (str): ID de la palabra.
+        word (str): Nombre de la palabra.
+
+    Returns:
+        str: HTML con formulario de subida.
+    """
+    return render_template("upload_video.html", word_id=word_id, word=word)
 
 
 # -------- DICCIONARIO
@@ -228,3 +289,18 @@ def insert_word_form():
     # GET: mostrar formulario
     categories = fetch_all_categories()
     return render_template("insert_word_form.html", categories=categories)
+
+
+@app.route("/training/dictionary/selector/<word_id>/<word>")
+def training_selector(word_id, word):
+    """
+    Seleccionamos el tipo de entrenamiento: si es una grabación de video o si se sube un video existente.
+
+    Args:
+        word_id (str): ID de la palabra a entrenar.
+        word (str): Nombre de la palabra.
+
+    Returns:
+        str: Render de la plantilla con la lista completa de palabras.
+    """
+    return render_template("training_selector.html", word_id=word_id, word=word)
