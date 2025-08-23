@@ -6,6 +6,20 @@ Este changelog sigue una variante simplificada de [Keep a Changelog](https://kee
 
 ---
 
+## [0.2.0] - 2025-08-23
+
+### Agregado
+- agregar boton de atras al moduclo de traning selector
+
+
+### Cambios
+- Se corrigió el boton de captura de muestras por Finalizar Captura. Estaba como finalizar entrenamiento.
+- cambio de iconos en la UI de subir videos y grabar videos
+- modificar el UI de capturar muestra segun lineamientos esteticos del codigo.
+- modificar el UI de subir video segun lineamientos esteticos del codigo.
+
+---
+
 ## [0.2.0] - 2025-07-09
 
 ### Agregado
