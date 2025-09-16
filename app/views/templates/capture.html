@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +17,8 @@
         <a href="{{ url_for('training_selector', word_id=word_id, word=word) }}" class="btn btn-light back-button">
             <img src="{{ url_for('static', filename='img/BackButton.svg') }}" alt="Back" class="back-arrow">
         </a>
-        <button class="icon-primary-button flex items-center gap-2 text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+        <button
+            class="icon-primary-button flex items-center gap-2 text-white bg-indigo-500 px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
             <img src="{{ url_for('static', filename='img/InfoWhite.svg') }}" alt="Help" class="help-icon w-5 h-5">
             <span>Ayuda</span>
         </button>
@@ -39,4 +41,5 @@
     </div>
 
 </body>
+
 </html>

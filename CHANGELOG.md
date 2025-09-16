@@ -10,6 +10,10 @@ Este changelog sigue una variante simplificada de [Keep a Changelog](https://kee
 
 ### Agregado
 - agregar boton de atras al moduclo de traning selector
+- Agregar boton de atras a los moduclos de subir video y tomar muestras.
+- Agregar los iconos en diccionarios que faltaban
+- Arreglar pantalla de capture Html - video muy pequeno
+- Agregar estilos de boton a capture html
 
 
 ### Cambios

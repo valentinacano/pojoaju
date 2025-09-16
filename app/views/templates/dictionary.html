@@ -40,8 +40,8 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <!-- Total Customers -->
             <div class="bg-white rounded-xl p-6 flex items-center shadow-sm">
-                <div class="bg-green-50 w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                    <i class="fas fa-users text-green-500"></i>
+                <div class="bg-indigo-50 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                    <img src="{{ url_for('static', filename='img/BookOpenText.svg') }}" alt="Back" class="back-arrow">
                 </div>
                 <div>
                     <div class="text-gray-500 text text-lg">Total Palabras</div>
@@ -57,7 +57,7 @@
             <!-- Members -->
             <div class="bg-white rounded-xl p-6 flex items-center shadow-sm">
                 <div class="bg-green-50 w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                    <i class="fas fa-user text-green-500"></i>
+                    <img src="{{ url_for('static', filename='img/CheckCircle.svg') }}" alt="Back" class="back-arrow">
                 </div>
                 <div>
                     <div class="text-gray-500 text-md">Palabras Entrenadas</div>
@@ -72,8 +72,8 @@
 
             <!-- Active Now -->
             <div class="bg-white rounded-xl p-6 flex items-center shadow-sm">
-                <div class="bg-green-50 w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                    <i class="fas fa-desktop text-green-500"></i>
+                <div class="bg-red-50 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                    <img src="{{ url_for('static', filename='img/XCircle.svg') }}" alt="Back" class="back-arrow">
                 </div>
                 <div>
                     <div class="text-gray-500 text-md">Palabras sin Entrenar</div>
@@ -130,7 +130,7 @@
                             <td class="py-3 px-4">
                                 <a href="/training/dictionary/selector/{{ word_id.hex() }}/{{ word }}">
                                     <button class="text-blue-500">Tomar Muestras</button>
-                                </a>                                
+                                </a>
                             </td>
                         </tr>
                         {% endfor %}
