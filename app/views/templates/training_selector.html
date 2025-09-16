@@ -10,7 +10,16 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Pojoaju</title>
 </head>
-
+<nav>
+    <!--back button-->
+    <a href="{{ url_for('dictionary') }}" class="btn btn-light back-button">
+        <img src="{{ url_for('static', filename='img/BackButton.svg') }}" alt="Back" class="back-arrow">
+    </a>
+    <button class="icon-primary-button">
+        <img src="{{ url_for('static', filename='img/InfoWhite.svg') }}" alt="Help" class="help-icon">
+        <span>Ayuda</span>
+    </button>
+</nav>
 <body>
     <div class="container mt-5 pt-4">
         <div class="d-flex mt-5 flex-column">
@@ -20,12 +29,12 @@
 
         <div class="d-flex flex-nowrap gap-4 row justify-content-center mt-5">
             <a class="col-md-3 box-action-menu" href="/training/capture/{{ word_id }}/{{ word }}">
-                <img src="{{ url_for('static', filename='img/GameController.svg') }}" alt="Logo Pojoaju"
+                <img src="{{ url_for('static', filename='img/VideoCamera.svg') }}" alt="Logo Pojoaju"
                     class="mx-auto">
                 <h2 class="text-center header-bold mt-3">Grabar Video</h2>
             </a>
             <a class="col-md-3 box-action-menu" href="/training/upload_video/{{ word_id }}/{{ word }}">
-                <img src="{{ url_for('static', filename='img/UploadIcon.svg') }}" alt="Subir Video" class="mx-auto">
+                <img src="{{ url_for('static', filename='img/CloudArrowUp.svg') }}" alt="Subir Video" class="mx-auto">
                 <h2 class="text-center header-bold mt-3">Subir Video</h2>
             </a>
         </div>

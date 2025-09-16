@@ -3,36 +3,68 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Captura para "{{ word }}"</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f3f3f3;
-        }
-
-        h1 {
-            margin-top: 2rem;
-            color: #333;
-        }
-
-        video,
-        img {
-            border: 4px solid #333;
-            border-radius: 12px;
-            margin-top: 2rem;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir video para "{{ word }}"</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
-<body>
-    <div class="container">
-        <h1>Subir video para la palabra: "{{ word }}"</h1>
-        <form action="{{ url_for('process_uploaded_video', word_id=word_id, word=word) }}" method="post" enctype="multipart/form-data">
-            <input type="file" name="video_file" accept="video/*" required>
-            <button type="submit">Subir y procesar</button>
+<body class="bg-gray-50 h-screen">
+
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center px-6 py-4">
+        <a href="{{ url_for('training_selector', word_id=word_id, word=word) }}" class="btn btn-light back-button">
+            <img src="{{ url_for('static', filename='img/BackButton.svg') }}" alt="Volver" class="back-arrow">
+        </a>
+        <button class="icon-primary-button flex items-center gap-2 text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+            <img src="{{ url_for('static', filename='img/InfoWhite.svg') }}" alt="Ayuda" class="help-icon w-5 h-5">
+            <span>Ayuda</span>
+        </button>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="flex flex-col justify-center items-center h-[calc(100vh-80px)] px-4 text-center mt-5">
+        <h1 class="text-3xl md:text-4xl font-bold mb-6">Subir video para la palabra: "{{ word }}"</h1>
+
+        <form action="{{ url_for('process_uploaded_video', word_id=word_id, word=word) }}"
+              method="post" enctype="multipart/form-data"
+              class="flex flex-col items-center gap-6 w-full max-w-md">
+
+            <!-- Input de archivo estilizado -->
+            <label class="flex flex-col items-center justify-center w-full h-48 px-4 transition bg-white border-2 border-dashed rounded-xl cursor-pointer hover:bg-indigo-50 border-indigo-300 text-indigo-600">
+                <input type="file" name="video_file" id="video_file" accept="video/*" required class="sr-only" />
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mb-3" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M7 16V4m0 0l-4 4m4-4l4 4m4 4v8m0 0l4-4m-4 4l-4-4" />
+                </svg>
+                <span class="text-sm font-medium" id="fileLabel">Elegí un archivo de video</span>
+            </label>
+
+            <!-- Botón de envío -->
+            <button type="submit"
+                    class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:bg-indigo-700 hover:scale-105 transition-all duration-300 ease-in-out">
+                Subir y procesar
+            </button>
         </form>
     </div>
+
+    <!-- Script: muestra nombre del archivo -->
+    <script>
+        const input = document.getElementById("video_file");
+        const label = document.getElementById("fileLabel");
+
+        input.addEventListener("change", function () {
+            if (input.files.length > 0) {
+                label.textContent = input.files[0].name;
+            }
+        });
+    </script>
+
 </body>
 
 </html>
+
+
