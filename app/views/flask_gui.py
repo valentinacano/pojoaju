@@ -19,6 +19,7 @@ from ml.features.pipelines import (
     create_samples_from_camera,
     create_samples_from_video,
     save_keypoints,
+    predict_model_from_camera_stream,
     train_model as run_training_pipeline,
 )
 from app.database.database_utils import (
@@ -332,3 +333,17 @@ def train_model():
     except Exception as e:
         return jsonify(success=False, output="", error=str(e))
 
+
+@app.route("/translate", methods=["GET"])
+def translate_page():
+    # Renderiza la página HTML donde se mostrará el video
+    return render_template("translate.html")
+
+
+@app.route("/video_feed_prediction")
+def video_feed_prediction():
+    # Genera el streaming de frames desde la cámara con predicciones
+    return Response(
+        predict_model_from_camera_stream(),
+        mimetype="multipart/x-mixed-replace; boundary=frame",
+    )

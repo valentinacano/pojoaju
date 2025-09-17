@@ -120,3 +120,80 @@ def predict_model_from_camera(threshold=0.8):
 
 if __name__ == "__main__":
     predict_model_from_camera()
+
+
+# import cv2
+# import numpy as np
+# from mediapipe.python.solutions.holistic import Holistic
+# from keras.models import load_model
+# from ml.utils.keypoints_utils import mediapipe_detection, extract_keypoints
+# from ml.utils.capture_utils import draw_keypoints
+# from app.config import MODEL_PATH, MODEL_FRAMES
+
+
+def predict_model_from_camera_stream(threshold=0.8):
+    kp_seq, sentence = [], []
+    model = load_model(MODEL_PATH)
+    cooldown_counter = 0
+    recording = False
+
+    with Holistic() as holistic:
+        cap = cv2.VideoCapture(2)
+
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            results = mediapipe_detection(frame, holistic)
+
+            # --- detección y predicción ---
+            if results:
+                kp_seq.append(extract_keypoints(results))
+                recording = True
+            elif recording:
+                if len(kp_seq) >= 10 and cooldown_counter == 0:
+                    # Normalización
+                    normalized = kp_seq[:MODEL_FRAMES]  # simplificado
+                    res = model.predict(np.expand_dims(normalized, axis=0))[0]
+
+                    max_idx = np.argmax(res)
+                    conf = res[max_idx]
+                    predicted_word = f"Palabra {max_idx}"
+
+                    if conf > threshold:
+                        label = f"{predicted_word} ({conf*100:.2f}%) ✔️"
+                    else:
+                        label = f"{predicted_word} ({conf*100:.2f}%) ❌"
+
+                    sentence.insert(0, label)
+                    cooldown_counter = 15
+
+                recording = False
+                kp_seq = []
+
+            if cooldown_counter > 0:
+                cooldown_counter -= 1
+
+            # --- overlay en el frame ---
+            cv2.rectangle(frame, (0, 0), (640, 35), (245, 117, 16), -1)
+            cv2.putText(
+                frame,
+                " | ".join(sentence[:3]),
+                (10, 30),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.8,
+                (255, 255, 255),
+                2,
+            )
+
+            draw_keypoints(frame, results)
+
+            # --- encode frame ---
+            _, buffer = cv2.imencode(".jpg", frame)
+            frame = buffer.tobytes()
+
+            yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
+
+        cap.release()
+
