@@ -14,11 +14,12 @@ mediante plantillas HTML.
 
 import os
 
-from flask import Flask, render_template, Response, redirect, url_for, request
+from flask import Flask, render_template, Response, redirect, url_for, request, jsonify
 from ml.features.pipelines import (
     create_samples_from_camera,
     create_samples_from_video,
     save_keypoints,
+    train_model as run_training_pipeline,
 )
 from app.database.database_utils import (
     fetch_all_words,
@@ -29,6 +30,7 @@ from app.config import FRAME_ACTIONS_PATH, VIDEO_EXPORT_PATH
 from flask import flash
 from werkzeug.utils import secure_filename
 from datetime import datetime
+import subprocess
 
 # -------- VARIABLES
 app = Flask(__name__)
@@ -311,3 +313,20 @@ def training_selector(word_id, word):
     """
 
     return render_template("training_selector.html", word_id=word_id, word=word)
+
+
+@app.route("/train_model_page")
+def train_model_page():
+    return render_template("train_model.html")
+
+
+# Ruta para ejecutar la función de entrenamiento del modelo
+@app.route("/train_model", methods=["POST"])
+def train_model():
+    try:
+        # Llama directamente a la función de tu pipeline
+        output_message = run_training_pipeline()
+        return jsonify(success=True, output=output_message, error="")
+    except Exception as e:
+        # Manejo general de errores si la función falla
+        return jsonify(success=False, output="Falla en el entrenamiento", error=str(e))

@@ -27,9 +27,14 @@
             <h1 class="text-center header-bold mt-3">Módulo de Entrenamiento</h1>
         </div>
 
+
         <div class="d-flex flex-nowrap gap-4 row justify-content-center mt-5">
+            <a href="{{ url_for('train_model_page') }}" class="col-md-3 box-action-menu">
+                <img src="{{ url_for('static', filename='img/RobotTraining.svg') }}" alt="Logo Pojoaju" class="mx-auto">
+                <h2 class="text-center header-bold mt-3">Entrenar Modelo</h2>
+            </a>
             <a href="{{ url_for('dictionary') }}" class="col-md-3 box-action-menu">
-               <img src="{{ url_for('static', filename='img/Notebook.svg') }}" alt="Logo Pojoaju" class="mx-auto">
+                <img src="{{ url_for('static', filename='img/Notebook.svg') }}" alt="Logo Pojoaju" class="mx-auto">
                 <h2 class="text-center header-bold mt-3">Ver Diccionario</h2>
             </a>
         </div>
