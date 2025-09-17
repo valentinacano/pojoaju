@@ -155,5 +155,4 @@ def train_model():
     """
     Llama a la función principal de entrenamiento y devuelve un mensaje de confirmación.
     """
-    training_model()
-    return "Entrenamiento finalizado"
+    return training_model()

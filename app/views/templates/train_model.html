@@ -22,7 +22,7 @@
             padding: 25px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 80%;
+            width: 90%;
             max-width: 700px;
         }
 
@@ -55,7 +55,6 @@
             height: 40px;
             animation: spin 1s linear infinite;
             display: none;
-            /* Inicialmente oculto */
             margin: 20px auto;
         }
 
@@ -70,27 +69,51 @@
         }
 
         #results {
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            padding: 15px;
             margin-top: 20px;
-            border-radius: 4px;
-            white-space: pre-wrap;
-            /* Mantiene los saltos de línea */
-            font-family: 'Courier New', Courier, monospace;
-            color: #555;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .hidden {
             display: none;
         }
 
-        .progress-title {
+        .metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .metric-card {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 6px;
             text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .metric-card h3 {
+            margin: 0;
+            font-size: 14px;
             color: #666;
-            margin-top: 15px;
+        }
+
+        .metric-card p {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 5px 0 0;
+        }
+
+        .green {
+            color: #27ae60;
+        }
+
+        .red {
+            color: #c0392b;
+        }
+
+        .blue {
+            color: #2980b9;
+        }
+
+        .orange {
+            color: #e67e22;
         }
     </style>
 </head>
@@ -98,13 +121,13 @@
 <body>
     <div class="container">
         <h1>Entrenamiento del Modelo de Lenguaje de Señas</h1>
-        <p>Presiona el botón para iniciar el proceso de entrenamiento del modelo. Esto puede tomar varios minutos.</p>
+        <p>Presioná el botón para iniciar el entrenamiento. Puede tomar unos minutos.</p>
         <button id="trainButton">Iniciar Entrenamiento</button>
 
         <div id="loadingIndicator" class="loader"></div>
-        <p id="progressMessage" class="progress-title hidden">El entrenamiento está en curso, por favor espera...</p>
+        <p id="progressMessage" class="progress-title hidden">El entrenamiento está en curso...</p>
 
-        <div id="results" class="hidden"></div>
+        <div id="results"></div>
     </div>
 
     <script>
@@ -114,43 +137,63 @@
             const progressMessage = document.getElementById('progressMessage');
             const resultsDiv = document.getElementById('results');
 
-            // 1. Ocultar botón y mostrar loader
             trainButton.disabled = true;
             trainButton.textContent = 'Entrenando...';
             loadingIndicator.style.display = 'block';
-            progressMessage.classList.remove('hidden');
-            resultsDiv.classList.add('hidden');
-            resultsDiv.textContent = ''; // Limpiar resultados anteriores
+            progressMessage.style.display = 'block';
+            resultsDiv.style.display = 'none';
+            resultsDiv.innerHTML = '';
 
-            // 2. Realizar la petición a Flask
             fetch('/train_model', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                headers: { 'Content-Type': 'application/json' }
             })
                 .then(response => response.json())
                 .then(data => {
-                    // 3. Manejar la respuesta del servidor
                     if (data.success) {
-                        resultsDiv.textContent = data.output;
+                        const r = data.output;
+                        resultsDiv.innerHTML = `
+              <h2>📊 Resultados del Entrenamiento</h2>
+              <div class="metrics">
+                <div class="metric-card">
+                  <h3>Accuracy</h3>
+                  <p class="green">${r.accuracy}</p>
+                </div>
+                <div class="metric-card">
+                  <h3>Val Accuracy</h3>
+                  <p class="blue">${r.val_accuracy}</p>
+                </div>
+                <div class="metric-card">
+                  <h3>Loss</h3>
+                  <p class="red">${r.loss}</p>
+                </div>
+                <div class="metric-card">
+                  <h3>Val Loss</h3>
+                  <p class="orange">${r.val_loss}</p>
+                </div>
+                <div class="metric-card">
+                  <h3>Parámetros Totales</h3>
+                  <p>${r.params}</p>
+                </div>
+                <div class="metric-card">
+                  <h3>Capas del Modelo</h3>
+                  <p>${r.layers}</p>
+                </div>
+              </div>
+            `;
                     } else {
-                        resultsDiv.textContent = 'Ocurrió un error:\n' + data.error + '\n\nSalida del proceso:\n' + data.output;
-                        console.error('Error del servidor:', data.error);
+                        resultsDiv.innerHTML = `<p style="color:red;">❌ Error: ${data.error}</p>`;
                     }
                 })
                 .catch(error => {
-                    // Manejo de errores de red
-                    resultsDiv.textContent = 'Error de conexión: No se pudo contactar al servidor. ' + error;
-                    console.error('Error de conexión:', error);
+                    resultsDiv.innerHTML = `<p style="color:red;">Error de conexión: ${error}</p>`;
                 })
                 .finally(() => {
-                    // 4. Ocultar loader y mostrar resultados
                     loadingIndicator.style.display = 'none';
-                    progressMessage.classList.add('hidden');
+                    progressMessage.style.display = 'none';
                     trainButton.disabled = false;
                     trainButton.textContent = 'Iniciar Entrenamiento';
-                    resultsDiv.classList.remove('hidden');
+                    resultsDiv.style.display = 'block';
                 });
         });
     </script>
