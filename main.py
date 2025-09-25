@@ -21,6 +21,7 @@ from app.database.database_utils import (
 
 from ml.training.training_model import training_model
 from ml.features.pipelines import create_samples_from_video
+from ml.prediction.predict_model_from_camera import predict_model_from_camera
 
 from app.config import FRAME_ACTIONS_PATH, VIDEO_EXPORT_PATH
 
@@ -46,11 +47,11 @@ def initialize_database():
 
 
 if __name__ == "__main__":
-    # initialize_database()
+    initialize_database()
     app.run(debug=True)
 
-    # training_model()
-
+    #    training_model()
+    # predict_model_from_camera()
 # create_samples_from_video(
 #    word_name="papá",
 #    video_path=VIDEO_EXPORT_PATH,

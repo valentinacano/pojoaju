@@ -1,11 +1,7 @@
 """
 Entrenamiento del modelo de reconocimiento de lenguaje de señas.
 
-Este módulo recupera los datos de entrenamiento desde la base de datos,
-preprocesa las secuencias de keypoints y entrena un modelo de clasificación
-usando una arquitectura LSTM.
-
-El modelo entrenado se guarda en disco para su uso posterior.
+... (resto del código) ...
 """
 
 import numpy as np
@@ -22,29 +18,18 @@ from app.config import MODEL_FRAMES, MODEL_PATH
 
 
 def training_model(epochs=500):
-    """
-    Entrena un modelo LSTM de clasificación multiclase a partir de secuencias de keypoints.
-
-    Este pipeline realiza las siguientes etapas:
-    - Recupera los `word_ids` que tienen keypoints en la base.
-    - Obtiene y preprocesa las secuencias y etiquetas.
-    - Divide los datos en entrenamiento y validación.
-    - Entrena un modelo LSTM usando Keras.
-    - Guarda el modelo entrenado en el disco.
-
-    Args:
-        epochs (int, opcional): Número de épocas de entrenamiento (por defecto 500).
-
-    Returns:
-        None: Esta función no retorna nada. Guarda el modelo entrenado en la ruta definida.
-    """
     print("✅ ----- Obteniendo words ids")
     word_ids = fetch_word_ids_with_keypoints()
+    print("IDs de palabras con keypoints:", word_ids)
 
-    print("✅ ----- obteniendio secuencias y etiquetas")
+    print("✅ ----- obteniendo secuencias y etiquetas")
     sequences, labels = get_sequences_and_labels(word_ids)
-    print(labels)
 
+    if not sequences:
+        print("❌ Error: No se encontraron secuencias de keypoints.")
+        return {"error": "No hay datos para entrenar"}
+
+    # --- Preprocesamiento ---
     sequences = pad_sequences(
         sequences,
         maxlen=int(MODEL_FRAMES),
@@ -52,13 +37,10 @@ def training_model(epochs=500):
         truncating="post",
         dtype="float16",
     )
-
     X = np.array(sequences)
     y = to_categorical(labels).astype(int)
 
-    early_stopping = EarlyStopping(
-        monitor="accuracy", patience=10, restore_best_weights=True
-    )
+    # --- Split ---
     X_train, X_val, y_train, y_val = train_test_split(
         X, y, test_size=0.05, random_state=42
     )
@@ -67,22 +49,38 @@ def training_model(epochs=500):
     model = get_model(len(word_ids))
     print(model)
 
-    print("✅ ----- Enrenando modelo")
+    print("✅ ----- Entrenando modelo")
     history = model.fit(
         X_train,
         y_train,
         validation_data=(X_val, y_val),
         epochs=epochs,
         batch_size=8,
-        callbacks=[early_stopping],
+        verbose=2,
     )
 
+    # Guardamos métricas
+    final_acc = float(history.history["accuracy"][-1])
+    final_val_acc = float(history.history["val_accuracy"][-1])
+    final_loss = float(history.history["loss"][-1])
+    final_val_loss = float(history.history["val_loss"][-1])
+
     print("Historial de entrenamiento:")
-    print("Accuracy final:", history.history["accuracy"][-1])
-    print("Val Accuracy final:", history.history["val_accuracy"][-1])
+    print("Accuracy final:", final_acc)
+    print("Val Accuracy final:", final_val_acc)
 
     print("✅ ----- Resumiendo modelo")
     model.summary()
 
     print("✅ ----- Guardando modelo")
     model.save(MODEL_PATH)
+
+    # 👇 Retornamos un diccionario solo con lo útil para el HTML
+    return {
+        "accuracy": round(final_acc, 4),
+        "val_accuracy": round(final_val_acc, 4),
+        "loss": round(final_loss, 4),
+        "val_loss": round(final_val_loss, 4),
+        "params": model.count_params(),  # total parámetros entrenables
+        "layers": len(model.layers),  # cantidad de capas
+    }

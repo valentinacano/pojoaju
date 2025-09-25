@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenamiento del Modelo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 700px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #results {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .metric-card {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .metric-card h3 {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .metric-card p {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 5px 0 0;
+        }
+
+        .green {
+            color: #27ae60;
+        }
+
+        .red {
+            color: #c0392b;
+        }
+
+        .blue {
+            color: #2980b9;
+        }
+
+        .orange {
+            color: #e67e22;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Entrenamiento del Modelo de Lenguaje de Señas</h1>
+        <p>Presioná el botón para iniciar el entrenamiento. Puede tomar unos minutos.</p>
+        <button id="trainButton">Iniciar Entrenamiento</button>
+
+        <div id="loadingIndicator" class="loader"></div>
+        <p id="progressMessage" class="progress-title hidden">El entrenamiento está en curso...</p>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        document.getElementById('trainButton').addEventListener('click', function () {
+            const trainButton = document.getElementById('trainButton');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const progressMessage = document.getElementById('progressMessage');
+            const resultsDiv = document.getElementById('results');
+
+            trainButton.disabled = true;
+            trainButton.textContent = 'Entrenando...';
+            loadingIndicator.style.display = 'block';
+            progressMessage.style.display = 'block';
+            resultsDiv.style.display = 'none';
+            resultsDiv.innerHTML = '';
+
+            fetch('/train_model', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const r = data.output;
+                        resultsDiv.innerHTML = `
+              <h2>📊 Resultados del Entrenamiento</h2>
+              <div class="metrics">
+                <div class="metric-card">
+                  <h3>Accuracy</h3>
+                  <p class="green">${r.accuracy}</p>
+                </div>
+                <div class="metric-card">
+                  <h3>Val Accuracy</h3>
+                  <p class="blue">${r.val_accuracy}</p>
+                </div>
+                <div class="metric-card">
+                  <h3>Loss</h3>
+                  <p class="red">${r.loss}</p>
+                </div>
+                <div class="metric-card">
+                  <h3>Val Loss</h3>
+                  <p class="orange">${r.val_loss}</p>
+                </div>
+                <div class="metric-card">
+                  <h3>Parámetros Totales</h3>
+                  <p>${r.params}</p>
+                </div>
+                <div class="metric-card">
+                  <h3>Capas del Modelo</h3>
+                  <p>${r.layers}</p>
+                </div>
+              </div>
+            `;
+                    } else {
+                        resultsDiv.innerHTML = `<p style="color:red;">❌ Error: ${data.error}</p>`;
+                    }
+                })
+                .catch(error => {
+                    resultsDiv.innerHTML = `<p style="color:red;">Error de conexión: ${error}</p>`;
+                })
+                .finally(() => {
+                    loadingIndicator.style.display = 'none';
+                    progressMessage.style.display = 'none';
+                    trainButton.disabled = false;
+                    trainButton.textContent = 'Iniciar Entrenamiento';
+                    resultsDiv.style.display = 'block';
+                });
+        });
+    </script>
+</body>
+
+</html>

@@ -15,6 +15,8 @@ from ml.features.capture_samples_video import capture_samples_from_video
 from ml.features.normalize_samples import normalize_samples
 from ml.features.create_keypoints import get_keypoints
 from ml.utils.common_utils import create_folder
+from ml.training.training_model import training_model
+from ml.prediction.predict_model_from_camera import predict_model_from_camera_stream
 from app.database.database_utils import (
     insert_sample,
     insert_keypoints,
@@ -147,3 +149,16 @@ def create_samples_from_video(word_name, root_path, video_path, debug_value=Fals
     else:
         # Modo servidor (Flask): retorna el generador para streaming
         return generator
+
+
+# La nueva función que será llamada desde Flask y ejecutará training_model
+def train_model():
+    """
+    Llama a la función principal de entrenamiento y devuelve un mensaje de confirmación.
+    """
+    return training_model()
+
+
+def predict_model():
+
+    return predict_model_from_camera_stream()
