@@ -223,9 +223,6 @@ def predict_model_from_camera_stream(threshold=0.8):
             _, buffer = cv2.imencode(".jpg", frame)
             frame = buffer.tobytes()
 
-            yield (
-                b"--frame\r\n"
-                b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n"
-            )
+            yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
 
         cap.release()

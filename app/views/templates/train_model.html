@@ -5,25 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrenamiento del Modelo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-            flex-direction: column;
-            padding: 20px;
-        }
-
         .container {
             background-color: #fff;
             padding: 25px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 90%;
+            display: flex;
             max-width: 700px;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
         }
 
         h1 {
@@ -31,21 +27,6 @@
             text-align: center;
         }
 
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
 
         .loader {
             border: 5px solid #f3f3f3;
@@ -115,21 +96,48 @@
         .orange {
             color: #e67e22;
         }
+
+        .pre-container {
+            height: 80vh;
+            display: flex;
+            width: 100vw;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
     </style>
 </head>
 
+<nav>
+    <a href="{{ url_for('training') }}" class="btn btn-light back-button">
+        <img src="{{ url_for('static', filename='img/BackButton.svg') }}" alt="Back" class="back-arrow">
+    </a>
+    <button class="icon-primary-button">
+        <img src="{{ url_for('static', filename='img/InfoWhite.svg') }}" alt="Help" class="help-icon">
+        <span>Ayuda</span>
+    </button>
+</nav>
+
 <body>
-    <div class="container">
-        <h1>Entrenamiento del Modelo de Lenguaje de Señas</h1>
-        <p>Presioná el botón para iniciar el entrenamiento. Puede tomar unos minutos.</p>
-        <button id="trainButton">Iniciar Entrenamiento</button>
+    <div class="pre-container">
+        <div class="container d-flex justify-center items-center">
+            <img src="{{ url_for('static', filename='img/TrainingModel.svg') }}" alt="Help" class="help-icon px-20">
+            <h1>Entrenamiento del Modelo de Lenguaje de Señas</h1>
+            <p>Presioná el botón para iniciar el entrenamiento. Puede tomar unos minutos.</p>
 
-        <div id="loadingIndicator" class="loader"></div>
-        <p id="progressMessage" class="progress-title hidden">El entrenamiento está en curso...</p>
+            <button class="flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-semibold text-white bg-indigo-500 hover:bg-indigo-600 
+                shadow-indigo-400 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out
+                ring-2 ring-indigo-300 ring-offset-2 ring-offset-indigo-100" id="trainButton">
+                <span class="text-white text-xl">✓</span>
+                <span class="text-white text-center w-100">Iniciar Entrenamiento</span>
+            </button>
 
-        <div id="results"></div>
+            <div id="loadingIndicator" class="loader"></div>
+            <p id="progressMessage" class="progress-title hidden">El entrenamiento está en curso...</p>
+
+            <div id="results"></div>
+        </div>
     </div>
-
     <script>
         document.getElementById('trainButton').addEventListener('click', function () {
             const trainButton = document.getElementById('trainButton');
