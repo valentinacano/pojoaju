@@ -12,6 +12,12 @@ from ml.utils.capture_utils import draw_keypoints
 from app.config import MODEL_PATH, MODEL_FRAMES
 from app.services.text_to_speech import text_to_speech
 
+from flask import Response
+from gtts import gTTS
+from playsound import playsound
+import threading
+import tempfile
+
 # ----- CONSTANTES
 FONT = cv2.FONT_HERSHEY_SIMPLEX
 FONT_SIZE = 0.8
@@ -44,7 +50,7 @@ def normalize_keypoints(keypoints, target_length=15):
         return [keypoints[i] for i in indices]
 
 
-def predict_model_from_camera(threshold=0.8):
+def predict_model_from_camera(threshold=0.5):
     kp_seq, sentence = [], []
 
     word_ids = fetch_word_ids_with_keypoints()
@@ -131,14 +137,39 @@ if __name__ == "__main__":
 # from app.config import MODEL_PATH, MODEL_FRAMES
 
 
+# 🔊 Función para reproducir audio
+def text_to_speech(text):
+    print(f"🔊 DICIENDO: {text}")
+    tts = gTTS(text=text, lang="es")
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as fp:
+        tts.save(fp.name)
+        playsound(fp.name)
+        os.unlink(fp.name)
+
+
+# 🔁 Para no bloquear Flask
+def text_to_speech_async(text):
+    threading.Thread(target=text_to_speech, args=(text,)).start()
+
+
+# 🎥 Función principal con streaming
 def predict_model_from_camera_stream(threshold=0.8):
     kp_seq, sentence = [], []
     model = load_model(MODEL_PATH)
     cooldown_counter = 0
     recording = False
 
+    # Mapeo índice → palabra
+    word_ids = fetch_word_ids_with_keypoints()
+    idx_to_word = {}
+    for i, word_id in enumerate(word_ids):
+        result = search_word_id(word_id)
+        if result:
+            _, word, _ = result
+            idx_to_word[i] = word
+
     with Holistic() as holistic:
-        cap = cv2.VideoCapture(2)
+        cap = cv2.VideoCapture(0)  # Cambiar a 1 si usás cámara externa
 
         while cap.isOpened():
             ret, frame = cap.read()
@@ -147,27 +178,26 @@ def predict_model_from_camera_stream(threshold=0.8):
 
             results = mediapipe_detection(frame, holistic)
 
-            # --- detección y predicción ---
-            if results:
+            if there_hand(results):
                 kp_seq.append(extract_keypoints(results))
                 recording = True
             elif recording:
-                if len(kp_seq) >= 10 and cooldown_counter == 0:
-                    # Normalización
-                    normalized = kp_seq[:MODEL_FRAMES]  # simplificado
+                if len(kp_seq) >= MODEL_FRAMES and cooldown_counter == 0:
+                    normalized = kp_seq[:MODEL_FRAMES]
                     res = model.predict(np.expand_dims(normalized, axis=0))[0]
 
                     max_idx = np.argmax(res)
                     conf = res[max_idx]
-                    predicted_word = f"Palabra {max_idx}"
+                    predicted_word = idx_to_word.get(max_idx, f"Palabra {max_idx}")
 
                     if conf > threshold:
                         label = f"{predicted_word} ({conf*100:.2f}%) ✔️"
+                        text_to_speech_async(predicted_word)  # 🔊 async
                     else:
                         label = f"{predicted_word} ({conf*100:.2f}%) ❌"
 
                     sentence.insert(0, label)
-                    cooldown_counter = 15
+                    cooldown_counter = PREDICTION_COOLDOWN
 
                 recording = False
                 kp_seq = []
@@ -175,7 +205,7 @@ def predict_model_from_camera_stream(threshold=0.8):
             if cooldown_counter > 0:
                 cooldown_counter -= 1
 
-            # --- overlay en el frame ---
+            # Overlay en el frame
             cv2.rectangle(frame, (0, 0), (640, 35), (245, 117, 16), -1)
             cv2.putText(
                 frame,
@@ -189,11 +219,13 @@ def predict_model_from_camera_stream(threshold=0.8):
 
             draw_keypoints(frame, results)
 
-            # --- encode frame ---
+            # Encode el frame
             _, buffer = cv2.imencode(".jpg", frame)
             frame = buffer.tobytes()
 
-            yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
+            yield (
+                b"--frame\r\n"
+                b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n"
+            )
 
         cap.release()
-

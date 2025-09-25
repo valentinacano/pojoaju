@@ -47,11 +47,11 @@ def initialize_database():
 
 
 if __name__ == "__main__":
-    # initialize_database()
-    #app.run(debug=True)
-    
-    #training_model()
-    predict_model_from_camera()
+    initialize_database()
+    app.run(debug=True)
+
+    #    training_model()
+    # predict_model_from_camera()
 # create_samples_from_video(
 #    word_name="papá",
 #    video_path=VIDEO_EXPORT_PATH,
