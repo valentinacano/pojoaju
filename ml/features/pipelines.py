@@ -14,12 +14,14 @@ from ml.features.capture_samples import capture_samples_from_camera
 from ml.features.capture_samples_video import capture_samples_from_video
 from ml.features.normalize_samples import normalize_samples
 from ml.features.create_keypoints import get_keypoints
+from ml.features.visualizer import visualize_keypoints
 from ml.utils.common_utils import create_folder
 from ml.training.training_model import training_model
 from ml.prediction.predict_model_from_camera import predict_model_from_camera_stream
 from app.database.database_utils import (
     insert_sample,
     insert_keypoints,
+    get_average_keypoints_by_word,
 )
 
 
@@ -162,3 +164,10 @@ def train_model():
 def predict_model():
 
     return predict_model_from_camera_stream()
+
+
+def generate_visualization_image(word):
+    word_id, avg_keypoints = get_average_keypoints_by_word(word)
+    if avg_keypoints is None:
+        return None
+    return visualize_keypoints(word, avg_keypoints)

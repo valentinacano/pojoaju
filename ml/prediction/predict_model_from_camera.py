@@ -169,7 +169,7 @@ def predict_model_from_camera_stream(threshold=0.8):
             idx_to_word[i] = word
 
     with Holistic() as holistic:
-        cap = cv2.VideoCapture(0)  # Cambiar a 1 si usás cámara externa
+        cap = cv2.VideoCapture(1)  # Cambiar a 1 si usás cámara externa
 
         while cap.isOpened():
             ret, frame = cap.read()

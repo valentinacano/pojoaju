@@ -11,6 +11,8 @@ También incluye un ejecutor de queries `_execute_query()` para centralizar la e
 """
 
 import json, hashlib
+import numpy as np
+
 
 from app.database.connection import get_connection
 from ml.utils.common_utils import clean_word
@@ -289,3 +291,28 @@ def fetch_all_categories():
     query = "SELECT category FROM categories ORDER BY category;"
     result = _execute_query(query, fetch_all=True)
     return [row[0] for row in result] if result else []
+
+
+def get_average_keypoints_by_word(word: str):
+    """
+    Busca todos los keypoints de una palabra y devuelve el promedio.
+    """
+    word_row = search_word(word)
+    if not word_row:
+        print(f"❌ Palabra no encontrada: {word}")
+        return None, None
+
+    word_id, word_text, category = word_row
+
+    results = fetch_keypoints_by_words([word_id])
+    if not results:
+        print(f"⚠️ No hay keypoints para: {word}")
+        return word_id, None
+
+    keypoints_acc = []
+    for _, _, _, keypoints_json in results:
+        keypoints_np = np.array(json.loads(keypoints_json))  # convertir JSON → array
+        keypoints_acc.append(keypoints_np)
+
+    avg_keypoints = np.mean(np.stack(keypoints_acc), axis=0)
+    return word_id, avg_keypoints
