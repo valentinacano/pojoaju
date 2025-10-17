@@ -14,7 +14,19 @@ mediante plantillas HTML.
 
 import os
 
-from flask import Flask, render_template, Response, redirect, url_for, request, jsonify
+from flask import (
+    Flask,
+    render_template,
+    Response,
+    redirect,
+    url_for,
+    request,
+    jsonify,
+    flash,
+)
+from werkzeug.utils import secure_filename
+from datetime import datetime
+
 from ml.features.pipelines import (
     create_samples_from_camera,
     create_samples_from_video,
@@ -29,10 +41,7 @@ from app.database.database_utils import (
     insert_words,
 )
 from app.config import FRAME_ACTIONS_PATH, VIDEO_EXPORT_PATH
-from flask import flash
-from werkzeug.utils import secure_filename
-from datetime import datetime
-import subprocess
+
 
 # -------- VARIABLES
 app = Flask(__name__)
@@ -319,12 +328,32 @@ def training_selector(word_id, word):
 
 @app.route("/train_model_page")
 def train_model_page():
+    """
+    Página para iniciar el entrenamiento del modelo de predicción.
+
+    Renderiza la plantilla `train_model.html` que permite al usuario
+    lanzar el entrenamiento desde la interfaz web.
+
+    Returns:
+        str: Render de la plantilla con el botón para entrenar el modelo.
+    """
     return render_template("train_model.html")
 
 
-# Ruta para ejecutar la función de entrenamiento del modelo
 @app.route("/train_model", methods=["POST"])
 def train_model():
+    """
+    Ejecuta el pipeline de entrenamiento del modelo desde una petición POST.
+
+    Corre la función `run_training_pipeline()` que:
+    - Recupera datos desde la base.
+    - Preprocesa las secuencias.
+    - Entrena el modelo LSTM.
+    - Devuelve los resultados o errores en formato JSON.
+
+    Returns:
+        Response: Objeto JSON con el estado del entrenamiento (`success`, `output`, `error`).
+    """
     try:
         results = run_training_pipeline()
         print(results)
@@ -337,13 +366,29 @@ def train_model():
 
 @app.route("/translate", methods=["GET"])
 def translate_page():
-    # Renderiza la página HTML donde se mostrará el video
+    """
+    Página de traducción en tiempo real desde lenguaje de señas a texto.
+
+    Renderiza la plantilla `translate.html`, que muestra la cámara en vivo
+    y permite visualizar las predicciones del modelo mientras se realiza una seña.
+
+    Returns:
+        str: Render de la plantilla de traducción en tiempo real.
+    """
     return render_template("translate.html")
 
 
 @app.route("/video_feed_prediction")
 def video_feed_prediction():
-    # Genera el streaming de frames desde la cámara con predicciones
+    """
+    Inicia el stream de video desde cámara con predicción en vivo del modelo LSTM.
+
+    Utiliza la función `predict_model_from_camera_stream()` para capturar frames,
+    extraer keypoints, predecir la palabra y mostrarla en tiempo real.
+
+    Returns:
+        Response: Stream de imágenes tipo MJPEG (`multipart/x-mixed-replace`).
+    """
     return Response(
         predict_model_from_camera_stream(),
         mimetype="multipart/x-mixed-replace; boundary=frame",

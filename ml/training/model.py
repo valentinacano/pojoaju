@@ -1,10 +1,22 @@
 """
 Definición del modelo LSTM para clasificación de lenguaje de señas.
 
-Este módulo construye una red neuronal secuencial con capas LSTM y Dense
-para procesar secuencias de keypoints y predecir la clase correspondiente
-a cada muestra capturada.
+Este módulo construye y compila una red neuronal secuencial con arquitectura LSTM,
+diseñada para procesar secuencias de keypoints extraídos mediante MediaPipe.
+
+Se utiliza como modelo base para entrenar el sistema de reconocimiento de señas,
+permitiendo clasificar cada muestra en una de las palabras del vocabulario.
+
+Funciones:
+- `get_model(output_length)`: Retorna un modelo LSTM compilado, listo para entrenamiento.
+
+Arquitectura del modelo:
+- LSTM (64 unidades) con Dropout y regularización L2
+- LSTM (128 unidades) con Dropout
+- Dense (64 unidades, ReLU) x2
+- Capa de salida Dense (Softmax) con longitud igual al número de clases
 """
+
 
 from keras.models import Sequential
 from keras.layers import LSTM, Dense, Dropout

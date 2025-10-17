@@ -6,6 +6,7 @@ secuencias de frames como archivos JPEG numerados para su posterior análisis o 
 """
 
 import os, cv2
+
 from mediapipe.python.solutions.holistic import (
     FACEMESH_CONTOURS,
     POSE_CONNECTIONS,

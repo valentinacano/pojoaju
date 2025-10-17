@@ -10,6 +10,7 @@ Es compatible tanto con ejecución en consola como desde una interfaz web Flask.
 """
 
 import os, re, shutil
+
 from ml.features.capture_samples import capture_samples_from_camera
 from ml.features.capture_samples_video import capture_samples_from_video
 from ml.features.normalize_samples import normalize_samples
@@ -162,11 +163,31 @@ def train_model():
 
 
 def predict_model():
+    """
+    Inicia la predicción desde cámara en tiempo real usando el modelo entrenado.
 
+    Este método retorna un generador que transmite frames con las predicciones realizadas
+    por el modelo LSTM para las secuencias detectadas desde la cámara.
+
+    Returns:
+        generator: Flujo de imágenes JPEG con anotaciones de predicción.
+    """
     return predict_model_from_camera_stream()
 
 
 def generate_visualization_image(word):
+    """
+    Genera una imagen representativa de la seña promedio para una palabra.
+
+    Busca todos los keypoints asociados a la palabra, calcula el promedio y
+    genera una visualización gráfica. Si no hay datos disponibles, retorna None.
+
+    Args:
+        word (str): Palabra a visualizar.
+
+    Returns:
+        str | None: Ruta a la imagen generada, o None si no hay keypoints disponibles.
+    """
     word_id, avg_keypoints = get_average_keypoints_by_word(word)
     if avg_keypoints is None:
         return None
