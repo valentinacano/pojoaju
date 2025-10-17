@@ -21,6 +21,7 @@ from ml.features.pipelines import (
     save_keypoints,
     predict_model_from_camera_stream,
     train_model as run_training_pipeline,
+    generate_visualization_image,
 )
 from app.database.database_utils import (
     fetch_all_words,
@@ -347,3 +348,22 @@ def video_feed_prediction():
         predict_model_from_camera_stream(),
         mimetype="multipart/x-mixed-replace; boundary=frame",
     )
+
+
+# @app.route("/text_to_sign")
+# def visualize_sign(word):
+#     """
+#     Muestra la imagen de la seña promedio para una palabra, si existen keypoints.
+
+#     Args:
+#         word (str): Palabra a visualizar.
+
+#     Returns:
+#         HTML: Página con la imagen, o error si no hay datos.
+#     """
+#     image_path = generate_visualization_image(word)
+
+#     if image_path is None:
+#         return f"No hay muestras suficientes para la palabra: {word}", 404
+
+#     return render_template("text_to_sign.html", word=word, image_path=image_path)
