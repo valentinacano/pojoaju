@@ -16,3 +16,4 @@ Tests (`tests/`)
    test_normalize_samples
    test_pipelines
    test_predict_model
+   test_training_model
