@@ -15,3 +15,4 @@ Tests (`tests/`)
    test_keypoints
    test_normalize_samples
    test_pipelines
+   test_predict_model
