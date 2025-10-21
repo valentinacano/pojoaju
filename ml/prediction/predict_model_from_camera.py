@@ -66,7 +66,7 @@ def predict_model_from_camera(threshold=0.5):
     cooldown_counter = 0
 
     with Holistic() as holistic:
-        video = cv2.VideoCapture(0)
+        video = cv2.VideoCapture(1)
 
         while video.isOpened():
             ret, frame = video.read()

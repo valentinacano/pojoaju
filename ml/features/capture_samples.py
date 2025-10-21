@@ -80,7 +80,7 @@ def capture_samples_from_camera(
     recording = False
 
     with Holistic() as model:
-        cap = cv2.VideoCapture(camera_index)
+        cap = cv2.VideoCapture(1)
 
         while cap.isOpened():
             if stop_capture:  # Detener la captura

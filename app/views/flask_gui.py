@@ -27,6 +27,7 @@ from app.database.database_utils import (
     fetch_all_words,
     fetch_all_categories,
     insert_words,
+    count_unique_samples_per_word
 )
 from app.config import FRAME_ACTIONS_PATH, VIDEO_EXPORT_PATH
 from flask import flash
@@ -241,7 +242,27 @@ def dictionary():
         str: Render de la plantilla con la lista completa de palabras.
     """
     words = fetch_all_words()
-    return render_template("dictionary.html", words=words, page=1, total_pages=5)
+
+    word_ids = [w[0] for w in words]
+
+    samples_count = count_unique_samples_per_word(word_ids)
+
+    total_palabras = len(words)
+    palabras_con_muestras = sum(1 for w_id in word_ids if samples_count.get(w_id, 0) > 0)
+    palabras_sin_muestras = total_palabras - palabras_con_muestras
+
+
+
+    return render_template(
+        "dictionary.html",
+        words=words,
+        samples_count=samples_count,
+        total_palabras=total_palabras,
+        palabras_con_muestras=palabras_con_muestras,
+        palabras_sin_muestras=palabras_sin_muestras,
+        page=1,
+        total_pages=5
+    )
 
 
 @app.route("/training/dictionary/search", methods=["POST"])

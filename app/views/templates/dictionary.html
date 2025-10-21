@@ -39,6 +39,7 @@
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <!-- Total Customers -->
+            <!-- Total Palabras -->
             <div class="bg-white rounded-xl p-6 flex items-center shadow-sm">
                 <div class="bg-indigo-50 w-12 h-12 rounded-full flex items-center justify-center mr-4">
                     <img src="{{ url_for('static', filename='img/BookOpenText.svg') }}" alt="Back" class="back-arrow">
@@ -46,40 +47,35 @@
                 <div>
                     <div class="text-gray-500 text text-lg">Total Palabras</div>
                     <div class="flex items-center">
-                        <h3 class="text-3xl font-semibold mr-2">5,423</h3>
-                        <span class="text-green-500 text-sm">
-                            <i class="fas fa-arrow-up"></i> +16% este mes
-                        </span>
+                        <h3 class="text-3xl font-semibold mr-2">{{ total_palabras }}</h3>
                     </div>
                 </div>
             </div>
 
-            <!-- Members -->
+            <!-- Palabras con Muestras -->
             <div class="bg-white rounded-xl p-6 flex items-center shadow-sm">
                 <div class="bg-green-50 w-12 h-12 rounded-full flex items-center justify-center mr-4">
                     <img src="{{ url_for('static', filename='img/CheckCircle.svg') }}" alt="Back" class="back-arrow">
                 </div>
                 <div>
-                    <div class="text-gray-500 text-md">Palabras Entrenadas</div>
+                    <div class="text-gray-500 text-md">Palabras con Muestras</div>
                     <div class="flex items-center">
-                        <h3 class="text-3xl font-semibold mr-2">1,893</h3>
-                        <span class="text-red-500 text-sm">
-                            <i class="fas fa-arrow-down"></i> -1% este mes
-                        </span>
+                        <h3 class="text-3xl font-semibold mr-2">{{ palabras_con_muestras }}</h3>
                     </div>
                 </div>
             </div>
 
-            <!-- Active Now -->
+            <!-- Palabras sin Muestras -->
             <div class="bg-white rounded-xl p-6 flex items-center shadow-sm">
                 <div class="bg-red-50 w-12 h-12 rounded-full flex items-center justify-center mr-4">
                     <img src="{{ url_for('static', filename='img/XCircle.svg') }}" alt="Back" class="back-arrow">
                 </div>
                 <div>
-                    <div class="text-gray-500 text-md">Palabras sin Entrenar</div>
-                    <h3 class="text-3xl font-semibold">189</h3>
+                    <div class="text-gray-500 text-md">Palabras sin Muestras</div>
+                    <h3 class="text-3xl font-semibold">{{ palabras_sin_muestras }}</h3>
                 </div>
             </div>
+
         </div>
 
         <!-- Customers Table Section -->
@@ -113,7 +109,7 @@
                             <th class="text-left py-3 px-4 font-normal text-gray-500">Categoría</th>
                             <th class="text-left py-3 px-4 font-normal text-gray-500">Creada</th>
                             <th class="text-left py-3 px-4 font-normal text-gray-500">Último Entrenamiento</th>
-                            <th class="text-left py-3 px-4 font-normal text-gray-500">Estado</th>
+                            <th class="text-left py-3 px-4 font-normal text-gray-500">Muestras</th>
                             <th class="text-left py-3 px-4 font-normal text-gray-500">Acción</th>
                         </tr>
                     </thead>
@@ -124,8 +120,10 @@
                             <td class="py-3 px-4">{{ category|title }}</td>
                             <td class="py-3 px-4">13/05/2025</td>
                             <td class="py-3 px-4">13/05/2025</td>
-                            <td class="py-3 px-4"><span
-                                    class="bg-green-50 text-green-600 px-4 py-1 rounded-full text-sm">Entrenado</span>
+                            <td class="py-3 px-4">
+                                <span class="bg-green-50 text-green-600 px-4 py-1 rounded-full text-sm">
+                                    {{ samples_count.get(word_id, 0) }}
+                                </span>
                             </td>
                             <td class="py-3 px-4">
                                 <a href="/training/dictionary/selector/{{ word_id.hex() }}/{{ word }}">
@@ -134,8 +132,8 @@
                             </td>
                         </tr>
                         {% endfor %}
-
                     </tbody>
+
                 </table>
             </div>
         </div>
