@@ -8,6 +8,9 @@ y sobrescribe los archivos originales con los frames procesados.
 
 Está diseñado para asegurar que todas las muestras tengan la misma longitud, 
 facilitando su uso en modelos de entrenamiento secuencial.
+
+Estructura esperada:
+- `root_path/` → contiene carpetas `sample_YYYYMMDD.../` con imágenes `.jpg` secuenciales.
 """
 
 import os
@@ -24,17 +27,21 @@ def normalize_samples(root_path):
     """
     Normaliza todas las muestras dentro de un directorio de palabra.
 
-    Para cada subcarpeta encontrada en `root_path`, lee los frames de la muestra,
-    los ajusta a una cantidad fija mediante interpolación o recorte, y sobrescribe
-    los archivos con los frames normalizados.
+    Para cada subcarpeta encontrada en `root_path`, realiza los siguientes pasos:
+    1. Lee todos los frames de la muestra.
+    2. Aplica interpolación o recorte para que todos los sets de frames tengan igual longitud.
+    3. Limpia el contenido de la carpeta original.
+    4. Guarda los frames normalizados con nombres secuenciales.
+
+    Este proceso es esencial para preparar los datos de entrada a modelos de tipo LSTM
+    o cualquier arquitectura que requiera secuencias homogéneas en longitud.
 
     Args:
-        root_path (str): Ruta a la carpeta que contiene las subcarpetas con muestras.
+        root_path (str): Ruta a la carpeta que contiene subcarpetas con muestras (una por secuencia).
 
     Returns:
-        None: Esta función no retorna ningún valor. Modifica las carpetas de muestras directamente en disco.
+        None: Esta función modifica directamente los archivos en disco, sobrescribiendo los originales.
     """
-
     print(f"🧪 Entrando a normalize_samples con path: {root_path}")
 
     sample_folders = [
@@ -54,12 +61,11 @@ def normalize_samples(root_path):
         print(f"📷 Leyendo muestra: {sample_path} - {len(frames)} frames")
 
         if not frames:
-            print(f"⚠️  Muestra vacía omitida: {folder}")
-            print(f"⚠️ Muestra vacía omitida: {sample_path}")
+            print(f"⚠️ Muestra vacía omitida: {folder}")
             continue
 
         normalized = normalize_frames(frames)
         clear_directory(sample_path)
         save_normalized_frames(sample_path, normalized)
 
-        print(f"✔️  Muestra {i}/{len(sample_folders)} normalizada: {folder}")
+        print(f"✔️ Muestra {i}/{len(sample_folders)} normalizada: {folder}")

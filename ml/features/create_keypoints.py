@@ -7,10 +7,14 @@ utilizando MediaPipe Holistic y guarda los vectores generados directamente en la
 de datos PostgreSQL, utilizando la tabla `keypoints`.
 
 Se utiliza como etapa final después de la captura y normalización de muestras.
-"""
 
+Estructura esperada:
+- `words_path/word_name/sample_YYYYMMDDHHMMSS/` → Contiene imágenes .jpg secuenciales
+"""
 import os
+
 from mediapipe.python.solutions.holistic import Holistic
+
 from ml.utils.keypoints_utils import get_keypoints
 from app.database.database_utils import insert_keypoints
 
@@ -19,17 +23,17 @@ def create_keypoints(word_name, words_path, word_id):
     """
     Extrae keypoints desde secuencias de imágenes y los guarda en la base de datos.
 
-    Para cada subcarpeta encontrada dentro de la carpeta de palabra, esta función
-    recorre los frames, extrae los vectores de keypoints mediante MediaPipe Holistic,
-    y los inserta en la tabla `keypoints` de PostgreSQL.
+    Para cada subcarpeta encontrada dentro de la carpeta correspondiente a `word_name`,
+    esta función recorre los frames, extrae los vectores de keypoints con MediaPipe Holistic
+    y los inserta en la tabla `keypoints` de PostgreSQL, asociados al `word_id`.
 
     Args:
-        word_name (str): Nombre descriptivo de la palabra (usado para impresión en consola).
-        words_path (str): Ruta raíz que contiene carpetas por palabra, cada una con subcarpetas de muestras.
-        word_id (int | bytes): Identificador único de la palabra en la base de datos (columna `word_id`).
+        word_name (str): Nombre descriptivo de la palabra (ej: "hola").
+        words_path (str): Ruta base que contiene las carpetas de palabras (ej: FRAME_ACTIONS_PATH).
+        word_id (bytes): Identificador hash único de la palabra (columna `word_id` en la tabla `words`).
 
     Returns:
-        None: Esta función no retorna ningún valor. Inserta los vectores directamente en la base de datos.
+        None: Esta función no retorna ningún valor. Inserta los datos directamente en la base de datos.
     """
     word_path = os.path.join(words_path, word_name)
 

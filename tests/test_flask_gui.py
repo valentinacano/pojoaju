@@ -10,7 +10,7 @@ frente a rutas inexistentes.
 """
 
 import pytest
-from app.views.flask_gui import app
+import app.views.flask_gui as flask_gui  # ✅ Necesario para patching correcto
 
 
 @pytest.fixture
@@ -21,78 +21,42 @@ def client():
     Returns:
         flask.testing.FlaskClient: Cliente de prueba.
     """
-    app.config["TESTING"] = True
-    with app.test_client() as client:
+    flask_gui.app.config["TESTING"] = True
+    with flask_gui.app.test_client() as client:
         yield client
 
 
 def test_index_route(client):
-    """
-    Verifica que la página principal se carga correctamente.
-
-    Returns:
-        None
-    """
     response = client.get("/")
     assert response.status_code == 200
     assert b"<!DOCTYPE html" in response.data
 
 
 def test_training_route(client):
-    """
-    Verifica que la ruta /training devuelve correctamente la plantilla.
-
-    Returns:
-        None
-    """
     response = client.get("/training")
     assert response.status_code == 200
     assert b"<!DOCTYPE html" in response.data
 
 
 def test_capture_form_route(client):
-    """
-    Verifica que la ruta /capture_form devuelve correctamente la plantilla.
-
-    Returns:
-        None
-    """
     response = client.get("/capture_form")
     assert response.status_code == 200
     assert b"<!DOCTYPE html" in response.data
 
 
 def test_dictionary_route(client):
-    """
-    Verifica que la ruta /training/dictionary devuelve una respuesta válida.
-
-    Returns:
-        None
-    """
     response = client.get("/training/dictionary")
     assert response.status_code == 200
     assert b"<!DOCTYPE html" in response.data
 
 
 def test_insert_word_form_get(client):
-    """
-    Verifica que la ruta GET /training/insert_word carga correctamente el formulario.
-
-    Returns:
-        None
-    """
     response = client.get("/training/insert_word")
     assert response.status_code == 200
     assert b"<!DOCTYPE html" in response.data
 
 
 def test_insert_word_form_post_missing_fields(client):
-    """
-    Verifica el comportamiento al enviar el formulario sin la palabra.
-
-    Returns:
-        None
-    """
     response = client.post(
         "/training/insert_word",
         data={"word": "", "category_existing": "", "category_new": ""},
@@ -103,12 +67,6 @@ def test_insert_word_form_post_missing_fields(client):
 
 
 def test_insert_word_form_post_missing_category(client):
-    """
-    Verifica el comportamiento al no seleccionar ni ingresar una categoría.
-
-    Returns:
-        None
-    """
     response = client.post(
         "/training/insert_word",
         data={"word": "hola", "category_existing": "", "category_new": ""},
@@ -119,36 +77,18 @@ def test_insert_word_form_post_missing_category(client):
 
 
 def test_capture_route(client):
-    """
-    Verifica que la página de captura carga correctamente con parámetros válidos.
-
-    Returns:
-        None
-    """
     response = client.get("/training/capture/testid/testword")
     assert response.status_code == 200
     assert b"testword" in response.data
 
 
 def test_stop_capture_without_data(client):
-    """
-    Verifica que redirige correctamente si no se envían datos de word y word_id.
-
-    Returns:
-        None
-    """
     response = client.post("/stop_capture", data={}, follow_redirects=True)
     assert response.status_code == 200
-    assert b"<!DOCTYPE html" in response.data  # Redirige a /training
+    assert b"<!DOCTYPE html" in response.data
 
 
 def test_stop_capture_with_data(client):
-    """
-    Verifica que redirige a /save_samples si se envían datos válidos.
-
-    Returns:
-        None
-    """
     response = client.post(
         "/stop_capture",
         data={"word": "hola", "word_id": "abc123"},
@@ -159,25 +99,12 @@ def test_stop_capture_with_data(client):
 
 
 def test_video_feed_route(client):
-    """
-    Verifica que la ruta de video_feed devuelve una respuesta válida con mimetype esperado.
-
-    Returns:
-        None
-    """
     response = client.get("/video_feed/test")
     assert response.status_code == 200
     assert response.mimetype == "multipart/x-mixed-replace"
 
 
 def test_save_samples_route(client, monkeypatch):
-    """
-    Verifica que la ruta /save_samples ejecuta correctamente el flujo y carga la plantilla.
-
-    Returns:
-        None
-    """
-
     def fake_save_keypoints(word, word_id, path):
         print(f"Mock save_keypoints called for {word}, {word_id}, {path}")
 
@@ -188,11 +115,5 @@ def test_save_samples_route(client, monkeypatch):
 
 
 def test_404_route(client):
-    """
-    Verifica que acceder a una ruta inexistente retorna un error 404.
-
-    Returns:
-        None
-    """
     response = client.get("/ruta_inexistente")
     assert response.status_code == 404

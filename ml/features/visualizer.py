@@ -1,7 +1,24 @@
+"""
+Visualización de keypoints promedios para una palabra en imagen PNG.
+
+Este módulo toma un conjunto de keypoints 2D (normalmente el promedio de muestras)
+y genera una imagen representativa en formato `.png`, ideal para mostrar
+cómo se vería una seña estándar para una palabra.
+
+- Utiliza `matplotlib` para graficar.
+- Usa `draw_keypoints` para dibujar la figura.
+- Genera un hash SHA256 de la palabra para evitar nombres duplicados.
+- Guarda la imagen en la carpeta `static/senas/`.
+
+Función principal:
+- `visualize_keypoints`: recibe los keypoints y guarda el gráfico como imagen PNG.
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 import os
 import hashlib
+
 from ml.utils.visualize_utils import draw_keypoints
 
 
