@@ -8,6 +8,7 @@ por palabra y muestra, y estructurar los datos en formatos aptos para entrenamie
 import os, cv2
 import numpy as np
 import pandas as pd
+
 from ml.utils.common_utils import mediapipe_detection
 
 

@@ -142,6 +142,32 @@ def fetch_keypoints_by_words(word_ids):
         params=tuple(word_ids),
     )
 
+def count_unique_samples_per_word(word_ids):
+    """
+    Calcula la cantidad de sample_id distintos por cada palabra (word_id).
+
+    Args:
+        word_ids (list[bytes]): Lista de IDs de palabras en formato binario (hash).
+
+    Returns:
+        dict: Diccionario con el formato {word_id: cantidad_de_samples_distintos}
+    """
+    # Obtenemos todos los registros de keypoints para las palabras dadas
+    records = fetch_keypoints_by_words(word_ids)
+
+    # Estructura auxiliar para contar samples únicos por palabra
+    word_samples = {}
+
+    for word_id, sample_id, frame, keypoints in records:
+        if word_id not in word_samples:
+            word_samples[word_id] = set()
+        word_samples[word_id].add(sample_id)
+
+    # Convertimos los sets a sus longitudes (cantidad de samples únicos)
+    counts = {word_id: len(samples) for word_id, samples in word_samples.items()}
+
+    return counts
+
 
 def fetch_word_ids_with_keypoints():
     """

@@ -15,6 +15,7 @@ Usos comunes:
 """
 
 import os, cv2
+
 from datetime import datetime
 from mediapipe.python.solutions.holistic import Holistic
 

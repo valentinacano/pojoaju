@@ -12,6 +12,7 @@ Utils (`ml/utils/`)
    ml_utils_normalize_utils
    ml_utils_keypoints_utils
    ml_utils_training_utils
+   ml_utils_visualize_utils
 
 Features (`ml/features/`)
 -------------------------
@@ -24,8 +25,9 @@ Features (`ml/features/`)
    ml_features_normalize_samples
    ml_features_create_keypoints
    ml_features_pipelines
+   ml_training_visualizer
 
-Features (`ml/training/`)
+Training (`ml/training/`)
 -------------------------
 
 .. toctree::
@@ -33,3 +35,12 @@ Features (`ml/training/`)
 
    ml_training_model
    ml_training_training_model
+
+
+Prediction (`ml/prediction/`)
+-----------------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   ml_prediction_predict_model_from_camera

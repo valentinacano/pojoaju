@@ -1,13 +1,24 @@
 """
 Entrenamiento del modelo de reconocimiento de lenguaje de señas.
 
-... (resto del código) ...
+Este módulo carga los keypoints almacenados en la base de datos, prepara los datos
+(ajustando secuencias y etiquetas), entrena un modelo LSTM y guarda el modelo final.
+
+Incluye:
+- Carga y preprocesamiento de los datos (padded sequences, one-hot labels)
+- División en training y validation sets
+- Entrenamiento del modelo LSTM definido en `ml.training.model`
+- Guardado del modelo en `MODEL_PATH`
+- Retorno de métricas finales para visualización en interfaz web
+
+Funciones:
+- training_model(epochs=500): ejecuta todo el pipeline de entrenamiento y retorna métricas clave.
 """
+
 
 import numpy as np
 
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
 from keras.utils import to_categorical
 
@@ -18,6 +29,19 @@ from app.config import MODEL_FRAMES, MODEL_PATH
 
 
 def training_model(epochs=500):
+    """
+    Ejecuta el pipeline completo de entrenamiento del modelo LSTM.
+
+    Incluye la carga de datos, preparación de secuencias, entrenamiento
+    y guardado del modelo. Retorna un resumen con métricas finales.
+
+    Args:
+        epochs (int): Cantidad de épocas de entrenamiento (por defecto 500).
+
+    Returns:
+        dict: Diccionario con métricas finales: accuracy, val_accuracy, loss, val_loss, etc.
+    """
+
     print("✅ ----- Obteniendo words ids")
     word_ids = fetch_word_ids_with_keypoints()
     print("IDs de palabras con keypoints:", word_ids)
