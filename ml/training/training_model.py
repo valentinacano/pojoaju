@@ -1,23 +1,15 @@
 """
-Entrenamiento del modelo de reconocimiento de lenguaje de señas.
-
-Este módulo carga los keypoints almacenados en la base de datos, prepara los datos
-(ajustando secuencias y etiquetas), entrena un modelo LSTM y guarda el modelo final.
+Entrenamiento optimizado del modelo LSTM para reconocimiento de lenguaje de señas.
 
 Incluye:
-- Carga y preprocesamiento de los datos (padded sequences, one-hot labels)
-- División en training y validation sets
-- Entrenamiento del modelo LSTM definido en `ml.training.model`
-- Guardado del modelo en `MODEL_PATH`
-- Retorno de métricas finales para visualización en interfaz web
-
-Funciones:
-- training_model(epochs=500): ejecuta todo el pipeline de entrenamiento y retorna métricas clave.
+- División estratificada del dataset
+- Callbacks de EarlyStopping, ModelCheckpoint y ReduceLROnPlateau
+- Guardado automático del mejor modelo basado en val_accuracy
+- Tamaño de batch ajustado para mayor estabilidad
 """
 
-
 import numpy as np
-
+import tensorflow as tf
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.model_selection import train_test_split
 from keras.utils import to_categorical
@@ -28,25 +20,22 @@ from app.database.database_utils import fetch_word_ids_with_keypoints
 from app.config import MODEL_FRAMES, MODEL_PATH
 
 
-def training_model(epochs=500):
+def training_model(epochs=700):
     """
     Ejecuta el pipeline completo de entrenamiento del modelo LSTM.
 
-    Incluye la carga de datos, preparación de secuencias, entrenamiento
-    y guardado del modelo. Retorna un resumen con métricas finales.
-
     Args:
-        epochs (int): Cantidad de épocas de entrenamiento (por defecto 500).
+        epochs (int): Cantidad máxima de épocas (por defecto 700).
 
     Returns:
-        dict: Diccionario con métricas finales: accuracy, val_accuracy, loss, val_loss, etc.
+        dict: Métricas finales del modelo.
     """
 
     print("✅ ----- Obteniendo words ids")
     word_ids = fetch_word_ids_with_keypoints()
     print("IDs de palabras con keypoints:", word_ids)
 
-    print("✅ ----- obteniendo secuencias y etiquetas")
+    print("✅ ----- Obteniendo secuencias y etiquetas")
     sequences, labels = get_sequences_and_labels(word_ids)
 
     if not sequences:
@@ -59,52 +48,78 @@ def training_model(epochs=500):
         maxlen=int(MODEL_FRAMES),
         padding="pre",
         truncating="post",
-        dtype="float16",
+        dtype="float32",
     )
     X = np.array(sequences)
-    y = to_categorical(labels).astype(int)
+    y = to_categorical(labels).astype(np.float32)
 
-    # --- Split ---
+    # --- Split de datos ---
     X_train, X_val, y_train, y_val = train_test_split(
-        X, y, test_size=0.05, random_state=42
+        X, y, test_size=0.1, random_state=42, stratify=labels
     )
 
-    print("✅ ----- Obteniendo modelo")
-    model = get_model(len(word_ids))
-    print(model)
+    print(f"✅ Datos listos: {len(X_train)} train | {len(X_val)} val")
 
-    print("✅ ----- Entrenando modelo")
+    # --- Modelo ---
+    print("✅ ----- Creando modelo ajustado")
+    model = get_model(len(word_ids))
+    model.summary()
+
+    # --- Callbacks ---
+    checkpoint = tf.keras.callbacks.ModelCheckpoint(
+        filepath=MODEL_PATH,
+        monitor="val_accuracy",
+        save_best_only=True,
+        mode="max",
+        verbose=1,
+    )
+
+    reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(
+        monitor="val_accuracy",
+        factor=0.5,
+        patience=8,
+        verbose=1,
+        min_lr=1e-5,
+        mode="max",
+    )
+
+    early_stop = tf.keras.callbacks.EarlyStopping(
+        monitor="val_accuracy",
+        patience=12,
+        restore_best_weights=True,
+        verbose=1,
+        mode="max",
+    )
+
+    print("✅ ----- Iniciando entrenamiento")
     history = model.fit(
         X_train,
         y_train,
         validation_data=(X_val, y_val),
         epochs=epochs,
-        batch_size=8,
+        batch_size=32,  # aumentado para estabilidad
         verbose=2,
+        callbacks=[checkpoint, reduce_lr, early_stop],
     )
 
-    # Guardamos métricas
-    final_acc = float(history.history["accuracy"][-1])
-    final_val_acc = float(history.history["val_accuracy"][-1])
-    final_loss = float(history.history["loss"][-1])
-    final_val_loss = float(history.history["val_loss"][-1])
+    print("✅ ----- Entrenamiento finalizado")
+    print("📦 Mejor modelo guardado en:", MODEL_PATH)
 
-    print("Historial de entrenamiento:")
-    print("Accuracy final:", final_acc)
-    print("Val Accuracy final:", final_val_acc)
+    # --- Métricas finales ---
+    final_acc = float(max(history.history["accuracy"]))
+    final_val_acc = float(max(history.history["val_accuracy"]))
+    final_loss = float(min(history.history["loss"]))
+    final_val_loss = float(min(history.history["val_loss"]))
 
-    print("✅ ----- Resumiendo modelo")
-    model.summary()
+    print("📊 Resultados:")
+    print(f"Accuracy final: {final_acc:.4f}")
+    print(f"Val Accuracy final: {final_val_acc:.4f}")
 
-    print("✅ ----- Guardando modelo")
-    model.save(MODEL_PATH)
-
-    # 👇 Retornamos un diccionario solo con lo útil para el HTML
     return {
         "accuracy": round(final_acc, 4),
         "val_accuracy": round(final_val_acc, 4),
         "loss": round(final_loss, 4),
         "val_loss": round(final_val_loss, 4),
-        "params": model.count_params(),  # total parámetros entrenables
-        "layers": len(model.layers),  # cantidad de capas
+        "params": model.count_params(),
+        "layers": len(model.layers),
     }

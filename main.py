@@ -57,7 +57,6 @@ if __name__ == "__main__":
 
     print("✅ ----- obteniendo secuencias y etiquetas")
     sequences, labels = get_sequences_and_labels(word_ids)
-    print(sequences[0])
     app.run(debug=True)
 
     

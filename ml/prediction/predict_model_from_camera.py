@@ -106,7 +106,7 @@ def predict_model_from_camera(threshold=0.5):
     cooldown_counter = 0
 
     with Holistic() as holistic:
-        video = cv2.VideoCapture(1)
+        video = cv2.VideoCapture(0)
 
         while video.isOpened():
             ret, frame = video.read()
@@ -226,7 +226,7 @@ def predict_model_from_camera_stream(threshold=0.8):
             idx_to_word[i] = word
 
     with Holistic() as holistic:
-        cap = cv2.VideoCapture(1)  # Cambiar a 0 si usás cámara interna
+        cap = cv2.VideoCapture(0)  # Cambiar a 0 si usás cámara interna
 
         while cap.isOpened():
             ret, frame = cap.read()
