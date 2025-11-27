@@ -50,17 +50,10 @@ def initialize_database():
 
 
 if __name__ == "__main__":
-    initialize_database()
-    print("✅ ----- Obteniendo words ids")
-    word_ids = fetch_word_ids_with_keypoints()
-    print("IDs de palabras con keypoints:", word_ids)
+    #initialize_database()
 
-    print("✅ ----- obteniendo secuencias y etiquetas")
-    sequences, labels = get_sequences_and_labels(word_ids)
-    print(sequences[0])
     app.run(debug=True)
 
-    
     #    training_model()
     # predict_model_from_camera()
 # create_samples_from_video(

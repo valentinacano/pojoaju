@@ -17,7 +17,6 @@ Arquitectura del modelo:
 - Capa de salida Dense (Softmax) con longitud igual al número de clases
 """
 
-
 from keras.models import Sequential
 from keras.layers import LSTM, Dense, Dropout
 from keras.regularizers import l2

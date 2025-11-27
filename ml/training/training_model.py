@@ -15,7 +15,6 @@ Funciones:
 - training_model(epochs=500): ejecuta todo el pipeline de entrenamiento y retorna métricas clave.
 """
 
-
 import numpy as np
 
 from tensorflow.keras.preprocessing.sequence import pad_sequences

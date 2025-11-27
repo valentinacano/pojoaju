@@ -142,6 +142,7 @@ def fetch_keypoints_by_words(word_ids):
         params=tuple(word_ids),
     )
 
+
 def count_unique_samples_per_word(word_ids):
     """
     Calcula la cantidad de sample_id distintos por cada palabra (word_id).

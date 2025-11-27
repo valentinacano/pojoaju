@@ -11,6 +11,7 @@ Se utiliza como etapa final después de la captura y normalización de muestras.
 Estructura esperada:
 - `words_path/word_name/sample_YYYYMMDDHHMMSS/` → Contiene imágenes .jpg secuenciales
 """
+
 import os
 
 from mediapipe.python.solutions.holistic import Holistic

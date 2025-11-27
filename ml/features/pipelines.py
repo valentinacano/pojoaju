@@ -192,3 +192,12 @@ def generate_visualization_image(word):
     if avg_keypoints is None:
         return None
     return visualize_keypoints(word, avg_keypoints)
+
+
+from ml.training.confusion_utils import generate_confusion_matrix
+
+
+def generate_matrix():
+    cm, y_true, y_pred = generate_confusion_matrix()
+
+    return {"cm": cm.tolist(), "y_true": y_true.tolist(), "y_pred": y_pred.tolist()}

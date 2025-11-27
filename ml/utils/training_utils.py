@@ -6,7 +6,6 @@ desde la base de datos, los agrupa por muestra y los convierte en secuencias lis
 entrenar modelos de clasificación.
 """
 
-
 from ml.utils.keypoints_utils import group_keypoints_by_word_and_sample
 
 from app.database.database_utils import fetch_keypoints_by_words

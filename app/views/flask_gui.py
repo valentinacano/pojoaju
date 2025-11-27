@@ -23,6 +23,7 @@ from flask import (
     request,
     jsonify,
     flash,
+    send_file,
 )
 from werkzeug.utils import secure_filename
 from datetime import datetime
@@ -33,13 +34,13 @@ from ml.features.pipelines import (
     save_keypoints,
     predict_model_from_camera_stream,
     train_model as run_training_pipeline,
-    generate_visualization_image,
+    generate_matrix,
 )
 from app.database.database_utils import (
     fetch_all_words,
     fetch_all_categories,
     insert_words,
-    count_unique_samples_per_word
+    count_unique_samples_per_word,
 )
 from app.config import FRAME_ACTIONS_PATH, VIDEO_EXPORT_PATH
 
@@ -257,10 +258,10 @@ def dictionary():
     samples_count = count_unique_samples_per_word(word_ids)
 
     total_palabras = len(words)
-    palabras_con_muestras = sum(1 for w_id in word_ids if samples_count.get(w_id, 0) > 0)
+    palabras_con_muestras = sum(
+        1 for w_id in word_ids if samples_count.get(w_id, 0) > 0
+    )
     palabras_sin_muestras = total_palabras - palabras_con_muestras
-
-
 
     return render_template(
         "dictionary.html",
@@ -270,7 +271,7 @@ def dictionary():
         palabras_con_muestras=palabras_con_muestras,
         palabras_sin_muestras=palabras_sin_muestras,
         page=1,
-        total_pages=5
+        total_pages=5,
     )
 
 
@@ -416,20 +417,75 @@ def video_feed_prediction():
     )
 
 
-# @app.route("/text_to_sign")
-# def visualize_sign(word):
-#     """
-#     Muestra la imagen de la seña promedio para una palabra, si existen keypoints.
+# Agregar estos imports al inicio de app.py
+from ml.training.confusion_utils import generate_confusion_matrix, get_top_confusions
+import json
 
-#     Args:
-#         word (str): Palabra a visualizar.
+# Reemplaza tu ruta actual con estas:
 
-#     Returns:
-#         HTML: Página con la imagen, o error si no hay datos.
-#     """
-#     image_path = generate_visualization_image(word)
+@app.route("/confusion-matrix")
+def confusion_matrix_page():
+    """
+    Página principal de la matriz de confusión con métricas detalladas
+    """
+    return render_template("confusion_matrix.html")
 
-#     if image_path is None:
-#         return f"No hay muestras suficientes para la palabra: {word}", 404
 
-#     return render_template("text_to_sign.html", word=word, image_path=image_path)
+@app.route("/api/generate-confusion-matrix", methods=["POST"])
+def generate_matrix_api():
+    """
+    Genera la matriz de confusión desde el modelo actual
+    Retorna JSON con path de imagen y métricas
+    """
+    try:
+        cm, y_true, y_pred, metrics = generate_confusion_matrix()  # 4 valores ahora
+        
+        # Obtener top confusiones
+        top_confusions = get_top_confusions(cm, metrics['labels'], top_k=5)
+        
+        return jsonify({
+            'success': True,
+            'image_path': '/static/confusion/confusion_matrix.png',
+            'metrics': {
+                'accuracy': f"{metrics['accuracy']:.2%}",
+                'n_classes': metrics['n_classes'],
+                'n_samples': metrics['n_samples'],
+                'labels': metrics['labels']
+            },
+            'top_confusions': [
+                {
+                    'real': conf[0],
+                    'predicted': conf[1],
+                    'count': conf[2]
+                } for conf in top_confusions
+            ],
+            'classification_report': metrics['report']
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@app.route("/api/confusion-matrix-status")
+def matrix_status():
+    """
+    Verifica si existe una matriz generada previamente
+    """
+    matrix_path = "static/confusion/confusion_matrix.png"
+    exists = os.path.exists(matrix_path)
+    
+    if exists:
+        timestamp = os.path.getmtime(matrix_path)
+        from datetime import datetime
+        last_generated = datetime.fromtimestamp(timestamp).strftime("%Y-%m-%d %H:%M:%S")
+    else:
+        last_generated = None
+    
+    return jsonify({
+        'exists': exists,
+        'last_generated': last_generated,
+        'path': '/static/confusion/confusion_matrix.png' if exists else None
+    })
