@@ -1,9 +1,0 @@
-Conexión a Base de Datos (`app/database/connection.py`)
-=======================================================
-
-.. automodule:: app.database.connection
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-

@@ -2,7 +2,47 @@
 
 Todas las versiones importantes de Pojoaju se documentan en este archivo.
 
-Este changelog sigue una variante simplificada de [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/), con foco en etapas funcionales del proyecto.
+---
+
+## [1.0.0] - 24.03.2026
+
+### Refactor completo — proyecto rehecho desde cero
+
+#### Problemas críticos resueltos
+- **Normalización unificada**: `normalize_sequence()` es ahora el único método usado en training, predicción y evaluación. Antes había tres implementaciones distintas (interpolación, recorte, pad_sequences), lo que causaba baja accuracy.
+- **`test_size` corregido**: de 0.05 → 0.2 en training (con estratificación). El valor anterior dejaba 0-1 muestras de validación por clase.
+- **Labels de matriz de confusión**: ahora muestran nombres reales de palabras. Antes mostraban direcciones de memoria de Python.
+- **`test_size` en evaluación**: corregido de 0.8 → 0.3 (era un bug — el modelo se evaluaba con el 80% de los datos y entrenaba con el 20%).
+- **`text_to_speech` unificada**: eliminada la implementación duplicada en `predict_model_from_camera.py`.
+
+#### Arquitectura
+- Estructura simplificada: `ml/utils/`, `ml/features/`, `ml/prediction/`, `ml/training/` → aplanado a `ml/*.py`
+- `app/database/database_utils.py` → `app/database/queries.py` (todo el SQL en un solo lugar)
+- `ml/pipeline.py` reemplaza `ml/features/pipelines.py`
+
+#### Modelo
+- Dropout reducido: 0.5 → 0.2 (era demasiado agresivo para datasets pequeños)
+- L2 uniforme en todas las capas (antes era 10x más fuerte en la primera)
+- `BatchNormalization` agregado para estabilizar el entrenamiento
+- `EarlyStopping(patience=30)` y `ModelCheckpoint` para guardar el mejor modelo
+- `batch_size` aumentado: 8 → 16
+
+#### Archivos eliminados
+- `ml/utils/common_utils.py`
+- `ml/utils/keypoints_utils.py`
+- `ml/utils/normalize_utils.py`
+- `ml/utils/capture_utils.py`
+- `ml/utils/training_utils.py`
+- `ml/utils/visualize_utils.py`
+- `ml/features/pipelines.py`
+- `ml/features/capture_samples.py`
+- `ml/features/capture_samples_video.py`
+- `ml/features/normalize_samples.py`
+- `ml/features/create_keypoints.py`
+- `ml/features/visualizer.py`
+- `ml/prediction/predict_model_from_camera.py`
+- `ml/training/confusion_utils.py`
+- `app/database/database_utils.py`
 
 ---
 
@@ -14,77 +54,36 @@ Este changelog sigue una variante simplificada de [Keep a Changelog](https://kee
 - Íconos faltantes en la sección de diccionario.
 
 ### Cambios
-- Se corrigió el botón "Finalizar entrenamiento" por "Finalizar captura" en la vista de captura de muestras.
-- Se actualizaron los íconos en la UI de subir y grabar videos.
-- Se adaptó la interfaz de captura de muestras al diseño visual del proyecto.
-- Se adaptó la interfaz de subida de videos al diseño visual del proyecto.
+- Se corrigió el botón "Finalizar entrenamiento" por "Finalizar captura".
+- Se actualizaron los íconos en la UI.
+- Se adaptó la interfaz de captura y subida de videos al diseño visual.
 
 ---
 
 ## [0.2.0] - 2025-07-09
 
 ### Agregado
-- Implementación inicial de la función `capture_samples_from_video()` para procesar archivos de video y generar muestras desde frames válidos.
-- Nueva ruta `GET /training/upload_video/<word_id>/<word>` con formulario para subir videos existentes.
-- Nueva ruta `POST /training/upload_video/process/<word_id>/<word>` que guarda el video y ejecuta el pipeline.
-- Guardado de archivos con timestamp para evitar sobreescrituras.
-- Organización de videos por palabra (`VIDEO_EXPORT_PATH/word/`).
-- Sistema de validación y feedback con `flash()` para errores y confirmaciones.
-- Test automatizado `test_capture_samples_from_video_crea_muestras_mock` con video artificial y mocks de detección MediaPipe.
-- Sección de predicción implementada previamente (modelo LSTM + integración con cámara y texto a voz).
-
-### Cambios
-- Se actualizó `capture_samples_from_video()` para guardar muestras solo si se detecta una transición de “mano presente” a “mano ausente”.
-- Se corrigió un `BuildError` en Jinja (`url_for`) pasando correctamente los parámetros `word_id` y `word`.
-- Se refactorizó la vista `training_selector` para aceptar parámetros y renderizar opciones según la palabra.
-- Se mejoró la robustez del procesamiento de videos subidos (verificación de extensión, creación de carpetas, control de flujo).
+- `capture_samples_from_video()` para procesar archivos de video.
+- Rutas para subir videos existentes.
+- Sistema de validación con `flash()`.
 
 ---
 
 ## [0.1.1] - 2025-06-30
 
 ### Agregado
-- Implementación de la primera versión del pipeline de predicción:
-  - `predict_model_from_camera()` con captura desde cámara en tiempo real, integración con `MediaPipe`, detección de manos, predicción con modelo entrenado y síntesis de voz con `text_to_speech`.
-- Función `normalize_keypoints()` para interpolar secuencias a una longitud fija compatible con el modelo LSTM.
-- Definición del modelo `get_model()` con arquitectura LSTM secuencial:
-  - Dos capas LSTM (64 y 128 unidades),
-  - Regularización L2,
-  - Capas `Dense` intermedias y salida softmax.
-- Pipeline de entrenamiento con `training_model()`:
-  - Recuperación de secuencias desde base de datos,
-  - Preprocesamiento (`pad_sequences`),
-  - División entrenamiento/validación,
-  - Entrenamiento con `EarlyStopping`,
-  - Guardado del modelo final (`MODEL_PATH`).
-
-### Cambios
-- Se agregó soporte en `common_utils`, `keypoints_utils` y `database_utils` para:
-  - Buscar palabras desde `word_id`.
-  - Extraer secuencias de keypoints por palabra.
-- Se ajustaron parámetros como `MODEL_FRAMES` y `LENGTH_KEYPOINTS` para una configuración flexible del modelo.
+- Primera versión del pipeline de predicción.
+- `normalize_keypoints()` para interpolación de secuencias.
+- Modelo `get_model()` con arquitectura LSTM.
+- Pipeline de entrenamiento con `EarlyStopping`.
 
 ---
 
 ## [0.1.0] - 2025-06-16
 
 ### Agregado
-- Conexión a base de datos PostgreSQL mediante `get_connection()`.
-- Scripts para crear las tablas: `categories`, `words`, `samples`, `keypoints`.
-- Inserción de palabras por categoría y muestras con keypoints.
+- Conexión a PostgreSQL.
+- Tablas: `categories`, `words`, `samples`, `keypoints`.
 - Captura de keypoints con MediaPipe Holistic.
-- Entrenamiento inicial del modelo con palabras del alfabeto, números, colores, emociones y saludos.
-- Infraestructura de testing: `pytest`, fixture de limpieza de base y prueba de conexión.
-- Configuración de entorno con Pipenv.
-- Instalación editable del proyecto con `setup.py`.
-
-### Documentación
-- Documentación técnica inicial en `README.md` con:
-  - Estructura de carpetas.
-  - Instrucciones de instalación y testing.
-  - Justificación de `pip install -e .`.
-  - Buenas prácticas de versionado.
-- Setup de documentación automática con Sphinx (`build_docs.py`, `docs/`).
-
-### Cambios
-- Estructura modular inicial del proyecto organizada en `app/`, `ml/`, `tests/`, `data/`, `docs/`, etc.
+- Infraestructura de testing con pytest.
+- Configuración con Pipenv y `setup.py`.
