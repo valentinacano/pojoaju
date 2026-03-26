@@ -45,11 +45,11 @@ def create_all_tables():
 
     _run("""
         CREATE TABLE IF NOT EXISTS keypoints (
-            keypoint_id SERIAL PRIMARY KEY,
-            sample_id   INT NOT NULL REFERENCES samples(sample_id),
-            word_id     BYTEA NOT NULL REFERENCES words(word_id),
-            frame       INT NOT NULL,
-            keypoints   JSONB NOT NULL,
-            created_at  TIMESTAMP DEFAULT NOW()
+            keypoints_id SERIAL PRIMARY KEY,
+            sample_id    INT NOT NULL REFERENCES samples(sample_id),
+            word_id      BYTEA NOT NULL REFERENCES words(word_id),
+            frame        INT NOT NULL,
+            keypoints    JSONB NOT NULL,
+            created_at   TIMESTAMP DEFAULT NOW()
         );
     """, "Tabla 'keypoints' lista")
