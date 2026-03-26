@@ -145,7 +145,7 @@ def insert_keypoints(word_id: bytes, sample_id: int, sequence: list):
         sample_id: ID de la muestra.
         sequence: lista de np.ndarray, uno por frame.
     """
-    if not sequence:
+    if sequence is None or len(sequence) == 0:
         print("⚠️ Secuencia vacía, no se insertan keypoints.")
         return
 
