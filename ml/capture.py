@@ -4,13 +4,10 @@ Captura de muestras de lenguaje de señas.
 Soporta dos fuentes:
 - Cámara en vivo (modo consola y modo Flask streaming)
 - Archivo de video pregrabado
-
-Ambas funciones usan la misma lógica de detección y guardado.
 """
 
 import os
 import cv2
-import shutil
 from datetime import datetime
 from mediapipe.python.solutions.holistic import Holistic
 from mediapipe.python.solutions.holistic import HAND_CONNECTIONS, POSE_CONNECTIONS, FACEMESH_CONTOURS
@@ -19,10 +16,15 @@ from mediapipe.python.solutions.drawing_utils import draw_landmarks, DrawingSpec
 from ml.keypoints import run_mediapipe, has_hand
 from app.config import MARGIN_FRAMES, MIN_FRAMES_SAMPLE, DELAY_FRAMES, FONT, FONT_POS, FONT_SIZE
 
+# Flag global para detener el stream desde Flask
+_stop_capture = False
 
-# ---------------------------------------------------------------------------
-# Helpers internos
-# ---------------------------------------------------------------------------
+
+def stop_capture():
+    """Señala al generador de captura que debe detenerse."""
+    global _stop_capture
+    _stop_capture = True
+
 
 def _draw_landmarks(image, results):
     """Dibuja todos los landmarks sobre el frame."""
@@ -43,13 +45,6 @@ def _draw_landmarks(image, results):
 def _save_sample(frames: list, path: str):
     """
     Guarda una secuencia de frames como muestra en disco.
-
-    Recorta los márgenes, crea una carpeta con timestamp y guarda
-    cada frame como .jpg numerado.
-
-    Args:
-        frames: lista de frames capturados.
-        path: carpeta raíz donde guardar la muestra.
     """
     trimmed = frames[:-(MARGIN_FRAMES + DELAY_FRAMES)]
     if len(trimmed) == 0:
@@ -66,129 +61,120 @@ def _save_sample(frames: list, path: str):
     print(f"💾 Muestra guardada: {os.path.basename(folder)} ({len(trimmed)} frames)")
 
 
-def _capture_loop(cap, model, path: str, debug: bool, stop_flag=None):
-    """
-    Loop principal de captura compartido entre cámara y video.
-
-    Detecta presencia de manos, acumula frames y guarda muestras válidas.
-
-    Args:
-        cap: VideoCapture de OpenCV.
-        model: instancia activa de Holistic.
-        path: carpeta donde guardar las muestras.
-        debug: si True muestra ventana OpenCV; si False genera JPEG para streaming.
-        stop_flag: función que retorna True cuando se debe detener (opcional).
-
-    Yields:
-        bytes JPEG (solo en modo Flask, debug=False).
-    """
-    frames = []
-    frame_count = 0
-    fix_frames = 0
-    recording = False
-
-    while cap.isOpened():
-        if stop_flag and stop_flag():
-            break
-
-        ret, frame = cap.read()
-        if not ret:
-            break
-
-        results = run_mediapipe(frame, model)
-        display = frame.copy()
-
-        if has_hand(results) or recording:
-            recording = False
-            frame_count += 1
-            if frame_count > MARGIN_FRAMES:
-                frames.append(frame.copy())
-                if debug:
-                    cv2.putText(display, "Capturando...", FONT_POS, FONT, FONT_SIZE, (255, 50, 0))
-        else:
-            if len(frames) >= MIN_FRAMES_SAMPLE + MARGIN_FRAMES:
-                fix_frames += 1
-                if fix_frames < DELAY_FRAMES:
-                    recording = True
-                else:
-                    _save_sample(frames, path)
-                    frames, frame_count, fix_frames, recording = [], 0, 0, False
-            else:
-                frames, frame_count, fix_frames, recording = [], 0, 0, False
-                if debug:
-                    cv2.putText(display, "Listo...", FONT_POS, FONT, FONT_SIZE, (0, 220, 100))
-
-        _draw_landmarks(display, results)
-
-        if debug:
-            cv2.imshow("Captura", display)
-            if cv2.waitKey(10) & 0xFF == ord("q"):
-                break
-        else:
-            ret, buffer = cv2.imencode(".jpg", display)
-            yield b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + buffer.tobytes() + b"\r\n"
-
-    cap.release()
-    if debug:
-        cv2.destroyAllWindows()
-
-
-# ---------------------------------------------------------------------------
-# API pública
-# ---------------------------------------------------------------------------
-
-# Flag global para detener el stream desde Flask
-_stop_capture = False
-
-
-def stop_capture():
-    """Señala al generador de captura que debe detenerse."""
-    global _stop_capture
-    _stop_capture = True
-
-
 def capture_from_camera(path: str, debug: bool = False, camera_index: int = 0):
     """
     Captura muestras desde la cámara web.
 
+    El Holistic se mantiene abierto durante todo el generador
+    para evitar el error '_graph is None'.
+
     Args:
         path: carpeta donde guardar las muestras.
         debug: True = ventana OpenCV, False = generador JPEG para Flask.
-        camera_index: índice de la cámara (default 0).
+        camera_index: índice de la cámara.
 
-    Returns:
-        Generador de JPEG si debug=False, None si debug=True.
+    Yields:
+        bytes JPEG si debug=False.
     """
     global _stop_capture
     _stop_capture = False
     os.makedirs(path, exist_ok=True)
 
+    frames = []
+    frame_count = 0
+    fix_frames = 0
+    recording = False
+
     cap = cv2.VideoCapture(camera_index)
 
-    with Holistic() as model:
-        gen = _capture_loop(cap, model, path, debug, stop_flag=lambda: _stop_capture)
-        if debug:
-            for _ in gen:
-                pass
-            _stop_capture = False
-        else:
-            return gen
+    with Holistic() as holistic:
+        while cap.isOpened():
+            if _stop_capture:
+                break
+
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            results = run_mediapipe(frame, holistic)
+            display = frame.copy()
+
+            if has_hand(results) or recording:
+                recording = False
+                frame_count += 1
+                if frame_count > MARGIN_FRAMES:
+                    frames.append(frame.copy())
+                    if debug:
+                        cv2.putText(display, "Capturando...", FONT_POS, FONT, FONT_SIZE, (255, 50, 0))
+            else:
+                if len(frames) >= MIN_FRAMES_SAMPLE + MARGIN_FRAMES:
+                    fix_frames += 1
+                    if fix_frames < DELAY_FRAMES:
+                        recording = True
+                    else:
+                        _save_sample(frames, path)
+                        frames, frame_count, fix_frames, recording = [], 0, 0, False
+                else:
+                    frames, frame_count, fix_frames, recording = [], 0, 0, False
+                    if debug:
+                        cv2.putText(display, "Listo...", FONT_POS, FONT, FONT_SIZE, (0, 220, 100))
+
+            _draw_landmarks(display, results)
+
+            if debug:
+                cv2.imshow("Captura", display)
+                if cv2.waitKey(10) & 0xFF == ord("q"):
+                    break
+            else:
+                ret, buffer = cv2.imencode(".jpg", display)
+                yield b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + buffer.tobytes() + b"\r\n"
+
+    cap.release()
+    _stop_capture = False
+    if debug:
+        cv2.destroyAllWindows()
 
 
-def capture_from_video(video_path: str, path: str, debug: bool = False):
+def capture_from_video(video_path: str, path: str):
     """
     Captura muestras desde un archivo de video pregrabado.
 
     Args:
-        video_path: ruta al archivo de video (.mp4, .mov, .avi).
+        video_path: ruta al archivo de video.
         path: carpeta donde guardar las muestras.
-        debug: True = ventana OpenCV, False = procesa silenciosamente.
     """
     os.makedirs(path, exist_ok=True)
+
+    frames = []
+    frame_count = 0
+    fix_frames = 0
+    recording = False
+
     cap = cv2.VideoCapture(video_path)
 
-    with Holistic() as model:
-        for _ in _capture_loop(cap, model, path, debug=False):
-            pass
+    with Holistic() as holistic:
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
 
+            results = run_mediapipe(frame, holistic)
+
+            if has_hand(results) or recording:
+                recording = False
+                frame_count += 1
+                if frame_count > MARGIN_FRAMES:
+                    frames.append(frame.copy())
+            else:
+                if len(frames) >= MIN_FRAMES_SAMPLE + MARGIN_FRAMES:
+                    fix_frames += 1
+                    if fix_frames < DELAY_FRAMES:
+                        recording = True
+                    else:
+                        _save_sample(frames, path)
+                        frames, frame_count, fix_frames, recording = [], 0, 0, False
+                else:
+                    frames, frame_count, fix_frames, recording = [], 0, 0, False
+
+    cap.release()
     print(f"✅ Video procesado: {video_path}")
