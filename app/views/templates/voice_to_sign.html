@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voz a Señas — Pojoaju</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        canvas {
+            background: #f8f7f4;
+            border-radius: 12px;
+            border: 1px solid #e2e0d8;
+        }
+        .word-chip {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e8f4ef;
+            color: #2d6a4f;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            border: 1px solid #9fd3bc;
+        }
+        .word-chip.active { background: #2d6a4f; color: white; }
+        #progressBar { transition: width 0.1s linear; }
+
+        .mic-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.2s;
+        }
+        .mic-btn.idle      { background: #6366f1; box-shadow: 0 4px 15px rgba(99,102,241,0.4); }
+        .mic-btn.listening {
+            background: #ef4444;
+            animation: pulse 1s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%   { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+            70%  { box-shadow: 0 0 0 16px rgba(239,68,68,0); }
+            100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="flex justify-between items-center px-6 py-4">
+        <a href="{{ url_for('index') }}" class="btn btn-light back-button">
+            <img src="{{ url_for('static', filename='img/BackButton.svg') }}" alt="Back" class="back-arrow">
+        </a>
+        <button class="icon-primary-button flex items-center gap-2 text-white bg-indigo-500 px-4 py-2 rounded-lg">
+            <img src="{{ url_for('static', filename='img/InfoWhite.svg') }}" alt="Help" class="w-5 h-5">
+            <span>Ayuda</span>
+        </button>
+    </nav>
+
+    <div class="max-w-3xl mx-auto px-4 pb-12">
+        <h1 class="text-3xl font-bold text-center mb-2">Voz a Señas</h1>
+        <p class="text-center text-gray-500 mb-8">Hablá y el sistema mostrará la seña correspondiente</p>
+
+        <!-- Micrófono -->
+        <div class="bg-white rounded-xl shadow p-6 mb-6 flex flex-col items-center gap-4">
+            <button class="mic-btn idle" id="micBtn" onclick="toggleListening()">🎤</button>
+            <p id="statusText" class="text-gray-500 text-sm">Hacé clic para empezar a escuchar</p>
+
+            <div id="transcriptBox"
+                 class="w-full min-h-12 px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 text-center text-lg font-medium text-gray-700"
+                 style="display:none"></div>
+
+            <div class="w-full mt-2">
+                <p class="text-sm text-gray-400 mb-2">Palabras disponibles:</p>
+                <div class="flex flex-wrap gap-2">
+                    {% for word in available_words %}
+                    <span class="word-chip" id="chip-{{ word }}">{{ word }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Animación -->
+        <div class="bg-white rounded-xl shadow p-6" id="animationSection" style="display:none">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold" id="currentWord"></h2>
+                <div class="flex gap-2">
+                    <button onclick="togglePlay()" id="playBtn"
+                        class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition text-sm font-medium">
+                        ⏸ Pausar
+                    </button>
+                    <button onclick="restartAnimation()"
+                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium">
+                        🔄 Repetir
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex justify-center mb-4">
+                <canvas id="stickmanCanvas" width="400" height="400"></canvas>
+            </div>
+
+            <div class="w-full bg-gray-100 rounded-full h-2 mb-2">
+                <div id="progressBar" class="bg-indigo-500 h-2 rounded-full" style="width:0%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-gray-400">
+                <span id="frameLabel">Frame 0</span>
+                <span id="totalFrames"></span>
+            </div>
+
+            <div id="errorMsg" class="mt-4 p-3 bg-red-50 text-red-600 rounded-lg text-sm" style="display:none"></div>
+        </div>
+    </div>
+
+    <script>
+        const AVAILABLE_WORDS = {{ available_words | tojson }};
+
+        // ---------------------------------------------------------------
+        // Web Speech API
+        // ---------------------------------------------------------------
+        let recognition = null;
+        let isListening = false;
+
+        function initSpeechRecognition() {
+            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SR) { alert("Tu navegador no soporta reconocimiento de voz. Usá Chrome."); return false; }
+            recognition = new SR();
+            recognition.lang = "es-PY";
+            recognition.continuous = true;
+            recognition.interimResults = true;
+
+            recognition.onresult = (event) => {
+                let interim = "", final = "";
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const t = event.results[i][0].transcript.trim().toLowerCase();
+                    if (event.results[i].isFinal) final = t;
+                    else interim = t;
+                }
+                showTranscript(final || interim, !!final);
+                if (final) {
+                    const match = AVAILABLE_WORDS.find(w => final.includes(w.toLowerCase()));
+                    if (match) { highlightChip(match); loadAnimation(match); }
+                }
+            };
+
+            recognition.onerror = (e) => {
+                if (e.error !== "no-speech") setStatus("Error: " + e.error, "text-red-500");
+            };
+            recognition.onend = () => { if (isListening) recognition.start(); };
+            return true;
+        }
+
+        function toggleListening() {
+            if (!isListening) {
+                if (!recognition && !initSpeechRecognition()) return;
+                recognition.start();
+                isListening = true;
+                document.getElementById("micBtn").className = "mic-btn listening";
+                setStatus("Escuchando... hablá ahora", "text-red-500");
+                document.getElementById("transcriptBox").style.display = "block";
+            } else {
+                recognition.stop();
+                isListening = false;
+                document.getElementById("micBtn").className = "mic-btn idle";
+                setStatus("Hacé clic para empezar a escuchar", "text-gray-500");
+                document.getElementById("transcriptBox").style.display = "none";
+                document.getElementById("transcriptBox").textContent = "";
+                clearChips();
+            }
+        }
+
+        function showTranscript(text, isFinal) {
+            const box = document.getElementById("transcriptBox");
+            box.textContent = text;
+            box.style.color = isFinal ? "#1f2937" : "#9ca3af";
+        }
+
+        function setStatus(text, cls) {
+            const el = document.getElementById("statusText");
+            el.textContent = text;
+            el.className = "text-sm " + cls;
+        }
+
+        function highlightChip(word) {
+            clearChips();
+            const c = document.getElementById("chip-" + word);
+            if (c) c.classList.add("active");
+        }
+
+        function clearChips() {
+            document.querySelectorAll(".word-chip").forEach(c => c.classList.remove("active"));
+        }
+
+        // ---------------------------------------------------------------
+        // Animación — igual que text_to_sign (versión vieja con fondo blanco)
+        // ---------------------------------------------------------------
+        let animData = null;
+        let currentFrame = 0;
+        let animInterval = null;
+        let isPlaying = false;
+        const FPS = 8;
+
+        const canvas = document.getElementById("stickmanCanvas");
+        const ctx = canvas.getContext("2d");
+        const W = canvas.width;
+        const H = canvas.height;
+
+        async function loadAnimation(word) {
+            stopAnimation();
+            currentFrame = 0;
+            document.getElementById("animationSection").style.display = "block";
+            document.getElementById("currentWord").textContent = `Seña: "${word}"`;
+            document.getElementById("errorMsg").style.display = "none";
+            ctx.clearRect(0, 0, W, H);
+            ctx.fillStyle = "#9ca3af";
+            ctx.font = "16px system-ui";
+            ctx.textAlign = "center";
+            ctx.fillText("Cargando...", W/2, H/2);
+
+            try {
+                const r = await fetch(`/api/sign/${encodeURIComponent(word)}`);
+                const d = await r.json();
+                if (!d.success) {
+                    document.getElementById("errorMsg").textContent = d.error;
+                    document.getElementById("errorMsg").style.display = "block";
+                    ctx.clearRect(0, 0, W, H);
+                    return;
+                }
+                animData = d;
+                currentFrame = 0;
+                document.getElementById("totalFrames").textContent = `${d.frames.length} frames`;
+                startAnimation();
+            } catch(e) {
+                document.getElementById("errorMsg").textContent = "Error al cargar la seña.";
+                document.getElementById("errorMsg").style.display = "block";
+            }
+        }
+
+        function startAnimation() {
+            isPlaying = true;
+            document.getElementById("playBtn").textContent = "⏸ Pausar";
+            animInterval = setInterval(() => {
+                if (currentFrame >= animData.frames.length) currentFrame = 0;
+                drawFrame(animData.frames[currentFrame]);
+                updateProgress();
+                currentFrame++;
+            }, 1000 / FPS);
+        }
+
+        function stopAnimation() {
+            if (animInterval) clearInterval(animInterval);
+            animInterval = null;
+            isPlaying = false;
+        }
+
+        function togglePlay() {
+            if (isPlaying) { stopAnimation(); document.getElementById("playBtn").textContent = "▶ Reproducir"; }
+            else { startAnimation(); }
+        }
+
+        function restartAnimation() {
+            stopAnimation(); currentFrame = 0; if (animData) startAnimation();
+        }
+
+        function updateProgress() {
+            const pct = animData ? (currentFrame / animData.frames.length) * 100 : 0;
+            document.getElementById("progressBar").style.width = pct + "%";
+            document.getElementById("frameLabel").textContent = `Frame ${currentFrame}`;
+        }
+
+        function drawFrame(frame) {
+            ctx.clearRect(0, 0, W, H);
+
+            function sx(x) { return x * W; }
+            function sy(y) { return y * H; }
+
+            const pose = frame.pose;
+            const lh   = frame.left_hand;
+            const rh   = frame.right_hand;
+
+            // Cuerpo
+            ctx.strokeStyle = "#4f46e5";
+            ctx.lineWidth = 3;
+            ctx.lineCap = "round";
+            for (const [a, b] of animData.pose_connections) {
+                if (!pose[a] || !pose[b]) continue;
+                if (pose[a].x === 0 && pose[a].y === 0) continue;
+                if (pose[b].x === 0 && pose[b].y === 0) continue;
+                ctx.beginPath();
+                ctx.moveTo(sx(pose[a].x), sy(pose[a].y));
+                ctx.lineTo(sx(pose[b].x), sy(pose[b].y));
+                ctx.stroke();
+            }
+            ctx.fillStyle = "#4f46e5";
+            for (const p of pose) {
+                if (p.x === 0 && p.y === 0) continue;
+                ctx.beginPath();
+                ctx.arc(sx(p.x), sy(p.y), 4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Cabeza
+            const ls = pose[11], rs = pose[12], nose = pose[0];
+            if (nose && nose.x !== 0) {
+                ctx.strokeStyle = "#4f46e5";
+                ctx.lineWidth = 2;
+                const headR = Math.abs(sx(rs.x) - sx(ls.x)) * 0.35;
+                ctx.beginPath();
+                ctx.arc(sx(nose.x), sy(nose.y), headR, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            // Mano izquierda (rosa)
+            const hasLH = lh.some(p => p.x !== 0 || p.y !== 0);
+            if (hasLH) {
+                ctx.strokeStyle = "#db2777";
+                ctx.lineWidth = 2;
+                for (const [a, b] of animData.hand_connections) {
+                    if (!lh[a] || !lh[b]) continue;
+                    if (lh[a].x === 0 && lh[a].y === 0) continue;
+                    ctx.beginPath();
+                    ctx.moveTo(sx(lh[a].x), sy(lh[a].y));
+                    ctx.lineTo(sx(lh[b].x), sy(lh[b].y));
+                    ctx.stroke();
+                }
+                ctx.fillStyle = "#db2777";
+                for (const p of lh) {
+                    if (p.x === 0 && p.y === 0) continue;
+                    ctx.beginPath();
+                    ctx.arc(sx(p.x), sy(p.y), 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Mano derecha (verde)
+            const hasRH = rh.some(p => p.x !== 0 || p.y !== 0);
+            if (hasRH) {
+                ctx.strokeStyle = "#059669";
+                ctx.lineWidth = 2;
+                for (const [a, b] of animData.hand_connections) {
+                    if (!rh[a] || !rh[b]) continue;
+                    if (rh[a].x === 0 && rh[a].y === 0) continue;
+                    ctx.beginPath();
+                    ctx.moveTo(sx(rh[a].x), sy(rh[a].y));
+                    ctx.lineTo(sx(rh[b].x), sy(rh[b].y));
+                    ctx.stroke();
+                }
+                ctx.fillStyle = "#059669";
+                for (const p of rh) {
+                    if (p.x === 0 && p.y === 0) continue;
+                    ctx.beginPath();
+                    ctx.arc(sx(p.x), sy(p.y), 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Leyenda
+            ctx.font = "12px system-ui";
+            ctx.fillStyle = "#db2777";
+            ctx.fillText("● Mano izq.", 8, H - 18);
+            ctx.fillStyle = "#059669";
+            ctx.fillText("● Mano der.", 100, H - 18);
+        }
+    </script>
+</body>
+</html>

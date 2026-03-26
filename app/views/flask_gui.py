@@ -249,3 +249,8 @@ def get_sign(word):
     if animation is None:
         return jsonify(success=False, error=f"No hay keypoints para '{word}'"), 404
     return jsonify(success=True, **animation)
+
+@app.route("/voice_to_sign")
+def voice_to_sign():
+    words = get_available_words()
+    return render_template("voice_to_sign.html", available_words=words)
