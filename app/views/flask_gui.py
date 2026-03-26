@@ -423,6 +423,7 @@ import json
 
 # Reemplaza tu ruta actual con estas:
 
+
 @app.route("/confusion-matrix")
 def confusion_matrix_page():
     """
@@ -439,34 +440,30 @@ def generate_matrix_api():
     """
     try:
         cm, y_true, y_pred, metrics = generate_confusion_matrix()  # 4 valores ahora
-        
+
         # Obtener top confusiones
-        top_confusions = get_top_confusions(cm, metrics['labels'], top_k=5)
-        
-        return jsonify({
-            'success': True,
-            'image_path': '/static/confusion/confusion_matrix.png',
-            'metrics': {
-                'accuracy': f"{metrics['accuracy']:.2%}",
-                'n_classes': metrics['n_classes'],
-                'n_samples': metrics['n_samples'],
-                'labels': metrics['labels']
-            },
-            'top_confusions': [
-                {
-                    'real': conf[0],
-                    'predicted': conf[1],
-                    'count': conf[2]
-                } for conf in top_confusions
-            ],
-            'classification_report': metrics['report']
-        })
-        
+        top_confusions = get_top_confusions(cm, metrics["labels"], top_k=5)
+
+        return jsonify(
+            {
+                "success": True,
+                "image_path": "/static/confusion/confusion_matrix.png",
+                "metrics": {
+                    "accuracy": f"{metrics['accuracy']:.2%}",
+                    "n_classes": metrics["n_classes"],
+                    "n_samples": metrics["n_samples"],
+                    "labels": metrics["labels"],
+                },
+                "top_confusions": [
+                    {"real": conf[0], "predicted": conf[1], "count": conf[2]}
+                    for conf in top_confusions
+                ],
+                "classification_report": metrics["report"],
+            }
+        )
+
     except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route("/api/confusion-matrix-status")
@@ -476,16 +473,19 @@ def matrix_status():
     """
     matrix_path = "static/confusion/confusion_matrix.png"
     exists = os.path.exists(matrix_path)
-    
+
     if exists:
         timestamp = os.path.getmtime(matrix_path)
         from datetime import datetime
+
         last_generated = datetime.fromtimestamp(timestamp).strftime("%Y-%m-%d %H:%M:%S")
     else:
         last_generated = None
-    
-    return jsonify({
-        'exists': exists,
-        'last_generated': last_generated,
-        'path': '/static/confusion/confusion_matrix.png' if exists else None
-    })
+
+    return jsonify(
+        {
+            "exists": exists,
+            "last_generated": last_generated,
+            "path": "/static/confusion/confusion_matrix.png" if exists else None,
+        }
+    )

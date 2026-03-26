@@ -50,9 +50,9 @@ def initialize_database():
 
 
 if __name__ == "__main__":
-    #initialize_database()
+    # initialize_database()
 
-    app.run(debug=True)
+    app.run(debug=False)
 
     #    training_model()
     # predict_model_from_camera()
