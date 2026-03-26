@@ -29,6 +29,7 @@ from ml.pipeline import (
     stop_capture_camera, process_and_save,
     run_training, run_predict_stream, run_evaluation,
 )
+from ml.sign_animator import get_sign_animation, get_available_words
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET", "pojoaju-dev-secret")
@@ -233,3 +234,18 @@ def confusion_status():
         ts = os.path.getmtime(path)
         last = datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
     return jsonify(exists=exists, last_generated=last, path=f"/{path}" if exists else None)
+
+
+@app.route("/text_to_sign")
+def text_to_sign():
+    words = get_available_words()
+    return render_template("text_to_sign.html", available_words=words)
+ 
+ 
+@app.route("/api/sign/<word>")
+def get_sign(word):
+    """Retorna la animación de keypoints para una palabra."""
+    animation = get_sign_animation(word.strip().lower())
+    if animation is None:
+        return jsonify(success=False, error=f"No hay keypoints para '{word}'"), 404
+    return jsonify(success=True, **animation)
