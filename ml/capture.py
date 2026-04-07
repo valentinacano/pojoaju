@@ -16,18 +16,15 @@ from mediapipe.python.solutions.drawing_utils import draw_landmarks, DrawingSpec
 from ml.keypoints import run_mediapipe, has_hand
 from app.config import MARGIN_FRAMES, MIN_FRAMES_SAMPLE, DELAY_FRAMES, FONT, FONT_POS, FONT_SIZE
 
-# Flag global para detener el stream desde Flask
 _stop_capture = False
 
 
 def stop_capture():
-    """Señala al generador de captura que debe detenerse."""
     global _stop_capture
     _stop_capture = True
 
 
 def _draw_landmarks(image, results):
-    """Dibuja todos los landmarks sobre el frame."""
     draw_landmarks(image, results.face_landmarks, FACEMESH_CONTOURS,
                    DrawingSpec(color=(80, 110, 10), thickness=1, circle_radius=1),
                    DrawingSpec(color=(80, 256, 121), thickness=1, circle_radius=1))
@@ -43,10 +40,13 @@ def _draw_landmarks(image, results):
 
 
 def _save_sample(frames: list, path: str):
-    """
-    Guarda una secuencia de frames como muestra en disco.
-    """
-    trimmed = frames[:-(MARGIN_FRAMES + DELAY_FRAMES)]
+    """Guarda una secuencia de frames como muestra en disco."""
+    # Recortar solo si hay suficientes frames para el margen
+    if len(frames) > MARGIN_FRAMES + DELAY_FRAMES:
+        trimmed = frames[:-(MARGIN_FRAMES + DELAY_FRAMES)]
+    else:
+        trimmed = frames
+
     if len(trimmed) == 0:
         print("⚠️ Muestra vacía luego del recorte, se descarta.")
         return
@@ -67,14 +67,6 @@ def capture_from_camera(path: str, debug: bool = False, camera_index: int = 0):
 
     El Holistic se mantiene abierto durante todo el generador
     para evitar el error '_graph is None'.
-
-    Args:
-        path: carpeta donde guardar las muestras.
-        debug: True = ventana OpenCV, False = generador JPEG para Flask.
-        camera_index: índice de la cámara.
-
-    Yields:
-        bytes JPEG si debug=False.
     """
     global _stop_capture
     _stop_capture = False
@@ -129,6 +121,10 @@ def capture_from_camera(path: str, debug: bool = False, camera_index: int = 0):
                 ret, buffer = cv2.imencode(".jpg", display)
                 yield b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + buffer.tobytes() + b"\r\n"
 
+    # Guardar lo que quedó acumulado al cerrar
+    if len(frames) >= MIN_FRAMES_SAMPLE:
+        _save_sample(frames, path)
+
     cap.release()
     _stop_capture = False
     if debug:
@@ -139,9 +135,8 @@ def capture_from_video(video_path: str, path: str):
     """
     Captura muestras desde un archivo de video pregrabado.
 
-    Args:
-        video_path: ruta al archivo de video.
-        path: carpeta donde guardar las muestras.
+    Guarda la muestra tanto al detectar fin de seña como al
+    terminar el video, para no perder la última seña grabada.
     """
     os.makedirs(path, exist_ok=True)
 
@@ -175,6 +170,10 @@ def capture_from_video(video_path: str, path: str):
                         frames, frame_count, fix_frames, recording = [], 0, 0, False
                 else:
                     frames, frame_count, fix_frames, recording = [], 0, 0, False
+
+    # ← Fix principal: guardar lo que quedó al terminar el video
+    if len(frames) >= MIN_FRAMES_SAMPLE:
+        _save_sample(frames, path)
 
     cap.release()
     print(f"✅ Video procesado: {video_path}")
