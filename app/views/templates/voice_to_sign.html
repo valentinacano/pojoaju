@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Texto a Señas — Pojoaju</title>
+    <title>Voz a Señas — Pojoaju</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <style>
@@ -19,14 +19,32 @@
             color: #2d6a4f;
             border-radius: 999px;
             font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
             border: 1px solid #9fd3bc;
         }
-        .word-chip:hover { background: #2d6a4f; color: white; }
         .word-chip.active { background: #2d6a4f; color: white; }
-        #progressBar {
-            transition: width 0.1s linear;
+        #progressBar { transition: width 0.1s linear; }
+
+        .mic-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.2s;
+        }
+        .mic-btn.idle      { background: #6366f1; box-shadow: 0 4px 15px rgba(99,102,241,0.4); }
+        .mic-btn.listening {
+            background: #ef4444;
+            animation: pulse 1s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%   { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+            70%  { box-shadow: 0 0 0 16px rgba(239,68,68,0); }
+            100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
         }
     </style>
 </head>
@@ -42,33 +60,23 @@
     </nav>
 
     <div class="max-w-3xl mx-auto px-4 pb-12">
-        <h1 class="text-3xl font-bold text-center mb-2">Texto a Señas</h1>
-        <p class="text-center text-gray-500 mb-8">Escribí una palabra para ver su seña</p>
+        <h1 class="text-3xl font-bold text-center mb-2">Voz a Señas</h1>
+        <p class="text-center text-gray-500 mb-8">Hablá y el sistema mostrará la seña correspondiente</p>
 
-        <!-- Input -->
-        <div class="bg-white rounded-xl shadow p-6 mb-6">
-            <div class="flex gap-3">
-                <input type="text" id="wordInput"
-                       placeholder="Escribí una palabra..."
-                       class="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 text-lg"
-                       list="wordsList">
-                <datalist id="wordsList">
-                    {% for word in available_words %}
-                    <option value="{{ word }}">
-                    {% endfor %}
-                </datalist>
-                <button onclick="translateWord()"
-                    class="px-6 py-3 bg-indigo-500 text-white font-semibold rounded-xl hover:bg-indigo-600 transition">
-                    Traducir
-                </button>
-            </div>
+        <!-- Micrófono -->
+        <div class="bg-white rounded-xl shadow p-6 mb-6 flex flex-col items-center gap-4">
+            <button class="mic-btn idle" id="micBtn" onclick="toggleListening()">🎤</button>
+            <p id="statusText" class="text-gray-500 text-sm">Hacé clic para empezar a escuchar</p>
 
-            <!-- Palabras disponibles -->
-            <div class="mt-4">
+            <div id="transcriptBox"
+                 class="w-full min-h-12 px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 text-center text-lg font-medium text-gray-700"
+                 style="display:none"></div>
+
+            <div class="w-full mt-2">
                 <p class="text-sm text-gray-400 mb-2">Palabras disponibles:</p>
-                <div class="flex flex-wrap gap-2" id="wordChips">
+                <div class="flex flex-wrap gap-2">
                     {% for word in available_words %}
-                    <span class="word-chip" onclick="selectWord('{{ word }}')">{{ word }}</span>
+                    <span class="word-chip" id="chip-{{ word }}">{{ word }}</span>
                     {% endfor %}
                 </div>
             </div>
@@ -79,8 +87,7 @@
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold" id="currentWord"></h2>
                 <div class="flex gap-2">
-                    <button onclick="togglePlay()"
-                        id="playBtn"
+                    <button onclick="togglePlay()" id="playBtn"
                         class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition text-sm font-medium">
                         ⏸ Pausar
                     </button>
@@ -91,12 +98,10 @@
                 </div>
             </div>
 
-            <!-- Canvas -->
             <div class="flex justify-center mb-4">
                 <canvas id="stickmanCanvas" width="400" height="400"></canvas>
             </div>
 
-            <!-- Barra de progreso -->
             <div class="w-full bg-gray-100 rounded-full h-2 mb-2">
                 <div id="progressBar" class="bg-indigo-500 h-2 rounded-full" style="width:0%"></div>
             </div>
@@ -105,35 +110,106 @@
                 <span id="totalFrames"></span>
             </div>
 
-            <!-- Error -->
             <div id="errorMsg" class="mt-4 p-3 bg-red-50 text-red-600 rounded-lg text-sm" style="display:none"></div>
         </div>
     </div>
 
     <script>
+        const AVAILABLE_WORDS = {{ available_words | tojson }};
+
+        // ---------------------------------------------------------------
+        // Web Speech API
+        // ---------------------------------------------------------------
+        let recognition = null;
+        let isListening = false;
+
+        function initSpeechRecognition() {
+            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SR) { alert("Tu navegador no soporta reconocimiento de voz. Usá Chrome."); return false; }
+            recognition = new SR();
+            recognition.lang = "es-PY";
+            recognition.continuous = true;
+            recognition.interimResults = true;
+
+            recognition.onresult = (event) => {
+                let interim = "", final = "";
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const t = event.results[i][0].transcript.trim().toLowerCase();
+                    if (event.results[i].isFinal) final = t;
+                    else interim = t;
+                }
+                showTranscript(final || interim, !!final);
+                if (final) {
+                    const match = AVAILABLE_WORDS.find(w => final.includes(w.toLowerCase()));
+                    if (match) { highlightChip(match); loadAnimation(match); }
+                }
+            };
+
+            recognition.onerror = (e) => {
+                if (e.error !== "no-speech") setStatus("Error: " + e.error, "text-red-500");
+            };
+            recognition.onend = () => { if (isListening) recognition.start(); };
+            return true;
+        }
+
+        function toggleListening() {
+            if (!isListening) {
+                if (!recognition && !initSpeechRecognition()) return;
+                recognition.start();
+                isListening = true;
+                document.getElementById("micBtn").className = "mic-btn listening";
+                setStatus("Escuchando... hablá ahora", "text-red-500");
+                document.getElementById("transcriptBox").style.display = "block";
+            } else {
+                recognition.stop();
+                isListening = false;
+                document.getElementById("micBtn").className = "mic-btn idle";
+                setStatus("Hacé clic para empezar a escuchar", "text-gray-500");
+                document.getElementById("transcriptBox").style.display = "none";
+                document.getElementById("transcriptBox").textContent = "";
+                clearChips();
+            }
+        }
+
+        function showTranscript(text, isFinal) {
+            const box = document.getElementById("transcriptBox");
+            box.textContent = text;
+            box.style.color = isFinal ? "#1f2937" : "#9ca3af";
+        }
+
+        function setStatus(text, cls) {
+            const el = document.getElementById("statusText");
+            el.textContent = text;
+            el.className = "text-sm " + cls;
+        }
+
+        function highlightChip(word) {
+            clearChips();
+            const c = document.getElementById("chip-" + word);
+            if (c) c.classList.add("active");
+        }
+
+        function clearChips() {
+            document.querySelectorAll(".word-chip").forEach(c => c.classList.remove("active"));
+        }
+
+        // ---------------------------------------------------------------
+        // Animación — igual que text_to_sign (versión vieja con fondo blanco)
+        // ---------------------------------------------------------------
         let animData = null;
         let currentFrame = 0;
         let animInterval = null;
         let isPlaying = false;
-        const FPS = 8; // frames por segundo de la animación
+        const FPS = 8;
 
         const canvas = document.getElementById("stickmanCanvas");
         const ctx = canvas.getContext("2d");
         const W = canvas.width;
         const H = canvas.height;
 
-        function selectWord(word) {
-            document.getElementById("wordInput").value = word;
-            document.querySelectorAll(".word-chip").forEach(c => c.classList.remove("active"));
-            event.target.classList.add("active");
-            translateWord();
-        }
-
-        async function translateWord() {
-            const word = document.getElementById("wordInput").value.trim().toLowerCase();
-            if (!word) return;
-
+        async function loadAnimation(word) {
             stopAnimation();
+            currentFrame = 0;
             document.getElementById("animationSection").style.display = "block";
             document.getElementById("currentWord").textContent = `Seña: "${word}"`;
             document.getElementById("errorMsg").style.display = "none";
@@ -146,19 +222,16 @@
             try {
                 const r = await fetch(`/api/sign/${encodeURIComponent(word)}`);
                 const d = await r.json();
-
                 if (!d.success) {
                     document.getElementById("errorMsg").textContent = d.error;
                     document.getElementById("errorMsg").style.display = "block";
                     ctx.clearRect(0, 0, W, H);
                     return;
                 }
-
                 animData = d;
                 currentFrame = 0;
                 document.getElementById("totalFrames").textContent = `${d.frames.length} frames`;
                 startAnimation();
-
             } catch(e) {
                 document.getElementById("errorMsg").textContent = "Error al cargar la seña.";
                 document.getElementById("errorMsg").style.display = "block";
@@ -169,9 +242,7 @@
             isPlaying = true;
             document.getElementById("playBtn").textContent = "⏸ Pausar";
             animInterval = setInterval(() => {
-                if (currentFrame >= animData.frames.length) {
-                    currentFrame = 0; // loop
-                }
+                if (currentFrame >= animData.frames.length) currentFrame = 0;
                 drawFrame(animData.frames[currentFrame]);
                 updateProgress();
                 currentFrame++;
@@ -185,18 +256,12 @@
         }
 
         function togglePlay() {
-            if (isPlaying) {
-                stopAnimation();
-                document.getElementById("playBtn").textContent = "▶ Reproducir";
-            } else {
-                startAnimation();
-            }
+            if (isPlaying) { stopAnimation(); document.getElementById("playBtn").textContent = "▶ Reproducir"; }
+            else { startAnimation(); }
         }
 
         function restartAnimation() {
-            stopAnimation();
-            currentFrame = 0;
-            if (animData) startAnimation();
+            stopAnimation(); currentFrame = 0; if (animData) startAnimation();
         }
 
         function updateProgress() {
@@ -208,7 +273,6 @@
         function drawFrame(frame) {
             ctx.clearRect(0, 0, W, H);
 
-            // Escalar coordenadas normalizadas (0-1) al canvas
             function sx(x) { return x * W; }
             function sy(y) { return y * H; }
 
@@ -216,11 +280,10 @@
             const lh   = frame.left_hand;
             const rh   = frame.right_hand;
 
-            // --- Dibujar cuerpo (pose) ---
+            // Cuerpo
             ctx.strokeStyle = "#4f46e5";
             ctx.lineWidth = 3;
             ctx.lineCap = "round";
-
             for (const [a, b] of animData.pose_connections) {
                 if (!pose[a] || !pose[b]) continue;
                 if (pose[a].x === 0 && pose[a].y === 0) continue;
@@ -230,8 +293,6 @@
                 ctx.lineTo(sx(pose[b].x), sy(pose[b].y));
                 ctx.stroke();
             }
-
-            // Puntos de pose
             ctx.fillStyle = "#4f46e5";
             for (const p of pose) {
                 if (p.x === 0 && p.y === 0) continue;
@@ -240,7 +301,7 @@
                 ctx.fill();
             }
 
-            // --- Cabeza (entre hombros, arriba) ---
+            // Cabeza
             const ls = pose[11], rs = pose[12], nose = pose[0];
             if (nose && nose.x !== 0) {
                 ctx.strokeStyle = "#4f46e5";
@@ -251,7 +312,7 @@
                 ctx.stroke();
             }
 
-            // --- Mano izquierda ---
+            // Mano izquierda (rosa)
             const hasLH = lh.some(p => p.x !== 0 || p.y !== 0);
             if (hasLH) {
                 ctx.strokeStyle = "#db2777";
@@ -273,7 +334,7 @@
                 }
             }
 
-            // --- Mano derecha ---
+            // Mano derecha (verde)
             const hasRH = rh.some(p => p.x !== 0 || p.y !== 0);
             if (hasRH) {
                 ctx.strokeStyle = "#059669";
@@ -294,12 +355,14 @@
                     ctx.fill();
                 }
             }
-        }
 
-        // Enter para traducir
-        document.getElementById("wordInput").addEventListener("keydown", e => {
-            if (e.key === "Enter") translateWord();
-        });
+            // Leyenda
+            ctx.font = "12px system-ui";
+            ctx.fillStyle = "#db2777";
+            ctx.fillText("● Mano izq.", 8, H - 18);
+            ctx.fillStyle = "#059669";
+            ctx.fillText("● Mano der.", 100, H - 18);
+        }
     </script>
 </body>
 </html>

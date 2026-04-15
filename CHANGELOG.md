@@ -2,89 +2,97 @@
 
 Todas las versiones importantes de Pojoaju se documentan en este archivo.
 
-Este changelog sigue una variante simplificada de [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/), con foco en etapas funcionales del proyecto.
+---
+
+## [1.1.0] - 2026-03-26
+
+### Agregado
+- **Texto a Señas**: nueva sección que permite escribir una palabra y ver su seña animada con un stickman. Usa los keypoints promedio almacenados en la BD y los anima frame por frame en un canvas HTML.
+- **Voz a Señas**: nueva sección que usa la Web Speech API del navegador para reconocer palabras en tiempo real (español Paraguay) y mostrar la seña correspondiente automáticamente.
+- `ml/sign_animator.py`: módulo que extrae la muestra más representativa de la BD, aplica interpolación entre frames para suavizar la animación, y genera el JSON de coordenadas para el frontend.
+- Ruta `/text_to_sign` y `/voice_to_sign` en Flask.
+- Ruta `/api/sign/<word>` que retorna la animación en JSON.
+- Leyenda de manos (izquierda/derecha) en el canvas del stickman.
+
+### Cambios
+- `index.html`: botones "Texto a Señas" y "Voz a Señas" ahora enlazan a sus respectivas rutas.
+
+---
+
+## [1.0.0] - 2026-03-26
+
+### Refactor completo — proyecto rehecho desde cero
+
+#### Problemas críticos resueltos
+- **Normalización unificada**: `normalize_sequence()` es ahora el único método usado en training, predicción y evaluación. Antes había tres implementaciones distintas, lo que causaba baja accuracy.
+- **`test_size` corregido**: de 0.05 → 0.2 en training con estratificación.
+- **Labels de matriz de confusión**: ahora muestran nombres reales de palabras.
+- **`test_size` en evaluación**: corregido de 0.8 → 0.3.
+- **`text_to_speech` unificada**: eliminada la implementación duplicada.
+- **`_graph is None` en MediaPipe**: Holistic ahora se mantiene abierto durante todo el generador de captura.
+- **Validación numpy**: corregido `if not sequence` → `if sequence is None or len(sequence) == 0`.
+- **Muestras con distinto número de frames**: normalización antes de comparar en `_get_best_sample`.
+
+#### Arquitectura
+- Estructura simplificada: `ml/utils/`, `ml/features/`, `ml/prediction/`, `ml/training/` → aplanado a `ml/*.py`
+- `app/database/database_utils.py` → `app/database/queries.py`
+- `ml/pipeline.py` reemplaza `ml/features/pipelines.py`
+
+#### Modelo
+- Dropout reducido: 0.5 → 0.2
+- L2 uniforme en todas las capas
+- `BatchNormalization` agregado
+- `EarlyStopping(patience=30)` y `ModelCheckpoint`
+- `batch_size` aumentado: 8 → 16
+- `test_size` corregido: 0.05 → 0.2 con estratificación
+
+#### Archivos eliminados
+- `ml/utils/` (6 archivos)
+- `ml/features/` (7 archivos)
+- `ml/prediction/predict_model_from_camera.py`
+- `ml/training/confusion_utils.py`, `model.py`, `training_model.py`
+- `app/database/database_utils.py`
+- `build_docs.py`, `docs/`, `Pipfile.lock`
 
 ---
 
 ## [0.2.0] - 2025-08-23
 
 ### Agregado
-- Botón de "Atrás" en el módulo de *training selector*.
-- Botón de "Atrás" en los módulos de subir video y capturar muestras.
+- Botón de "Atrás" en training selector, captura y subida de videos.
 - Íconos faltantes en la sección de diccionario.
 
 ### Cambios
-- Se corrigió el botón "Finalizar entrenamiento" por "Finalizar captura" en la vista de captura de muestras.
-- Se actualizaron los íconos en la UI de subir y grabar videos.
-- Se adaptó la interfaz de captura de muestras al diseño visual del proyecto.
-- Se adaptó la interfaz de subida de videos al diseño visual del proyecto.
+- Corregido el botón "Finalizar entrenamiento" → "Finalizar captura".
+- Interfaz de captura y subida de videos adaptada al diseño visual del proyecto.
 
 ---
 
 ## [0.2.0] - 2025-07-09
 
 ### Agregado
-- Implementación inicial de la función `capture_samples_from_video()` para procesar archivos de video y generar muestras desde frames válidos.
-- Nueva ruta `GET /training/upload_video/<word_id>/<word>` con formulario para subir videos existentes.
-- Nueva ruta `POST /training/upload_video/process/<word_id>/<word>` que guarda el video y ejecuta el pipeline.
-- Guardado de archivos con timestamp para evitar sobreescrituras.
-- Organización de videos por palabra (`VIDEO_EXPORT_PATH/word/`).
-- Sistema de validación y feedback con `flash()` para errores y confirmaciones.
-- Test automatizado `test_capture_samples_from_video_crea_muestras_mock` con video artificial y mocks de detección MediaPipe.
-- Sección de predicción implementada previamente (modelo LSTM + integración con cámara y texto a voz).
-
-### Cambios
-- Se actualizó `capture_samples_from_video()` para guardar muestras solo si se detecta una transición de “mano presente” a “mano ausente”.
-- Se corrigió un `BuildError` en Jinja (`url_for`) pasando correctamente los parámetros `word_id` y `word`.
-- Se refactorizó la vista `training_selector` para aceptar parámetros y renderizar opciones según la palabra.
-- Se mejoró la robustez del procesamiento de videos subidos (verificación de extensión, creación de carpetas, control de flujo).
+- `capture_samples_from_video()` para procesar archivos de video.
+- Rutas para subir videos existentes con timestamp para evitar sobreescrituras.
+- Sistema de validación con `flash()`.
+- Test automatizado para captura desde video con mocks de MediaPipe.
 
 ---
 
 ## [0.1.1] - 2025-06-30
 
 ### Agregado
-- Implementación de la primera versión del pipeline de predicción:
-  - `predict_model_from_camera()` con captura desde cámara en tiempo real, integración con `MediaPipe`, detección de manos, predicción con modelo entrenado y síntesis de voz con `text_to_speech`.
-- Función `normalize_keypoints()` para interpolar secuencias a una longitud fija compatible con el modelo LSTM.
-- Definición del modelo `get_model()` con arquitectura LSTM secuencial:
-  - Dos capas LSTM (64 y 128 unidades),
-  - Regularización L2,
-  - Capas `Dense` intermedias y salida softmax.
-- Pipeline de entrenamiento con `training_model()`:
-  - Recuperación de secuencias desde base de datos,
-  - Preprocesamiento (`pad_sequences`),
-  - División entrenamiento/validación,
-  - Entrenamiento con `EarlyStopping`,
-  - Guardado del modelo final (`MODEL_PATH`).
-
-### Cambios
-- Se agregó soporte en `common_utils`, `keypoints_utils` y `database_utils` para:
-  - Buscar palabras desde `word_id`.
-  - Extraer secuencias de keypoints por palabra.
-- Se ajustaron parámetros como `MODEL_FRAMES` y `LENGTH_KEYPOINTS` para una configuración flexible del modelo.
+- Primera versión del pipeline de predicción con cámara en tiempo real.
+- `normalize_keypoints()` para interpolación de secuencias.
+- Modelo `get_model()` con arquitectura LSTM.
+- Pipeline de entrenamiento con `EarlyStopping`.
 
 ---
 
 ## [0.1.0] - 2025-06-16
 
 ### Agregado
-- Conexión a base de datos PostgreSQL mediante `get_connection()`.
-- Scripts para crear las tablas: `categories`, `words`, `samples`, `keypoints`.
-- Inserción de palabras por categoría y muestras con keypoints.
+- Conexión a PostgreSQL y creación de tablas.
 - Captura de keypoints con MediaPipe Holistic.
-- Entrenamiento inicial del modelo con palabras del alfabeto, números, colores, emociones y saludos.
-- Infraestructura de testing: `pytest`, fixture de limpieza de base y prueba de conexión.
-- Configuración de entorno con Pipenv.
-- Instalación editable del proyecto con `setup.py`.
-
-### Documentación
-- Documentación técnica inicial en `README.md` con:
-  - Estructura de carpetas.
-  - Instrucciones de instalación y testing.
-  - Justificación de `pip install -e .`.
-  - Buenas prácticas de versionado.
-- Setup de documentación automática con Sphinx (`build_docs.py`, `docs/`).
-
-### Cambios
-- Estructura modular inicial del proyecto organizada en `app/`, `ml/`, `tests/`, `data/`, `docs/`, etc.
+- Infraestructura de testing con pytest.
+- Configuración con Pipenv y `setup.py`.
+- Documentación técnica inicial en `README.md`.

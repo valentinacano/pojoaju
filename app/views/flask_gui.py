@@ -1,435 +1,256 @@
-#!/usr/bin/env python
 """
-Interfaz web principal para captura y procesamiento de lenguaje de señas.
+Interfaz web Flask — Pojoaju.
 
-Este módulo define la aplicación Flask y sus rutas asociadas para:
-- Captura de muestras desde la cámara
-- Procesamiento de keypoints con MediaPipe
-- Normalización de muestras
-- Inserción y visualización de palabras en el diccionario
-
-El flujo incluye integración con la base de datos PostgreSQL y visualización web
-mediante plantillas HTML.
+Rutas organizadas por sección:
+- General:      /  /translate
+- Diccionario:  /dictionary  /dictionary/search  /dictionary/insert
+- Entrenamiento:/training  /capture  /video  /save  /train
+- Predicción:   /video_feed_prediction
+- Evaluación:   /confusion
 """
 
 import os
-
-from flask import (
-    Flask,
-    render_template,
-    Response,
-    redirect,
-    url_for,
-    request,
-    jsonify,
-    flash,
-)
-from werkzeug.utils import secure_filename
 from datetime import datetime
 
-from ml.features.pipelines import (
-    create_samples_from_camera,
-    create_samples_from_video,
-    save_keypoints,
-    predict_model_from_camera_stream,
-    train_model as run_training_pipeline,
-    generate_visualization_image,
+from flask import (
+    Flask, render_template, Response, redirect,
+    url_for, request, jsonify, flash
 )
-from app.database.database_utils import (
-    fetch_all_words,
-    fetch_all_categories,
-    insert_words,
-    count_unique_samples_per_word
+from werkzeug.utils import secure_filename
+
+from app.config import FRAMES_PATH, EXPORTS_PATH
+from app.database.queries import (
+    fetch_all_words, fetch_all_categories,
+    insert_word, count_samples_per_word,
+    get_word_by_name, word_to_id,
 )
-from app.config import FRAME_ACTIONS_PATH, VIDEO_EXPORT_PATH
+from ml.pipeline import (
+    start_capture_camera, start_capture_video,
+    stop_capture_camera, process_and_save,
+    run_training, run_predict_stream, run_evaluation,
+)
+from ml.sign_animator import get_sign_animation, get_available_words
 
-
-# -------- VARIABLES
 app = Flask(__name__)
-stop_capture = False  # Flag global para detener la captura de datos
-app.secret_key = (
-    "9f2b3d41a0cd53d0cf99b8f63b867987"  # 🔐 Necesaria para mensajes flash y sesiones
-)
+app.secret_key = os.getenv("FLASK_SECRET", "pojoaju-dev-secret")
 
+ALLOWED_VIDEO_EXTENSIONS = {".mp4", ".mov", ".avi", ".mkv"}
+
+
+# ---------------------------------------------------------------------------
+# General
+# ---------------------------------------------------------------------------
 
 @app.route("/")
 def index():
-    """
-    Página principal del sitio.
-
-    Returns:
-        str: Render de la plantilla `index.html`.
-    """
     return render_template("index.html")
 
 
-# -------- ENTRENADOR
-
-
-@app.route("/training")
-def training():
-    """
-    Página de entrenamiento del modelo.
-
-    Returns:
-        str: Render de la plantilla `training.html`.
-    """
-    return render_template("training.html")
-
-
-@app.route("/capture_form")
-def capture_form():
-    """
-    Página con formulario para ingresar una palabra y comenzar la captura.
-
-    Returns:
-        str: Render de la plantilla `capture_form.html`.
-    """
-    return render_template("capture_form.html")
-
-
-@app.route("/training/capture/<word_id>/<word>")
-def capture(word_id, word):
-    """
-    Página de captura para una palabra específica.
-
-    Args:
-        word_id (str): ID de la palabra que se está capturando.
-        word (str): Palabra que se está capturando.
-
-    Returns:
-        str: Render de la plantilla `capture.html` con la palabra en contexto.
-    """
-    return render_template("capture.html", word_id=word_id, word=word)
-
-
-@app.route("/stop_capture", methods=["POST"])
-def stop_capture_route():
-    global stop_capture
-    stop_capture = True
-
-    word = request.form.get("word")
-    word_id = request.form.get("word_id")
-
-    if word and word_id:
-        return redirect(url_for("save_samples", word=word, word_id=word_id))
-
-    return redirect(url_for("training"))
-
-
-@app.route("/video_feed/<word>")
-def video_feed(word):
-    """
-    Provee un flujo de video en tiempo real con los keypoints dibujados.
-
-    Args:
-        word (str): Palabra que se está capturando.
-
-    Returns:
-        Response: Flujo continuo de frames JPEG para visualización en vivo.
-    """
-    return Response(
-        create_samples_from_camera(word, FRAME_ACTIONS_PATH),
-        mimetype="multipart/x-mixed-replace; boundary=frame",
-    )
-
-
-@app.route("/training/upload_video/process/<word_id>/<word>", methods=["POST"])
-def process_uploaded_video(word_id, word):
-    """
-    Procesa un video subido por el usuario y ejecuta el pipeline de captura.
-
-    Guarda el archivo de video con un nombre único (timestamp), lo procesa para
-    extraer muestras usando MediaPipe y luego redirige al procesamiento de keypoints.
-
-    Args:
-        word_id (str): ID único de la palabra.
-        word (str): Nombre textual de la palabra.
-
-    Returns:
-        Response: Redirección a `save_samples` si se procesa exitosamente; de lo contrario, recarga el formulario.
-    """
-
-    file = request.files.get("video_file")
-
-    if file and file.filename.lower().endswith((".mp4", ".mov", ".avi", ".mkv")):
-        filename = secure_filename(file.filename)
-
-        # Agrega timestamp al nombre del archivo
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        name, ext = os.path.splitext(filename)
-        filename_timestamped = f"{name}_{timestamp}{ext}"
-
-        # Guarda el archivo en una carpeta específica por palabra
-        word_folder = os.path.join(VIDEO_EXPORT_PATH, word)
-        os.makedirs(word_folder, exist_ok=True)
-        video_path = os.path.join(word_folder, filename_timestamped)
-        file.save(video_path)
-
-        # Ejecuta el pipeline con el video subido
-        create_samples_from_video(
-            word_name=word,
-            video_path=video_path,
-            root_path=FRAME_ACTIONS_PATH,
-            debug_value=False,
-        )
-
-        if word and word_id:
-            return redirect(url_for("save_samples", word=word, word_id=word_id))
-
-    return redirect(url_for("upload_video", word_id=word_id, word=word))
-
-
-@app.route("/save_samples/<word>/<word_id>")
-def save_samples(word, word_id):
-    """
-    Normaliza las muestras capturadas y extrae los keypoints para una palabra.
-
-    Este endpoint ejecuta el pipeline completo de procesamiento:
-    - Normaliza los frames capturados
-    - Extrae los keypoints usando MediaPipe Holistic
-    - Guarda los resultados en la base de datos (tabla `keypoints`)
-
-    Args:
-        word (str): Palabra que fue capturada y debe procesarse.
-        word_id (str): ID correspondiente a la palabra en la base de datos.
-
-    Returns:
-        str: Render de la plantilla `save_samples.html` al completar el proceso.
-    """
-    save_keypoints(word, word_id, FRAME_ACTIONS_PATH)
-    return render_template("save_samples.html", word=word, word_id=word_id)
-
-
-@app.route("/training/upload_video/<word_id>/<word>")
-def upload_video(word_id, word):
-    """
-    Página para subir un archivo de video que será procesado como muestra de una palabra.
-
-    Args:
-        word_id (str): ID de la palabra a la que pertenece el video.
-        word (str): Nombre textual de la palabra.
-
-    Returns:
-        str: Render del formulario `upload_video.html` para cargar el archivo.
-    """
-
-    return render_template("upload_video.html", word_id=word_id, word=word)
-
-
-# -------- DICCIONARIO
-
-
-def filter_words(filter_text, words):
-    """
-    Filtra las palabras que contienen el texto buscado en el nombre o la categoría.
-
-    Args:
-        filter_text (str): Texto a buscar (se convierte a minúsculas).
-        words (list[tuple]): Lista de tuplas (word_id, word, category).
-
-    Returns:
-        list[tuple]: Lista filtrada que contiene el texto buscado.
-    """
-    filter_text = filter_text.strip().lower()
-    return [
-        word
-        for word in words
-        if filter_text in word[1].lower() or filter_text in word[2].lower()
-    ]
-
-
-@app.route("/training/dictionary")
-def dictionary():
-    """
-    Muestra el diccionario de palabras disponibles en el sistema.
-
-    Recupera todas las palabras y sus categorías desde la base de datos,
-    y las muestra paginadas en la plantilla `dictionary.html`.
-
-    Returns:
-        str: Render de la plantilla con la lista completa de palabras.
-    """
-    words = fetch_all_words()
-
-    word_ids = [w[0] for w in words]
-
-    samples_count = count_unique_samples_per_word(word_ids)
-
-    total_palabras = len(words)
-    palabras_con_muestras = sum(1 for w_id in word_ids if samples_count.get(w_id, 0) > 0)
-    palabras_sin_muestras = total_palabras - palabras_con_muestras
-
-
-
-    return render_template(
-        "dictionary.html",
-        words=words,
-        samples_count=samples_count,
-        total_palabras=total_palabras,
-        palabras_con_muestras=palabras_con_muestras,
-        palabras_sin_muestras=palabras_sin_muestras,
-        page=1,
-        total_pages=5
-    )
-
-
-@app.route("/training/dictionary/search", methods=["POST"])
-def dictionary_search():
-    """
-    Realiza la búsqueda de palabras en el diccionario según un texto ingresado.
-
-    Filtra la lista de palabras por coincidencia en el nombre o la categoría,
-    y renderiza nuevamente el diccionario con los resultados filtrados.
-
-    Returns:
-        str: Render de la plantilla con las palabras filtradas.
-    """
-    filter_text = request.form.get("filter")
-    words = fetch_all_words()
-    filtered_words = filter_words(filter_text, words)
-    return render_template("dictionary.html", words=filtered_words)
-
-
-@app.route("/training/insert_word", methods=["GET", "POST"])
-def insert_word_form():
-    """
-    Muestra el formulario para insertar una nueva palabra y procesa su envío.
-
-    En GET: renderiza el formulario con las categorías existentes.
-    En POST: valida la entrada y guarda la palabra con su categoría en la base de datos.
-
-    Returns:
-        str: Render de la plantilla correspondiente según el resultado.
-    """
-    if request.method == "POST":
-        word = request.form.get("word", "").strip()
-        category_existing = request.form.get("category_existing", "").strip()
-        category_new = request.form.get("category_new", "").strip()
-
-        if not word:
-            flash("La palabra es obligatoria.", "error")
-            # Se recarga la página con mensaje de error
-        else:
-            # Decidir categoría: nueva o existente
-            if category_new:
-                category = category_new
-            elif category_existing:
-                category = category_existing
-            else:
-                flash("Debe seleccionar o ingresar una categoría.", "error")
-                return redirect(url_for("insert_word_form"))
-
-            # Insertar la palabra con la categoría usando tu función insert_words
-            words_to_insert = {category: [word]}
-            insert_words(words_to_insert)
-
-            return render_template("insert_success.html", word=word, category=category)
-
-    # GET: mostrar formulario
-    categories = fetch_all_categories()
-    return render_template("insert_word_form.html", categories=categories)
-
-
-@app.route("/training/dictionary/selector/<word_id>/<word>")
-def training_selector(word_id, word):
-    """
-    Permite elegir el tipo de entrenamiento: en vivo desde cámara o con video cargado.
-
-    Args:
-        word_id (str): ID de la palabra.
-        word (str): Nombre de la palabra.
-
-    Returns:
-        str: Render de la plantilla `training_selector.html` con opciones de captura.
-    """
-
-    return render_template("training_selector.html", word_id=word_id, word=word)
-
-
-@app.route("/train_model_page")
-def train_model_page():
-    """
-    Página para iniciar el entrenamiento del modelo de predicción.
-
-    Renderiza la plantilla `train_model.html` que permite al usuario
-    lanzar el entrenamiento desde la interfaz web.
-
-    Returns:
-        str: Render de la plantilla con el botón para entrenar el modelo.
-    """
-    return render_template("train_model.html")
-
-
-@app.route("/train_model", methods=["POST"])
-def train_model():
-    """
-    Ejecuta el pipeline de entrenamiento del modelo desde una petición POST.
-
-    Corre la función `run_training_pipeline()` que:
-    - Recupera datos desde la base.
-    - Preprocesa las secuencias.
-    - Entrena el modelo LSTM.
-    - Devuelve los resultados o errores en formato JSON.
-
-    Returns:
-        Response: Objeto JSON con el estado del entrenamiento (`success`, `output`, `error`).
-    """
-    try:
-        results = run_training_pipeline()
-        print(results)
-        if "error" in results:
-            return jsonify(success=False, output="", error=results["error"])
-        return jsonify(success=True, output=results, error="")
-    except Exception as e:
-        return jsonify(success=False, output="", error=str(e))
-
-
-@app.route("/translate", methods=["GET"])
+@app.route("/translate")
 def translate_page():
-    """
-    Página de traducción en tiempo real desde lenguaje de señas a texto.
-
-    Renderiza la plantilla `translate.html`, que muestra la cámara en vivo
-    y permite visualizar las predicciones del modelo mientras se realiza una seña.
-
-    Returns:
-        str: Render de la plantilla de traducción en tiempo real.
-    """
     return render_template("translate.html")
 
 
 @app.route("/video_feed_prediction")
 def video_feed_prediction():
-    """
-    Inicia el stream de video desde cámara con predicción en vivo del modelo LSTM.
-
-    Utiliza la función `predict_model_from_camera_stream()` para capturar frames,
-    extraer keypoints, predecir la palabra y mostrarla en tiempo real.
-
-    Returns:
-        Response: Stream de imágenes tipo MJPEG (`multipart/x-mixed-replace`).
-    """
     return Response(
-        predict_model_from_camera_stream(),
-        mimetype="multipart/x-mixed-replace; boundary=frame",
+        run_predict_stream(),
+        mimetype="multipart/x-mixed-replace; boundary=frame"
     )
 
 
-# @app.route("/text_to_sign")
-# def visualize_sign(word):
-#     """
-#     Muestra la imagen de la seña promedio para una palabra, si existen keypoints.
+# ---------------------------------------------------------------------------
+# Diccionario
+# ---------------------------------------------------------------------------
 
-#     Args:
-#         word (str): Palabra a visualizar.
+@app.route("/dictionary")
+def dictionary():
+    words = fetch_all_words()
+    word_ids = [w[0] for w in words]
+    samples_count = count_samples_per_word(word_ids)
 
-#     Returns:
-#         HTML: Página con la imagen, o error si no hay datos.
-#     """
-#     image_path = generate_visualization_image(word)
+    total = len(words)
+    con_muestras = sum(1 for wid in word_ids if samples_count.get(wid, 0) > 0)
 
-#     if image_path is None:
-#         return f"No hay muestras suficientes para la palabra: {word}", 404
+    return render_template(
+        "dictionary.html",
+        words=words,
+        samples_count=samples_count,
+        total=total,
+        con_muestras=con_muestras,
+        sin_muestras=total - con_muestras,
+    )
 
-#     return render_template("text_to_sign.html", word=word, image_path=image_path)
+
+@app.route("/dictionary/search", methods=["POST"])
+def dictionary_search():
+    query = request.form.get("query", "").strip().lower()
+    words = fetch_all_words()
+    filtered = [
+        w for w in words
+        if query in w[1].lower() or query in w[2].lower()
+    ]
+    return render_template("dictionary.html", words=filtered)
+
+
+@app.route("/dictionary/insert", methods=["GET", "POST"])
+def insert_word_form():
+    if request.method == "POST":
+        word = request.form.get("word", "").strip()
+        category = (
+            request.form.get("category_new", "").strip()
+            or request.form.get("category_existing", "").strip()
+        )
+
+        if not word:
+            flash("La palabra es obligatoria.", "error")
+            return redirect(url_for("insert_word_form"))
+
+        if not category:
+            flash("Seleccioná o ingresá una categoría.", "error")
+            return redirect(url_for("insert_word_form"))
+
+        insert_word(word, category)
+        return render_template("insert_success.html", word=word, category=category)
+
+    categories = fetch_all_categories()
+    return render_template("insert_word_form.html", categories=categories)
+
+
+# ---------------------------------------------------------------------------
+# Entrenamiento — captura
+# ---------------------------------------------------------------------------
+
+@app.route("/training")
+def training():
+    return render_template("training.html")
+
+
+@app.route("/training/selector/<word_id>/<word>")
+def training_selector(word_id, word):
+    return render_template("training_selector.html", word_id=word_id, word=word)
+
+
+@app.route("/training/capture/<word_id>/<word>")
+def capture_page(word_id, word):
+    return render_template("capture.html", word_id=word_id, word=word)
+
+
+@app.route("/video_feed/<word>")
+def video_feed(word):
+    return Response(
+        start_capture_camera(word),
+        mimetype="multipart/x-mixed-replace; boundary=frame"
+    )
+
+
+@app.route("/stop_capture", methods=["POST"])
+def stop_capture_route():
+    stop_capture_camera()
+    word = request.form.get("word")
+    word_id = request.form.get("word_id")
+    if word and word_id:
+        return redirect(url_for("save_samples", word=word, word_id=word_id))
+    return redirect(url_for("training"))
+
+
+@app.route("/training/upload/<word_id>/<word>", methods=["GET", "POST"])
+def upload_video(word_id, word):
+    if request.method == "GET":
+        return render_template("upload_video.html", word_id=word_id, word=word)
+
+    file = request.files.get("video_file")
+    if not file:
+        flash("No se recibió ningún archivo.", "error")
+        return redirect(url_for("upload_video", word_id=word_id, word=word))
+
+    ext = os.path.splitext(file.filename)[1].lower()
+    if ext not in ALLOWED_VIDEO_EXTENSIONS:
+        flash(f"Formato no soportado. Usá: {', '.join(ALLOWED_VIDEO_EXTENSIONS)}", "error")
+        return redirect(url_for("upload_video", word_id=word_id, word=word))
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"{secure_filename(word)}_{timestamp}{ext}"
+    word_export_folder = os.path.join(EXPORTS_PATH, word.strip().lower())
+    os.makedirs(word_export_folder, exist_ok=True)
+    video_path = os.path.join(word_export_folder, filename)
+    file.save(video_path)
+
+    start_capture_video(word, video_path)
+
+    return redirect(url_for("save_samples", word=word, word_id=word_id))
+
+
+@app.route("/save_samples/<word>/<word_id>")
+def save_samples(word, word_id):
+    process_and_save(word, word_id)
+    return render_template("save_samples.html", word=word, word_id=word_id)
+
+
+# ---------------------------------------------------------------------------
+# Entrenamiento — modelo
+# ---------------------------------------------------------------------------
+
+@app.route("/train")
+def train_page():
+    return render_template("train_model.html")
+
+
+@app.route("/train", methods=["POST"])
+def train_model():
+    try:
+        results = run_training()
+        if "error" in results:
+            return jsonify(success=False, error=results["error"])
+        return jsonify(success=True, results=results)
+    except Exception as e:
+        return jsonify(success=False, error=str(e)), 500
+
+
+# ---------------------------------------------------------------------------
+# Evaluación
+# ---------------------------------------------------------------------------
+
+@app.route("/confusion")
+def confusion_page():
+    return render_template("confusion_matrix.html")
+
+
+@app.route("/api/confusion", methods=["POST"])
+def confusion_api():
+    try:
+        data = run_evaluation()
+        return jsonify(success=True, **data)
+    except Exception as e:
+        return jsonify(success=False, error=str(e)), 500
+
+
+@app.route("/api/confusion/status")
+def confusion_status():
+    path = "static/confusion/confusion_matrix.png"
+    exists = os.path.exists(path)
+    last = None
+    if exists:
+        ts = os.path.getmtime(path)
+        last = datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
+    return jsonify(exists=exists, last_generated=last, path=f"/{path}" if exists else None)
+
+
+@app.route("/text_to_sign")
+def text_to_sign():
+    words = get_available_words()
+    return render_template("text_to_sign.html", available_words=words)
+ 
+ 
+@app.route("/api/sign/<word>")
+def get_sign(word):
+    """Retorna la animación de keypoints para una palabra."""
+    animation = get_sign_animation(word.strip().lower())
+    if animation is None:
+        return jsonify(success=False, error=f"No hay keypoints para '{word}'"), 404
+    return jsonify(success=True, **animation)
+
+@app.route("/voice_to_sign")
+def voice_to_sign():
+    words = get_available_words()
+    return render_template("voice_to_sign.html", available_words=words)

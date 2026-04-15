@@ -1,70 +1,20 @@
-"""
-Aplicación principal del sistema de reconocimiento de señas.
+from dotenv import load_dotenv
+load_dotenv()  # ← DEBE ser antes de cualquier import de app/
 
-Inicializa las tablas de la base de datos y lanza la aplicación Flask.
-La inicialización se realiza una única vez para evitar duplicación con el reloader.
-"""
-
-import os
-from app.config import words, categories
+from app.database.schema import create_all_tables
+from app.database.queries import insert_words_bulk
+from app.config import WORDS
 from app.views.flask_gui import app
-from app.database.schema import (
-    create_categories_table,
-    create_words_table,
-    create_keypoints_table,
-    create_samples_table,
-)
-from app.database.database_utils import (
-    insert_words,
-    insert_categories,
-)
-
-from ml.utils.training_utils import get_sequences_and_labels
-from app.database.database_utils import fetch_word_ids_with_keypoints
-
-from ml.training.training_model import training_model
-from ml.features.pipelines import create_samples_from_video
-from ml.prediction.predict_model_from_camera import predict_model_from_camera
-
-from app.config import FRAME_ACTIONS_PATH, VIDEO_EXPORT_PATH
 
 
-def initialize_database():
-    """
-    Crea las tablas necesarias e inserta palabras y categorías si no existen.
-
-    Esta función debe ejecutarse una sola vez al inicio del sistema para preparar
-    la base de datos. No borra datos previos.
-
-    Returns:
-        None
-    """
-    print("🛠️ Inicializando base de datos (sin borrar datos existentes)...")
-    create_categories_table()
-    create_words_table()
-    create_samples_table()
-    create_keypoints_table()
-    insert_categories(categories)
-    insert_words(words)
+def initialize():
+    """Crea tablas e inserta vocabulario inicial si no existe."""
+    print("🛠️  Inicializando base de datos...")
+    create_all_tables()
+    insert_words_bulk(WORDS)
     print("✅ Base de datos lista.\n")
 
 
 if __name__ == "__main__":
-    initialize_database()
-    print("✅ ----- Obteniendo words ids")
-    word_ids = fetch_word_ids_with_keypoints()
-    print("IDs de palabras con keypoints:", word_ids)
-
-    print("✅ ----- obteniendo secuencias y etiquetas")
-    sequences, labels = get_sequences_and_labels(word_ids)
-    print(sequences[0])
-    app.run(debug=True)
-
-    
-    #    training_model()
-    # predict_model_from_camera()
-# create_samples_from_video(
-#    word_name="papá",
-#    video_path=VIDEO_EXPORT_PATH,
-#    root_path=FRAME_ACTIONS_PATH
-# )
+    initialize()
+    app.run(debug=False)

@@ -1,171 +1,308 @@
-# Proyecto Pojoaju
+# Pojoaju
 
-Proyecto para captura, procesamiento y entrenamiento de lenguaje de señas utilizando MediaPipe y redes neuronales.
+Sistema de reconocimiento de lengua de señas paraguaya (LSPy) usando MediaPipe y redes neuronales LSTM.
 
-## Requisitos
+---
 
-- Python 3.10
-- PostgreSQL
-- HDF5
-- Pipenv
-- Sphinx (documentación)
+## Requisitos previos
 
-## Setup del entorno
+- **Python 3.10** — versión exacta requerida
+- **PostgreSQL** — base de datos del proyecto
+- **pipenv** — gestor de entorno virtual (opcional, también funciona con pip)
+
+### Instalación en macOS
 
 ```bash
-# Instalar Python y HDF5
 brew install python@3.10
-brew install hdf5
-
-# PostgreSQL
 brew install postgresql
 brew services start postgresql
+```
 
-# Crear y activar entorno virtual
+### Instalación en Ubuntu/Debian
+
+```bash
+sudo apt update
+sudo apt install python3.10 python3.10-venv python3-pip
+sudo apt install postgresql postgresql-contrib
+sudo service postgresql start
+```
+
+### Instalación en Windows
+
+1. Descargar Python 3.10 desde https://python.org
+2. Descargar PostgreSQL desde https://www.postgresql.org/download/windows/
+
+---
+
+## Setup desde cero
+
+### 1. Clonar el repositorio
+
+```bash
+git clone <url-del-repo>
+cd pojoaju
+```
+
+### 2. Crear las bases de datos
+
+```bash
+psql postgres -c "CREATE DATABASE pojoaju;"
+psql postgres -c "CREATE DATABASE pojoaju_test;"
+```
+
+En macOS con Homebrew el usuario por defecto es tu usuario del sistema:
+
+```bash
+psql postgres
+CREATE DATABASE pojoaju;
+CREATE DATABASE pojoaju_test;
+\q
+```
+
+### 3. Configurar variables de entorno
+
+```bash
+cp .env.example .env
+```
+
+Completá `.env` con tus credenciales:
+
+```
+DB_USER=tu_usuario_postgresql
+DB_PASSWORD=
+DB_HOST=localhost
+DB_PORT=5432
+FLASK_SECRET=cualquier-string-secreto
+```
+
+### 4. Instalar dependencias
+
+**Con pipenv (recomendado):**
+
+```bash
+pip install pipenv
 pipenv --python 3.10
 pipenv install
 pipenv shell
-
-# Instalar el proyecto en modo editable
 pipenv run pip install -e .
 ```
-### ¿Por qué pip install -e .?
-Este comando instala el proyecto en modo editable, lo que significa que cualquier cambio que hagas en el código fuente (app/, ml/, etc.) se aplica automáticamente sin necesidad de reinstalar.
 
-- Solo necesitás ejecutarlo una vez, luego de clonar el proyecto o crear el entorno virtual.
-- Si modificás setup.py o reinstalás el entorno (pipenv --rm + pipenv install), corrélo de nuevo.
+**Con pip:**
 
-Podés verificar si ya está instalado con:
 ```bash
-pipenv run pip list
-```
-Y deberías ver:
-```bash
-pojoaju    0.1.0    editable
+python3.10 -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+pip install -e .
 ```
 
-###  Control de versiones y CHANGELOG
-Cada vez que el proyecto evoluciona, es recomendable actualizar el número de versión en setup.py.
+### 5. Crear carpetas necesarias
+
 ```bash
-version="0.1.0"
+mkdir -p data/frames data/models data/exports static/confusion scripts
 ```
-#### ¿Cuándo cambiar la versión?
-| Situación                                                       | Ejemplo versión |
-|----------------------------------------------------------------|------------------|
-| Primer release mínimo funcional                                | 0.1.0            |
-| Se agrega una funcionalidad visible o significativa            | 0.2.0            |
-| Se hace una corrección o ajuste menor                          | 0.1.1            |
-| Se rompe compatibilidad o cambia la estructura de uso general  | 1.0.0            |
 
-#### ¿Qué es un changelog?
-Un changelog es un archivo que documenta los cambios por versión. Se recomienda usar un archivo CHANGELOG.md con entradas como esta:
+### 6. Crear archivos `__init__.py`
+
 ```bash
-## [0.2.0] - 2025-07-01
-### Agregado
-- Soporte para traducción de colores y emociones
-- Panel de vista previa en Flask
-
-### Corregido
-- Error en normalización de keypoints vacíos
+touch app/__init__.py app/database/__init__.py app/services/__init__.py
+touch app/views/__init__.py ml/__init__.py tests/__init__.py
 ```
-Esto ayuda a saber qué cambió, cuándo y por qué.
 
-## Estructura de carpetas propuesta
+### 7. Levantar el servidor
 
-```plaintext
+```bash
+python main.py
+```
+
+Abrí el navegador en: **http://127.0.0.1:5000**
+
+---
+
+## Estructura del proyecto
+
+```
 pojoaju/
-├── Pipfile / Pipfile.lock      # Dependencias del entorno
-├── README.md                   # Este archivo
-├── main.py / run.py            # Entradas principales
-├── app/                        # Configuración, base de datos, vistas
-│   ├── config.py
-│   ├── database/               # Conexión y queries SQL
-│   ├── models/
+├── main.py                        # Entry point
+├── run.py                         # Formateo + ejecución
+├── setup.py
+├── requirements.txt
+├── Pipfile
+├── pytest.ini
+├── .env.example
+├── .gitignore
+├── build_docs.py                  # Genera documentación Sphinx
+│
+├── app/
+│   ├── config.py                  # Paths, constantes del modelo, config de BD
+│   ├── database/
+│   │   ├── connection.py
+│   │   ├── schema.py
+│   │   └── queries.py             # Todo el SQL del proyecto
 │   ├── services/
-│   └── views/                  # Flask GUI
-├── ml/                         # Módulos de machine learning
-│   ├── features/               # Ingeniería de features (keypoints)
-│   ├── models/                 # Modelos entrenados
-│   ├── prediction/             # Scripts para predicción
-│   ├── training/               # Entrenamiento del modelo
-│   └── utils/                  # Funciones auxiliares
-├── data/
-│   ├── frame_actions/          # Frames capturados por palabra
-│   └── models/                 # Modelos `.keras` guardados
-├── docs/                       # Documentación generada por Sphinx
-├── static/                     # Recursos estáticos
-├── tests/                      # Pruebas unitarias
-└── build_docs.py               # Ejecución de la documentación
+│   │   └── text_to_speech.py
+│   └── views/
+│       └── flask_gui.py
+│
+├── ml/
+│   ├── capture.py                 # Captura desde cámara y video
+│   ├── normalize.py               # Normalización (método único)
+│   ├── keypoints.py               # Extracción de 1662 features con MediaPipe
+│   ├── model.py                   # Arquitectura LSTM
+│   ├── train.py                   # Pipeline de entrenamiento
+│   ├── predict.py                 # Predicción en tiempo real
+│   ├── evaluate.py                # Matriz de confusión
+│   ├── sign_animator.py           # Animación de señas para texto/voz a señas
+│   └── pipeline.py                # Orquestador general
+│
+├── scripts/                       # Herramientas de mantenimiento
+│   ├── check_outliers.py          # Analiza calidad de muestras
+│   └── clean_outliers.py          # Elimina muestras atípicas
+│
+├── templates/                     # Templates HTML de Flask
+├── static/
+│   ├── css/styles.css
+│   └── img/
+│
+├── tests/
+│   ├── conftest.py
+│   ├── test_normalize.py
+│   ├── test_database.py
+│   └── test_keypoints.py
+│
+├── docs/                          # Documentación Sphinx
+│   └── source/
+│
+└── data/                          # Local, no se sube al repo
+    ├── frames/
+    ├── models/
+    └── exports/
 ```
 
-| Carpeta              | Descripción                                                                 |
-|----------------------|------------------------------------------------------------------------------|
-| `app/`               | Módulo principal de la aplicación. Contiene configuración, vistas y acceso a datos. |
-| `app/config.py`      | Parámetros globales de configuración (paths, conexión a BD, etc.).          |
-| `app/database/`      | Lógica de conexión, creación y consultas a la base de datos PostgreSQL.     |
-| `app/models/`        | (Reservado) Clases y estructuras de datos, si se definen entidades.         |
-| `app/services/`      | (Reservado) Lógica de negocio y orquestación de funcionalidades.            |
-| `app/utils/`         | Funciones auxiliares y herramientas reutilizables para toda la app.         |
-| `app/views/`         | Vistas de la app, incluyendo interfaz Flask (`flask_gui.py`) y plantillas. |
-| `ml/`                | Módulo de machine learning del proyecto.                                    |
-| `ml/features/`       | Scripts de ingeniería de features: captura, normalización y procesamiento.  |
-| `ml/training/`       | Scripts de entrenamiento y definición de modelo.                            |
-| `ml/prediction/`     | (Reservado) Scripts para realizar predicciones a futuro.                    |
-| `ml/models/`         | (Reservado) Almacenamiento de modelos exportados (ej: `.keras`).            |
-| `ml/utils/`          | Funciones específicas para ML (keypoints, normalización, entrenamiento).    |
-| `data/`              | Carpeta de datos usados por el sistema.                                     |
-| `data/frame_actions/`| Muestras de video procesadas por palabra, organizadas por carpeta.          |
-| `data/models/`       | Modelos entrenados en formato `.keras`.                                     |
-| `docs/`              | Documentación generada con Sphinx. Contiene `.rst`, `.html`, etc.           |
-| `static/`            | Archivos estáticos como CSS y HTML para la interfaz.                        |
-| `tests/`             | Pruebas unitarias y de integración para validar funciones del proyecto.     |
-| `main.py` / `run.py` | Puntos de entrada del sistema para ejecutar procesos o levantar la app.     |
-| `build_docs.py`      | Script para generar automáticamente la documentación con Sphinx.            |
-| `Pipfile`            | Definición de dependencias del entorno virtual (pipenv).                    |
-| `Pipfile.lock`       | Versión exacta de dependencias instaladas (lockfile).                       |
-| `README.md`          | Documentación general del proyecto.                                         |
+---
+
+## Flujo de uso completo
+
+### Paso 1 — Capturar muestras
+
+1. Ir a **Diccionario** → **Tomar Muestras**
+2. Elegir **Grabar Video** o **Subir Video**
+3. Repetir hasta tener al menos **80 muestras por palabra**
+
+### Paso 2 — Entrenar el modelo
+
+1. Ir a **Entrenamiento → Entrenar Modelo**
+2. El modelo se guarda en `data/models/`
+
+El entrenamiento usa `EarlyStopping(patience=30)`.
+
+### Paso 3 — Traducir señas en tiempo real
+
+Ir a **Traducir Señas** — predice en tiempo real desde la cámara.
+
+### Paso 4 — Texto a Señas
+
+Ir a **Texto a Señas** — escribí una palabra y ve su seña animada.
+
+### Paso 5 — Voz a Señas
+
+Ir a **Voz a Señas** (requiere Chrome) — hablá y el sistema muestra la seña automáticamente.
+
+### Paso 6 — Evaluar el modelo
+
+Ir a **Matriz de Confusión** para ver qué palabras se confunden.
+
+---
+
+## Testing
+
+```bash
+# Todos los tests
+TESTING=1 python -m pytest -v
+
+# Test específico
+TESTING=1 python -m pytest tests/test_normalize.py -v
+
+# Windows
+set TESTING=1 && python -m pytest -v
+```
+
+---
 
 ## Documentación
 
-La documentación está generada con Sphinx y se encuentra en el directorio docs/.
-
-#### Para construir la documentación localmente:
-```bash
-pip install sphinx
-sphinx-apidoc -o docs/source app ml
-make -C docs html
-open docs/build/html/index.html
-```
-#### O directamente:
 ```bash
 python build_docs.py
 ```
 
-## Testing
-Las pruebas están en la carpeta tests/.
+O manualmente:
 
-#### Para ejecutar los tests:
 ```bash
-pipenv install --dev pytest
-pipenv run pytest -v 
+cd docs
+make html
+open build/html/index.html
 ```
 
-## Traducción Inicial
+---
 
-### A - Z & 0 - 9
-Incluye todas las letras mayúsculas y minúsculas (A-Z, a-z) y números del 0 al 9.
+## Herramientas de mantenimiento
 
-### Meses y días
-Incluye todos los nombres de los meses del año y días de la semana.
+Estas herramientas se usan manualmente para auditar y mejorar la calidad de los datos. No son parte del flujo automático.
 
-### Palabras por categoría
+### Analizar outliers
 
-| Categoría                     | Palabra                                                                           |
-|-------------------------------|-----------------------------------------------------------------------------------|
-| Animales                      | Perro, Gato, Vaca, Caballo, Cerdo, Gallina, Pájaro, Ratón                         |
-| Básicos                       | Desayuno, Almuerzo, Cena, Baño, Comer, Tomar, Dormir, Sueño, Hambre, Sed          |
-| Colores                       | Rojo, Azul, Verde, Amarillo, Negro, Blanco, Naranja                               |
-| Emociones                     | Feliz, Triste, Enojado/a, Asustado/a, Cansado/a, Llorar, Reír, Amar               |
-| Familia y personas            | Mamá, Papá, Hermano, Hermana, Abuela, Abuelo, Mujer, Hombre                       |
-| Saludos y expresiones básicas | Hola, Chau, Buenos días, Buenas tardes, Buenas noches, Gracias, Por favor, Perdón |
-| Tiempo                        | Hoy, Ayer, Mañana, Tarde, Noche, Hora, Minuto                                     |
+Muestra las muestras que están muy alejadas del centroide de su palabra, sin eliminar nada:
+
+```bash
+python scripts/check_outliers.py
+```
+
+### Limpiar outliers
+
+Primero corré en modo simulación para ver qué va a eliminar:
+
+```bash
+python scripts/clean_outliers.py
+```
+
+Cuando estés conforme, abrí el archivo y cambiá `dry_run=True` a `dry_run=False` y volvé a ejecutar. Las muestras eliminadas se borran de la BD permanentemente.
+
+**Cuándo usar esto:**
+- Cuando el val_accuracy es muy inestable entre entrenamientos
+- Cuando sospechás que algunas capturas fueron incorrectas
+- Después de agregar muchas muestras nuevas
+
+---
+
+## Decisiones de diseño importantes
+
+**`normalize_sequence()` es el método único del proyecto.** Se usa en `train.py`, `predict.py` y `evaluate.py`. Usar métodos distintos entre training y predicción baja drásticamente la accuracy.
+
+**`ml/` es independiente de Flask.** Toda la comunicación pasa por `ml/pipeline.py`.
+
+**Una sola implementación de TTS.** `app/services/text_to_speech.py` es la única fuente.
+
+---
+
+## Solución de problemas comunes
+
+**Puerto 5000 ocupado (macOS)**
+Ejecutar `app.run(debug=False)` sin especificar host ni port.
+
+**Error de conexión a PostgreSQL**
+Verificar credenciales en `.env` y que PostgreSQL esté corriendo.
+
+**Cámara no detectada**
+Cambiar `camera_index` en `app/config.py` de `0` a `1` o `2`.
+
+**Val accuracy inestable**
+Capturar más muestras (mínimo 80 por palabra) y correr `scripts/check_outliers.py` para detectar muestras problemáticas.
+
+**Voz a Señas no funciona**
+Usar Chrome — la Web Speech API no está disponible en Safari ni Firefox.
+
+---
+
+## Versión
+
+Ver `CHANGELOG.md` para el historial completo de cambios.

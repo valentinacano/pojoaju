@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz de Confusión — Pojoaju</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;padding:20px}
+        .container{max-width:1200px;margin:0 auto}
+        .card{background:#fff;padding:25px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.2);margin-bottom:25px}
+        h1{color:#667eea;font-size:2rem;margin-bottom:8px}
+        h2{color:#667eea;margin-bottom:15px}
+        .controls{display:flex;gap:15px;align-items:center;justify-content:center}
+        .btn{padding:12px 28px;border:none;border-radius:8px;font-size:1em;font-weight:600;cursor:pointer;transition:all .3s}
+        .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(102,126,234,.4)}
+        .btn-secondary{background:#f0f0f0;color:#333}
+        .btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+        .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:16px 0}
+        .metric-card{background:#f8f9fa;padding:18px;border-radius:10px;text-align:center}
+        .metric-value{font-size:1.8em;font-weight:700;color:#667eea;margin:8px 0}
+        .metric-label{color:#666;font-size:.85em}
+        .matrix-image{max-width:100%;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,.1)}
+        table{width:100%;border-collapse:collapse}
+        th,td{padding:12px;text-align:left;border-bottom:1px solid #f0f0f0}
+        th{background:#f8f9fa;color:#667eea;font-weight:600}
+        .spinner{border:4px solid #f3f3f3;border-top:4px solid #667eea;border-radius:50%;
+                 width:50px;height:50px;animation:spin 1s linear infinite;margin:0 auto 16px}
+        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+        .loading{display:none;text-align:center;padding:30px}
+        .loading.active{display:block}
+        .error{background:#ff4444;color:#fff;padding:15px;border-radius:8px;margin:16px 0;display:none}
+        .error.active{display:block}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card" style="text-align:center">
+            <h1>📊 Matriz de Confusión</h1>
+            <p style="color:#666">Análisis de rendimiento del modelo Pojoaju</p>
+        </div>
+
+        <div class="card controls">
+            <button class="btn btn-primary" id="generateBtn" onclick="generateMatrix()">⚡ Generar Matriz</button>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">🏠 Inicio</a>
+        </div>
+
+        <div class="error" id="errorMsg"></div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Generando matriz... puede tomar unos minutos.</p>
+        </div>
+
+        <div class="card" id="metricsSection" style="display:none">
+            <h2>📈 Métricas del Modelo</h2>
+            <div class="metrics" id="metricsGrid"></div>
+        </div>
+
+        <div class="card" id="matrixSection" style="display:none;text-align:center">
+            <h2>Matriz de Confusión</h2>
+            <img class="matrix-image" id="matrixImage" src="" alt="Matriz de Confusión">
+        </div>
+
+        <div class="card" id="confusionsSection" style="display:none">
+            <h2>🔍 Principales Confusiones</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Palabra Real</th>
+                        <th>Predicción Incorrecta</th>
+                        <th>Cantidad de Errores</th>
+                    </tr>
+                </thead>
+                <tbody id="confusionsBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const r = await fetch("{{ url_for('confusion_status') }}");
+                const d = await r.json();
+                if (d.exists) {
+                    document.getElementById("matrixImage").src = d.path + "?t=" + Date.now();
+                    document.getElementById("matrixSection").style.display = "block";
+                }
+            } catch(e) { console.error(e); }
+        });
+
+        async function generateMatrix() {
+            const btn = document.getElementById("generateBtn");
+            btn.disabled = true;
+            document.getElementById("loading").classList.add("active");
+            document.getElementById("errorMsg").classList.remove("active");
+            ["metricsSection","matrixSection","confusionsSection"].forEach(id =>
+                document.getElementById(id).style.display = "none");
+
+            try {
+                const r = await fetch("{{ url_for('confusion_api') }}", { method: "POST" });
+                const d = await r.json();
+
+                if (d.success) {
+                    document.getElementById("metricsGrid").innerHTML = `
+                        <div class="metric-card"><div class="metric-label">Accuracy</div>
+                            <div class="metric-value">${d.accuracy}</div></div>
+                        <div class="metric-card"><div class="metric-label">Clases</div>
+                            <div class="metric-value">${d.n_classes}</div></div>
+                        <div class="metric-card"><div class="metric-label">Muestras</div>
+                            <div class="metric-value">${d.n_samples}</div></div>`;
+                    document.getElementById("metricsSection").style.display = "block";
+
+                    document.getElementById("matrixImage").src = d.image_path + "?t=" + Date.now();
+                    document.getElementById("matrixSection").style.display = "block";
+
+                    if (d.top_confusions?.length) {
+                        document.getElementById("confusionsBody").innerHTML =
+                            d.top_confusions.map(c =>
+                                `<tr><td><strong>${c.real}</strong></td><td>${c.predicted}</td><td>${c.count}</td></tr>`
+                            ).join("");
+                        document.getElementById("confusionsSection").style.display = "block";
+                    }
+                } else {
+                    const err = document.getElementById("errorMsg");
+                    err.textContent = "Error: " + d.error;
+                    err.classList.add("active");
+                }
+            } catch(e) {
+                const err = document.getElementById("errorMsg");
+                err.textContent = "Error: " + e.message;
+                err.classList.add("active");
+            } finally {
+                document.getElementById("loading").classList.remove("active");
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
