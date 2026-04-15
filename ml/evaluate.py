@@ -26,8 +26,7 @@ from ml.normalize import normalize_sequence
 CONFUSION_PATH = "static/confusion/confusion_matrix.png"
 
 
-def _load_sequences(word_ids: list) -> tuple[np.ndarray, np.ndarray]:
-    """Carga secuencias desde la BD. Idéntico a train.py."""
+def _load_sequences(word_ids: list, max_real: int = 60) -> tuple[np.ndarray, np.ndarray]:
     raw = fetch_keypoints_for_words(word_ids)
 
     grouped = {}
@@ -39,14 +38,22 @@ def _load_sequences(word_ids: list) -> tuple[np.ndarray, np.ndarray]:
     word_to_idx = {bytes(wid): i for i, wid in enumerate(word_ids)}
 
     sequences, labels = [], []
-    for (word_id, _), frames in grouped.items():
-        ordered = [kp for _, kp in sorted(frames, key=lambda x: x[0])]
-        normalized = normalize_sequence(ordered, MODEL_FRAMES)
-        sequences.append(normalized)
-        labels.append(word_to_idx[word_id])
+
+    # Agrupar por word_id para filtrar las primeras max_real por seña
+    by_word = {}
+    for (word_id, sample_id) in sorted(grouped.keys()):
+        by_word.setdefault(word_id, []).append(sample_id)
+
+    for word_id, sample_ids in by_word.items():
+        # ✅ Solo las primeras max_real muestras por seña
+        for sample_id in sample_ids[:max_real]:
+            frames = grouped[(word_id, sample_id)]
+            ordered = [kp for _, kp in sorted(frames, key=lambda x: x[0])]
+            normalized = normalize_sequence(ordered, MODEL_FRAMES)
+            sequences.append(normalized)
+            labels.append(word_to_idx[word_id])
 
     return np.array(sequences, dtype=np.float32), np.array(labels)
-
 
 def generate_confusion_matrix(save_path: str = CONFUSION_PATH) -> tuple:
     """

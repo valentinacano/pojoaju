@@ -201,4 +201,4 @@ def augment_all(target: int = 100, dry_run: bool = True):
 if __name__ == "__main__":
     # Primero corré con dry_run=True para ver qué va a generar
     # Cuando estés conforme, cambiá a dry_run=False
-    augment_all(target=200, dry_run=False)
+    augment_all(target=120, dry_run=False)
