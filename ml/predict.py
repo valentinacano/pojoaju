@@ -6,6 +6,7 @@ Puntos clave:
 - Carga el modelo una sola vez al iniciar el stream
 - Soporta modo consola y modo Flask (streaming JPEG)
 - TTS se ejecuta en hilo separado para no bloquear
+- Acumula señas en un buffer para traducción de frases con Gemini
 """
 
 import cv2
@@ -25,6 +26,24 @@ FONT_POS = (10, 35)
 FONT_SIZE = 0.8
 
 # ---------------------------------------------------------------------------
+# Buffer global de señas para traducción de frases
+# ---------------------------------------------------------------------------
+
+_current_phrase = []
+
+
+def get_current_phrase() -> list[str]:
+    """Retorna las señas acumuladas en la frase actual."""
+    return _current_phrase.copy()
+
+
+def clear_phrase():
+    """Limpia el buffer de la frase actual."""
+    global _current_phrase
+    _current_phrase = []
+
+
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
@@ -42,7 +61,7 @@ def _build_idx_to_word(word_ids: list) -> dict:
     for i, wid in enumerate(word_ids):
         row = get_word_by_id(bytes(wid))
         if row:
-            idx_to_word[i] = row[1]  # row = (word_id, word, category)
+            idx_to_word[i] = row[1]
         else:
             idx_to_word[i] = f"clase_{i}"
     return idx_to_word
@@ -85,6 +104,8 @@ def predict_stream(camera_index: int = 0):
 
     Captura frames de la cámara, acumula keypoints mientras hay manos
     detectadas, predice al soltar y retorna JPEG anotados.
+    Las palabras con confianza suficiente se acumulan en _current_phrase
+    para su posterior traducción al español con Gemini.
 
     Args:
         camera_index: índice de la cámara (default 0).
@@ -92,6 +113,8 @@ def predict_stream(camera_index: int = 0):
     Yields:
         bytes JPEG anotados con la predicción.
     """
+    global _current_phrase
+
     word_ids = fetch_word_ids_with_keypoints()
     idx_to_word = _build_idx_to_word(word_ids)
     model = load_model(MODEL_PATH)
@@ -122,6 +145,8 @@ def predict_stream(camera_index: int = 0):
                     if conf >= PREDICTION_THRESHOLD:
                         label = f"{word} ({conf*100:.1f}%) ✔"
                         text_to_speech_async(word)
+                        # Acumular en el buffer de frase
+                        _current_phrase.append(word)
                     else:
                         label = f"{word} ({conf*100:.1f}%) ✗"
 
@@ -135,9 +160,17 @@ def predict_stream(camera_index: int = 0):
             if cooldown > 0:
                 cooldown -= 1
 
-            # Anotar frame
+            # Anotar frame — señas recientes
             cv2.rectangle(frame, (0, 0), (640, 50), (245, 117, 16), -1)
             cv2.putText(frame, " | ".join(sentence), FONT_POS, FONT, FONT_SIZE, (255, 255, 255), 2)
+
+            # Mostrar frase acumulada en barra inferior
+            if _current_phrase:
+                phrase_text = " ".join(_current_phrase)
+                cv2.rectangle(frame, (0, 50), (640, 80), (30, 30, 30), -1)
+                cv2.putText(frame, f"Frase: {phrase_text}", (10, 72),
+                           FONT, 0.6, (200, 200, 200), 1)
+
             _draw_landmarks(frame, results)
 
             _, buffer = cv2.imencode(".jpg", frame)
@@ -156,6 +189,8 @@ def predict_console(camera_index: int = 0, threshold: float = PREDICTION_THRESHO
         camera_index: índice de la cámara.
         threshold: umbral de confianza mínima para aceptar predicción.
     """
+    global _current_phrase
+
     word_ids = fetch_word_ids_with_keypoints()
     idx_to_word = _build_idx_to_word(word_ids)
     model = load_model(MODEL_PATH)
@@ -186,6 +221,7 @@ def predict_console(camera_index: int = 0, threshold: float = PREDICTION_THRESHO
                     if conf >= threshold:
                         label = f"{word} ({conf*100:.1f}%) ✔"
                         text_to_speech_async(word)
+                        _current_phrase.append(word)
                     else:
                         label = f"{word} ({conf*100:.1f}%) ✗"
 

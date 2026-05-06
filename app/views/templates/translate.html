@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
-<body class="bg-gray-50 h-screen">
+<body class="bg-gray-50 min-h-screen">
     <nav class="flex justify-between items-center px-6 py-4">
         <a href="{{ url_for('index') }}" class="btn btn-light back-button">
             <img src="{{ url_for('static', filename='img/BackButton.svg') }}" alt="Back" class="back-arrow">
@@ -19,10 +19,127 @@
         </button>
     </nav>
 
-    <div class="flex flex-col justify-center items-center h-[calc(100vh-80px)] px-4 text-center">
+    <div class="flex flex-col items-center px-4 pb-12">
         <h1 class="text-3xl md:text-4xl font-bold mb-6">Traducción de Señas en Vivo</h1>
+
+        <!-- Cámara -->
         <img src="{{ url_for('video_feed_prediction') }}"
              width="720" height="540" class="rounded-xl shadow mb-6">
+
+        <!-- Señas detectadas -->
+        <div class="w-full max-w-2xl bg-white rounded-xl shadow p-4 mb-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="font-semibold text-gray-700">Señas detectadas</h2>
+                <button onclick="clearPhrase()"
+                    class="text-sm px-3 py-1 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition">
+                    🗑 Limpiar
+                </button>
+            </div>
+            <div id="signsBox"
+                 class="min-h-10 px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 text-lg font-medium text-indigo-700 tracking-wide">
+                <span class="text-gray-400 text-sm" id="signsPlaceholder">Las señas aparecerán acá...</span>
+            </div>
+        </div>
+
+        <!-- Traducción -->
+        <div class="w-full max-w-2xl bg-white rounded-xl shadow p-4 mb-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="font-semibold text-gray-700">Traducción al español</h2>
+                <button onclick="translatePhrase()" id="translateBtn"
+                    class="px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 transition text-sm">
+                    ✨ Traducir frase
+                </button>
+            </div>
+            <div id="translationBox"
+                 class="min-h-10 px-4 py-3 bg-indigo-50 rounded-xl border border-indigo-200 text-lg text-gray-800">
+                <span class="text-gray-400 text-sm" id="translationPlaceholder">La traducción aparecerá acá...</span>
+            </div>
+            <div id="loadingTranslation" class="text-center text-sm text-indigo-500 mt-2" style="display:none">
+                ⏳ Traduciendo con IA...
+            </div>
+        </div>
+
+        <div id="errorMsg" class="w-full max-w-2xl p-3 bg-red-50 text-red-600 rounded-lg text-sm" style="display:none"></div>
     </div>
+
+    <script>
+        let lastSigns = [];
+
+        async function updateSigns() {
+            try {
+                const r = await fetch("/api/current_phrase");
+                const d = await r.json();
+                const signs = d.signs;
+
+                if (JSON.stringify(signs) !== JSON.stringify(lastSigns)) {
+                    lastSigns = signs;
+                    const box = document.getElementById("signsBox");
+                    const placeholder = document.getElementById("signsPlaceholder");
+
+                    if (signs.length > 0) {
+                        placeholder.style.display = "none";
+                        box.textContent = signs.join(" — ");
+                    } else {
+                        box.textContent = "";
+                        placeholder.style.display = "inline";
+                        box.appendChild(placeholder);
+                    }
+                }
+            } catch(e) { console.error(e); }
+        }
+
+        async function translatePhrase() {
+            const btn = document.getElementById("translateBtn");
+            const loading = document.getElementById("loadingTranslation");
+            const box = document.getElementById("translationBox");
+            const placeholder = document.getElementById("translationPlaceholder");
+            const errorMsg = document.getElementById("errorMsg");
+
+            btn.disabled = true;
+            loading.style.display = "block";
+            errorMsg.style.display = "none";
+
+            try {
+                const r = await fetch("/api/translate_phrase", { method: "POST" });
+                const d = await r.json();
+
+                if (d.success) {
+                    placeholder.style.display = "none";
+                    box.textContent = d.translation;
+                    lastSigns = [];
+                    const signsBox = document.getElementById("signsBox");
+                    signsBox.textContent = "";
+                    document.getElementById("signsPlaceholder").style.display = "inline";
+                    signsBox.appendChild(document.getElementById("signsPlaceholder"));
+                } else {
+                    errorMsg.textContent = d.error;
+                    errorMsg.style.display = "block";
+                }
+            } catch(e) {
+                errorMsg.textContent = "Error al traducir.";
+                errorMsg.style.display = "block";
+            } finally {
+                btn.disabled = false;
+                loading.style.display = "none";
+            }
+        }
+
+        async function clearPhrase() {
+            await fetch("/api/clear_phrase", { method: "POST" });
+            lastSigns = [];
+            const signsBox = document.getElementById("signsBox");
+            signsBox.textContent = "";
+            document.getElementById("signsPlaceholder").style.display = "inline";
+            signsBox.appendChild(document.getElementById("signsPlaceholder"));
+            const transBox = document.getElementById("translationBox");
+            transBox.textContent = "";
+            document.getElementById("translationPlaceholder").style.display = "inline";
+            transBox.appendChild(document.getElementById("translationPlaceholder"));
+        }
+
+        // Actualizar señas cada segundo
+        setInterval(updateSigns, 1000);
+        updateSigns();
+    </script>
 </body>
 </html>

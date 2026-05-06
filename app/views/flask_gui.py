@@ -7,6 +7,8 @@ Rutas organizadas por sección:
 - Entrenamiento:/training  /capture  /video  /save  /train
 - Predicción:   /video_feed_prediction
 - Evaluación:   /confusion
+- Texto/Voz:    /text_to_sign  /voice_to_sign
+- Frases:       /api/translate_phrase  /api/clear_phrase  /api/current_phrase
 """
 
 import os
@@ -30,6 +32,8 @@ from ml.pipeline import (
     run_training, run_predict_stream, run_evaluation,
 )
 from ml.sign_animator import get_sign_animation, get_available_words
+from ml.predict import get_current_phrase, clear_phrase
+from ml.translator import translate_signs_to_spanish
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET", "pojoaju-dev-secret")
@@ -236,12 +240,16 @@ def confusion_status():
     return jsonify(exists=exists, last_generated=last, path=f"/{path}" if exists else None)
 
 
+# ---------------------------------------------------------------------------
+# Texto a Señas / Voz a Señas
+# ---------------------------------------------------------------------------
+
 @app.route("/text_to_sign")
 def text_to_sign():
     words = get_available_words()
     return render_template("text_to_sign.html", available_words=words)
- 
- 
+
+
 @app.route("/api/sign/<word>")
 def get_sign(word):
     """Retorna la animación de keypoints para una palabra."""
@@ -250,7 +258,40 @@ def get_sign(word):
         return jsonify(success=False, error=f"No hay keypoints para '{word}'"), 404
     return jsonify(success=True, **animation)
 
+
 @app.route("/voice_to_sign")
 def voice_to_sign():
     words = get_available_words()
     return render_template("voice_to_sign.html", available_words=words)
+
+
+# ---------------------------------------------------------------------------
+# Traducción de frases LSPy → Español con Gemini
+# ---------------------------------------------------------------------------
+
+@app.route("/api/translate_phrase", methods=["POST"])
+def translate_phrase():
+    """Traduce la frase acumulada de señas al español natural usando Gemini."""
+    signs = get_current_phrase()
+
+    if not signs:
+        return jsonify(success=False, error="No hay señas acumuladas.")
+
+    translation = translate_signs_to_spanish(signs)
+    clear_phrase()
+
+    return jsonify(success=True, signs=signs, translation=translation)
+
+
+@app.route("/api/clear_phrase", methods=["POST"])
+def clear_phrase_route():
+    """Limpia el buffer de señas acumuladas."""
+    clear_phrase()
+    return jsonify(success=True)
+
+
+@app.route("/api/current_phrase")
+def current_phrase():
+    """Retorna las señas acumuladas actualmente."""
+    signs = get_current_phrase()
+    return jsonify(signs=signs)
