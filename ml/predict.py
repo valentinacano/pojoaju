@@ -7,6 +7,7 @@ Puntos clave:
 - Soporta modo consola y modo Flask (streaming JPEG)
 - TTS se ejecuta en hilo separado para no bloquear
 - Acumula señas en un buffer para traducción de frases con Gemini
+- Sin anotaciones en el video — toda la info va al panel HTML
 """
 
 import cv2
@@ -26,10 +27,11 @@ FONT_POS = (10, 35)
 FONT_SIZE = 0.8
 
 # ---------------------------------------------------------------------------
-# Buffer global de señas para traducción de frases
+# Estado global
 # ---------------------------------------------------------------------------
 
-_current_phrase = []
+_current_phrase = []       # palabras acumuladas para traducción
+_last_prediction = {}      # última predicción: {word, conf, accepted}
 
 
 def get_current_phrase() -> list[str]:
@@ -43,20 +45,16 @@ def clear_phrase():
     _current_phrase = []
 
 
+def get_last_prediction() -> dict:
+    """Retorna la última predicción realizada."""
+    return _last_prediction.copy()
+
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
 def _build_idx_to_word(word_ids: list) -> dict:
-    """
-    Construye un diccionario {índice: nombre_de_palabra}.
-
-    Args:
-        word_ids: lista de word_ids ordenada (mismo orden que el training).
-
-    Returns:
-        dict {int: str}
-    """
     idx_to_word = {}
     for i, wid in enumerate(word_ids):
         row = get_word_by_id(bytes(wid))
@@ -68,29 +66,13 @@ def _build_idx_to_word(word_ids: list) -> dict:
 
 
 def _predict_sequence(model, sequence: list, idx_to_word: dict) -> tuple[str, float]:
-    """
-    Predice la palabra a partir de una secuencia de keypoints.
-
-    Usa normalize_sequence() — idéntico al training.
-
-    Args:
-        model: modelo Keras cargado.
-        sequence: lista de np.ndarray (keypoints por frame).
-        idx_to_word: mapeo índice → nombre de palabra.
-
-    Returns:
-        (palabra_predicha, confianza)
-    """
     from ml.normalize import normalize_sequence
-
     normalized = normalize_sequence(sequence, MODEL_FRAMES)
     X = np.expand_dims(normalized, axis=0).astype(np.float32)
-
     probs = model.predict(X, verbose=0)[0]
     idx = int(np.argmax(probs))
     conf = float(probs[idx])
     word = idx_to_word.get(idx, f"clase_{idx}")
-
     return word, conf
 
 
@@ -100,27 +82,18 @@ def _predict_sequence(model, sequence: list, idx_to_word: dict) -> tuple[str, fl
 
 def predict_stream(camera_index: int = 0):
     """
-    Generador de predicción en tiempo real para Flask (modo streaming).
+    Generador de predicción en tiempo real para Flask.
 
-    Captura frames de la cámara, acumula keypoints mientras hay manos
-    detectadas, predice al soltar y retorna JPEG anotados.
-    Las palabras con confianza suficiente se acumulan en _current_phrase
-    para su posterior traducción al español con Gemini.
-
-    Args:
-        camera_index: índice de la cámara (default 0).
-
-    Yields:
-        bytes JPEG anotados con la predicción.
+    El video se muestra limpio — sin barras ni texto superpuesto.
+    Toda la información (palabra, porcentaje, frase) va al panel HTML.
     """
-    global _current_phrase
+    global _current_phrase, _last_prediction
 
     word_ids = fetch_word_ids_with_keypoints()
     idx_to_word = _build_idx_to_word(word_ids)
     model = load_model(MODEL_PATH)
 
     kp_seq = []
-    sentence = []
     recording = False
     cooldown = 0
 
@@ -141,17 +114,19 @@ def predict_stream(camera_index: int = 0):
             elif recording:
                 if len(kp_seq) >= MIN_FRAMES_CAPTURED and cooldown == 0:
                     word, conf = _predict_sequence(model, kp_seq, idx_to_word)
+                    accepted = conf >= PREDICTION_THRESHOLD
 
-                    if conf >= PREDICTION_THRESHOLD:
-                        label = f"{word} ({conf*100:.1f}%) ✔"
+                    # Guardar última predicción para el frontend
+                    _last_prediction = {
+                        "word": word,
+                        "conf": round(conf * 100, 1),
+                        "accepted": accepted
+                    }
+
+                    if accepted:
                         text_to_speech_async(word)
-                        # Acumular en el buffer de frase
                         _current_phrase.append(word)
-                    else:
-                        label = f"{word} ({conf*100:.1f}%) ✗"
 
-                    sentence.insert(0, label)
-                    sentence = sentence[:3]
                     cooldown = PREDICTION_COOLDOWN
 
                 recording = False
@@ -160,17 +135,7 @@ def predict_stream(camera_index: int = 0):
             if cooldown > 0:
                 cooldown -= 1
 
-            # Anotar frame — señas recientes
-            cv2.rectangle(frame, (0, 0), (640, 50), (245, 117, 16), -1)
-            cv2.putText(frame, " | ".join(sentence), FONT_POS, FONT, FONT_SIZE, (255, 255, 255), 2)
-
-            # Mostrar frase acumulada en barra inferior
-            if _current_phrase:
-                phrase_text = " ".join(_current_phrase)
-                cv2.rectangle(frame, (0, 50), (640, 80), (30, 30, 30), -1)
-                cv2.putText(frame, f"Frase: {phrase_text}", (10, 72),
-                           FONT, 0.6, (200, 200, 200), 1)
-
+            # Video limpio — solo landmarks, sin barras ni texto
             _draw_landmarks(frame, results)
 
             _, buffer = cv2.imencode(".jpg", frame)
@@ -181,22 +146,15 @@ def predict_stream(camera_index: int = 0):
 
 def predict_console(camera_index: int = 0, threshold: float = PREDICTION_THRESHOLD):
     """
-    Ejecuta predicción en tiempo real mostrando una ventana OpenCV.
-
-    Presionar 'q' para salir.
-
-    Args:
-        camera_index: índice de la cámara.
-        threshold: umbral de confianza mínima para aceptar predicción.
+    Predicción en tiempo real en consola. Presionar 'q' para salir.
     """
-    global _current_phrase
+    global _current_phrase, _last_prediction
 
     word_ids = fetch_word_ids_with_keypoints()
     idx_to_word = _build_idx_to_word(word_ids)
     model = load_model(MODEL_PATH)
 
     kp_seq = []
-    sentence = []
     recording = False
     cooldown = 0
 
@@ -217,16 +175,21 @@ def predict_console(camera_index: int = 0, threshold: float = PREDICTION_THRESHO
             elif recording:
                 if len(kp_seq) >= MIN_FRAMES_CAPTURED and cooldown == 0:
                     word, conf = _predict_sequence(model, kp_seq, idx_to_word)
+                    accepted = conf >= threshold
 
-                    if conf >= threshold:
-                        label = f"{word} ({conf*100:.1f}%) ✔"
+                    _last_prediction = {
+                        "word": word,
+                        "conf": round(conf * 100, 1),
+                        "accepted": accepted
+                    }
+
+                    if accepted:
                         text_to_speech_async(word)
                         _current_phrase.append(word)
+                        print(f"✔ {word} ({conf*100:.1f}%)")
                     else:
-                        label = f"{word} ({conf*100:.1f}%) ✗"
+                        print(f"✗ {word} ({conf*100:.1f}%)")
 
-                    sentence.insert(0, label)
-                    sentence = sentence[:3]
                     cooldown = PREDICTION_COOLDOWN
 
                 recording = False
@@ -235,8 +198,6 @@ def predict_console(camera_index: int = 0, threshold: float = PREDICTION_THRESHO
             if cooldown > 0:
                 cooldown -= 1
 
-            cv2.rectangle(frame, (0, 0), (640, 50), (245, 117, 16), -1)
-            cv2.putText(frame, " | ".join(sentence), FONT_POS, FONT, FONT_SIZE, (255, 255, 255), 2)
             _draw_landmarks(frame, results)
             cv2.imshow("Pojoaju — Predicción", frame)
 

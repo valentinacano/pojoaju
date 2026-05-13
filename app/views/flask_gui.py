@@ -295,3 +295,9 @@ def current_phrase():
     """Retorna las señas acumuladas actualmente."""
     signs = get_current_phrase()
     return jsonify(signs=signs)
+
+@app.route("/api/last_prediction")
+def last_prediction():
+    """Retorna la última predicción realizada."""
+    from ml.predict import get_last_prediction
+    return jsonify(get_last_prediction())

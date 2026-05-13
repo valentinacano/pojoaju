@@ -6,14 +6,17 @@
     <title>Traducir Señas — Pojoaju</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        .badge-accepted { background: #e8f4ef; color: #2d6a4f; border: 1px solid #9fd3bc; }
+        .badge-rejected { background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5; }
+    </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
     <nav class="flex justify-between items-center px-6 py-4">
         <a href="{{ url_for('index') }}" class="btn btn-light back-button">
             <img src="{{ url_for('static', filename='img/BackButton.svg') }}" alt="Back" class="back-arrow">
         </a>
-        <button class="icon-primary-button flex items-center gap-2 text-white bg-indigo-500
-                       px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+        <button class="icon-primary-button flex items-center gap-2 text-white bg-indigo-500 px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
             <img src="{{ url_for('static', filename='img/InfoWhite.svg') }}" alt="Help" class="w-5 h-5">
             <span>Ayuda</span>
         </button>
@@ -22,11 +25,19 @@
     <div class="flex flex-col items-center px-4 pb-12">
         <h1 class="text-3xl md:text-4xl font-bold mb-6">Traducción de Señas en Vivo</h1>
 
-        <!-- Cámara -->
+        <!-- Cámara limpia -->
         <img src="{{ url_for('video_feed_prediction') }}"
-             width="720" height="540" class="rounded-xl shadow mb-6">
+             width="720" height="540" class="rounded-xl shadow mb-4">
 
-        <!-- Señas detectadas -->
+        <!-- Última detección -->
+        <div class="w-full max-w-2xl bg-white rounded-xl shadow p-4 mb-4">
+            <h2 class="text-sm font-medium text-gray-400 mb-2">Última seña detectada</h2>
+            <div id="lastDetection" class="flex items-center gap-3 min-h-10">
+                <span class="text-gray-300 text-sm">Esperando señas...</span>
+            </div>
+        </div>
+
+        <!-- Señas acumuladas -->
         <div class="w-full max-w-2xl bg-white rounded-xl shadow p-4 mb-4">
             <div class="flex justify-between items-center mb-3">
                 <h2 class="font-semibold text-gray-700">Señas detectadas</h2>
@@ -64,21 +75,34 @@
 
     <script>
         let lastSigns = [];
+        let lastPredWord = "";
 
-        async function updateSigns() {
+        // Actualizar última detección y señas acumuladas
+        async function updateState() {
             try {
-                const r = await fetch("/api/current_phrase");
-                const d = await r.json();
-                const signs = d.signs;
+                // Última predicción
+                const rp = await fetch("/api/last_prediction");
+                const dp = await rp.json();
+                if (dp.word && dp.word !== lastPredWord) {
+                    lastPredWord = dp.word;
+                    const badgeClass = dp.accepted ? "badge-accepted" : "badge-rejected";
+                    const icon = dp.accepted ? "✔" : "✗";
+                    document.getElementById("lastDetection").innerHTML = `
+                        <span class="text-xl font-semibold text-gray-800">${dp.word}</span>
+                        <span class="text-sm px-2 py-0.5 rounded-full ${badgeClass}">${dp.conf}% ${icon}</span>
+                    `;
+                }
 
-                if (JSON.stringify(signs) !== JSON.stringify(lastSigns)) {
-                    lastSigns = signs;
+                // Señas acumuladas
+                const rs = await fetch("/api/current_phrase");
+                const ds = await rs.json();
+                if (JSON.stringify(ds.signs) !== JSON.stringify(lastSigns)) {
+                    lastSigns = ds.signs;
                     const box = document.getElementById("signsBox");
                     const placeholder = document.getElementById("signsPlaceholder");
-
-                    if (signs.length > 0) {
+                    if (ds.signs.length > 0) {
                         placeholder.style.display = "none";
-                        box.textContent = signs.join(" — ");
+                        box.textContent = ds.signs.join(" — ");
                     } else {
                         box.textContent = "";
                         placeholder.style.display = "inline";
@@ -102,7 +126,6 @@
             try {
                 const r = await fetch("/api/translate_phrase", { method: "POST" });
                 const d = await r.json();
-
                 if (d.success) {
                     placeholder.style.display = "none";
                     box.textContent = d.translation;
@@ -135,11 +158,13 @@
             transBox.textContent = "";
             document.getElementById("translationPlaceholder").style.display = "inline";
             transBox.appendChild(document.getElementById("translationPlaceholder"));
+            document.getElementById("lastDetection").innerHTML =
+                '<span class="text-gray-300 text-sm">Esperando señas...</span>';
+            lastPredWord = "";
         }
 
-        // Actualizar señas cada segundo
-        setInterval(updateSigns, 1000);
-        updateSigns();
+        setInterval(updateState, 800);
+        updateState();
     </script>
 </body>
 </html>
