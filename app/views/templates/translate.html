@@ -48,7 +48,7 @@
             </div>
             <div id="signsBox"
                  class="min-h-10 px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 text-lg font-medium text-indigo-700 tracking-wide">
-                <span class="text-gray-400 text-sm" id="signsPlaceholder">Las señas aparecerán acá...</span>
+                <span class="text-gray-400 text-sm">Las señas aparecerán acá...</span>
             </div>
         </div>
 
@@ -63,7 +63,7 @@
             </div>
             <div id="translationBox"
                  class="min-h-10 px-4 py-3 bg-indigo-50 rounded-xl border border-indigo-200 text-lg text-gray-800">
-                <span class="text-gray-400 text-sm" id="translationPlaceholder">La traducción aparecerá acá...</span>
+                <span class="text-gray-400 text-sm">La traducción aparecerá acá...</span>
             </div>
             <div id="loadingTranslation" class="text-center text-sm text-indigo-500 mt-2" style="display:none">
                 ⏳ Traduciendo con IA...
@@ -74,10 +74,8 @@
     </div>
 
     <script>
-        let lastSigns = [];
         let lastPredWord = "";
 
-        // Actualizar última detección y señas acumuladas
         async function updateState() {
             try {
                 // Última predicción
@@ -93,22 +91,16 @@
                     `;
                 }
 
-                // Señas acumuladas
+                // Señas acumuladas — siempre renderizar desde el servidor
                 const rs = await fetch("/api/current_phrase");
                 const ds = await rs.json();
-                if (JSON.stringify(ds.signs) !== JSON.stringify(lastSigns)) {
-                    lastSigns = ds.signs;
-                    const box = document.getElementById("signsBox");
-                    const placeholder = document.getElementById("signsPlaceholder");
-                    if (ds.signs.length > 0) {
-                        placeholder.style.display = "none";
-                        box.textContent = ds.signs.join(" — ");
-                    } else {
-                        box.textContent = "";
-                        placeholder.style.display = "inline";
-                        box.appendChild(placeholder);
-                    }
+                const box = document.getElementById("signsBox");
+                if (ds.signs.length > 0) {
+                    box.innerHTML = `<span>${ds.signs.join(" ")}</span>`;
+                } else {
+                    box.innerHTML = `<span class="text-gray-400 text-sm">Las señas aparecerán acá...</span>`;
                 }
+
             } catch(e) { console.error(e); }
         }
 
@@ -116,7 +108,6 @@
             const btn = document.getElementById("translateBtn");
             const loading = document.getElementById("loadingTranslation");
             const box = document.getElementById("translationBox");
-            const placeholder = document.getElementById("translationPlaceholder");
             const errorMsg = document.getElementById("errorMsg");
 
             btn.disabled = true;
@@ -127,13 +118,9 @@
                 const r = await fetch("/api/translate_phrase", { method: "POST" });
                 const d = await r.json();
                 if (d.success) {
-                    placeholder.style.display = "none";
-                    box.textContent = d.translation;
-                    lastSigns = [];
-                    const signsBox = document.getElementById("signsBox");
-                    signsBox.textContent = "";
-                    document.getElementById("signsPlaceholder").style.display = "inline";
-                    signsBox.appendChild(document.getElementById("signsPlaceholder"));
+                    box.innerHTML = `<span>${d.translation}</span>`;
+                    document.getElementById("signsBox").innerHTML =
+                        `<span class="text-gray-400 text-sm">Las señas aparecerán acá...</span>`;
                 } else {
                     errorMsg.textContent = d.error;
                     errorMsg.style.display = "block";
@@ -149,17 +136,12 @@
 
         async function clearPhrase() {
             await fetch("/api/clear_phrase", { method: "POST" });
-            lastSigns = [];
-            const signsBox = document.getElementById("signsBox");
-            signsBox.textContent = "";
-            document.getElementById("signsPlaceholder").style.display = "inline";
-            signsBox.appendChild(document.getElementById("signsPlaceholder"));
-            const transBox = document.getElementById("translationBox");
-            transBox.textContent = "";
-            document.getElementById("translationPlaceholder").style.display = "inline";
-            transBox.appendChild(document.getElementById("translationPlaceholder"));
+            document.getElementById("signsBox").innerHTML =
+                `<span class="text-gray-400 text-sm">Las señas aparecerán acá...</span>`;
+            document.getElementById("translationBox").innerHTML =
+                `<span class="text-gray-400 text-sm">La traducción aparecerá acá...</span>`;
             document.getElementById("lastDetection").innerHTML =
-                '<span class="text-gray-300 text-sm">Esperando señas...</span>';
+                `<span class="text-gray-300 text-sm">Esperando señas...</span>`;
             lastPredWord = "";
         }
 

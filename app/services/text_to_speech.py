@@ -1,25 +1,36 @@
 """
 Texto a voz — única implementación del proyecto.
 
-Usa pyttsx3 (local, sin internet). Se ejecuta en un hilo separado
-para no bloquear la interfaz web ni la cámara.
+Usa el comando 'say' nativo de macOS para reproducir texto en voz alta.
+Es más confiable que pyttsx3 en macOS porque no tiene problemas con hilos.
+
+En Linux/Windows usa pyttsx3 como fallback.
 """
 
+import sys
 import threading
-import pyttsx3
+import subprocess
 
 
 def text_to_speech(text: str):
     """
-    Reproduce un texto en voz alta de forma sincrónica.
+    Reproduce un texto en voz alta.
+
+    En macOS usa el comando 'say' del sistema.
+    En otros sistemas usa pyttsx3.
 
     Args:
         text: texto a pronunciar.
     """
     try:
-        engine = pyttsx3.init()
-        engine.say(text)
-        engine.runAndWait()
+        if sys.platform == "darwin":
+            # macOS — comando nativo, siempre funciona
+            subprocess.run(["say", "-v", "Paulina", text], check=False)
+        else:
+            import pyttsx3
+            engine = pyttsx3.init()
+            engine.say(text)
+            engine.runAndWait()
     except Exception as e:
         print(f"⚠️ TTS error: {e}")
 
