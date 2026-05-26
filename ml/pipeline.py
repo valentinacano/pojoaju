@@ -23,6 +23,7 @@ from ml.evaluate import generate_confusion_matrix, get_top_confusions
 # Captura
 # ---------------------------------------------------------------------------
 
+
 def start_capture_camera(word: str, debug: bool = False, camera_index: int = 0):
     """
     Inicia la captura de muestras para una palabra desde la cámara.
@@ -60,6 +61,7 @@ def stop_capture_camera():
 # Procesamiento de muestras → BD
 # ---------------------------------------------------------------------------
 
+
 def process_and_save(word: str, word_id_hex: str):
     """
     Normaliza las muestras capturadas, extrae keypoints y los guarda en la BD.
@@ -92,10 +94,9 @@ def process_and_save(word: str, word_id_hex: str):
     normalize_word_folder(word_path)
 
     # 2. Extraer keypoints e insertar en BD
-    sample_folders = sorted([
-        f for f in os.listdir(word_path)
-        if os.path.isdir(os.path.join(word_path, f))
-    ])
+    sample_folders = sorted(
+        [f for f in os.listdir(word_path) if os.path.isdir(os.path.join(word_path, f))]
+    )
 
     if not sample_folders:
         print("⚠️ No se encontraron carpetas de muestra.")
@@ -123,6 +124,7 @@ def process_and_save(word: str, word_id_hex: str):
 # Entrenamiento
 # ---------------------------------------------------------------------------
 
+
 def run_training(epochs: int = 300) -> dict:
     """Ejecuta el pipeline de entrenamiento y retorna métricas."""
     return train(epochs=epochs)
@@ -131,6 +133,7 @@ def run_training(epochs: int = 300) -> dict:
 # ---------------------------------------------------------------------------
 # Predicción
 # ---------------------------------------------------------------------------
+
 
 def run_predict_stream(camera_index: int = 0):
     """Retorna el generador de predicción para Flask."""
@@ -141,6 +144,7 @@ def run_predict_stream(camera_index: int = 0):
 # Evaluación
 # ---------------------------------------------------------------------------
 
+
 def run_evaluation() -> dict:
     """
     Genera la matriz de confusión y retorna métricas y confusiones principales.
@@ -149,14 +153,11 @@ def run_evaluation() -> dict:
     top = get_top_confusions(cm, metrics["labels"])
 
     return {
-        "image_path":    "/static/confusion/confusion_matrix.png",
-        "accuracy":      f"{metrics['accuracy']:.2%}",
-        "n_classes":     metrics["n_classes"],
-        "n_samples":     metrics["n_samples"],
-        "labels":        metrics["labels"],
-        "top_confusions": [
-            {"real": r, "predicted": p, "count": c}
-            for r, p, c in top
-        ],
+        "image_path": "/static/confusion/confusion_matrix.png",
+        "accuracy": f"{metrics['accuracy']:.2%}",
+        "n_classes": metrics["n_classes"],
+        "n_samples": metrics["n_samples"],
+        "labels": metrics["labels"],
+        "top_confusions": [{"real": r, "predicted": p, "count": c} for r, p, c in top],
         "report": metrics["report"],
     }

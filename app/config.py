@@ -35,9 +35,9 @@ PREDICTION_COOLDOWN = 20
 
 ROOT_PATH = os.getcwd()
 DATA_PATH = os.path.join(ROOT_PATH, "data")
-FRAMES_PATH = os.path.join(DATA_PATH, "frames")        # muestras capturadas
-MODELS_PATH = os.path.join(DATA_PATH, "models")        # modelos entrenados
-EXPORTS_PATH = os.path.join(DATA_PATH, "exports")      # videos subidos
+FRAMES_PATH = os.path.join(DATA_PATH, "frames")  # muestras capturadas
+MODELS_PATH = os.path.join(DATA_PATH, "models")  # modelos entrenados
+EXPORTS_PATH = os.path.join(DATA_PATH, "exports")  # videos subidos
 
 MODEL_PATH = os.path.join(MODELS_PATH, f"pojoaju_{MODEL_FRAMES}.keras")
 
@@ -61,6 +61,7 @@ DB_TEST = {
     "port": os.getenv("DB_PORT", "5432"),
 }
 
+
 def get_db_config():
     """
     Retorna la configuración de base de datos correcta según el entorno.
@@ -77,6 +78,7 @@ def get_db_config():
         or any("pytest" in arg for arg in sys.argv)
     )
     return DB_TEST if is_testing else DB_PROD
+
 
 DB_CONFIG = get_db_config()
 
@@ -116,11 +118,58 @@ CATEGORIES = [
 ]
 
 WORDS = {
-    "Animales": ["Perro", "Gato", "Vaca", "Caballo", "Cerdo", "Gallina", "Pájaro", "Ratón"],
-    "Básicos": ["Desayuno", "Almuerzo", "Cena", "Baño", "Comer", "Tomar", "Dormir", "Sueño", "Hambre", "Sed"],
+    "Animales": [
+        "Perro",
+        "Gato",
+        "Vaca",
+        "Caballo",
+        "Cerdo",
+        "Gallina",
+        "Pájaro",
+        "Ratón",
+    ],
+    "Básicos": [
+        "Desayuno",
+        "Almuerzo",
+        "Cena",
+        "Baño",
+        "Comer",
+        "Tomar",
+        "Dormir",
+        "Sueño",
+        "Hambre",
+        "Sed",
+    ],
     "Colores": ["Rojo", "Azul", "Verde", "Amarillo", "Negro", "Blanco", "Naranja"],
-    "Emociones": ["Feliz", "Triste", "Enojado", "Asustado", "Cansado", "Llorar", "Reír", "Amar"],
-    "Familia y personas": ["Mamá", "Papá", "Hermano", "Hermana", "Abuela", "Abuelo", "Mujer", "Hombre"],
-    "Saludos y expresiones básicas": ["Hola", "Chau", "Buenos días", "Buenas tardes", "Buenas noches", "Gracias", "Por favor", "Perdón"],
+    "Emociones": [
+        "Feliz",
+        "Triste",
+        "Enojado",
+        "Asustado",
+        "Cansado",
+        "Llorar",
+        "Reír",
+        "Amar",
+    ],
+    "Familia y personas": [
+        "Mamá",
+        "Papá",
+        "Hermano",
+        "Hermana",
+        "Abuela",
+        "Abuelo",
+        "Mujer",
+        "Hombre",
+    ],
+    "Saludos y expresiones básicas": [
+        "Hola",
+        "Chau",
+        "Buenos días",
+        "Buenas tardes",
+        "Buenas noches",
+        "Gracias",
+        "Por favor",
+        "Perdón",
+    ],
     "Tiempo": ["Hoy", "Ayer", "Mañana", "Tarde", "Noche", "Hora", "Minuto"],
 }

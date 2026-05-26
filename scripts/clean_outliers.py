@@ -4,6 +4,7 @@ Ejecutar con: python clean_outliers.py
 """
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
 import json
@@ -53,7 +54,11 @@ def remove_outliers(threshold_std: float = 2.0, dry_run: bool = True):
 
         grouped = {}
         for _, sample_id, frame, kp_json in raw:
-            kp = np.array(json.loads(kp_json)) if isinstance(kp_json, str) else np.array(kp_json)
+            kp = (
+                np.array(json.loads(kp_json))
+                if isinstance(kp_json, str)
+                else np.array(kp_json)
+            )
             grouped.setdefault(sample_id, []).append((frame, kp))
 
         if len(grouped) < 3:
@@ -69,8 +74,9 @@ def remove_outliers(threshold_std: float = 2.0, dry_run: bool = True):
 
         matrix = np.stack(list(sample_vectors.values()))
         centroid = np.mean(matrix, axis=0)
-        distances = {sid: np.linalg.norm(vec - centroid)
-                     for sid, vec in sample_vectors.items()}
+        distances = {
+            sid: np.linalg.norm(vec - centroid) for sid, vec in sample_vectors.items()
+        }
 
         dist_values = np.array(list(distances.values()))
         mean_dist = np.mean(dist_values)
@@ -82,14 +88,18 @@ def remove_outliers(threshold_std: float = 2.0, dry_run: bool = True):
         if outliers:
             print(f"📝 '{word}': eliminando {len(outliers)} outliers")
             for sid, dist in sorted(outliers.items(), key=lambda x: x[1], reverse=True):
-                print(f"   {'🗑️  Eliminando' if not dry_run else '⚠️  Eliminaría'} sample_id={sid} (distancia={dist:.2f})")
+                print(
+                    f"   {'🗑️  Eliminando' if not dry_run else '⚠️  Eliminaría'} sample_id={sid} (distancia={dist:.2f})"
+                )
                 if not dry_run:
                     delete_sample(sid)
                     total_eliminados += 1
 
     print(f"\n{'='*60}")
     if dry_run:
-        print(f"DRY RUN completado. Para eliminar de verdad, ejecutar con dry_run=False")
+        print(
+            f"DRY RUN completado. Para eliminar de verdad, ejecutar con dry_run=False"
+        )
     else:
         print(f"✅ {total_eliminados} muestras eliminadas.")
     print(f"{'='*60}\n")

@@ -73,9 +73,33 @@ DB_PASSWORD=
 DB_HOST=localhost
 DB_PORT=5432
 FLASK_SECRET=cualquier-string-secreto
+GEMINI_API_KEY=tu_api_key_de_gemini
 ```
 
-### 4. Instalar dependencias
+### 4. Obtener la API key de Gemini
+
+La función de **traducción de frases** (LSPy → español natural) usa la API de Google Gemini.
+
+1. Ir a **https://aistudio.google.com**
+2. Iniciar sesión con una cuenta de Google
+3. Hacer clic en **Get API Key** → **Create API Key**
+4. Copiar la key y pegarla en `.env` como `GEMINI_API_KEY`
+
+> **Importante:** el modelo usado es `gemini-2.5-flash-lite`. Verificá que tu cuenta tenga acceso a este modelo ejecutando:
+> ```bash
+> python -c "
+> from dotenv import load_dotenv; load_dotenv()
+> import os, google.generativeai as genai
+> genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
+> model = genai.GenerativeModel('gemini-2.5-flash-lite')
+> print(model.generate_content('OK').text)
+> "
+> ```
+> Si recibís un error de quota, intentá con una cuenta de Google de otro país (Argentina, EEUU) ya que el free tier no está disponible en todas las regiones.
+
+> **Sin API key:** el sistema igual funciona — simplemente muestra las señas detectadas sin traducir al español natural.
+
+### 5. Instalar dependencias
 
 **Con pipenv (recomendado):**
 
@@ -96,20 +120,20 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-### 5. Crear carpetas necesarias
+### 6. Crear carpetas necesarias
 
 ```bash
 mkdir -p data/frames data/models data/exports static/confusion scripts
 ```
 
-### 6. Crear archivos `__init__.py`
+### 7. Crear archivos `__init__.py`
 
 ```bash
 touch app/__init__.py app/database/__init__.py app/services/__init__.py
 touch app/views/__init__.py ml/__init__.py tests/__init__.py
 ```
 
-### 7. Levantar el servidor
+### 8. Levantar el servidor
 
 ```bash
 python main.py
@@ -150,14 +174,18 @@ pojoaju/
 │   ├── keypoints.py               # Extracción de 1662 features con MediaPipe
 │   ├── model.py                   # Arquitectura LSTM
 │   ├── train.py                   # Pipeline de entrenamiento
-│   ├── predict.py                 # Predicción en tiempo real
+│   ├── predict.py                 # Predicción en tiempo real + buffer de frases
 │   ├── evaluate.py                # Matriz de confusión
 │   ├── sign_animator.py           # Animación de señas para texto/voz a señas
+│   ├── translator.py              # Traducción LSPy → español con Gemini
 │   └── pipeline.py                # Orquestador general
 │
 ├── scripts/                       # Herramientas de mantenimiento
 │   ├── check_outliers.py          # Analiza calidad de muestras
-│   └── clean_outliers.py          # Elimina muestras atípicas
+│   ├── clean_outliers.py          # Elimina muestras atípicas
+│   ├── augment_data.py            # Genera muestras sintéticas
+│   ├── export_data.py             # Exporta datos para compartir
+│   └── import_data.py             # Importa datos sin conflictos de IDs
 │
 ├── templates/                     # Templates HTML de Flask
 ├── static/
@@ -187,7 +215,7 @@ pojoaju/
 
 1. Ir a **Diccionario** → **Tomar Muestras**
 2. Elegir **Grabar Video** o **Subir Video**
-3. Repetir hasta tener al menos **80 muestras por palabra**
+3. Repetir hasta tener al menos **80 muestras reales por palabra**
 
 ### Paso 2 — Entrenar el modelo
 
@@ -198,11 +226,14 @@ El entrenamiento usa `EarlyStopping(patience=30)`.
 
 ### Paso 3 — Traducir señas en tiempo real
 
-Ir a **Traducir Señas** — predice en tiempo real desde la cámara.
+1. Ir a **Traducir Señas**
+2. Hacé tus señas frente a la cámara
+3. Las palabras detectadas se acumulan en **Señas detectadas**
+4. Hacé clic en **✨ Traducir frase** para convertir la secuencia al español natural con Gemini
 
 ### Paso 4 — Texto a Señas
 
-Ir a **Texto a Señas** — escribí una palabra y ve su seña animada.
+Ir a **Texto a Señas** — escribí una palabra y ve su seña animada con el stickman.
 
 ### Paso 5 — Voz a Señas
 
@@ -210,7 +241,7 @@ Ir a **Voz a Señas** (requiere Chrome) — hablá y el sistema muestra la seña
 
 ### Paso 6 — Evaluar el modelo
 
-Ir a **Matriz de Confusión** para ver qué palabras se confunden.
+Ir a **Matriz de Confusión** para ver qué palabras se confunden entre sí.
 
 ---
 
@@ -247,11 +278,9 @@ open build/html/index.html
 
 ## Herramientas de mantenimiento
 
-Estas herramientas se usan manualmente para auditar y mejorar la calidad de los datos. No son parte del flujo automático.
+Estas herramientas se usan manualmente para auditar y mejorar la calidad de los datos.
 
 ### Analizar outliers
-
-Muestra las muestras que están muy alejadas del centroide de su palabra, sin eliminar nada:
 
 ```bash
 python scripts/check_outliers.py
@@ -259,18 +288,31 @@ python scripts/check_outliers.py
 
 ### Limpiar outliers
 
-Primero corré en modo simulación para ver qué va a eliminar:
-
 ```bash
+# Primero simulación
 python scripts/clean_outliers.py
+
+# Cuando estés conforme, cambiá dry_run=True → dry_run=False y volvé a ejecutar
 ```
 
-Cuando estés conforme, abrí el archivo y cambiá `dry_run=True` a `dry_run=False` y volvé a ejecutar. Las muestras eliminadas se borran de la BD permanentemente.
+### Generar muestras sintéticas
 
-**Cuándo usar esto:**
-- Cuando el val_accuracy es muy inestable entre entrenamientos
-- Cuando sospechás que algunas capturas fueron incorrectas
-- Después de agregar muchas muestras nuevas
+```bash
+# Primero simulación
+python scripts/augment_data.py
+
+# Cambiá dry_run=True → dry_run=False para generar de verdad
+```
+
+### Exportar e importar datos entre compañeros
+
+```bash
+# Exportar (genera pojoaju_export.json)
+python scripts/export_data.py
+
+# Importar (primero simulación, luego dry_run=False)
+python scripts/import_data.py pojoaju_export.json
+```
 
 ---
 
@@ -281,6 +323,8 @@ Cuando estés conforme, abrí el archivo y cambiá `dry_run=True` a `dry_run=Fal
 **`ml/` es independiente de Flask.** Toda la comunicación pasa por `ml/pipeline.py`.
 
 **Una sola implementación de TTS.** `app/services/text_to_speech.py` es la única fuente.
+
+**Traducción con Gemini es opcional.** Si no hay `GEMINI_API_KEY` configurada, el sistema muestra las señas detectadas sin traducir. El resto del sistema funciona normalmente.
 
 ---
 
@@ -296,10 +340,16 @@ Verificar credenciales en `.env` y que PostgreSQL esté corriendo.
 Cambiar `camera_index` en `app/config.py` de `0` a `1` o `2`.
 
 **Val accuracy inestable**
-Capturar más muestras (mínimo 80 por palabra) y correr `scripts/check_outliers.py` para detectar muestras problemáticas.
+Capturar más muestras reales (mínimo 80 por palabra) y correr `scripts/check_outliers.py`.
 
 **Voz a Señas no funciona**
 Usar Chrome — la Web Speech API no está disponible en Safari ni Firefox.
+
+**Error de quota en Gemini (`limit: 0`)**
+El free tier no está disponible en todas las regiones. Intentá con una cuenta de Google de otro país o verificá tu plan en https://ai.dev/rate-limit.
+
+**Traducción muestra las señas sin traducir**
+Verificar que `GEMINI_API_KEY` esté correctamente configurada en `.env` y que el modelo `gemini-2.5-flash-lite` sea accesible desde tu cuenta.
 
 ---
 

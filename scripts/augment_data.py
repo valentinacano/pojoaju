@@ -14,6 +14,7 @@ Ejecutar con: python scripts/augment_data.py
 """
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
 import json
@@ -35,6 +36,7 @@ from app.config import MODEL_FRAMES
 # Técnicas de augmentación
 # ---------------------------------------------------------------------------
 
+
 def augment_noise(sequence: np.ndarray, noise_std: float = 0.005) -> np.ndarray:
     """
     Agrega ruido gaussiano pequeño a la secuencia.
@@ -44,7 +46,9 @@ def augment_noise(sequence: np.ndarray, noise_std: float = 0.005) -> np.ndarray:
     return np.clip(sequence + noise, 0, 1)
 
 
-def augment_scale(sequence: np.ndarray, scale_range: tuple = (0.95, 1.05)) -> np.ndarray:
+def augment_scale(
+    sequence: np.ndarray, scale_range: tuple = (0.95, 1.05)
+) -> np.ndarray:
     """
     Aplica un factor de escala aleatorio alrededor del centroide.
     Simula diferente distancia a la cámara.
@@ -97,6 +101,7 @@ def augment_sequence(sequence: np.ndarray) -> np.ndarray:
 # Carga de muestras reales
 # ---------------------------------------------------------------------------
 
+
 def load_real_samples(word_id: bytes) -> list[np.ndarray]:
     """
     Carga todas las muestras reales de una palabra desde la BD.
@@ -108,7 +113,11 @@ def load_real_samples(word_id: bytes) -> list[np.ndarray]:
 
     grouped = {}
     for _, sample_id, frame, kp_json in raw:
-        kp = np.array(json.loads(kp_json)) if isinstance(kp_json, str) else np.array(kp_json)
+        kp = (
+            np.array(json.loads(kp_json))
+            if isinstance(kp_json, str)
+            else np.array(kp_json)
+        )
         grouped.setdefault(sample_id, []).append((frame, kp))
 
     sequences = []
@@ -125,11 +134,8 @@ def load_real_samples(word_id: bytes) -> list[np.ndarray]:
 # Generación y guardado
 # ---------------------------------------------------------------------------
 
-def generate_synthetic_samples(
-    word: str,
-    target: int = 100,
-    dry_run: bool = True
-):
+
+def generate_synthetic_samples(word: str, target: int = 100, dry_run: bool = True):
     """
     Genera muestras sintéticas para una palabra hasta alcanzar el target.
 
@@ -147,7 +153,9 @@ def generate_synthetic_samples(
         print(f"✅ '{word}': ya tiene {current} muestras, no necesita augmentación.")
         return
 
-    print(f"📝 '{word}': {current} reales → generando {needed} sintéticas para llegar a {target}")
+    print(
+        f"📝 '{word}': {current} reales → generando {needed} sintéticas para llegar a {target}"
+    )
 
     if dry_run:
         print(f"   [DRY RUN] Se insertarían {needed} muestras sintéticas.")

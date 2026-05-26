@@ -7,29 +7,46 @@ Rutas organizadas por sección:
 - Entrenamiento:/training  /capture  /video  /save  /train
 - Predicción:   /video_feed_prediction
 - Evaluación:   /confusion
+- Texto/Voz:    /text_to_sign  /voice_to_sign
+- Frases:       /api/translate_phrase  /api/clear_phrase  /api/current_phrase
 """
 
 import os
 from datetime import datetime
 
 from flask import (
-    Flask, render_template, Response, redirect,
-    url_for, request, jsonify, flash
+    Flask,
+    render_template,
+    Response,
+    redirect,
+    url_for,
+    request,
+    jsonify,
+    flash,
 )
 from werkzeug.utils import secure_filename
 
 from app.config import FRAMES_PATH, EXPORTS_PATH
 from app.database.queries import (
-    fetch_all_words, fetch_all_categories,
-    insert_word, count_samples_per_word,
-    get_word_by_name, word_to_id,
+    fetch_all_words,
+    fetch_all_categories,
+    insert_word,
+    count_samples_per_word,
+    get_word_by_name,
+    word_to_id,
 )
 from ml.pipeline import (
-    start_capture_camera, start_capture_video,
-    stop_capture_camera, process_and_save,
-    run_training, run_predict_stream, run_evaluation,
+    start_capture_camera,
+    start_capture_video,
+    stop_capture_camera,
+    process_and_save,
+    run_training,
+    run_predict_stream,
+    run_evaluation,
 )
 from ml.sign_animator import get_sign_animation, get_available_words
+from ml.predict import get_current_phrase, clear_phrase
+from ml.translator import translate_signs_to_spanish
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET", "pojoaju-dev-secret")
@@ -40,6 +57,7 @@ ALLOWED_VIDEO_EXTENSIONS = {".mp4", ".mov", ".avi", ".mkv"}
 # ---------------------------------------------------------------------------
 # General
 # ---------------------------------------------------------------------------
+
 
 @app.route("/")
 def index():
@@ -54,14 +72,14 @@ def translate_page():
 @app.route("/video_feed_prediction")
 def video_feed_prediction():
     return Response(
-        run_predict_stream(),
-        mimetype="multipart/x-mixed-replace; boundary=frame"
+        run_predict_stream(), mimetype="multipart/x-mixed-replace; boundary=frame"
     )
 
 
 # ---------------------------------------------------------------------------
 # Diccionario
 # ---------------------------------------------------------------------------
+
 
 @app.route("/dictionary")
 def dictionary():
@@ -86,10 +104,7 @@ def dictionary():
 def dictionary_search():
     query = request.form.get("query", "").strip().lower()
     words = fetch_all_words()
-    filtered = [
-        w for w in words
-        if query in w[1].lower() or query in w[2].lower()
-    ]
+    filtered = [w for w in words if query in w[1].lower() or query in w[2].lower()]
     return render_template("dictionary.html", words=filtered)
 
 
@@ -121,6 +136,7 @@ def insert_word_form():
 # Entrenamiento — captura
 # ---------------------------------------------------------------------------
 
+
 @app.route("/training")
 def training():
     return render_template("training.html")
@@ -139,8 +155,7 @@ def capture_page(word_id, word):
 @app.route("/video_feed/<word>")
 def video_feed(word):
     return Response(
-        start_capture_camera(word),
-        mimetype="multipart/x-mixed-replace; boundary=frame"
+        start_capture_camera(word), mimetype="multipart/x-mixed-replace; boundary=frame"
     )
 
 
@@ -166,7 +181,9 @@ def upload_video(word_id, word):
 
     ext = os.path.splitext(file.filename)[1].lower()
     if ext not in ALLOWED_VIDEO_EXTENSIONS:
-        flash(f"Formato no soportado. Usá: {', '.join(ALLOWED_VIDEO_EXTENSIONS)}", "error")
+        flash(
+            f"Formato no soportado. Usá: {', '.join(ALLOWED_VIDEO_EXTENSIONS)}", "error"
+        )
         return redirect(url_for("upload_video", word_id=word_id, word=word))
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -191,6 +208,7 @@ def save_samples(word, word_id):
 # Entrenamiento — modelo
 # ---------------------------------------------------------------------------
 
+
 @app.route("/train")
 def train_page():
     return render_template("train_model.html")
@@ -210,6 +228,7 @@ def train_model():
 # ---------------------------------------------------------------------------
 # Evaluación
 # ---------------------------------------------------------------------------
+
 
 @app.route("/confusion")
 def confusion_page():
@@ -233,15 +252,22 @@ def confusion_status():
     if exists:
         ts = os.path.getmtime(path)
         last = datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
-    return jsonify(exists=exists, last_generated=last, path=f"/{path}" if exists else None)
+    return jsonify(
+        exists=exists, last_generated=last, path=f"/{path}" if exists else None
+    )
+
+
+# ---------------------------------------------------------------------------
+# Texto a Señas / Voz a Señas
+# ---------------------------------------------------------------------------
 
 
 @app.route("/text_to_sign")
 def text_to_sign():
     words = get_available_words()
     return render_template("text_to_sign.html", available_words=words)
- 
- 
+
+
 @app.route("/api/sign/<word>")
 def get_sign(word):
     """Retorna la animación de keypoints para una palabra."""
@@ -250,7 +276,49 @@ def get_sign(word):
         return jsonify(success=False, error=f"No hay keypoints para '{word}'"), 404
     return jsonify(success=True, **animation)
 
+
 @app.route("/voice_to_sign")
 def voice_to_sign():
     words = get_available_words()
     return render_template("voice_to_sign.html", available_words=words)
+
+
+# ---------------------------------------------------------------------------
+# Traducción de frases LSPy → Español con Gemini
+# ---------------------------------------------------------------------------
+
+
+@app.route("/api/translate_phrase", methods=["POST"])
+def translate_phrase():
+    """Traduce la frase acumulada de señas al español natural usando Gemini."""
+    signs = get_current_phrase()
+
+    if not signs:
+        return jsonify(success=False, error="No hay señas acumuladas.")
+
+    translation = translate_signs_to_spanish(signs)
+    clear_phrase()
+
+    return jsonify(success=True, signs=signs, translation=translation)
+
+
+@app.route("/api/clear_phrase", methods=["POST"])
+def clear_phrase_route():
+    """Limpia el buffer de señas acumuladas."""
+    clear_phrase()
+    return jsonify(success=True)
+
+
+@app.route("/api/current_phrase")
+def current_phrase():
+    """Retorna las señas acumuladas actualmente."""
+    signs = get_current_phrase()
+    return jsonify(signs=signs)
+
+
+@app.route("/api/last_prediction")
+def last_prediction():
+    """Retorna la última predicción realizada."""
+    from ml.predict import get_last_prediction
+
+    return jsonify(get_last_prediction())

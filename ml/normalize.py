@@ -22,7 +22,10 @@ from app.config import MODEL_FRAMES
 # Normalización de keypoints (usada en predicción en tiempo real)
 # ---------------------------------------------------------------------------
 
-def normalize_sequence(sequence: list | np.ndarray, target: int = MODEL_FRAMES) -> np.ndarray:
+
+def normalize_sequence(
+    sequence: list | np.ndarray, target: int = MODEL_FRAMES
+) -> np.ndarray:
     """
     Ajusta una secuencia de keypoints a exactamente `target` frames.
 
@@ -67,6 +70,7 @@ def normalize_sequence(sequence: list | np.ndarray, target: int = MODEL_FRAMES) 
 # Normalización de frames de imagen (usada en captura → disco)
 # ---------------------------------------------------------------------------
 
+
 def normalize_frames(frames: list) -> list:
     """
     Ajusta una lista de frames (imágenes) a exactamente MODEL_FRAMES.
@@ -106,6 +110,7 @@ def normalize_frames(frames: list) -> list:
 # Operaciones sobre disco (usadas en el pipeline de captura)
 # ---------------------------------------------------------------------------
 
+
 def read_frames_from_folder(folder: str) -> list:
     """
     Lee todos los frames .jpg de una carpeta, ordenados numéricamente.
@@ -118,7 +123,7 @@ def read_frames_from_folder(folder: str) -> list:
     """
     files = sorted(
         [f for f in os.listdir(folder) if f.endswith(".jpg")],
-        key=lambda x: int(os.path.splitext(x)[0].split("_")[-1])
+        key=lambda x: int(os.path.splitext(x)[0].split("_")[-1]),
     )
     frames = []
     for fname in files:
@@ -149,7 +154,7 @@ def save_frames_to_folder(folder: str, frames: list):
         cv2.imwrite(
             os.path.join(folder, f"frame_{i:02d}.jpg"),
             frame,
-            [cv2.IMWRITE_JPEG_QUALITY, 85]
+            [cv2.IMWRITE_JPEG_QUALITY, 85],
         )
 
 
@@ -175,10 +180,9 @@ def normalize_word_folder(word_path: str):
     Args:
         word_path: ruta que contiene subcarpetas sample_*/
     """
-    sample_folders = sorted([
-        f for f in os.listdir(word_path)
-        if os.path.isdir(os.path.join(word_path, f))
-    ])
+    sample_folders = sorted(
+        [f for f in os.listdir(word_path) if os.path.isdir(os.path.join(word_path, f))]
+    )
 
     print(f"🔄 Normalizando {len(sample_folders)} muestras en {word_path}...")
 

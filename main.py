@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+
 load_dotenv()  # ← DEBE ser antes de cualquier import de app/
 
 from app.database.schema import create_all_tables

@@ -32,31 +32,28 @@ def get_model(n_classes: int) -> Sequential:
     Returns:
         Modelo Keras compilado, listo para entrenar.
     """
-    model = Sequential([
-        LSTM(64,
-             return_sequences=True,
-             input_shape=(MODEL_FRAMES, LENGTH_KEYPOINTS),
-             kernel_regularizer=l2(0.001)),
-        BatchNormalization(),
-        Dropout(0.2),
-
-        LSTM(128,
-             return_sequences=False,
-             kernel_regularizer=l2(0.001)),
-        BatchNormalization(),
-        Dropout(0.2),
-
-        Dense(64, activation="relu", kernel_regularizer=l2(0.001)),
-        Dropout(0.2),
-        Dense(64, activation="relu"),
-
-        Dense(n_classes, activation="softmax"),
-    ])
+    model = Sequential(
+        [
+            LSTM(
+                64,
+                return_sequences=True,
+                input_shape=(MODEL_FRAMES, LENGTH_KEYPOINTS),
+                kernel_regularizer=l2(0.001),
+            ),
+            BatchNormalization(),
+            Dropout(0.2),
+            LSTM(128, return_sequences=False, kernel_regularizer=l2(0.001)),
+            BatchNormalization(),
+            Dropout(0.2),
+            Dense(64, activation="relu", kernel_regularizer=l2(0.001)),
+            Dropout(0.2),
+            Dense(64, activation="relu"),
+            Dense(n_classes, activation="softmax"),
+        ]
+    )
 
     model.compile(
-        optimizer="adam",
-        loss="categorical_crossentropy",
-        metrics=["accuracy"]
+        optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"]
     )
 
     return model
