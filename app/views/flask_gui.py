@@ -9,6 +9,7 @@ Rutas organizadas por sección:
 - Evaluación:   /confusion
 - Texto/Voz:    /text_to_sign  /voice_to_sign
 - Frases:       /api/translate_phrase  /api/clear_phrase  /api/current_phrase
+- LSPy:         /api/phrase_to_signs
 """
 
 import os
@@ -46,7 +47,7 @@ from ml.pipeline import (
 )
 from ml.sign_animator import get_sign_animation, get_available_words
 from ml.predict import get_current_phrase, clear_phrase
-from ml.translator import translate_signs_to_spanish
+from ml.translator import translate_signs_to_spanish, spanish_to_lspy_sequence
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET", "pojoaju-dev-secret")
@@ -320,5 +321,33 @@ def current_phrase():
 def last_prediction():
     """Retorna la última predicción realizada."""
     from ml.predict import get_last_prediction
-
     return jsonify(get_last_prediction())
+
+
+# ---------------------------------------------------------------------------
+# Español → Secuencia LSPy (para Texto a Señas con frases)
+# ---------------------------------------------------------------------------
+
+
+@app.route("/api/phrase_to_signs", methods=["POST"])
+def phrase_to_signs():
+    """
+    Convierte una frase en español a una secuencia de señas del diccionario.
+    Usa Gemini para hacer la conversión respetando la gramática de LSPy.
+    """
+    data = request.get_json()
+    phrase = data.get("phrase", "").strip() if data else ""
+
+    if not phrase:
+        return jsonify(success=False, error="No se recibió ninguna frase.")
+
+    words = get_available_words()
+    sequence = spanish_to_lspy_sequence(phrase, words)
+
+    if not sequence:
+        return jsonify(
+            success=False,
+            error="No se encontraron señas disponibles para esa frase."
+        )
+
+    return jsonify(success=True, sequence=sequence)

@@ -1,24 +1,24 @@
 """
-Traducción de secuencias de señas (LSPy) a español natural usando Gemini.
+Traducción usando Gemini:
 
-Toma una lista de palabras detectadas por el modelo LSTM y las traduce
-a una frase en español gramaticalmente correcta, respetando las reglas
-de la Lengua de Señas Paraguaya.
+1. translate_signs_to_spanish(): señas LSPy → español natural
+2. spanish_to_lspy_sequence(): español → secuencia de palabras del diccionario
 """
 
 import os
+import json
 import google.generativeai as genai
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# ---------------------------------------------------------------------------
-# Configuración
-# ---------------------------------------------------------------------------
-
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-SYSTEM_PROMPT = """Sos un experto en Lengua de Señas Paraguaya (LSPy).
+# ---------------------------------------------------------------------------
+# Prompt 1: señas → español
+# ---------------------------------------------------------------------------
+
+SIGNS_TO_SPANISH_PROMPT = """Sos un experto en Lengua de Señas Paraguaya (LSPy).
 
 Tu tarea es traducir secuencias de señas detectadas por una cámara al español natural escrito.
 
@@ -41,8 +41,41 @@ Respondé SOLO con la traducción al español, sin explicaciones ni comillas."""
 
 
 # ---------------------------------------------------------------------------
-# Función principal
+# Prompt 2: español → secuencia LSPy del diccionario
 # ---------------------------------------------------------------------------
+
+SPANISH_TO_LSPY_PROMPT = """Sos un experto en Lengua de Señas Paraguaya (LSPy).
+
+Tu tarea es convertir una frase en español a una secuencia de señas usando ÚNICAMENTE las palabras del diccionario disponible.
+
+Reglas:
+- Usá SOLO las palabras del diccionario disponible (te las voy a pasar)
+- Eliminá artículos (el, la, los, las, un, una) si no están en el diccionario
+- Eliminá verbos copulativos (ser, estar) si no están en el diccionario
+- Reordenás según la gramática LSPy: TIEMPO + SUJETO + ACCIÓN o TEMA + INFORMACIÓN
+- Si una palabra de la frase no tiene equivalente en el diccionario, omitila
+- Si ninguna palabra de la frase está en el diccionario, devolvé una lista vacía
+
+Respondé ÚNICAMENTE con un array JSON de strings, sin explicaciones ni texto extra.
+
+Ejemplos:
+- Frase: "Mi mamá es muy linda", Diccionario: ["mamá", "lindo", "mucho", "hola"]
+  → ["mamá", "lindo", "mucho"]
+- Frase: "Hola, ¿cómo estás?", Diccionario: ["hola", "bien", "mal"]
+  → ["hola"]
+- Frase: "Buenos días", Diccionario: ["día", "hola", "mamá"]
+  → ["día"]"""
+
+
+# ---------------------------------------------------------------------------
+# Funciones
+# ---------------------------------------------------------------------------
+
+def _get_model():
+    if not GEMINI_API_KEY:
+        return None
+    genai.configure(api_key=GEMINI_API_KEY)
+    return genai.GenerativeModel("gemini-2.5-flash-lite")
 
 
 def translate_signs_to_spanish(signs: list[str]) -> str | None:
@@ -51,33 +84,80 @@ def translate_signs_to_spanish(signs: list[str]) -> str | None:
 
     Args:
         signs: lista de palabras detectadas por el modelo LSTM.
-               Ejemplo: ["MAMÁ", "MÍA", "LINDA", "MUCHO"]
 
     Returns:
-        Frase en español natural, o None si hay un error.
+        Frase en español natural, o las señas sin traducir si hay error.
     """
     if not signs:
         return None
 
-    if not GEMINI_API_KEY:
+    model = _get_model()
+    if not model:
         print("⚠️ GEMINI_API_KEY no configurada en .env")
-        return " ".join(signs)  # fallback: mostrar las señas sin traducir
+        return " ".join(signs)
 
     try:
-        genai.configure(api_key=GEMINI_API_KEY)
-        model = genai.GenerativeModel("gemini-2.5-flash-lite")
-
         sequence = " ".join([s.upper() for s in signs])
-        prompt = f"{SYSTEM_PROMPT}\n\nSecuencia de señas: {sequence}"
-
+        prompt = f"{SIGNS_TO_SPANISH_PROMPT}\n\nSecuencia de señas: {sequence}"
         response = model.generate_content(prompt)
         translation = response.text.strip()
-
         print(f"🔤 Señas: {sequence}")
         print(f"📝 Traducción: {translation}")
-
         return translation
-
     except Exception as e:
         print(f"⚠️ Error al traducir con Gemini: {e}")
-        return " ".join(signs)  # fallback: mostrar las señas sin traducir
+        return " ".join(signs)
+
+
+def spanish_to_lspy_sequence(phrase: str, available_words: list[str]) -> list[str]:
+    """
+    Convierte una frase en español a una secuencia de palabras del diccionario LSPy.
+
+    Gemini elige qué palabras del diccionario usar y en qué orden,
+    respetando la gramática de la LSPy.
+
+    Args:
+        phrase: frase en español (ej. "Mi mamá es muy linda")
+        available_words: palabras disponibles en el diccionario (ej. ["mamá", "hola", "día"])
+
+    Returns:
+        Lista de palabras del diccionario en orden LSPy, o lista vacía si no hay match.
+    """
+    if not phrase or not available_words:
+        return []
+
+    model = _get_model()
+    if not model:
+        print("⚠️ GEMINI_API_KEY no configurada en .env")
+        # Fallback: buscar palabras de la frase que estén en el diccionario
+        words = phrase.lower().split()
+        return [w for w in words if w in available_words]
+
+    try:
+        dictionary_str = ", ".join(available_words)
+        prompt = (
+            f"{SPANISH_TO_LSPY_PROMPT}\n\n"
+            f"Diccionario disponible: [{dictionary_str}]\n"
+            f"Frase en español: \"{phrase}\"\n"
+            f"Respondé solo con el array JSON:"
+        )
+        response = model.generate_content(prompt)
+        text = response.text.strip()
+
+        # Limpiar posibles backticks de markdown
+        text = text.replace("```json", "").replace("```", "").strip()
+
+        sequence = json.loads(text)
+
+        # Validar que todas las palabras estén en el diccionario
+        valid = [w for w in sequence if w.lower() in [a.lower() for a in available_words]]
+
+        print(f"📝 Frase: {phrase}")
+        print(f"🤟 Secuencia LSPy: {valid}")
+        return valid
+
+    except Exception as e:
+        print(f"⚠️ Error al convertir frase a LSPy: {e}")
+        # Fallback simple
+        words = phrase.lower().split()
+        return [w for w in words if w in [a.lower() for a in available_words]]
