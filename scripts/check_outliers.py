@@ -2,7 +2,9 @@
 Script temporal para analizar outliers en las muestras.
 Ejecutar con: python check_outliers.py
 """
+
 from dotenv import load_dotenv
+
 load_dotenv()
 
 import json
@@ -13,6 +15,7 @@ from app.database.queries import (
     get_word_by_id,
 )
 from dotenv import load_dotenv
+
 load_dotenv()
 
 
@@ -41,7 +44,11 @@ def analyze_outliers(threshold_std: float = 2.0):
         # Agrupar por sample_id
         grouped = {}
         for _, sample_id, frame, kp_json in raw:
-            kp = np.array(json.loads(kp_json)) if isinstance(kp_json, str) else np.array(kp_json)
+            kp = (
+                np.array(json.loads(kp_json))
+                if isinstance(kp_json, str)
+                else np.array(kp_json)
+            )
             grouped.setdefault(sample_id, []).append((frame, kp))
 
         # Construir vector por muestra (concatenar frames ordenados)
@@ -54,14 +61,17 @@ def analyze_outliers(threshold_std: float = 2.0):
             sample_vectors[sample_id] = np.concatenate(ordered[:max_len])
 
         if len(sample_vectors) < 3:
-            print(f"⚠️  '{word}': muy pocas muestras para analizar ({len(sample_vectors)})")
+            print(
+                f"⚠️  '{word}': muy pocas muestras para analizar ({len(sample_vectors)})"
+            )
             continue
 
         # Calcular centroide y distancias
         matrix = np.stack(list(sample_vectors.values()))
         centroid = np.mean(matrix, axis=0)
-        distances = {sid: np.linalg.norm(vec - centroid)
-                     for sid, vec in sample_vectors.items()}
+        distances = {
+            sid: np.linalg.norm(vec - centroid) for sid, vec in sample_vectors.items()
+        }
 
         dist_values = np.array(list(distances.values()))
         mean_dist = np.mean(dist_values)

@@ -18,32 +18,42 @@ def _run(query: str, label: str):
 def create_all_tables():
     """Crea todas las tablas necesarias si no existen."""
 
-    _run("""
+    _run(
+        """
         CREATE TABLE IF NOT EXISTS categories (
             category_id SERIAL PRIMARY KEY,
             category    VARCHAR(100) NOT NULL UNIQUE,
             created_at  TIMESTAMP DEFAULT NOW()
         );
-    """, "Tabla 'categories' lista")
+    """,
+        "Tabla 'categories' lista",
+    )
 
-    _run("""
+    _run(
+        """
         CREATE TABLE IF NOT EXISTS words (
             word_id     BYTEA PRIMARY KEY,
             category_id INT NOT NULL REFERENCES categories(category_id),
             word        VARCHAR(100) NOT NULL UNIQUE,
             created_at  TIMESTAMP DEFAULT NOW()
         );
-    """, "Tabla 'words' lista")
+    """,
+        "Tabla 'words' lista",
+    )
 
-    _run("""
+    _run(
+        """
         CREATE TABLE IF NOT EXISTS samples (
             sample_id  SERIAL PRIMARY KEY,
             word_id    BYTEA NOT NULL REFERENCES words(word_id),
             created_at TIMESTAMP DEFAULT NOW()
         );
-    """, "Tabla 'samples' lista")
+    """,
+        "Tabla 'samples' lista",
+    )
 
-    _run("""
+    _run(
+        """
         CREATE TABLE IF NOT EXISTS keypoints (
             keypoints_id SERIAL PRIMARY KEY,
             sample_id    INT NOT NULL REFERENCES samples(sample_id),
@@ -52,4 +62,6 @@ def create_all_tables():
             keypoints    JSONB NOT NULL,
             created_at   TIMESTAMP DEFAULT NOW()
         );
-    """, "Tabla 'keypoints' lista")
+    """,
+        "Tabla 'keypoints' lista",
+    )

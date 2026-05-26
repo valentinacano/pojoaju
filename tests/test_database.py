@@ -5,9 +5,13 @@ Tests para app/database/queries.py
 import numpy as np
 import pytest
 from app.database.queries import (
-    insert_word, insert_sample, insert_keypoints,
-    fetch_all_words, fetch_word_ids_with_keypoints,
-    get_word_by_name, word_to_id,
+    insert_word,
+    insert_sample,
+    insert_keypoints,
+    fetch_all_words,
+    fetch_word_ids_with_keypoints,
+    get_word_by_name,
+    word_to_id,
     fetch_keypoints_for_words,
 )
 

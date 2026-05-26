@@ -18,6 +18,7 @@ from app.database.connection import get_connection
 # Helpers internos
 # ---------------------------------------------------------------------------
 
+
 def _exec(query: str, params=None, fetch_one=False, fetch_all=False):
     conn = get_connection()
     cur = conn.cursor()
@@ -42,10 +43,11 @@ def word_to_id(word: str) -> bytes:
 # Categories
 # ---------------------------------------------------------------------------
 
+
 def insert_category(category: str):
     _exec(
         "INSERT INTO categories (category) VALUES (%s) ON CONFLICT (category) DO NOTHING;",
-        (category.strip().lower(),)
+        (category.strip().lower(),),
     )
 
 
@@ -53,7 +55,7 @@ def get_category_id(category: str) -> int | None:
     row = _exec(
         "SELECT category_id FROM categories WHERE category = %s;",
         (category.strip().lower(),),
-        fetch_one=True
+        fetch_one=True,
     )
     return row[0] if row else None
 
@@ -67,6 +69,7 @@ def fetch_all_categories() -> list[str]:
 # Words
 # ---------------------------------------------------------------------------
 
+
 def insert_word(word: str, category: str):
     """
     Inserta una palabra con su categoría. Crea la categoría si no existe.
@@ -74,13 +77,13 @@ def insert_word(word: str, category: str):
     cat = category.strip().lower()
     _exec(
         "INSERT INTO categories (category) VALUES (%s) ON CONFLICT (category) DO NOTHING;",
-        (cat,)
+        (cat,),
     )
     cat_id = get_category_id(cat)
     wid = word_to_id(word)
     _exec(
         "INSERT INTO words (word_id, category_id, word) VALUES (%s, %s, %s) ON CONFLICT DO NOTHING;",
-        (wid, cat_id, word.strip().lower())
+        (wid, cat_id, word.strip().lower()),
     )
 
 
@@ -96,22 +99,32 @@ def insert_words_bulk(words: dict):
 
 def fetch_all_words() -> list[tuple]:
     """Retorna lista de (word_id, word, category)."""
-    return _exec("""
+    return (
+        _exec(
+            """
         SELECT w.word_id, w.word, c.category
         FROM words w
         JOIN categories c ON w.category_id = c.category_id
         ORDER BY c.category, w.word;
-    """, fetch_all=True) or []
+    """,
+            fetch_all=True,
+        )
+        or []
+    )
 
 
 def get_word_by_id(word_id: bytes) -> tuple | None:
     """Retorna (word_id, word, category) o None."""
-    return _exec("""
+    return _exec(
+        """
         SELECT w.word_id, w.word, c.category
         FROM words w
         JOIN categories c ON w.category_id = c.category_id
         WHERE w.word_id = %s;
-    """, (word_id,), fetch_one=True)
+    """,
+        (word_id,),
+        fetch_one=True,
+    )
 
 
 def get_word_by_name(word: str) -> tuple | None:
@@ -123,11 +136,13 @@ def get_word_by_name(word: str) -> tuple | None:
 # Samples
 # ---------------------------------------------------------------------------
 
+
 def insert_sample(word_id: bytes) -> int:
     """Inserta una muestra y retorna su sample_id."""
     row = _exec(
         "INSERT INTO samples (word_id) VALUES (%s) RETURNING sample_id;",
-        (word_id,), fetch_one=True
+        (word_id,),
+        fetch_one=True,
     )
     return row[0]
 
@@ -135,6 +150,7 @@ def insert_sample(word_id: bytes) -> int:
 # ---------------------------------------------------------------------------
 # Keypoints
 # ---------------------------------------------------------------------------
+
 
 def insert_keypoints(word_id: bytes, sample_id: int, sequence: list):
     """
@@ -153,7 +169,7 @@ def insert_keypoints(word_id: bytes, sample_id: int, sequence: list):
         kp = keypoints.tolist() if hasattr(keypoints, "tolist") else keypoints
         _exec(
             "INSERT INTO keypoints (word_id, sample_id, frame, keypoints) VALUES (%s, %s, %s, %s);",
-            (word_id, sample_id, frame_idx, json.dumps(kp))
+            (word_id, sample_id, frame_idx, json.dumps(kp)),
         )
     print(f"✅ {len(sequence)} frames insertados (sample {sample_id})")
 
@@ -168,17 +184,20 @@ def fetch_keypoints_for_words(word_ids: list[bytes]) -> list[tuple]:
     if not word_ids:
         return []
     placeholders = ",".join(["%s"] * len(word_ids))
-    return _exec(
-        f"SELECT word_id, sample_id, frame, keypoints FROM keypoints WHERE word_id IN ({placeholders}) ORDER BY word_id, sample_id, frame;",
-        tuple(word_ids), fetch_all=True
-    ) or []
+    return (
+        _exec(
+            f"SELECT word_id, sample_id, frame, keypoints FROM keypoints WHERE word_id IN ({placeholders}) ORDER BY word_id, sample_id, frame;",
+            tuple(word_ids),
+            fetch_all=True,
+        )
+        or []
+    )
 
 
 def fetch_word_ids_with_keypoints() -> list[bytes]:
     """Retorna los word_ids que tienen al menos un keypoint registrado."""
     rows = _exec(
-        "SELECT DISTINCT word_id FROM keypoints ORDER BY word_id;",
-        fetch_all=True
+        "SELECT DISTINCT word_id FROM keypoints ORDER BY word_id;", fetch_all=True
     )
     return [r[0] for r in rows] if rows else []
 

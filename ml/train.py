@@ -20,7 +20,11 @@ from keras.utils import to_categorical
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 
 from app.config import MODEL_FRAMES, MODEL_PATH, MODELS_PATH
-from app.database.queries import fetch_word_ids_with_keypoints, fetch_keypoints_for_words, get_word_by_id
+from app.database.queries import (
+    fetch_word_ids_with_keypoints,
+    fetch_keypoints_for_words,
+    get_word_by_id,
+)
 from ml.model import get_model
 from ml.normalize import normalize_sequence
 
@@ -36,13 +40,19 @@ def set_seeds(seed: int = 42):
     os.environ["PYTHONHASHSEED"] = str(seed)
 
 
-def _load_sequences(word_ids: list, max_real: int = 60) -> tuple[np.ndarray, np.ndarray]:
+def _load_sequences(
+    word_ids: list, max_real: int = 60
+) -> tuple[np.ndarray, np.ndarray]:
     raw = fetch_keypoints_for_words(word_ids)
 
     grouped = {}
     for word_id, sample_id, frame, kp_json in raw:
         key = (bytes(word_id), sample_id)
-        kp = np.array(json.loads(kp_json)) if isinstance(kp_json, str) else np.array(kp_json)
+        kp = (
+            np.array(json.loads(kp_json))
+            if isinstance(kp_json, str)
+            else np.array(kp_json)
+        )
         grouped.setdefault(key, []).append((frame, kp))
 
     word_to_idx = {bytes(wid): i for i, wid in enumerate(word_ids)}
@@ -51,7 +61,7 @@ def _load_sequences(word_ids: list, max_real: int = 60) -> tuple[np.ndarray, np.
 
     # Agrupar por word_id para filtrar las primeras max_real por seña
     by_word = {}
-    for (word_id, sample_id) in sorted(grouped.keys()):
+    for word_id, sample_id in sorted(grouped.keys()):
         by_word.setdefault(word_id, []).append(sample_id)
 
     for word_id, sample_ids in by_word.items():
@@ -64,6 +74,7 @@ def _load_sequences(word_ids: list, max_real: int = 60) -> tuple[np.ndarray, np.
             labels.append(word_to_idx[word_id])
 
     return np.array(sequences, dtype=np.float32), np.array(labels)
+
 
 def train(epochs: int = 300, seed: int = 42) -> dict:
     """
@@ -84,7 +95,9 @@ def train(epochs: int = 300, seed: int = 42) -> dict:
     word_ids = fetch_word_ids_with_keypoints()
 
     if len(word_ids) < 2:
-        return {"error": "Se necesitan al menos 2 palabras con keypoints para entrenar."}
+        return {
+            "error": "Se necesitan al menos 2 palabras con keypoints para entrenar."
+        }
 
     print(f"📌 {len(word_ids)} palabras encontradas.")
     print("📌 Cargando secuencias...")
@@ -99,10 +112,7 @@ def train(epochs: int = 300, seed: int = 42) -> dict:
 
     # Split estratificado 80/20 con seed fija
     X_train, X_val, y_train, y_val = train_test_split(
-        X, y_cat,
-        test_size=0.2,
-        random_state=seed,
-        stratify=y
+        X, y_cat, test_size=0.2, random_state=seed, stratify=y
     )
 
     print(f"📌 Train: {len(X_train)} | Val: {len(X_val)}")
@@ -115,27 +125,22 @@ def train(epochs: int = 300, seed: int = 42) -> dict:
 
     callbacks = [
         EarlyStopping(
-            monitor="val_loss",
-            patience=30,
-            restore_best_weights=True,
-            verbose=1
+            monitor="val_loss", patience=30, restore_best_weights=True, verbose=1
         ),
         ModelCheckpoint(
-            filepath=MODEL_PATH,
-            monitor="val_loss",
-            save_best_only=True,
-            verbose=1
+            filepath=MODEL_PATH, monitor="val_loss", save_best_only=True, verbose=1
         ),
     ]
 
     print("🚀 Entrenando...")
     history = model.fit(
-        X_train, y_train,
+        X_train,
+        y_train,
         validation_data=(X_val, y_val),
         epochs=epochs,
         batch_size=16,
         callbacks=callbacks,
-        verbose=2
+        verbose=2,
     )
 
     epochs_ran = len(history.history["accuracy"])
@@ -149,11 +154,11 @@ def train(epochs: int = 300, seed: int = 42) -> dict:
     print(f"   Val accuracy: {final_val_acc:.4f}")
 
     return {
-        "accuracy":     round(final_acc, 4),
+        "accuracy": round(final_acc, 4),
         "val_accuracy": round(final_val_acc, 4),
-        "loss":         round(final_loss, 4),
-        "val_loss":     round(final_val_loss, 4),
-        "epochs_ran":   epochs_ran,
-        "n_classes":    len(word_ids),
-        "n_samples":    len(X),
+        "loss": round(final_loss, 4),
+        "val_loss": round(final_val_loss, 4),
+        "epochs_ran": epochs_ran,
+        "n_classes": len(word_ids),
+        "n_samples": len(X),
     }

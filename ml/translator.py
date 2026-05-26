@@ -44,6 +44,7 @@ Respondé SOLO con la traducción al español, sin explicaciones ni comillas."""
 # Función principal
 # ---------------------------------------------------------------------------
 
+
 def translate_signs_to_spanish(signs: list[str]) -> str | None:
     """
     Traduce una secuencia de señas al español natural usando Gemini.

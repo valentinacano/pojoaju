@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Texto a Señas — Pojoaju</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+
     <style>
         canvas {
             background: #f8f7f4;
             border-radius: 12px;
             border: 1px solid #e2e0d8;
         }
+
         .word-chip {
             display: inline-block;
             padding: 4px 12px;
@@ -23,18 +26,26 @@
             transition: all 0.2s;
             border: 1px solid #9fd3bc;
         }
-        .word-chip:hover { background: #2d6a4f; color: white; }
-        .word-chip.active { background: #2d6a4f; color: white; }
+
+        .word-chip:hover,
+        .word-chip.active {
+            background: #2d6a4f;
+            color: white;
+        }
+
         #progressBar {
             transition: width 0.1s linear;
         }
     </style>
 </head>
+
 <body class="bg-gray-50 min-h-screen">
+
     <nav class="flex justify-between items-center px-6 py-4">
         <a href="{{ url_for('index') }}" class="btn btn-light back-button">
             <img src="{{ url_for('static', filename='img/BackButton.svg') }}" alt="Back" class="back-arrow">
         </a>
+
         <button class="icon-primary-button flex items-center gap-2 text-white bg-indigo-500 px-4 py-2 rounded-lg">
             <img src="{{ url_for('static', filename='img/InfoWhite.svg') }}" alt="Help" class="w-5 h-5">
             <span>Ayuda</span>
@@ -45,45 +56,74 @@
         <h1 class="text-3xl font-bold text-center mb-2">Texto a Señas</h1>
         <p class="text-center text-gray-500 mb-8">Escribí una palabra para ver su seña</p>
 
-        <!-- Input -->
         <div class="bg-white rounded-xl shadow p-6 mb-6">
             <div class="flex gap-3">
-                <input type="text" id="wordInput"
-                       placeholder="Escribí una palabra..."
-                       class="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 text-lg"
-                       list="wordsList">
+                <input type="text" id="wordInput" placeholder="Escribí una palabra..."
+                    class="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 text-lg"
+                    list="wordsList">
+
                 <datalist id="wordsList">
                     {% for word in available_words %}
                     <option value="{{ word }}">
-                    {% endfor %}
+                        {% endfor %}
                 </datalist>
+
                 <button onclick="translateWord()"
                     class="px-6 py-3 bg-indigo-500 text-white font-semibold rounded-xl hover:bg-indigo-600 transition">
                     Traducir
                 </button>
             </div>
 
-            <!-- Palabras disponibles -->
+            <div class="flex flex-wrap gap-3 mt-4 items-center">
+
+                <div class="flex items-center gap-2 bg-gray-100 rounded-xl p-2">
+                    <button id="maleBtn" onclick="setGender('male')"
+                        class="px-4 py-2 rounded-lg bg-indigo-500 text-white text-sm font-medium">
+                        Masculino
+                    </button>
+
+                    <button id="femaleBtn" onclick="setGender('female')"
+                        class="px-4 py-2 rounded-lg text-gray-700 text-sm font-medium">
+                        Femenino
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-3 bg-gray-100 rounded-xl px-4 py-3">
+                    <span class="text-sm text-gray-600">Velocidad</span>
+                    <input type="range" min="2" max="20" value="8" id="speedRange" oninput="changeSpeed(this.value)">
+                    <span id="speedLabel" class="text-sm font-semibold text-indigo-600">8 FPS</span>
+                </div>
+
+                <div class="flex items-center gap-3 bg-gray-100 rounded-xl px-4 py-3">
+                    <span class="text-sm text-gray-600">Suavizado</span>
+                    <input type="range" min="10" max="70" value="35" id="smoothRange"
+                        oninput="changeSmoothing(this.value)">
+                    <span id="smoothLabel" class="text-sm font-semibold text-indigo-600">35%</span>
+                </div>
+
+            </div>
+
             <div class="mt-4">
                 <p class="text-sm text-gray-400 mb-2">Palabras disponibles:</p>
+
                 <div class="flex flex-wrap gap-2" id="wordChips">
                     {% for word in available_words %}
-                    <span class="word-chip" onclick="selectWord('{{ word }}')">{{ word }}</span>
+                    <span class="word-chip" onclick="selectWord('{{ word }}', event)">{{ word }}</span>
                     {% endfor %}
                 </div>
             </div>
         </div>
 
-        <!-- Animación -->
         <div class="bg-white rounded-xl shadow p-6" id="animationSection" style="display:none">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold" id="currentWord"></h2>
+
                 <div class="flex gap-2">
-                    <button onclick="togglePlay()"
-                        id="playBtn"
+                    <button onclick="togglePlay()" id="playBtn"
                         class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition text-sm font-medium">
                         ⏸ Pausar
                     </button>
+
                     <button onclick="restartAnimation()"
                         class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium">
                         🔄 Repetir
@@ -91,21 +131,19 @@
                 </div>
             </div>
 
-            <!-- Canvas -->
             <div class="flex justify-center mb-4">
                 <canvas id="stickmanCanvas" width="400" height="400"></canvas>
             </div>
 
-            <!-- Barra de progreso -->
             <div class="w-full bg-gray-100 rounded-full h-2 mb-2">
                 <div id="progressBar" class="bg-indigo-500 h-2 rounded-full" style="width:0%"></div>
             </div>
+
             <div class="flex justify-between text-xs text-gray-400">
                 <span id="frameLabel">Frame 0</span>
                 <span id="totalFrames"></span>
             </div>
 
-            <!-- Error -->
             <div id="errorMsg" class="mt-4 p-3 bg-red-50 text-red-600 rounded-lg text-sm" style="display:none"></div>
         </div>
     </div>
@@ -115,17 +153,62 @@
         let currentFrame = 0;
         let animInterval = null;
         let isPlaying = false;
-        const FPS = 8; // frames por segundo de la animación
+
+        let FPS = 8;
+        let avatarGender = "male";
+
+        let previousSmoothedFrame = null;
+        let SMOOTHING = 0.35;
 
         const canvas = document.getElementById("stickmanCanvas");
         const ctx = canvas.getContext("2d");
         const W = canvas.width;
         const H = canvas.height;
 
-        function selectWord(word) {
+        function setGender(gender) {
+            avatarGender = gender;
+
+            document.getElementById("maleBtn").className =
+                "px-4 py-2 rounded-lg text-sm font-medium " +
+                (gender === "male"
+                    ? "bg-indigo-500 text-white"
+                    : "text-gray-700");
+
+            document.getElementById("femaleBtn").className =
+                "px-4 py-2 rounded-lg text-sm font-medium " +
+                (gender === "female"
+                    ? "bg-pink-500 text-white"
+                    : "text-gray-700");
+
+            if (animData && animData.frames[currentFrame]) {
+                drawFrame(animData.frames[currentFrame]);
+            }
+        }
+
+        function changeSpeed(v) {
+            FPS = Number(v);
+            document.getElementById("speedLabel").textContent = FPS + " FPS";
+
+            if (isPlaying && animData) {
+                stopAnimation();
+                startAnimation();
+            }
+        }
+
+        function changeSmoothing(v) {
+            SMOOTHING = Number(v) / 100;
+            document.getElementById("smoothLabel").textContent = v + "%";
+        }
+
+        function selectWord(word, event) {
             document.getElementById("wordInput").value = word;
+
             document.querySelectorAll(".word-chip").forEach(c => c.classList.remove("active"));
-            event.target.classList.add("active");
+
+            if (event && event.target) {
+                event.target.classList.add("active");
+            }
+
             translateWord();
         }
 
@@ -134,14 +217,16 @@
             if (!word) return;
 
             stopAnimation();
+
             document.getElementById("animationSection").style.display = "block";
             document.getElementById("currentWord").textContent = `Seña: "${word}"`;
             document.getElementById("errorMsg").style.display = "none";
+
             ctx.clearRect(0, 0, W, H);
             ctx.fillStyle = "#9ca3af";
             ctx.font = "16px system-ui";
             ctx.textAlign = "center";
-            ctx.fillText("Cargando...", W/2, H/2);
+            ctx.fillText("Cargando...", W / 2, H / 2);
 
             try {
                 const r = await fetch(`/api/sign/${encodeURIComponent(word)}`);
@@ -156,25 +241,40 @@
 
                 animData = d;
                 currentFrame = 0;
+                previousSmoothedFrame = null;
+
                 document.getElementById("totalFrames").textContent = `${d.frames.length} frames`;
+
                 startAnimation();
 
-            } catch(e) {
+            } catch (e) {
                 document.getElementById("errorMsg").textContent = "Error al cargar la seña.";
                 document.getElementById("errorMsg").style.display = "block";
             }
         }
 
         function startAnimation() {
+            if (!animData || !animData.frames || animData.frames.length === 0) return;
+
+            clearInterval(animInterval);
+
             isPlaying = true;
             document.getElementById("playBtn").textContent = "⏸ Pausar";
+
             animInterval = setInterval(() => {
                 if (currentFrame >= animData.frames.length) {
-                    currentFrame = 0; // loop
+                    currentFrame = 0;
+                    previousSmoothedFrame = null;
                 }
-                drawFrame(animData.frames[currentFrame]);
+
+                const rawFrame = animData.frames[currentFrame];
+                const smoothedFrame = smoothFrame(rawFrame);
+
+                drawFrame(smoothedFrame);
                 updateProgress();
+
                 currentFrame++;
+
             }, 1000 / FPS);
         }
 
@@ -185,6 +285,8 @@
         }
 
         function togglePlay() {
+            if (!animData) return;
+
             if (isPlaying) {
                 stopAnimation();
                 document.getElementById("playBtn").textContent = "▶ Reproducir";
@@ -196,7 +298,11 @@
         function restartAnimation() {
             stopAnimation();
             currentFrame = 0;
-            if (animData) startAnimation();
+            previousSmoothedFrame = null;
+
+            if (animData) {
+                startAnimation();
+            }
         }
 
         function updateProgress() {
@@ -205,101 +311,393 @@
             document.getElementById("frameLabel").textContent = `Frame ${currentFrame}`;
         }
 
+        function smoothFrame(frame) {
+            if (!frame) return frame;
+
+            if (!previousSmoothedFrame) {
+                previousSmoothedFrame = JSON.parse(JSON.stringify(frame));
+                return frame;
+            }
+
+            const smoothed = JSON.parse(JSON.stringify(frame));
+
+            ["pose", "left_hand", "right_hand"].forEach(key => {
+                if (frame[key] && previousSmoothedFrame[key]) {
+                    smoothed[key] = frame[key].map((point, i) => {
+                        const prev = previousSmoothedFrame[key][i];
+
+                        if (!point || !prev) return point;
+
+                        if (
+                            point.x === 0 &&
+                            point.y === 0
+                        ) {
+                            return point;
+                        }
+
+                        return {
+                            ...point,
+                            x: prev.x + (point.x - prev.x) * SMOOTHING,
+                            y: prev.y + (point.y - prev.y) * SMOOTHING,
+                            z: point.z ?? prev.z
+                        };
+                    });
+                }
+            });
+
+            previousSmoothedFrame = smoothed;
+            return smoothed;
+        }
+
         function drawFrame(frame) {
             ctx.clearRect(0, 0, W, H);
 
-            // Escalar coordenadas normalizadas (0-1) al canvas
             function sx(x) { return x * W; }
             function sy(y) { return y * H; }
 
-            const pose = frame.pose;
-            const lh   = frame.left_hand;
-            const rh   = frame.right_hand;
-
-            // --- Dibujar cuerpo (pose) ---
-            ctx.strokeStyle = "#4f46e5";
-            ctx.lineWidth = 3;
-            ctx.lineCap = "round";
-
-            for (const [a, b] of animData.pose_connections) {
-                if (!pose[a] || !pose[b]) continue;
-                if (pose[a].x === 0 && pose[a].y === 0) continue;
-                if (pose[b].x === 0 && pose[b].y === 0) continue;
-                ctx.beginPath();
-                ctx.moveTo(sx(pose[a].x), sy(pose[a].y));
-                ctx.lineTo(sx(pose[b].x), sy(pose[b].y));
-                ctx.stroke();
+            function ok(p) {
+                return p && !(p.x === 0 && p.y === 0);
             }
 
-            // Puntos de pose
-            ctx.fillStyle = "#4f46e5";
-            for (const p of pose) {
-                if (p.x === 0 && p.y === 0) continue;
+            function P(arr, i) {
+                return ok(arr[i])
+                    ? {
+                        x: sx(arr[i].x),
+                        y: sy(arr[i].y),
+                        z: arr[i].z || 0
+                    }
+                    : null;
+            }
+
+            const pose = frame.pose || [];
+            const lh = frame.left_hand || [];
+            const rh = frame.right_hand || [];
+
+            const nose = P(pose, 0);
+            const leftShoulder = P(pose, 11);
+            const rightShoulder = P(pose, 12);
+            const leftElbow = P(pose, 13);
+            const rightElbow = P(pose, 14);
+            const leftWrist = P(pose, 15);
+            const rightWrist = P(pose, 16);
+            const leftHip = P(pose, 23);
+            const rightHip = P(pose, 24);
+
+            const bg = ctx.createLinearGradient(0, 0, 0, H);
+            bg.addColorStop(0, "#fbfaf7");
+            bg.addColorStop(1, "#eee9df");
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, W, H);
+
+            ctx.save();
+            ctx.globalAlpha = 0.22;
+            ctx.fillStyle = "#8b7d6b";
+            ctx.beginPath();
+            ctx.ellipse(W / 2, H * 0.86, 112, 22, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            const skin1 = avatarGender === "female" ? "#ffe0ec" : "#ffe1c7";
+            const skin2 = avatarGender === "female" ? "#f2a8c7" : "#d98e68";
+
+            const suit1 = avatarGender === "female" ? "#ff85c8" : "#8f86ff";
+            const suit2 = avatarGender === "female" ? "#ec4899" : "#5b50d8";
+            const suit3 = avatarGender === "female" ? "#be185d" : "#3d348f";
+
+            const hairColor = avatarGender === "female" ? "#5b176e" : "#1f2937";
+
+            function roundedCapsule(x, y, len, width) {
+                const r = width / 2;
                 ctx.beginPath();
-                ctx.arc(sx(p.x), sy(p.y), 4, 0, Math.PI * 2);
+                ctx.moveTo(x + r, y - r);
+                ctx.lineTo(x + len - r, y - r);
+                ctx.quadraticCurveTo(x + len, y - r, x + len, y);
+                ctx.quadraticCurveTo(x + len, y + r, x + len - r, y + r);
+                ctx.lineTo(x + r, y + r);
+                ctx.quadraticCurveTo(x, y + r, x, y);
+                ctx.quadraticCurveTo(x, y - r, x + r, y - r);
+                ctx.closePath();
+            }
+
+            function drawCapsule(a, b, width, color1, color2, shadow = true) {
+                if (!a || !b) return;
+
+                const dx = b.x - a.x;
+                const dy = b.y - a.y;
+                const len = Math.hypot(dx, dy);
+
+                if (len < 2) return;
+
+                const angle = Math.atan2(dy, dx);
+
+                ctx.save();
+                ctx.translate(a.x, a.y);
+                ctx.rotate(angle);
+
+                if (shadow) {
+                    ctx.save();
+                    ctx.globalAlpha = 0.18;
+                    ctx.fillStyle = "#111827";
+                    roundedCapsule(5, 7, len, width);
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                const grad = ctx.createLinearGradient(0, -width / 2, 0, width / 2);
+                grad.addColorStop(0, color1);
+                grad.addColorStop(0.5, color2);
+                grad.addColorStop(1, suit3);
+
+                ctx.fillStyle = grad;
+                roundedCapsule(0, 0, len, width);
                 ctx.fill();
-            }
 
-            // --- Cabeza (entre hombros, arriba) ---
-            const ls = pose[11], rs = pose[12], nose = pose[0];
-            if (nose && nose.x !== 0) {
-                ctx.strokeStyle = "#4f46e5";
-                ctx.lineWidth = 2;
-                const headR = Math.abs(sx(rs.x) - sx(ls.x)) * 0.35;
-                ctx.beginPath();
-                ctx.arc(sx(nose.x), sy(nose.y), headR, 0, Math.PI * 2);
+                ctx.strokeStyle = "rgba(37, 35, 63, 0.18)";
+                ctx.lineWidth = 1;
+                roundedCapsule(0, 0, len, width);
                 ctx.stroke();
+
+                ctx.restore();
             }
 
-            // --- Mano izquierda ---
-            const hasLH = lh.some(p => p.x !== 0 || p.y !== 0);
-            if (hasLH) {
-                ctx.strokeStyle = "#db2777";
-                ctx.lineWidth = 2;
-                for (const [a, b] of animData.hand_connections) {
-                    if (!lh[a] || !lh[b]) continue;
-                    if (lh[a].x === 0 && lh[a].y === 0) continue;
+            function drawJoint(p, r, c1, c2) {
+                if (!p) return;
+
+                const g = ctx.createRadialGradient(
+                    p.x - r * 0.35,
+                    p.y - r * 0.45,
+                    r * 0.2,
+                    p.x,
+                    p.y,
+                    r
+                );
+
+                g.addColorStop(0, c1);
+                g.addColorStop(1, c2);
+
+                ctx.save();
+                ctx.shadowColor = "rgba(31, 41, 55, 0.22)";
+                ctx.shadowBlur = 8;
+                ctx.shadowOffsetY = 3;
+                ctx.fillStyle = g;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function drawTorso() {
+                if (!leftShoulder || !rightShoulder) return;
+
+                const cx = (leftShoulder.x + rightShoulder.x) / 2;
+                const shoulderY = (leftShoulder.y + rightShoulder.y) / 2;
+                const hipY = leftHip && rightHip
+                    ? (leftHip.y + rightHip.y) / 2
+                    : shoulderY + 105;
+
+                const shoulderW = Math.max(62, Math.abs(rightShoulder.x - leftShoulder.x) + 34);
+                const hipW = leftHip && rightHip
+                    ? Math.max(48, Math.abs(rightHip.x - leftHip.x) + 28)
+                    : shoulderW * 0.68;
+
+                const h = Math.max(78, hipY - shoulderY + 34);
+
+                ctx.save();
+                ctx.shadowColor = "rgba(31, 41, 55, 0.25)";
+                ctx.shadowBlur = 18;
+                ctx.shadowOffsetY = 9;
+
+                const g = ctx.createLinearGradient(
+                    cx - shoulderW / 2,
+                    shoulderY,
+                    cx + shoulderW / 2,
+                    shoulderY + h
+                );
+
+                g.addColorStop(0, suit1);
+                g.addColorStop(0.48, suit2);
+                g.addColorStop(1, suit3);
+
+                ctx.fillStyle = g;
+
+                ctx.beginPath();
+                ctx.moveTo(cx - shoulderW / 2, shoulderY - 4);
+                ctx.bezierCurveTo(
+                    cx - shoulderW * 0.46,
+                    shoulderY + h * 0.35,
+                    cx - hipW * 0.52,
+                    shoulderY + h * 0.72,
+                    cx - hipW / 2,
+                    shoulderY + h
+                );
+                ctx.quadraticCurveTo(cx, shoulderY + h + 18, cx + hipW / 2, shoulderY + h);
+                ctx.bezierCurveTo(
+                    cx + hipW * 0.52,
+                    shoulderY + h * 0.72,
+                    cx + shoulderW * 0.46,
+                    shoulderY + h * 0.35,
+                    cx + shoulderW / 2,
+                    shoulderY - 4
+                );
+                ctx.quadraticCurveTo(cx, shoulderY - 22, cx - shoulderW / 2, shoulderY - 4);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.shadowBlur = 0;
+                ctx.globalAlpha = 0.34;
+                ctx.fillStyle = "#ffffff";
+                ctx.beginPath();
+                ctx.ellipse(
+                    cx - shoulderW * 0.18,
+                    shoulderY + h * 0.26,
+                    shoulderW * 0.18,
+                    h * 0.30,
+                    -0.35,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+
+                ctx.restore();
+            }
+
+            function drawHead() {
+                if (!nose) return;
+
+                const shoulderDistance = leftShoulder && rightShoulder
+                    ? Math.abs(rightShoulder.x - leftShoulder.x)
+                    : 70;
+
+                const r = Math.max(28, Math.min(48, shoulderDistance * 0.42));
+                const cx = nose.x;
+                const cy = nose.y - r * 0.15;
+
+                ctx.save();
+
+                if (avatarGender === "female") {
+                    ctx.fillStyle = hairColor;
                     ctx.beginPath();
-                    ctx.moveTo(sx(lh[a].x), sy(lh[a].y));
-                    ctx.lineTo(sx(lh[b].x), sy(lh[b].y));
-                    ctx.stroke();
-                }
-                ctx.fillStyle = "#db2777";
-                for (const p of lh) {
-                    if (p.x === 0 && p.y === 0) continue;
-                    ctx.beginPath();
-                    ctx.arc(sx(p.x), sy(p.y), 3, 0, Math.PI * 2);
+                    ctx.ellipse(cx, cy + r * 0.18, r * 1.08, r * 1.35, 0, 0, Math.PI * 2);
                     ctx.fill();
+                }
+
+                ctx.shadowColor = "rgba(31, 41, 55, 0.26)";
+                ctx.shadowBlur = 14;
+                ctx.shadowOffsetY = 6;
+
+                const g = ctx.createRadialGradient(
+                    cx - r * 0.35,
+                    cy - r * 0.45,
+                    r * 0.18,
+                    cx,
+                    cy,
+                    r
+                );
+
+                g.addColorStop(0, skin1);
+                g.addColorStop(0.6, "#f0b48e");
+                g.addColorStop(1, skin2);
+
+                ctx.fillStyle = g;
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.shadowBlur = 0;
+
+                ctx.fillStyle = hairColor;
+                ctx.beginPath();
+                ctx.arc(cx, cy - r * 0.18, r, Math.PI, 0);
+                ctx.fill();
+
+                ctx.fillStyle = "rgba(17, 24, 39, 0.7)";
+                ctx.beginPath();
+                ctx.arc(cx - r * 0.28, cy - r * 0.10, 3.2, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(cx + r * 0.28, cy - r * 0.10, 3.2, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.strokeStyle = "rgba(17, 24, 39, 0.45)";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(cx, cy + r * 0.13, r * 0.23, 0.1, Math.PI - 0.1);
+                ctx.stroke();
+
+                ctx.restore();
+            }
+
+            function drawHand(points, wrist, palmColor1, palmColor2) {
+                if (!wrist) return;
+
+                const hasHand = points.some(p => p && (p.x !== 0 || p.y !== 0));
+
+                if (!hasHand) {
+                    drawJoint(wrist, 12, palmColor1, palmColor2);
+                    return;
+                }
+
+                const hand = points.map((_, i) => P(points, i));
+                const base = hand[0] || wrist;
+
+                if (!base) return;
+
+                drawJoint(base, 15, palmColor1, palmColor2);
+
+                const fingerBones = animData.hand_connections || [];
+
+                for (const [a, b] of fingerBones) {
+                    const pa = hand[a];
+                    const pb = hand[b];
+
+                    if (!pa || !pb) continue;
+
+                    drawCapsule(pa, pb, 6, palmColor1, palmColor2, false);
+                }
+
+                for (const p of hand) {
+                    drawJoint(p, 3.8, "#fff1df", palmColor2);
                 }
             }
 
-            // --- Mano derecha ---
-            const hasRH = rh.some(p => p.x !== 0 || p.y !== 0);
-            if (hasRH) {
-                ctx.strokeStyle = "#059669";
-                ctx.lineWidth = 2;
-                for (const [a, b] of animData.hand_connections) {
-                    if (!rh[a] || !rh[b]) continue;
-                    if (rh[a].x === 0 && rh[a].y === 0) continue;
-                    ctx.beginPath();
-                    ctx.moveTo(sx(rh[a].x), sy(rh[a].y));
-                    ctx.lineTo(sx(rh[b].x), sy(rh[b].y));
-                    ctx.stroke();
-                }
-                ctx.fillStyle = "#059669";
-                for (const p of rh) {
-                    if (p.x === 0 && p.y === 0) continue;
-                    ctx.beginPath();
-                    ctx.arc(sx(p.x), sy(p.y), 3, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
+            drawTorso();
+
+            const leftKnee = P(pose, 25);
+            const rightKnee = P(pose, 26);
+            const leftAnkle = P(pose, 27);
+            const rightAnkle = P(pose, 28);
+
+            drawCapsule(leftHip, leftKnee, 18, suit1, suit2);
+            drawCapsule(leftKnee, leftAnkle, 16, suit1, suit2);
+            drawCapsule(rightHip, rightKnee, 18, suit1, suit2);
+            drawCapsule(rightKnee, rightAnkle, 16, suit1, suit2);
+
+            drawCapsule(leftShoulder, leftElbow, 18, suit1, suit2);
+            drawCapsule(leftElbow, leftWrist, 16, suit1, suit2);
+            drawCapsule(rightShoulder, rightElbow, 18, suit1, suit2);
+            drawCapsule(rightElbow, rightWrist, 16, suit1, suit2);
+
+            [
+                leftShoulder,
+                rightShoulder,
+                leftElbow,
+                rightElbow,
+                leftWrist,
+                rightWrist
+            ].forEach(p => drawJoint(p, 9, suit1, suit2));
+
+            drawHead();
+
+            drawHand(lh, leftWrist, skin1, skin2);
+            drawHand(rh, rightWrist, skin1, skin2);
         }
 
-        // Enter para traducir
         document.getElementById("wordInput").addEventListener("keydown", e => {
             if (e.key === "Enter") translateWord();
         });
     </script>
+
 </body>
+
 </html>

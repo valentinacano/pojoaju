@@ -9,24 +9,52 @@ Mejoras:
 
 import json
 import numpy as np
-from app.database.queries import fetch_keypoints_for_words, get_word_by_id, word_to_id, fetch_word_ids_with_keypoints
+from app.database.queries import (
+    fetch_keypoints_for_words,
+    get_word_by_id,
+    word_to_id,
+    fetch_word_ids_with_keypoints,
+)
 
 POSE_START, POSE_END = 0, 132
-LH_START,   LH_END   = 1536, 1599
-RH_START,   RH_END   = 1599, 1662
+LH_START, LH_END = 1536, 1599
+RH_START, RH_END = 1599, 1662
 
 POSE_CONNECTIONS = [
-    (11, 12), (11, 13), (13, 15), (12, 14), (14, 16),
-    (11, 23), (12, 24), (23, 24),
+    (11, 12),
+    (11, 13),
+    (13, 15),
+    (12, 14),
+    (14, 16),
+    (11, 23),
+    (12, 24),
+    (23, 24),
 ]
 
 HAND_CONNECTIONS = [
-    (0,1),(1,2),(2,3),(3,4),
-    (0,5),(5,6),(6,7),(7,8),
-    (0,9),(9,10),(10,11),(11,12),
-    (0,13),(13,14),(14,15),(15,16),
-    (0,17),(17,18),(18,19),(19,20),
-    (5,9),(9,13),(13,17),
+    (0, 1),
+    (1, 2),
+    (2, 3),
+    (3, 4),
+    (0, 5),
+    (5, 6),
+    (6, 7),
+    (7, 8),
+    (0, 9),
+    (9, 10),
+    (10, 11),
+    (11, 12),
+    (0, 13),
+    (13, 14),
+    (14, 15),
+    (15, 16),
+    (0, 17),
+    (17, 18),
+    (18, 19),
+    (19, 20),
+    (5, 9),
+    (9, 13),
+    (13, 17),
 ]
 
 
@@ -70,7 +98,7 @@ def _get_best_sample(grouped: dict) -> list[np.ndarray]:
 
     best_id = min(
         sample_vectors.keys(),
-        key=lambda sid: np.linalg.norm(sample_vectors[sid] - centroid)
+        key=lambda sid: np.linalg.norm(sample_vectors[sid] - centroid),
     )
 
     frames = grouped[best_id]
@@ -108,15 +136,17 @@ def get_sign_animation(word: str, interpolation_factor: int = 3) -> dict | None:
 
     animation_frames = []
     for kp in smooth_frames:
-        animation_frames.append({
-            "pose":       _extract_pose(kp),
-            "left_hand":  _extract_hand(kp, LH_START, LH_END),
-            "right_hand": _extract_hand(kp, RH_START, RH_END),
-        })
+        animation_frames.append(
+            {
+                "pose": _extract_pose(kp),
+                "left_hand": _extract_hand(kp, LH_START, LH_END),
+                "right_hand": _extract_hand(kp, RH_START, RH_END),
+            }
+        )
 
     return {
-        "word":             word,
-        "frames":           animation_frames,
+        "word": word,
+        "frames": animation_frames,
         "pose_connections": POSE_CONNECTIONS,
         "hand_connections": HAND_CONNECTIONS,
     }

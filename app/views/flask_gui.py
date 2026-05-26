@@ -15,21 +15,34 @@ import os
 from datetime import datetime
 
 from flask import (
-    Flask, render_template, Response, redirect,
-    url_for, request, jsonify, flash
+    Flask,
+    render_template,
+    Response,
+    redirect,
+    url_for,
+    request,
+    jsonify,
+    flash,
 )
 from werkzeug.utils import secure_filename
 
 from app.config import FRAMES_PATH, EXPORTS_PATH
 from app.database.queries import (
-    fetch_all_words, fetch_all_categories,
-    insert_word, count_samples_per_word,
-    get_word_by_name, word_to_id,
+    fetch_all_words,
+    fetch_all_categories,
+    insert_word,
+    count_samples_per_word,
+    get_word_by_name,
+    word_to_id,
 )
 from ml.pipeline import (
-    start_capture_camera, start_capture_video,
-    stop_capture_camera, process_and_save,
-    run_training, run_predict_stream, run_evaluation,
+    start_capture_camera,
+    start_capture_video,
+    stop_capture_camera,
+    process_and_save,
+    run_training,
+    run_predict_stream,
+    run_evaluation,
 )
 from ml.sign_animator import get_sign_animation, get_available_words
 from ml.predict import get_current_phrase, clear_phrase
@@ -45,6 +58,7 @@ ALLOWED_VIDEO_EXTENSIONS = {".mp4", ".mov", ".avi", ".mkv"}
 # General
 # ---------------------------------------------------------------------------
 
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -58,14 +72,14 @@ def translate_page():
 @app.route("/video_feed_prediction")
 def video_feed_prediction():
     return Response(
-        run_predict_stream(),
-        mimetype="multipart/x-mixed-replace; boundary=frame"
+        run_predict_stream(), mimetype="multipart/x-mixed-replace; boundary=frame"
     )
 
 
 # ---------------------------------------------------------------------------
 # Diccionario
 # ---------------------------------------------------------------------------
+
 
 @app.route("/dictionary")
 def dictionary():
@@ -90,10 +104,7 @@ def dictionary():
 def dictionary_search():
     query = request.form.get("query", "").strip().lower()
     words = fetch_all_words()
-    filtered = [
-        w for w in words
-        if query in w[1].lower() or query in w[2].lower()
-    ]
+    filtered = [w for w in words if query in w[1].lower() or query in w[2].lower()]
     return render_template("dictionary.html", words=filtered)
 
 
@@ -125,6 +136,7 @@ def insert_word_form():
 # Entrenamiento — captura
 # ---------------------------------------------------------------------------
 
+
 @app.route("/training")
 def training():
     return render_template("training.html")
@@ -143,8 +155,7 @@ def capture_page(word_id, word):
 @app.route("/video_feed/<word>")
 def video_feed(word):
     return Response(
-        start_capture_camera(word),
-        mimetype="multipart/x-mixed-replace; boundary=frame"
+        start_capture_camera(word), mimetype="multipart/x-mixed-replace; boundary=frame"
     )
 
 
@@ -170,7 +181,9 @@ def upload_video(word_id, word):
 
     ext = os.path.splitext(file.filename)[1].lower()
     if ext not in ALLOWED_VIDEO_EXTENSIONS:
-        flash(f"Formato no soportado. Usá: {', '.join(ALLOWED_VIDEO_EXTENSIONS)}", "error")
+        flash(
+            f"Formato no soportado. Usá: {', '.join(ALLOWED_VIDEO_EXTENSIONS)}", "error"
+        )
         return redirect(url_for("upload_video", word_id=word_id, word=word))
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -195,6 +208,7 @@ def save_samples(word, word_id):
 # Entrenamiento — modelo
 # ---------------------------------------------------------------------------
 
+
 @app.route("/train")
 def train_page():
     return render_template("train_model.html")
@@ -214,6 +228,7 @@ def train_model():
 # ---------------------------------------------------------------------------
 # Evaluación
 # ---------------------------------------------------------------------------
+
 
 @app.route("/confusion")
 def confusion_page():
@@ -237,12 +252,15 @@ def confusion_status():
     if exists:
         ts = os.path.getmtime(path)
         last = datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
-    return jsonify(exists=exists, last_generated=last, path=f"/{path}" if exists else None)
+    return jsonify(
+        exists=exists, last_generated=last, path=f"/{path}" if exists else None
+    )
 
 
 # ---------------------------------------------------------------------------
 # Texto a Señas / Voz a Señas
 # ---------------------------------------------------------------------------
+
 
 @app.route("/text_to_sign")
 def text_to_sign():
@@ -268,6 +286,7 @@ def voice_to_sign():
 # ---------------------------------------------------------------------------
 # Traducción de frases LSPy → Español con Gemini
 # ---------------------------------------------------------------------------
+
 
 @app.route("/api/translate_phrase", methods=["POST"])
 def translate_phrase():
@@ -296,8 +315,10 @@ def current_phrase():
     signs = get_current_phrase()
     return jsonify(signs=signs)
 
+
 @app.route("/api/last_prediction")
 def last_prediction():
     """Retorna la última predicción realizada."""
     from ml.predict import get_last_prediction
+
     return jsonify(get_last_prediction())

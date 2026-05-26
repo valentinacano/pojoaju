@@ -16,7 +16,13 @@ import numpy as np
 from keras.models import load_model
 from mediapipe.python.solutions.holistic import Holistic
 
-from app.config import MODEL_PATH, MODEL_FRAMES, PREDICTION_THRESHOLD, PREDICTION_COOLDOWN, MIN_FRAMES_CAPTURED
+from app.config import (
+    MODEL_PATH,
+    MODEL_FRAMES,
+    PREDICTION_THRESHOLD,
+    PREDICTION_COOLDOWN,
+    MIN_FRAMES_CAPTURED,
+)
 from app.database.queries import fetch_word_ids_with_keypoints, get_word_by_id
 from app.services.text_to_speech import text_to_speech_async
 from ml.keypoints import run_mediapipe, extract_keypoints, has_hand
@@ -30,8 +36,8 @@ FONT_SIZE = 0.8
 # Estado global
 # ---------------------------------------------------------------------------
 
-_current_phrase = []       # palabras acumuladas para traducción
-_last_prediction = {}      # última predicción: {word, conf, accepted}
+_current_phrase = []  # palabras acumuladas para traducción
+_last_prediction = {}  # última predicción: {word, conf, accepted}
 
 
 def get_current_phrase() -> list[str]:
@@ -54,6 +60,7 @@ def get_last_prediction() -> dict:
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _build_idx_to_word(word_ids: list) -> dict:
     idx_to_word = {}
     for i, wid in enumerate(word_ids):
@@ -67,6 +74,7 @@ def _build_idx_to_word(word_ids: list) -> dict:
 
 def _predict_sequence(model, sequence: list, idx_to_word: dict) -> tuple[str, float]:
     from ml.normalize import normalize_sequence
+
     normalized = normalize_sequence(sequence, MODEL_FRAMES)
     X = np.expand_dims(normalized, axis=0).astype(np.float32)
     probs = model.predict(X, verbose=0)[0]
@@ -79,6 +87,7 @@ def _predict_sequence(model, sequence: list, idx_to_word: dict) -> tuple[str, fl
 # ---------------------------------------------------------------------------
 # API pública
 # ---------------------------------------------------------------------------
+
 
 def predict_stream(camera_index: int = 0):
     """
@@ -120,7 +129,7 @@ def predict_stream(camera_index: int = 0):
                     _last_prediction = {
                         "word": word,
                         "conf": round(conf * 100, 1),
-                        "accepted": accepted
+                        "accepted": accepted,
                     }
 
                     if accepted:
@@ -180,7 +189,7 @@ def predict_console(camera_index: int = 0, threshold: float = PREDICTION_THRESHO
                     _last_prediction = {
                         "word": word,
                         "conf": round(conf * 100, 1),
-                        "accepted": accepted
+                        "accepted": accepted,
                     }
 
                     if accepted:

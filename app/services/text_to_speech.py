@@ -28,6 +28,7 @@ def text_to_speech(text: str):
             subprocess.run(["say", "-v", "Paulina", text], check=False)
         else:
             import pyttsx3
+
             engine = pyttsx3.init()
             engine.say(text)
             engine.runAndWait()

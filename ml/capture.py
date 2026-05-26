@@ -10,11 +10,22 @@ import os
 import cv2
 from datetime import datetime
 from mediapipe.python.solutions.holistic import Holistic
-from mediapipe.python.solutions.holistic import HAND_CONNECTIONS, POSE_CONNECTIONS, FACEMESH_CONTOURS
+from mediapipe.python.solutions.holistic import (
+    HAND_CONNECTIONS,
+    POSE_CONNECTIONS,
+    FACEMESH_CONTOURS,
+)
 from mediapipe.python.solutions.drawing_utils import draw_landmarks, DrawingSpec
 
 from ml.keypoints import run_mediapipe, has_hand
-from app.config import MARGIN_FRAMES, MIN_FRAMES_SAMPLE, DELAY_FRAMES, FONT, FONT_POS, FONT_SIZE
+from app.config import (
+    MARGIN_FRAMES,
+    MIN_FRAMES_SAMPLE,
+    DELAY_FRAMES,
+    FONT,
+    FONT_POS,
+    FONT_SIZE,
+)
 
 _stop_capture = False
 
@@ -25,25 +36,41 @@ def stop_capture():
 
 
 def _draw_landmarks(image, results):
-    draw_landmarks(image, results.face_landmarks, FACEMESH_CONTOURS,
-                   DrawingSpec(color=(80, 110, 10), thickness=1, circle_radius=1),
-                   DrawingSpec(color=(80, 256, 121), thickness=1, circle_radius=1))
-    draw_landmarks(image, results.pose_landmarks, POSE_CONNECTIONS,
-                   DrawingSpec(color=(80, 22, 10), thickness=2, circle_radius=4),
-                   DrawingSpec(color=(80, 44, 121), thickness=2, circle_radius=2))
-    draw_landmarks(image, results.left_hand_landmarks, HAND_CONNECTIONS,
-                   DrawingSpec(color=(121, 22, 76), thickness=2, circle_radius=4),
-                   DrawingSpec(color=(121, 44, 250), thickness=2, circle_radius=2))
-    draw_landmarks(image, results.right_hand_landmarks, HAND_CONNECTIONS,
-                   DrawingSpec(color=(245, 117, 66), thickness=2, circle_radius=4),
-                   DrawingSpec(color=(245, 66, 230), thickness=2, circle_radius=2))
+    draw_landmarks(
+        image,
+        results.face_landmarks,
+        FACEMESH_CONTOURS,
+        DrawingSpec(color=(80, 110, 10), thickness=1, circle_radius=1),
+        DrawingSpec(color=(80, 256, 121), thickness=1, circle_radius=1),
+    )
+    draw_landmarks(
+        image,
+        results.pose_landmarks,
+        POSE_CONNECTIONS,
+        DrawingSpec(color=(80, 22, 10), thickness=2, circle_radius=4),
+        DrawingSpec(color=(80, 44, 121), thickness=2, circle_radius=2),
+    )
+    draw_landmarks(
+        image,
+        results.left_hand_landmarks,
+        HAND_CONNECTIONS,
+        DrawingSpec(color=(121, 22, 76), thickness=2, circle_radius=4),
+        DrawingSpec(color=(121, 44, 250), thickness=2, circle_radius=2),
+    )
+    draw_landmarks(
+        image,
+        results.right_hand_landmarks,
+        HAND_CONNECTIONS,
+        DrawingSpec(color=(245, 117, 66), thickness=2, circle_radius=4),
+        DrawingSpec(color=(245, 66, 230), thickness=2, circle_radius=2),
+    )
 
 
 def _save_sample(frames: list, path: str):
     """Guarda una secuencia de frames como muestra en disco."""
     # Recortar solo si hay suficientes frames para el margen
     if len(frames) > MARGIN_FRAMES + DELAY_FRAMES:
-        trimmed = frames[:-(MARGIN_FRAMES + DELAY_FRAMES)]
+        trimmed = frames[: -(MARGIN_FRAMES + DELAY_FRAMES)]
     else:
         trimmed = frames
 
@@ -55,8 +82,11 @@ def _save_sample(frames: list, path: str):
     os.makedirs(folder, exist_ok=True)
 
     for i, frame in enumerate(trimmed, start=1):
-        cv2.imwrite(os.path.join(folder, f"frame_{i:02d}.jpg"), frame,
-                    [cv2.IMWRITE_JPEG_QUALITY, 85])
+        cv2.imwrite(
+            os.path.join(folder, f"frame_{i:02d}.jpg"),
+            frame,
+            [cv2.IMWRITE_JPEG_QUALITY, 85],
+        )
 
     print(f"💾 Muestra guardada: {os.path.basename(folder)} ({len(trimmed)} frames)")
 
@@ -97,7 +127,14 @@ def capture_from_camera(path: str, debug: bool = False, camera_index: int = 0):
                 if frame_count > MARGIN_FRAMES:
                     frames.append(frame.copy())
                     if debug:
-                        cv2.putText(display, "Capturando...", FONT_POS, FONT, FONT_SIZE, (255, 50, 0))
+                        cv2.putText(
+                            display,
+                            "Capturando...",
+                            FONT_POS,
+                            FONT,
+                            FONT_SIZE,
+                            (255, 50, 0),
+                        )
             else:
                 if len(frames) >= MIN_FRAMES_SAMPLE + MARGIN_FRAMES:
                     fix_frames += 1
@@ -109,7 +146,14 @@ def capture_from_camera(path: str, debug: bool = False, camera_index: int = 0):
                 else:
                     frames, frame_count, fix_frames, recording = [], 0, 0, False
                     if debug:
-                        cv2.putText(display, "Listo...", FONT_POS, FONT, FONT_SIZE, (0, 220, 100))
+                        cv2.putText(
+                            display,
+                            "Listo...",
+                            FONT_POS,
+                            FONT,
+                            FONT_SIZE,
+                            (0, 220, 100),
+                        )
 
             _draw_landmarks(display, results)
 
