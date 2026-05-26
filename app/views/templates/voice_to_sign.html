@@ -150,6 +150,8 @@
     }
 
     // ── Web Speech API ──
+    let accumulatedText = "";
+
     function initSpeechRecognition() {
         const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SR) { alert("Tu navegador no soporta reconocimiento de voz. Usá Chrome."); return false; }
@@ -158,20 +160,17 @@
         recognition.continuous = true;
         recognition.interimResults = true;
 
-        recognition.onresult = async (event) => {
-            let interim = "", final = "";
+        recognition.onresult = (event) => {
+            let interim = "";
             for (let i = event.resultIndex; i < event.results.length; i++) {
                 const t = event.results[i][0].transcript.trim().toLowerCase();
-                if (event.results[i].isFinal) final = t;
-                else interim = t;
+                if (event.results[i].isFinal) {
+                    accumulatedText += (accumulatedText ? " " : "") + t;
+                } else {
+                    interim = t;
+                }
             }
-            showTranscript(final || interim, !!final);
-
-            if (final) {
-                // Siempre mandar a Gemini — ya sea una palabra o una frase
-                setStatus("Convirtiendo con IA...", "text-indigo-500");
-                await convertAndPlay(final);
-            }
+            showTranscript(accumulatedText + (interim ? " " + interim : ""), false);
         };
 
         recognition.onerror = (e) => {
@@ -184,20 +183,28 @@
     function toggleListening() {
         if (!isListening) {
             if (!recognition && !initSpeechRecognition()) return;
+            accumulatedText = "";
             recognition.start();
             isListening = true;
             document.getElementById("micBtn").className = "mic-btn listening";
-            setStatus("Escuchando... hablá ahora", "text-red-500");
+            document.getElementById("micBtn").textContent = "⏹";
+            setStatus("Grabando... hablá ahora. Tocá de nuevo para finalizar.", "text-red-500");
             document.getElementById("transcriptBox").style.display = "block";
+            document.getElementById("transcriptBox").textContent = "";
         } else {
             recognition.stop();
             isListening = false;
             document.getElementById("micBtn").className = "mic-btn idle";
-            setStatus("Hacé clic para empezar a escuchar", "text-gray-500");
-            document.getElementById("transcriptBox").style.display = "none";
-            document.getElementById("transcriptBox").textContent = "";
-            document.getElementById("sequenceSection").style.display = "none";
-            isPlayingSeq = false;
+            document.getElementById("micBtn").textContent = "🎤";
+            const phrase = accumulatedText.trim();
+            if (phrase) {
+                setStatus("Convirtiendo con IA...", "text-indigo-500");
+                showTranscript(phrase, true);
+                convertAndPlay(phrase);
+            } else {
+                setStatus("No se detectó ninguna frase. Intentá de nuevo.", "text-orange-500");
+                document.getElementById("transcriptBox").style.display = "none";
+            }
         }
     }
 
