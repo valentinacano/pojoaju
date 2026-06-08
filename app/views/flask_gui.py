@@ -170,6 +170,7 @@ def stop_capture_route():
     return redirect(url_for("training"))
 
 
+# routes.py
 @app.route("/training/upload/<word_id>/<word>", methods=["GET", "POST"])
 def upload_video(word_id, word):
     if request.method == "GET":
@@ -187,6 +188,8 @@ def upload_video(word_id, word):
         )
         return redirect(url_for("upload_video", word_id=word_id, word=word))
 
+    sample_count = int(request.form.get("sample_count", 1))
+
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"{secure_filename(word)}_{timestamp}{ext}"
     word_export_folder = os.path.join(EXPORTS_PATH, word.strip().lower())
@@ -194,7 +197,21 @@ def upload_video(word_id, word):
     video_path = os.path.join(word_export_folder, filename)
     file.save(video_path)
 
-    start_capture_video(word, video_path)
+    start_capture_video(word, video_path, sample_count)
+
+    return redirect(url_for("save_samples", word=word, word_id=word_id))
+
+    # ← Leer cuántas muestras pidió el usuario
+    sample_count = int(request.form.get("sample_count", 1))
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"{secure_filename(word)}_{timestamp}{ext}"
+    word_export_folder = os.path.join(EXPORTS_PATH, word.strip().lower())
+    os.makedirs(word_export_folder, exist_ok=True)
+    video_path = os.path.join(word_export_folder, filename)
+    file.save(video_path)
+
+    start_capture_video(word, video_path, sample_count)  # ← pasar el número
 
     return redirect(url_for("save_samples", word=word, word_id=word_id))
 
@@ -321,6 +338,7 @@ def current_phrase():
 def last_prediction():
     """Retorna la última predicción realizada."""
     from ml.predict import get_last_prediction
+
     return jsonify(get_last_prediction())
 
 
@@ -346,8 +364,7 @@ def phrase_to_signs():
 
     if not sequence:
         return jsonify(
-            success=False,
-            error="No se encontraron señas disponibles para esa frase."
+            success=False, error="No se encontraron señas disponibles para esa frase."
         )
 
     return jsonify(success=True, sequence=sequence)

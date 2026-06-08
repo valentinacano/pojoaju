@@ -71,6 +71,7 @@ Ejemplos:
 # Funciones
 # ---------------------------------------------------------------------------
 
+
 def _get_model():
     if not GEMINI_API_KEY:
         return None
@@ -138,7 +139,7 @@ def spanish_to_lspy_sequence(phrase: str, available_words: list[str]) -> list[st
         prompt = (
             f"{SPANISH_TO_LSPY_PROMPT}\n\n"
             f"Diccionario disponible: [{dictionary_str}]\n"
-            f"Frase en español: \"{phrase}\"\n"
+            f'Frase en español: "{phrase}"\n'
             f"Respondé solo con el array JSON:"
         )
         response = model.generate_content(prompt)
@@ -150,7 +151,9 @@ def spanish_to_lspy_sequence(phrase: str, available_words: list[str]) -> list[st
         sequence = json.loads(text)
 
         # Validar que todas las palabras estén en el diccionario
-        valid = [w for w in sequence if w.lower() in [a.lower() for a in available_words]]
+        valid = [
+            w for w in sequence if w.lower() in [a.lower() for a in available_words]
+        ]
 
         print(f"📝 Frase: {phrase}")
         print(f"🤟 Secuencia LSPy: {valid}")

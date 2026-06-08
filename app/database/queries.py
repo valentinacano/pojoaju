@@ -203,11 +203,23 @@ def fetch_word_ids_with_keypoints() -> list[bytes]:
 
 
 def count_samples_per_word(word_ids: list[bytes]) -> dict:
-    """Retorna {word_id: cantidad_de_samples_distintos}."""
+    """Retorna {word_id: cantidad_de_samples_distintos} con una sola query eficiente."""
     if not word_ids:
         return {}
-    rows = fetch_keypoints_for_words(word_ids)
-    counts = {}
-    for word_id, sample_id, _, _ in rows:
-        counts.setdefault(word_id, set()).add(sample_id)
-    return {wid: len(s) for wid, s in counts.items()}
+
+    placeholders = ",".join(["%s"] * len(word_ids))
+    rows = (
+        _exec(
+            f"""
+        SELECT word_id, COUNT(*)
+        FROM samples
+        WHERE word_id IN ({placeholders})
+        GROUP BY word_id
+        """,
+            params=tuple(word_ids),
+            fetch_all=True,
+        )
+        or []
+    )
+
+    return {word_id: count for word_id, count in rows}

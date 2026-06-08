@@ -107,7 +107,7 @@ def capture_from_camera(path: str, debug: bool = False, camera_index: int = 0):
     fix_frames = 0
     recording = False
 
-    cap = cv2.VideoCapture(camera_index)
+    cap = cv2.VideoCapture(0)
 
     with Holistic() as holistic:
         while cap.isOpened():
@@ -175,21 +175,16 @@ def capture_from_camera(path: str, debug: bool = False, camera_index: int = 0):
         cv2.destroyAllWindows()
 
 
-def capture_from_video(video_path: str, path: str):
+def capture_from_video(video_path: str, path: str, sample_count: int = 1):
     """
-    Captura muestras desde un archivo de video pregrabado.
-
-    Guarda la muestra tanto al detectar fin de seña como al
-    terminar el video, para no perder la última seña grabada.
+    Procesa el video completo como UNA seña y la replica
+    `sample_count` veces para generar múltiples muestras.
     """
     os.makedirs(path, exist_ok=True)
 
-    frames = []
-    frame_count = 0
-    fix_frames = 0
-    recording = False
-
+    # 1. Extraer todos los frames del video una sola vez
     cap = cv2.VideoCapture(video_path)
+    all_frames = []
 
     with Holistic() as holistic:
         while cap.isOpened():
@@ -199,25 +194,22 @@ def capture_from_video(video_path: str, path: str):
 
             results = run_mediapipe(frame, holistic)
 
-            if has_hand(results) or recording:
-                recording = False
-                frame_count += 1
-                if frame_count > MARGIN_FRAMES:
-                    frames.append(frame.copy())
-            else:
-                if len(frames) >= MIN_FRAMES_SAMPLE + MARGIN_FRAMES:
-                    fix_frames += 1
-                    if fix_frames < DELAY_FRAMES:
-                        recording = True
-                    else:
-                        _save_sample(frames, path)
-                        frames, frame_count, fix_frames, recording = [], 0, 0, False
-                else:
-                    frames, frame_count, fix_frames, recording = [], 0, 0, False
-
-    # ← Fix principal: guardar lo que quedó al terminar el video
-    if len(frames) >= MIN_FRAMES_SAMPLE:
-        _save_sample(frames, path)
+            if has_hand(results):
+                all_frames.append(frame.copy())
 
     cap.release()
-    print(f"✅ Video procesado: {video_path}")
+
+    if len(all_frames) < MIN_FRAMES_SAMPLE:
+        print(
+            f"⚠️  No se detectaron suficientes frames con mano ({len(all_frames)}). Muestra descartada."
+        )
+        return
+
+    print(f"📹 Video procesado: {len(all_frames)} frames válidos detectados")
+
+    # 2. Guardar la misma seña N veces
+    for i in range(sample_count):
+        _save_sample(all_frames.copy(), path)
+        print(f"✅ Muestra {i + 1}/{sample_count} guardada")
+
+    print(f"✅ {sample_count} muestras guardadas.")

@@ -40,16 +40,10 @@ def start_capture_camera(word: str, debug: bool = False, camera_index: int = 0):
     return capture_from_camera(path, debug=debug, camera_index=camera_index)
 
 
-def start_capture_video(word: str, video_path: str):
-    """
-    Procesa un video y extrae muestras para una palabra.
-
-    Args:
-        word: nombre de la palabra.
-        video_path: ruta al archivo de video.
-    """
+def start_capture_video(word: str, video_path: str, sample_count: int = 1):
     path = os.path.join(FRAMES_PATH, word.strip().lower())
-    capture_from_video(video_path, path)
+    print(f"🚀 Procesando {sample_count} muestras para: {word}")
+    capture_from_video(video_path, path, sample_count)
 
 
 def stop_capture_camera():
