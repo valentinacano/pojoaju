@@ -44,10 +44,14 @@ from ml.pipeline import (
     run_training,
     run_predict_stream,
     run_evaluation,
+    get_progress,
 )
 from ml.sign_animator import get_sign_animation, get_available_words
 from ml.predict import get_current_phrase, clear_phrase
 from ml.translator import translate_signs_to_spanish, spanish_to_lspy_sequence
+
+import time
+from flask import Response, stream_with_context
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET", "pojoaju-dev-secret")
@@ -189,36 +193,20 @@ def upload_video(word_id, word):
         return redirect(url_for("upload_video", word_id=word_id, word=word))
 
     sample_count = int(request.form.get("sample_count", 1))
-
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"{secure_filename(word)}_{timestamp}{ext}"
     word_export_folder = os.path.join(EXPORTS_PATH, word.strip().lower())
     os.makedirs(word_export_folder, exist_ok=True)
     video_path = os.path.join(word_export_folder, filename)
     file.save(video_path)
-
     start_capture_video(word, video_path, sample_count)
-
-    return redirect(url_for("save_samples", word=word, word_id=word_id))
-
-    # ← Leer cuántas muestras pidió el usuario
-    sample_count = int(request.form.get("sample_count", 1))
-
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"{secure_filename(word)}_{timestamp}{ext}"
-    word_export_folder = os.path.join(EXPORTS_PATH, word.strip().lower())
-    os.makedirs(word_export_folder, exist_ok=True)
-    video_path = os.path.join(word_export_folder, filename)
-    file.save(video_path)
-
-    start_capture_video(word, video_path, sample_count)  # ← pasar el número
 
     return redirect(url_for("save_samples", word=word, word_id=word_id))
 
 
 @app.route("/save_samples/<word>/<word_id>")
 def save_samples(word, word_id):
-    process_and_save(word, word_id)
+    process_and_save(word, word_id)  # lanza thread, no bloquea
     return render_template("save_samples.html", word=word, word_id=word_id)
 
 

@@ -55,63 +55,80 @@ def stop_capture_camera():
 # Procesamiento de muestras → BD
 # ---------------------------------------------------------------------------
 
+import threading
+
+_progress_store: dict[str, list[str]] = {}
+_progress_done: dict[str, bool] = {}
+
 
 def process_and_save(word: str, word_id_hex: str):
-    """
-    Normaliza las muestras capturadas, extrae keypoints y los guarda en la BD.
+    key = f"{word_id_hex}_{word}"
+    _progress_store[key] = []
+    _progress_done[key] = False
 
-    Pasos:
-        1. Normaliza los frames de cada muestra a MODEL_FRAMES
-        2. Extrae los 1662 keypoints por frame con MediaPipe
-        3. Inserta sample + keypoints en PostgreSQL
-        4. Elimina las carpetas temporales de frames
+    def emit(msg: str):
+        _progress_store[key].append(msg)
+        print(msg)
 
-    Args:
-        word: nombre de la palabra.
-        word_id_hex: word_id en formato hex string (64 chars).
-    """
-    print(f"\n🚀 Procesando muestras para: {word}")
+    def run():
+        emit(f"🚀 Iniciando procesamiento para '{word}'...")
 
-    # Convertir hex → bytes
-    try:
-        wid = bytes.fromhex(word_id_hex)
-    except ValueError:
-        print(f"❌ word_id_hex inválido: {word_id_hex}")
-        return
+        try:
+            wid = bytes.fromhex(word_id_hex)
+        except ValueError:
+            emit(f"❌ word_id_hex inválido: {word_id_hex}")
+            _progress_done[key] = True
+            return
 
-    word_path = os.path.join(FRAMES_PATH, word.strip().lower())
-    if not os.path.exists(word_path):
-        print(f"❌ No existe la carpeta: {word_path}")
-        return
+        word_path = os.path.join(FRAMES_PATH, word.strip().lower())
+        if not os.path.exists(word_path):
+            emit(f"❌ No existe la carpeta: {word_path}")
+            _progress_done[key] = True
+            return
 
-    # 1. Normalizar frames
-    normalize_word_folder(word_path)
+        emit("🔄 Normalizando frames...")
+        normalize_word_folder(word_path)
+        emit("✅ Normalización completa.")
 
-    # 2. Extraer keypoints e insertar en BD
-    sample_folders = sorted(
-        [f for f in os.listdir(word_path) if os.path.isdir(os.path.join(word_path, f))]
-    )
+        sample_folders = sorted(
+            [
+                f
+                for f in os.listdir(word_path)
+                if os.path.isdir(os.path.join(word_path, f))
+            ]
+        )
 
-    if not sample_folders:
-        print("⚠️ No se encontraron carpetas de muestra.")
-        return
+        if not sample_folders:
+            emit("⚠️ No se encontraron carpetas de muestra.")
+            _progress_done[key] = True
+            return
 
-    with Holistic() as model:
-        for folder in sample_folders:
-            folder_path = os.path.join(word_path, folder)
-            sequence = extract_keypoints_from_folder(folder_path, model)
+        total = len(sample_folders)
+        emit(f"📦 Procesando {total} muestras...")
 
-            if len(sequence) == 0:
-                print(f"⚠️ Sin keypoints en {folder}, se omite.")
-                continue
+        with Holistic() as model:
+            for i, folder in enumerate(sample_folders, 1):
+                folder_path = os.path.join(word_path, folder)
+                sequence = extract_keypoints_from_folder(folder_path, model)
 
-            sample_id = insert_sample(wid)
-            insert_keypoints(wid, sample_id, sequence)
+                if len(sequence) == 0:
+                    emit(f"⚠️ Sin keypoints en {folder}, se omite.")
+                    continue
 
-            # Eliminar carpeta procesada
-            shutil.rmtree(folder_path)
+                sample_id = insert_sample(wid)
+                insert_keypoints(wid, sample_id, sequence)
+                shutil.rmtree(folder_path)
+                emit(f"PROGRESS:{i}/{total}")
 
-    print(f"\n✅ Procesamiento completo para '{word}'.")
+        emit(f"✅ Procesamiento completo para '{word}'.")
+        _progress_done[key] = True
+
+    threading.Thread(target=run, daemon=True).start()
+
+
+def get_progress(word: str, word_id_hex: str):
+    key = f"{word_id_hex}_{word}"
+    return _progress_store.get(key, []), _progress_done.get(key, False)
 
 
 # ---------------------------------------------------------------------------
