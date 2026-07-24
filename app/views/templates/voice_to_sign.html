@@ -35,11 +35,9 @@
 
     <div class="max-w-3xl mx-auto px-4 pb-12">
         <h1 class="text-3xl font-bold text-center mb-2">Voz a Señas</h1>
-        <p class="text-center text-gray-500 mb-6">Hablá una palabra o una frase y el sistema mostrará las señas</p>
+        <p class="text-center text-gray-500 mb-6">Hablá una palabra o frase, después tocá para traducir</p>
 
-        <!-- Panel principal -->
         <div class="bg-white rounded-xl shadow p-6 mb-6">
-
             <!-- Controles de avatar -->
             <div class="flex flex-wrap gap-3 mb-6 items-center">
                 <div class="flex items-center gap-2 bg-gray-100 rounded-xl p-2">
@@ -61,7 +59,7 @@
             <!-- Micrófono -->
             <div class="flex flex-col items-center gap-4">
                 <button class="mic-btn idle" id="micBtn" onclick="toggleListening()">🎤</button>
-                <p id="statusText" class="text-gray-500 text-sm">Hacé clic para empezar a escuchar</p>
+                <p id="statusText" class="text-gray-500 text-sm">Hacé clic para empezar a grabar</p>
 
                 <div id="transcriptBox"
                      class="w-full min-h-12 px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 text-center text-lg font-medium text-gray-700"
@@ -70,15 +68,10 @@
                 <!-- Secuencia generada -->
                 <div id="sequenceSection" class="w-full" style="display:none">
                     <p class="text-sm text-gray-400 mb-2">Secuencia de señas:</p>
-                    <div id="sequencePills" class="flex flex-wrap gap-2 mb-3"></div>
-                    <div class="flex items-center gap-3 bg-gray-100 rounded-xl px-4 py-3">
-                        <span class="text-sm text-gray-600">Pausa entre señas</span>
-                        <input type="range" min="5" max="60" value="20" id="pauseRange" oninput="document.getElementById('pauseLabel').textContent = this.value + ' frames'">
-                        <span id="pauseLabel" class="text-sm font-semibold text-indigo-600">20 frames</span>
-                    </div>
+                    <div id="sequencePills" class="flex flex-wrap gap-2"></div>
                 </div>
 
-                <!-- Lista de palabras disponibles (solo informativa) -->
+                <!-- Lista informativa -->
                 <div class="w-full mt-2">
                     <p class="text-sm text-gray-400 mb-2">Palabras disponibles en el diccionario:</p>
                     <div class="flex flex-wrap gap-2">
@@ -93,10 +86,7 @@
         <!-- Animación -->
         <div class="bg-white rounded-xl shadow p-6" id="animationSection" style="display:none">
             <div class="flex justify-between items-center mb-4">
-                <div>
-                    <h2 class="text-xl font-semibold" id="currentWord"></h2>
-                    <p class="text-xs text-gray-400 mt-1" id="seqProgress" style="display:none"></p>
-                </div>
+                <h2 class="text-xl font-semibold" id="currentWord"></h2>
                 <div class="flex gap-2">
                     <button onclick="togglePlay()" id="playBtn" class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition text-sm font-medium">⏸ Pausar</button>
                     <button onclick="restartAnimation()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium">🔄 Repetir</button>
@@ -123,8 +113,8 @@
     let animData = null, currentFrame = 0, animInterval = null, isPlaying = false;
     let FPS = 8, avatarGender = "male", SMOOTHING = 0.35;
     let previousSmoothedFrame = null;
-    let currentSequence = [], currentSeqIdx = 0, isPlayingSeq = false;
-    let recognition = null, isListening = false;
+    let wordMarkers = [];
+    let recognition = null, isListening = false, accumulatedText = "";
 
     const canvas = document.getElementById("stickmanCanvas");
     const ctx = canvas.getContext("2d");
@@ -150,8 +140,6 @@
     }
 
     // ── Web Speech API ──
-    let accumulatedText = "";
-
     function initSpeechRecognition() {
         const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SR) { alert("Tu navegador no soporta reconocimiento de voz. Usá Chrome."); return false; }
@@ -170,7 +158,9 @@
                     interim = t;
                 }
             }
-            showTranscript(accumulatedText + (interim ? " " + interim : ""), false);
+            const box = document.getElementById("transcriptBox");
+            box.textContent = accumulatedText + (interim ? " " + interim : "");
+            box.style.color = "#9ca3af";
         };
 
         recognition.onerror = (e) => {
@@ -188,18 +178,21 @@
             isListening = true;
             document.getElementById("micBtn").className = "mic-btn listening";
             document.getElementById("micBtn").textContent = "⏹";
-            setStatus("Grabando... hablá ahora. Tocá de nuevo para finalizar.", "text-red-500");
+            setStatus("Grabando... hablá ahora. Tocá de nuevo para traducir.", "text-red-500");
             document.getElementById("transcriptBox").style.display = "block";
             document.getElementById("transcriptBox").textContent = "";
+            document.getElementById("sequenceSection").style.display = "none";
         } else {
             recognition.stop();
             isListening = false;
             document.getElementById("micBtn").className = "mic-btn idle";
             document.getElementById("micBtn").textContent = "🎤";
+
             const phrase = accumulatedText.trim();
             if (phrase) {
+                document.getElementById("transcriptBox").textContent = phrase;
+                document.getElementById("transcriptBox").style.color = "#1f2937";
                 setStatus("Convirtiendo con IA...", "text-indigo-500");
-                showTranscript(phrase, true);
                 convertAndPlay(phrase);
             } else {
                 setStatus("No se detectó ninguna frase. Intentá de nuevo.", "text-orange-500");
@@ -218,51 +211,61 @@
             const d = await r.json();
 
             if (!d.success || !d.sequence.length) {
-                setStatus("No se encontraron señas para eso.", "text-orange-500");
+                setStatus("No se encontraron señas para esa frase.", "text-orange-500");
                 return;
             }
 
-            currentSequence = d.sequence;
-            renderSequencePills(d.sequence);
+            // Mostrar pills de la secuencia
+            const container = document.getElementById("sequencePills");
+            container.innerHTML = d.sequence.map((w, i) =>
+                `<span class="sign-pill" id="pill-${i}">${i+1}. ${w}</span>`
+            ).join("");
             document.getElementById("sequenceSection").style.display = "block";
+
             setStatus("Reproduciendo...", "text-green-500");
-            isPlayingSeq = true;
-            currentSeqIdx = 0;
-            await playNextInSequence();
+            await loadSequence(d.sequence);
 
         } catch(e) {
             setStatus("Error al conectar con el servidor.", "text-red-500");
         }
     }
 
-    function renderSequencePills(sequence) {
-        const container = document.getElementById("sequencePills");
-        container.innerHTML = sequence.map((w, i) =>
-            `<span class="sign-pill" id="pill-${i}">${i+1}. ${w}</span>`
-        ).join("");
-    }
+    // ── Carga unificada de secuencia ──
+    async function loadSequence(words) {
+        stopAnimation();
+        wordMarkers = [];
+        document.getElementById("animationSection").style.display = "block";
+        document.getElementById("currentWord").textContent = words.length === 1
+            ? `Seña: "${words[0]}"`
+            : `Secuencia: ${words.join(" → ")}`;
+        document.getElementById("errorMsg").style.display = "none";
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = "#9ca3af"; ctx.font = "16px system-ui"; ctx.textAlign = "center";
+        ctx.fillText("Cargando...", W/2, H/2);
 
-    async function playNextInSequence() {
-        if (!isPlayingSeq || currentSeqIdx >= currentSequence.length) {
-            isPlayingSeq = false;
-            document.getElementById("seqProgress").style.display = "none";
-            document.querySelectorAll(".sign-pill").forEach(p => p.classList.remove("active"));
-            setStatus("Listo. Hablá de nuevo para continuar.", "text-green-500");
-            return;
+        try {
+            const r = await fetch("/api/sequence_animation", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ words })
+            });
+            const d = await r.json();
+            if (!d.success) {
+                document.getElementById("errorMsg").textContent = d.error;
+                document.getElementById("errorMsg").style.display = "block";
+                ctx.clearRect(0, 0, W, H);
+                return;
+            }
+            animData = d;
+            wordMarkers = d.word_markers || [];
+            currentFrame = 0;
+            previousSmoothedFrame = null;
+            document.getElementById("totalFrames").textContent = `${d.frames.length} frames`;
+            startAnimation();
+        } catch(e) {
+            document.getElementById("errorMsg").textContent = "Error al cargar la animación.";
+            document.getElementById("errorMsg").style.display = "block";
         }
-        const word = currentSequence[currentSeqIdx];
-        document.querySelectorAll(".sign-pill").forEach(p => p.classList.remove("active"));
-        const pill = document.getElementById(`pill-${currentSeqIdx}`);
-        if (pill) pill.classList.add("active");
-        document.getElementById("seqProgress").style.display = "block";
-        document.getElementById("seqProgress").textContent = `Señando: ${currentSeqIdx + 1} de ${currentSequence.length}`;
-        await loadSign(word, true);
-    }
-
-    function showTranscript(text, isFinal) {
-        const box = document.getElementById("transcriptBox");
-        box.textContent = text;
-        box.style.color = isFinal ? "#1f2937" : "#9ca3af";
     }
 
     function setStatus(text, cls) {
@@ -272,60 +275,35 @@
     }
 
     // ── Animación ──
-    async function loadSign(word, isSeq = false) {
-        stopAnimation();
-        document.getElementById("animationSection").style.display = "block";
-        document.getElementById("currentWord").textContent = `Seña: "${word}"`;
-        document.getElementById("errorMsg").style.display = "none";
-        ctx.clearRect(0, 0, W, H);
-        ctx.fillStyle = "#9ca3af"; ctx.font = "16px system-ui"; ctx.textAlign = "center";
-        ctx.fillText("Cargando...", W/2, H/2);
-
-        try {
-            const r = await fetch(`/api/sign/${encodeURIComponent(word)}`);
-            const d = await r.json();
-            if (!d.success) {
-                document.getElementById("errorMsg").textContent = d.error;
-                document.getElementById("errorMsg").style.display = "block";
-                ctx.clearRect(0, 0, W, H);
-                if (isSeq) { currentSeqIdx++; await playNextInSequence(); }
-                return;
-            }
-            animData = d; currentFrame = 0; previousSmoothedFrame = null;
-            document.getElementById("totalFrames").textContent = `${d.frames.length} frames`;
-            startAnimation(isSeq);
-        } catch(e) {
-            document.getElementById("errorMsg").textContent = "Error al cargar la seña.";
-            document.getElementById("errorMsg").style.display = "block";
-            if (isSeq) { currentSeqIdx++; await playNextInSequence(); }
-        }
-    }
-
-    function startAnimation(isSeq = false) {
+    function startAnimation() {
         if (!animData || !animData.frames || !animData.frames.length) return;
         clearInterval(animInterval);
         isPlaying = true;
         document.getElementById("playBtn").textContent = "⏸ Pausar";
 
-        animInterval = setInterval(async () => {
+        animInterval = setInterval(() => {
             if (currentFrame >= animData.frames.length) {
-                if (isSeq) {
-                    const pauseFrames = parseInt(document.getElementById("pauseRange").value);
-                    stopAnimation();
-                    await new Promise(res => setTimeout(res, (pauseFrames / FPS) * 1000));
-                    currentSeqIdx++;
-                    await playNextInSequence();
-                } else {
-                    currentFrame = 0;
-                    previousSmoothedFrame = null;
-                }
-                return;
+                currentFrame = 0;
+                previousSmoothedFrame = null;
             }
-            const rawFrame = animData.frames[currentFrame];
-            drawFrame(smoothFrame(rawFrame));
+
+            // Resaltar pill activa
+            if (wordMarkers.length > 1) {
+                let activeIdx = 0;
+                for (let i = 0; i < wordMarkers.length; i++) {
+                    if (currentFrame >= wordMarkers[i].start_frame) activeIdx = i;
+                }
+                document.querySelectorAll(".sign-pill").forEach((p, i) => {
+                    p.classList.toggle("active", i === activeIdx);
+                });
+                document.getElementById("currentWord").textContent =
+                    `Señando: ${wordMarkers[activeIdx].word} (${activeIdx+1}/${wordMarkers.length})`;
+            }
+
+            drawFrame(smoothFrame(animData.frames[currentFrame]));
             const pct = (currentFrame / animData.frames.length) * 100;
             document.getElementById("progressBar").style.width = pct + "%";
-            document.getElementById("frameLabel").textContent = `Frame ${currentFrame}`;
+            document.getElementById("frameLabel").textContent = `Frame ${currentFrame + 1}`;
             currentFrame++;
         }, 1000 / FPS);
     }
@@ -342,7 +320,6 @@
     }
 
     function restartAnimation() {
-        isPlayingSeq = false;
         stopAnimation(); currentFrame = 0; previousSmoothedFrame = null;
         if (animData) startAnimation();
     }

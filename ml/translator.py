@@ -147,7 +147,7 @@ def spanish_to_lspy_sequence(phrase: str, available_words: list[str]) -> list[st
 
         # Limpiar posibles backticks de markdown
         text = text.replace("```json", "").replace("```", "").strip()
-
+        print(f"🤖 Respuesta cruda de Gemini: {text}")
         sequence = json.loads(text)
 
         # Validar que todas las palabras estén en el diccionario

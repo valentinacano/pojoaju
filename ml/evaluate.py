@@ -32,7 +32,7 @@ from app.database.queries import (
 from ml.normalize import normalize_sequence
 
 
-CONFUSION_PATH = "static/confusion/confusion_matrix.png"
+CONFUSION_PATH = "app/views/static/confusion/confusion_matrix.png"
 
 
 def _load_sequences(
