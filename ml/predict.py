@@ -107,7 +107,7 @@ def predict_stream(camera_index: int = 0):
     cooldown = 0
 
     with Holistic() as holistic:
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(camera_index)
 
         while cap.isOpened():
             ret, frame = cap.read()
@@ -168,7 +168,7 @@ def predict_console(camera_index: int = 0, threshold: float = PREDICTION_THRESHO
     cooldown = 0
 
     with Holistic() as holistic:
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(camera_index)
 
         while cap.isOpened():
             ret, frame = cap.read()

@@ -1,16 +1,12 @@
 """
 Arquitectura del modelo LSTM para reconocimiento de señas.
-
-Cambios respecto a la versión anterior:
-- Dropout reducido de 0.5 → 0.2 (era demasiado agresivo para datasets pequeños)
-- L2 uniforme en todas las capas (antes era 10x más fuerte en la primera)
-- BatchNormalization agregado para estabilizar el entrenamiento
-- Función get_model() recibe output_length dinámicamente
 """
 
 from keras.models import Sequential
 from keras.layers import LSTM, Dense, Dropout, BatchNormalization
 from keras.regularizers import l2
+from keras.optimizers import Adam
+from keras.losses import CategoricalCrossentropy
 
 from app.config import MODEL_FRAMES, LENGTH_KEYPOINTS
 
@@ -18,13 +14,6 @@ from app.config import MODEL_FRAMES, LENGTH_KEYPOINTS
 def get_model(n_classes: int) -> Sequential:
     """
     Construye y compila el modelo LSTM para clasificación multiclase.
-
-    Arquitectura:
-        LSTM(64)  → BatchNorm → Dropout(0.2)
-        LSTM(128) → BatchNorm → Dropout(0.2)
-        Dense(64, relu) → Dropout(0.2)
-        Dense(64, relu)
-        Dense(n_classes, softmax)
 
     Args:
         n_classes: cantidad de clases (palabras) a clasificar.
@@ -35,25 +24,36 @@ def get_model(n_classes: int) -> Sequential:
     model = Sequential(
         [
             LSTM(
-                64,
+                48,
                 return_sequences=True,
                 input_shape=(MODEL_FRAMES, LENGTH_KEYPOINTS),
-                kernel_regularizer=l2(0.001),
+                dropout=0.25,
+                recurrent_dropout=0.15,
+                kernel_regularizer=l2(0.003),
             ),
             BatchNormalization(),
-            Dropout(0.2),
-            LSTM(128, return_sequences=False, kernel_regularizer=l2(0.001)),
+            Dropout(0.3),
+            LSTM(
+                64,
+                return_sequences=False,
+                dropout=0.25,
+                recurrent_dropout=0.15,
+                kernel_regularizer=l2(0.003),
+            ),
             BatchNormalization(),
-            Dropout(0.2),
-            Dense(64, activation="relu", kernel_regularizer=l2(0.001)),
-            Dropout(0.2),
-            Dense(64, activation="relu"),
+            Dropout(0.35),
+            Dense(64, activation="relu", kernel_regularizer=l2(0.003)),
+            BatchNormalization(),
+            Dropout(0.35),
+            Dense(32, activation="relu", kernel_regularizer=l2(0.003)),
             Dense(n_classes, activation="softmax"),
         ]
     )
 
     model.compile(
-        optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"]
+        optimizer=Adam(learning_rate=0.0005),
+        loss=CategoricalCrossentropy(label_smoothing=0.05),
+        metrics=["accuracy"],
     )
 
     return model

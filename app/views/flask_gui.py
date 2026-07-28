@@ -60,6 +60,8 @@ print(app.static_folder)
 app.secret_key = os.getenv("FLASK_SECRET", "pojoaju-dev-secret")
 
 ALLOWED_VIDEO_EXTENSIONS = {".mp4", ".mov", ".avi", ".mkv"}
+MIN_VIDEO_SAMPLES = 1
+MAX_VIDEO_SAMPLES = 200
 
 
 # ---------------------------------------------------------------------------
@@ -201,7 +203,13 @@ def upload_video(word_id, word):
     video_path = os.path.join(word_export_folder, filename)
     file.save(video_path)
 
-    start_capture_video(word, video_path)
+    try:
+        sample_count = int(request.form.get("sample_count", 1))
+    except ValueError:
+        sample_count = 1
+
+    sample_count = max(MIN_VIDEO_SAMPLES, min(sample_count, MAX_VIDEO_SAMPLES))
+    start_capture_video(word, video_path, sample_count)
 
     return redirect(url_for("save_samples", word=word, word_id=word_id))
 

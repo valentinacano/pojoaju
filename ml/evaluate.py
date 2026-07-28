@@ -93,10 +93,13 @@ def generate_confusion_matrix(save_path: str = CONFUSION_PATH) -> tuple:
 
     X, y = _load_sequences(word_ids)
 
+    val_size = max(0.2, len(word_ids) / len(X))
+    val_size = min(0.5, val_size)
+
     _, X_val, _, y_val = train_test_split(
         X,
         y,
-        test_size=0.3,  # 30% para evaluación — corrección del bug anterior (era 0.8)
+        test_size=val_size,
         random_state=42,
         stratify=y,
     )
