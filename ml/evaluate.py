@@ -30,6 +30,7 @@ from app.database.queries import (
     get_word_by_id,
 )
 from ml.normalize import normalize_sequence
+from ml.keypoints import to_model_features
 
 
 CONFUSION_PATH = "app/views/static/confusion/confusion_matrix.png"
@@ -63,7 +64,9 @@ def _load_sequences(
         # ✅ Solo las primeras max_real muestras por seña
         for sample_id in sample_ids[:max_real]:
             frames = grouped[(word_id, sample_id)]
-            ordered = [kp for _, kp in sorted(frames, key=lambda x: x[0])]
+            ordered = [
+                to_model_features(kp) for _, kp in sorted(frames, key=lambda x: x[0])
+            ]
             normalized = normalize_sequence(ordered, MODEL_FRAMES)
             sequences.append(normalized)
             labels.append(word_to_idx[word_id])

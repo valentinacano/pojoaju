@@ -16,9 +16,13 @@ import cv2
 # Cantidad de frames por secuencia (debe ser igual en captura, training y predicción)
 MODEL_FRAMES = 15
 
-# Cantidad de features por frame extraídos por MediaPipe Holistic
+# Vector crudo que se guarda en la BD:
 # pose: 33*4=132, face: 468*3=1404, left_hand: 21*3=63, right_hand: 21*3=63
-LENGTH_KEYPOINTS = 1662
+RAW_LENGTH_KEYPOINTS = 1662
+
+# Vector que recibe el modelo. Se descarta la cara y el torso:
+# hombros/codos/muñecas: 6*4=24, left_hand: 21*3=63, right_hand: 21*3=63
+LENGTH_KEYPOINTS = 150
 
 # Umbral mínimo de confianza para aceptar una predicción
 PREDICTION_THRESHOLD = 0.7

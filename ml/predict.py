@@ -25,7 +25,12 @@ from app.config import (
 )
 from app.database.queries import fetch_word_ids_with_keypoints, get_word_by_id
 from app.services.text_to_speech import text_to_speech_async
-from ml.keypoints import run_mediapipe, extract_keypoints, has_hand
+from ml.keypoints import (
+    run_mediapipe,
+    extract_keypoints,
+    has_hand,
+    to_model_features,
+)
 from ml.capture import _draw_landmarks
 
 FONT = cv2.FONT_HERSHEY_SIMPLEX
@@ -107,7 +112,7 @@ def predict_stream(camera_index: int = 0):
     cooldown = 0
 
     with Holistic() as holistic:
-        cap = cv2.VideoCapture(camera_index)
+        cap = cv2.VideoCapture(1)
 
         while cap.isOpened():
             ret, frame = cap.read()
@@ -117,7 +122,7 @@ def predict_stream(camera_index: int = 0):
             results = run_mediapipe(frame, holistic)
 
             if has_hand(results):
-                kp_seq.append(extract_keypoints(results))
+                kp_seq.append(to_model_features(extract_keypoints(results)))
                 recording = True
 
             elif recording:
@@ -168,7 +173,7 @@ def predict_console(camera_index: int = 0, threshold: float = PREDICTION_THRESHO
     cooldown = 0
 
     with Holistic() as holistic:
-        cap = cv2.VideoCapture(camera_index)
+        cap = cv2.VideoCapture(1)
 
         while cap.isOpened():
             ret, frame = cap.read()
@@ -178,7 +183,7 @@ def predict_console(camera_index: int = 0, threshold: float = PREDICTION_THRESHO
             results = run_mediapipe(frame, holistic)
 
             if has_hand(results):
-                kp_seq.append(extract_keypoints(results))
+                kp_seq.append(to_model_features(extract_keypoints(results)))
                 recording = True
 
             elif recording:

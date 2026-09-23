@@ -28,6 +28,7 @@ from app.database.queries import (
 )
 from ml.model import get_model
 from ml.normalize import normalize_sequence
+from ml.keypoints import to_model_features
 
 
 def set_seeds(seed: int = 42):
@@ -69,7 +70,9 @@ def _load_sequences(
         # ✅ Solo las primeras max_real muestras por seña
         for sample_id in sample_ids[:max_real]:
             frames = grouped[(word_id, sample_id)]
-            ordered = [kp for _, kp in sorted(frames, key=lambda x: x[0])]
+            ordered = [
+                to_model_features(kp) for _, kp in sorted(frames, key=lambda x: x[0])
+            ]
             normalized = normalize_sequence(ordered, MODEL_FRAMES)
             sequences.append(normalized)
             labels.append(word_to_idx[word_id])
@@ -95,8 +98,9 @@ def _augment_sequences(
     for _ in range(factor):
         warped = X.copy()
 
-        # Ruido leve en landmarks para tolerar pequeñas variaciones de postura.
-        warped += np.random.normal(0, noise_std, size=warped.shape).astype(np.float32)
+        # No agregar ruido a bloques en cero: representan manos/pose ausentes.
+        noise = np.random.normal(0, noise_std, size=warped.shape).astype(np.float32)
+        warped += noise * (warped != 0)
 
         # Desplazamiento temporal de hasta 2 frames, con padding por borde.
         for i in range(len(warped)):

@@ -107,7 +107,7 @@ def capture_from_camera(path: str, debug: bool = False, camera_index: int = 0):
     fix_frames = 0
     recording = False
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
 
     with Holistic() as holistic:
         while cap.isOpened():
@@ -183,7 +183,7 @@ def capture_from_video(video_path: str, path: str, sample_count: int = 1):
     os.makedirs(path, exist_ok=True)
 
     # 1. Extraer todos los frames del video una sola vez
-    cap = cv2.VideoCapture(video_path)
+    cap = cv2.VideoCapture(1)
     all_frames = []
 
     with Holistic() as holistic:

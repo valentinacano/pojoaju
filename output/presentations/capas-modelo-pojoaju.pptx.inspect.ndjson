@@ -1,0 +1,40 @@
+{"kind":"deck","id":"pr/hjdqay","name":"Deck"}
+{"kind":"layout","layoutId":"1a9e456b-1ec7-4a62-9327-491c1ffd49e3","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"e70ddd21-b9db-443d-baa2-1edcf1176232","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/ej0iuk","slide":1,"title":"ARQUITECTURA DE RECONOCIMIENTO DE SEÑAS","textShapes":21}
+{"kind":"textbox","id":"sh/up4nups7","slide":1,"name":"eyebrow","text":"ARQUITECTURA DE RECONOCIMIENTO DE SEÑAS","textPreview":"ARQUITECTURA DE RECONOCIMIENTO DE SEÑAS","textChars":39,"textLines":1,"bbox":[54,34,700,28]}
+{"kind":"textbox","id":"sh/hsf65kry","slide":1,"name":"title","text":"Las capas transforman movimiento en probabilidades","textPreview":"Las capas transforman movimiento en probabilidades","textChars":50,"textLines":1,"bbox":[54,68,1165,68]}
+{"kind":"textbox","id":"sh/gr65wfad","slide":1,"name":"subtitle","text":"Pojoaju procesa una secuencia de 15 frames y selecciona la palabra más probable.","textPreview":"Pojoaju procesa una secuencia de 15 frames y selecciona la palabra más probable.","textChars":80,"textLines":1,"bbox":[54,139,1090,38]}
+{"kind":"shape","id":"sh/3uxo7u94","slide":1,"name":"arrow-1","bbox":[199,299,19,32]}
+{"kind":"shape","id":"sh/itonypsj","slide":1,"name":"arrow-2","bbox":[363,299,19,32]}
+{"kind":"shape","id":"sh/5wf694ru","slide":1,"name":"arrow-3","bbox":[527,299,19,32]}
+{"kind":"shape","id":"sh/4v650zap","slide":1,"name":"arrow-4","bbox":[691,299,19,32]}
+{"kind":"shape","id":"sh/jyt4vq9k","slide":1,"name":"arrow-5","bbox":[855,299,19,32]}
+{"kind":"shape","id":"sh/yxknm5sz","slide":1,"name":"arrow-6","bbox":[1019,299,19,32]}
+{"kind":"shape","id":"sh/4b2hcbuh","slide":1,"name":"stage-Entrada","bbox":[54,214,140,202]}
+{"kind":"textbox","id":"sh/pcbilgv2","slide":1,"name":"title-Entrada","text":"Entrada","textPreview":"Entrada","textChars":7,"textLines":1,"bbox":[66,230,116,52]}
+{"kind":"textbox","id":"sh/29kzalcr","slide":1,"name":"detail-Entrada","text":"15 frames\n×\n150 rasgos","textPreview":"15 frames | × | 150 rasgos","textChars":22,"textLines":3,"bbox":[68,288,112,112]}
+{"kind":"shape","id":"sh/3at0j6dc","slide":1,"name":"stage-LSTM 48","bbox":[218,214,140,202]}
+{"kind":"textbox","id":"sh/cf2hgvut","slide":1,"name":"title-LSTM 48","text":"LSTM 48","textPreview":"LSTM 48","textChars":7,"textLines":1,"bbox":[230,230,116,52]}
+{"kind":"textbox","id":"sh/d0vip0be","slide":1,"name":"detail-LSTM 48","text":"Conserva la secuencia temporal","textPreview":"Conserva la secuencia temporal","textChars":30,"textLines":1,"bbox":[232,288,112,112]}
+{"kind":"shape","id":"sh/qdkzelcn","slide":1,"name":"stage-BN +\nDropout","bbox":[382,214,140,202]}
+{"kind":"textbox","id":"sh/bet0nqt8","slide":1,"name":"title-BN +\nDropout","text":"BN +\nDropout","textPreview":"BN + | Dropout","textChars":12,"textLines":2,"bbox":[394,230,116,52]}
+{"kind":"textbox","id":"sh/sjih4ru9","slide":1,"name":"detail-BN +\nDropout","text":"Estabiliza y reduce el sobreajuste","textPreview":"Estabiliza y reduce el sobreajuste","textChars":34,"textLines":1,"bbox":[396,288,112,112]}
+{"kind":"shape","id":"sh/t4rydwvu","slide":1,"name":"stage-LSTM 64","bbox":[546,214,140,202]}
+{"kind":"textbox","id":"sh/90jehsny","slide":1,"name":"title-LSTM 64","text":"LSTM 64","textPreview":"LSTM 64","textChars":7,"textLines":1,"bbox":[558,230,116,52]}
+{"kind":"textbox","id":"sh/8zax8nmd","slide":1,"name":"detail-LSTM 64","text":"Resume la seña completa","textPreview":"Resume la seña completa","textChars":23,"textLines":1,"bbox":[560,288,112,112]}
+{"kind":"shape","id":"sh/7y1wfi5s","slide":1,"name":"stage-BN +\nDropout","bbox":[710,214,140,202]}
+{"kind":"textbox","id":"sh/mx8f6d47","slide":1,"name":"title-BN +\nDropout","text":"BN +\nDropout","textPreview":"BN + | Dropout","textChars":12,"textLines":2,"bbox":[722,230,116,52]}
+{"kind":"textbox","id":"sh/h4jylsnu","slide":1,"name":"detail-BN +\nDropout","text":"Ayuda a generalizar","textPreview":"Ayuda a generalizar","textChars":19,"textLines":1,"bbox":[724,288,112,112]}
+{"kind":"shape","id":"sh/w3axc7m9","slide":1,"name":"stage-Dense","bbox":[874,214,140,202]}
+{"kind":"textbox","id":"sh/v21wj25o","slide":1,"name":"title-Dense","text":"Dense","textPreview":"Dense","textChars":5,"textLines":1,"bbox":[886,230,116,52]}
+{"kind":"textbox","id":"sh/u1sfax4j","slide":1,"name":"detail-Dense","text":"64 ReLU → BN\n→ 32 ReLU\nCombina rasgos","textPreview":"64 ReLU → BN | → 32 ReLU | Combina rasgos","textChars":37,"textLines":3,"bbox":[888,288,112,112]}
+{"kind":"shape","id":"sh/583ypcn6","slide":1,"name":"stage-Softmax","bbox":[1038,214,140,202]}
+{"kind":"textbox","id":"sh/47uxg7ml","slide":1,"name":"title-Softmax","text":"Softmax","textPreview":"Softmax","textChars":7,"textLines":1,"bbox":[1050,230,116,52]}
+{"kind":"textbox","id":"sh/2143u5gr","slide":1,"name":"detail-Softmax","text":"Una probabilidad por cada palabra","textPreview":"Una probabilidad por cada palabra","textChars":33,"textLines":1,"bbox":[1052,288,112,112]}
+{"kind":"shape","id":"sh/32dknahc","slide":1,"name":"takeaway-band","bbox":[54,474,1124,118]}
+{"kind":"textbox","id":"sh/o3mlwfyx","slide":1,"name":"takeaway-title","text":"Cómo se reparte el trabajo","textPreview":"Cómo se reparte el trabajo","textChars":26,"textLines":1,"bbox":[78,488,430,34]}
+{"kind":"textbox","id":"sh/p4vmpkz2","slide":1,"name":"takeaway-body","text":"LSTM aprende el patrón temporal  •  Dense aprende pesos y sesgos  •  Batch Normalization, Dropout y L2 ayudan a generalizar  •  Softmax convierte puntajes en probabilidades","textPreview":"LSTM aprende el patrón temporal  •  Dense aprende pesos y sesgos  •  Batch Normalization, Dropout y L2 ayudan a generalizar  •  Softmax c...","textChars":172,"textLines":1,"bbox":[78,529,1068,48]}
+{"kind":"textbox","id":"sh/q543ypgn","slide":1,"name":"footer","text":"Modelo actual de Pojoaju · ml/model.py","textPreview":"Modelo actual de Pojoaju · ml/model.py","textChars":38,"textLines":1,"bbox":[54,648,600,24]}
+{"kind":"textbox","id":"sh/b6d4ruh8","slide":1,"name":"slide-number","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[1135,648,44,24]}
+{"kind":"notes","id":"nt/ej0iuk","slide":1,"text":"[Sources]\n- /Users/nicoespinola/Desktop/Projects/pojoaju/ml/model.py\n- /Users/nicoespinola/Desktop/Projects/pojoaju/app/config.py\n[/Sources]"}
