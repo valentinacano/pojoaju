@@ -30,9 +30,10 @@ from app.database.queries import (
     get_word_by_id,
 )
 from ml.normalize import normalize_sequence
+from ml.keypoints import to_model_features
 
 
-CONFUSION_PATH = "static/confusion/confusion_matrix.png"
+CONFUSION_PATH = "app/views/static/confusion/confusion_matrix.png"
 
 
 def _load_sequences(
@@ -63,7 +64,9 @@ def _load_sequences(
         # ✅ Solo las primeras max_real muestras por seña
         for sample_id in sample_ids[:max_real]:
             frames = grouped[(word_id, sample_id)]
-            ordered = [kp for _, kp in sorted(frames, key=lambda x: x[0])]
+            ordered = [
+                to_model_features(kp) for _, kp in sorted(frames, key=lambda x: x[0])
+            ]
             normalized = normalize_sequence(ordered, MODEL_FRAMES)
             sequences.append(normalized)
             labels.append(word_to_idx[word_id])
@@ -93,10 +96,13 @@ def generate_confusion_matrix(save_path: str = CONFUSION_PATH) -> tuple:
 
     X, y = _load_sequences(word_ids)
 
+    val_size = max(0.2, len(word_ids) / len(X))
+    val_size = min(0.5, val_size)
+
     _, X_val, _, y_val = train_test_split(
         X,
         y,
-        test_size=0.3,  # 30% para evaluación — corrección del bug anterior (era 0.8)
+        test_size=val_size,
         random_state=42,
         stratify=y,
     )

@@ -1,0 +1,943 @@
+{"kind":"deck","id":"pr/d93xej","name":"Deck"}
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"","type":"master"}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"DEFAULT"}
+{"kind":"slide","id":"sl/y90nupkv","slide":1,"title":"Universidad Nacional de Asunción  ·  Facultad Politécnica","textShapes":7}
+{"kind":"textbox","id":"sh/sfqdkrep","slide":1,"name":"Google Shape;18;p1","text":"Universidad Nacional de Asunción  ·  Facultad Politécnica","textPreview":"Universidad Nacional de Asunción  ·  Facultad Politécnica","textChars":57,"textLines":1,"bbox":[48,105.6,864,24.96]}
+{"kind":"textbox","id":"sh/dgzetcfa","slide":1,"name":"Google Shape;19;p1","text":"Carrera de Ingeniería en Informática","textPreview":"Carrera de Ingeniería en Informática","textChars":36,"textLines":1,"bbox":[48,128.64,864,23.04]}
+{"kind":"textbox","id":"sh/1cvuxc7e","slide":1,"name":"Google Shape;20;p1","text":"POJOAJU","textPreview":"POJOAJU","textChars":7,"textLines":1,"bbox":[48,165.12,864,69.12]}
+{"kind":"textbox","id":"sh/0bmd476t","slide":1,"name":"Google Shape;21;p1","text":"Traductor y Entrenador Automático de la Lengua de Señas Paraguaya\nmediante Redes Neuronales Recurrentes","textPreview":"Traductor y Entrenador Automático de la Lengua de Señas Paraguaya | mediante Redes Neuronales Recurrentes","textChars":103,"textLines":2,"bbox":[86.4,236.16,787.2,59.52]}
+{"kind":"textbox","id":"sh/zadcv2p8","slide":1,"name":"Google Shape;22;p1","text":"Trabajo Final de Grado","textPreview":"Trabajo Final de Grado","textChars":22,"textLines":1,"bbox":[48,303.36,864,24.96]}
+{"kind":"textbox","id":"sh/e94v2hon","slide":1,"name":"Google Shape;23;p1","text":"Valentina María Cano López   ·   Sergio Nicolás Espinola Bogado\nOrientador: Prof. MSc. Luis Gilberto Salinas","textPreview":"Valentina María Cano López   ·   Sergio Nicolás Espinola Bogado | Orientador: Prof. MSc. Luis Gilberto Salinas","textChars":108,"textLines":2,"bbox":[48,357.12,864,69.12]}
+{"kind":"textbox","id":"sh/90ve1w7q","slide":1,"name":"Google Shape;24;p1","text":"Asunción, Paraguay  —  2026","textPreview":"Asunción, Paraguay  —  2026","textChars":27,"textLines":1,"bbox":[48,453.12,864,24.96]}
+{"kind":"image","id":"im/zidgfixg","slide":1,"name":"Google Shape;17;p1","bbox":[452.16,15.36,55.68,83.52]}
+{"kind":"notes","id":"nt/y90nupkv","slide":1,"text":""}
+{"kind":"slide","id":"sl/hwbqtkby","slide":2,"title":"Contenido","textShapes":15}
+{"kind":"textbox","id":"sh/mlgvq147","slide":2,"name":"Google Shape;30;p2","text":"Contenido","textPreview":"Contenido","textChars":9,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/onydsbmd","slide":2,"name":"Google Shape;32;p2","text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/9o7ulg3y","slide":2,"name":"Google Shape;33;p2","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"textbox","id":"sh/ba9cn6l4","slide":2,"name":"Google Shape;35;p2","text":"1.","textPreview":"1.","textChars":2,"textLines":1,"bbox":[52.8,129.6,40.32,40.32]}
+{"kind":"textbox","id":"sh/wbidwb29","slide":2,"name":"Google Shape;36;p2","text":"El problema y su contexto","textPreview":"El problema y su contexto","textChars":25,"textLines":1,"bbox":[93.12,129.6,814.08,40.32]}
+{"kind":"textbox","id":"sh/id0vylkf","slide":2,"name":"Google Shape;38;p2","text":"2.","textPreview":"2.","textChars":2,"textLines":1,"bbox":[52.8,183.36,40.32,40.32]}
+{"kind":"textbox","id":"sh/je9crql0","slide":2,"name":"Google Shape;39;p2","text":"La lengua de señas","textPreview":"La lengua de señas","textChars":18,"textLines":1,"bbox":[93.12,183.36,814.08,40.32]}
+{"kind":"textbox","id":"sh/69wbilcj","slide":2,"name":"Google Shape;41;p2","text":"3.","textPreview":"3.","textChars":2,"textLines":1,"bbox":[52.8,237.12,40.32,40.32]}
+{"kind":"textbox","id":"sh/tw7ud0va","slide":2,"name":"Google Shape;42;p2","text":"Objetivos y metodología","textPreview":"Objetivos y metodología","textChars":23,"textLines":1,"bbox":[93.12,237.12,814.08,40.32]}
+{"kind":"textbox","id":"sh/fypcfqdg","slide":2,"name":"Google Shape;44;p2","text":"4.","textPreview":"4.","textChars":2,"textLines":1,"bbox":[52.8,290.88,40.32,40.32]}
+{"kind":"textbox","id":"sh/exgvmlcv","slide":2,"name":"Google Shape;45;p2","text":"Pojoaju: diseño e implementación","textPreview":"Pojoaju: diseño e implementación","textChars":32,"textLines":1,"bbox":[93.12,290.88,814.08,40.32]}
+{"kind":"textbox","id":"sh/gzydovul","slide":2,"name":"Google Shape;47;p2","text":"5.","textPreview":"5.","textChars":2,"textLines":1,"bbox":[52.8,344.64,40.32,40.32]}
+{"kind":"textbox","id":"sh/v2lc36dw","slide":2,"name":"Google Shape;48;p2","text":"Evaluación del modelo","textPreview":"Evaluación del modelo","textChars":21,"textLines":1,"bbox":[93.12,344.64,814.08,40.32]}
+{"kind":"textbox","id":"sh/0vq1o36x","slide":2,"name":"Google Shape;50;p2","text":"6.","textPreview":"6.","textChars":2,"textLines":1,"bbox":[52.8,398.4,40.32,40.32]}
+{"kind":"textbox","id":"sh/1wzix87i","slide":2,"name":"Google Shape;51;p2","text":"Conclusiones y líneas futuras","textPreview":"Conclusiones y líneas futuras","textChars":29,"textLines":1,"bbox":[93.12,398.4,814.08,40.32]}
+{"kind":"image","id":"im/hcje1kv6","slide":2,"name":"Google Shape;31;p2","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/hwbqtkby","slide":2,"text":""}
+{"kind":"slide","id":"sl/ofy9wn61","slide":3,"title":"El problema","textShapes":14}
+{"kind":"textbox","id":"sh/ih43alwv","slide":3,"name":"Google Shape;82;p4","text":"El problema","textPreview":"El problema","textChars":11,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/3id43qdg","slide":3,"name":"Google Shape;83;p4","text":"Una barrera de comunicación cotidiana, sin herramientas de uso diario","textPreview":"Una barrera de comunicación cotidiana, sin herramientas de uso diario","textChars":69,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/hgvm1gvq","slide":3,"name":"Google Shape;85;p4","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/ud436lwz","slide":3,"name":"Google Shape;86;p4","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/ved4zqdk","slide":3,"name":"Google Shape;87;p4","bbox":[52.8,115.2,302.4,316.8]}
+{"kind":"textbox","id":"sh/0bq5kfu9","slide":3,"name":"Google Shape;88;p4","text":"68.964","textPreview":"68.964","textChars":6,"textLines":1,"bbox":[76.8,139.2,254.4,81.6]}
+{"kind":"textbox","id":"sh/1czmdkvu","slide":3,"name":"Google Shape;89;p4","text":"personas con discapacidad auditiva en Paraguay","textPreview":"personas con discapacidad auditiva en Paraguay","textChars":46,"textLines":1,"bbox":[76.8,226.56,254.4,57.6]}
+{"kind":"textbox","id":"sh/b61o3exw","slide":3,"name":"Google Shape;90;p4","text":"Censo Nacional de Población y Viviendas 2022 (INE, 2024) — una cifra comparable a la población de una ciudad intermedia paraguaya.","textPreview":"Censo Nacional de Población y Viviendas 2022 (INE, 2024) — una cifra comparable a la población de una ciudad intermedia paraguaya.","textChars":130,"textLines":1,"bbox":[76.8,297.6,254.4,100.8]}
+{"kind":"shape","id":"sh/a5s7a9gb","slide":3,"name":"Google Shape;91;p4","bbox":[388.8,115.2,518.4,97.92]}
+{"kind":"textbox","id":"sh/w7apcjyh","slide":3,"name":"Google Shape;93;p4","text":"Educación","textPreview":"Educación","textChars":9,"textLines":1,"bbox":[456,130.56,422.4,24.96]}
+{"kind":"textbox","id":"sh/jul87yx8","slide":3,"name":"Google Shape;94;p4","text":"Faltan intérpretes, materiales y docentes capacitados en LSPy; el efecto es acumulativo desde la infancia.","textPreview":"Faltan intérpretes, materiales y docentes capacitados en LSPy; el efecto es acumulativo desde la infancia.","textChars":106,"textLines":1,"bbox":[456,159.36,427.2,46.08]}
+{"kind":"shape","id":"sh/ytc7etwn","slide":3,"name":"Google Shape;95;p4","bbox":[388.8,224.64,518.4,97.92]}
+{"kind":"textbox","id":"sh/kvupg3ed","slide":3,"name":"Google Shape;97;p4","text":"Familia y sociedad","textPreview":"Familia y sociedad","textChars":18,"textLines":1,"bbox":[456,240,422.4,24.96]}
+{"kind":"textbox","id":"sh/fyhovuxo","slide":3,"name":"Google Shape;98;p4","text":"Muchos padres oyentes no dominan la lengua: la barrera empieza dentro de la propia casa.","textPreview":"Muchos padres oyentes no dominan la lengua: la barrera empieza dentro de la propia casa.","textChars":88,"textLines":1,"bbox":[456,268.8,427.2,46.08]}
+{"kind":"shape","id":"sh/ex872pg3","slide":3,"name":"Google Shape;99;p4","bbox":[388.8,334.08,518.4,97.92]}
+{"kind":"textbox","id":"sh/et8vel4f","slide":3,"name":"Google Shape;101;p4","text":"Ley sin herramientas","textPreview":"Ley sin herramientas","textChars":20,"textLines":1,"bbox":[456,349.44,422.4,24.96]}
+{"kind":"textbox","id":"sh/1wzup0nq","slide":3,"name":"Google Shape;102;p4","text":"La Ley 6530/2020 reconoce la LSPy, pero el reconocimiento legal por sí solo no crea herramientas de uso diario.","textPreview":"La Ley 6530/2020 reconoce la LSPy, pero el reconocimiento legal por sí solo no crea herramientas de uso diario.","textChars":111,"textLines":1,"bbox":[456,378.24,427.2,46.08]}
+{"kind":"textbox","id":"sh/0vqdgvml","slide":3,"name":"Google Shape;103;p4","text":"Hoy no hay una herramienta que permita entender una seña en el momento, ni aprender el vocabulario básico para comunicarse.","textPreview":"Hoy no hay una herramienta que permita entender una seña en el momento, ni aprender el vocabulario básico para comunicarse.","textChars":123,"textLines":1,"bbox":[52.8,443.52,854.4,32.64]}
+{"kind":"image","id":"im/2t0vil0f","slide":3,"name":"Google Shape;84;p4","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/3u9wbq10","slide":3,"name":"Google Shape;92;p4","bbox":[410.88,134.4,28.8,28.8]}
+{"kind":"image","id":"im/ovidkvil","slide":3,"name":"Google Shape;96;p4","bbox":[410.88,243.84,28.8,28.8]}
+{"kind":"image","id":"im/pwred0j6","slide":3,"name":"Google Shape;100;p4","bbox":[410.88,353.28,28.8,28.8]}
+{"kind":"notes","id":"nt/ofy9wn61","slide":3,"text":""}
+{"kind":"slide","id":"sl/jyx0ra1s","slide":4,"title":"Qué existe hoy para la LSPy","textShapes":13}
+{"kind":"textbox","id":"sh/elw76pk3","slide":4,"name":"Google Shape;135;p5","text":"Qué existe hoy para la LSPy","textPreview":"Qué existe hoy para la LSPy","textChars":27,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/1o7qhkje","slide":4,"name":"Google Shape;136;p5","text":"Recursos valiosos, pero estáticos o unidireccionales","textPreview":"Recursos valiosos, pero estáticos o unidireccionales","textChars":52,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/nqp8ju1k","slide":4,"name":"Google Shape;138;p5","text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/mpg7apkz","slide":4,"name":"Google Shape;139;p5","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/mtor6d8b","slide":4,"name":"Google Shape;140;p5","bbox":[52.8,115.2,417.6,155.52]}
+{"kind":"textbox","id":"sh/8v6983qh","slide":4,"name":"Google Shape;142;p5","text":"Signario Bilingüe (SNLSP, 2023)","textPreview":"Signario Bilingüe (SNLSP, 2023)","textChars":31,"textLines":1,"bbox":[120,132.48,326.4,24.96]}
+{"kind":"textbox","id":"sh/9wfah8rm","slide":4,"name":"Google Shape;143;p5","text":"El recurso de referencia para la estandarización. Documento de consulta: sirve si ya se sabe qué palabra buscar, pero no ofrece interacción ni práctica.","textPreview":"El recurso de referencia para la estandarización. Documento de consulta: sirve si ya se sabe qué palabra buscar, pero no ofrece interacci...","textChars":152,"textLines":1,"bbox":[75.84,174.72,371.52,86.4]}
+{"kind":"shape","id":"sh/uxobad87","slide":4,"name":"Google Shape;144;p5","bbox":[489.6,115.2,417.6,155.52]}
+{"kind":"textbox","id":"sh/wjqtcnqd","slide":4,"name":"Google Shape;146;p5","text":"Materiales audiovisuales","textPreview":"Materiales audiovisuales","textChars":24,"textLines":1,"bbox":[556.8,132.48,326.4,24.96]}
+{"kind":"textbox","id":"sh/hkzalsry","slide":4,"name":"Google Shape;147;p5","text":"SENADIS produce audiovisuales instructivos y En Lengua de Señas TV integra intérpretes en transmisiones en vivo desde 2024.","textPreview":"SENADIS produce audiovisuales instructivos y En Lengua de Señas TV integra intérpretes en transmisiones en vivo desde 2024.","textChars":123,"textLines":1,"bbox":[512.64,174.72,371.52,86.4]}
+{"kind":"shape","id":"sh/a14ryt83","slide":4,"name":"Google Shape;148;p5","bbox":[52.8,288,417.6,155.52]}
+{"kind":"textbox","id":"sh/ds3mtgfi","slide":4,"name":"Google Shape;150;p5","text":"Producción de la comunidad","textPreview":"Producción de la comunidad","textChars":26,"textLines":1,"bbox":[120,305.28,326.4,24.96]}
+{"kind":"textbox","id":"sh/srul0bex","slide":4,"name":"Google Shape;151;p5","text":"Po Arandu, junto a Paraguay Educa, lanzó la primera Historia del Paraguay en LSPy; canales como Lengua de Señas LSPy y CODA Dos Lenguas enseñan la lengua en video.","textPreview":"Po Arandu, junto a Paraguay Educa, lanzó la primera Historia del Paraguay en LSPy; canales como Lengua de Señas LSPy y CODA Dos Lenguas e...","textChars":163,"textLines":1,"bbox":[75.84,347.52,371.52,86.4]}
+{"kind":"shape","id":"sh/rql4r6xc","slide":4,"name":"Google Shape;152;p5","bbox":[489.6,288,417.6,155.52]}
+{"kind":"textbox","id":"sh/1wnmx0fe","slide":4,"name":"Google Shape;154;p5","text":"Marco legal amplio","textPreview":"Marco legal amplio","textChars":18,"textLines":1,"bbox":[556.8,305.28,326.4,24.96]}
+{"kind":"textbox","id":"sh/0vel4vet","slide":4,"name":"Google Shape;155;p5","text":"Ley 6530/2020 (reconocimiento de la LSPy), Ley de Lenguas 4251/2010, accesibilidad 3585/2008 y cupo laboral 2479/2004.","textPreview":"Ley 6530/2020 (reconocimiento de la LSPy), Ley de Lenguas 4251/2010, accesibilidad 3585/2008 y cupo laboral 2479/2004.","textChars":118,"textLines":1,"bbox":[512.64,347.52,371.52,86.4]}
+{"kind":"textbox","id":"sh/zul4vqx8","slide":4,"name":"Google Shape;156;p5","text":"El vacío no es de reconocimiento legal ni de materiales: es de herramientas interactivas, con retroalimentación inmediata.","textPreview":"El vacío no es de reconocimiento legal ni de materiales: es de herramientas interactivas, con retroalimentación inmediata.","textChars":122,"textLines":1,"bbox":[52.8,449.28,854.4,32.64]}
+{"kind":"image","id":"im/j690r6lo","slide":4,"name":"Google Shape;137;p5","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/sb21ovml","slide":4,"name":"Google Shape;141;p5","bbox":[75.84,136.32,28.8,28.8]}
+{"kind":"image","id":"im/tcbix036","slide":4,"name":"Google Shape;145;p5","bbox":[512.64,136.32,28.8,28.8]}
+{"kind":"image","id":"im/1gnalwry","slide":4,"name":"Google Shape;149;p5","bbox":[75.84,309.12,28.8,28.8]}
+{"kind":"image","id":"im/gfe9srad","slide":4,"name":"Google Shape;153;p5","bbox":[512.64,309.12,28.8,28.8]}
+{"kind":"notes","id":"nt/jyx0ra1s","slide":4,"text":""}
+{"kind":"slide","id":"sl/i107q5of","slide":5,"title":"Panorama regional en Sudamérica","textShapes":24}
+{"kind":"textbox","id":"sh/q1o3a143","slide":5,"name":"Google Shape;162;p35","text":"Panorama regional en Sudamérica","textPreview":"Panorama regional en Sudamérica","textChars":31,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/r2hkj65o","slide":5,"name":"Google Shape;163;p35","text":"El reconocimiento legal de las lenguas de señas avanzó de forma despareja en la región","textPreview":"El reconocimiento legal de las lenguas de señas avanzó de forma despareja en la región","textChars":86,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/4z6l8rmd","slide":5,"name":"Google Shape;164;p35","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/50f2hwny","slide":5,"name":"Google Shape;165;p35","bbox":[52.8,109.44,854.4,165.12]}
+{"kind":"shape","id":"sh/ixo36h47","slide":5,"name":"Google Shape;166;p35","bbox":[110.4,193.92,686.4,2.11]}
+{"kind":"shape","id":"sh/3yxkfm5s","slide":5,"name":"Google Shape;167;p35","bbox":[102.24,186.82,16.32,16.32]}
+{"kind":"textbox","id":"sh/gv6l4rm1","slide":5,"name":"Google Shape;168;p35","text":"2001","textPreview":"2001","textChars":4,"textLines":1,"bbox":[28.8,145.92,163.2,28.8]}
+{"kind":"textbox","id":"sh/hwf2dcnm","slide":5,"name":"Google Shape;169;p35","text":"Uruguay","textPreview":"Uruguay","textChars":7,"textLines":1,"bbox":[28.8,215.04,163.2,24.96]}
+{"kind":"textbox","id":"sh/jqd4n2po","slide":5,"name":"Google Shape;170;p35","text":"Ley 17.378 — LSU","textPreview":"Ley 17.378 — LSU","textChars":16,"textLines":1,"bbox":[28.8,238.08,163.2,23.04]}
+{"kind":"shape","id":"sh/yp43uh83","slide":5,"name":"Google Shape;171;p35","bbox":[273.84,186.82,16.32,16.32]}
+{"kind":"textbox","id":"sh/lsvmpc7e","slide":5,"name":"Google Shape;172;p35","text":"2009","textPreview":"2009","textChars":4,"textLines":1,"bbox":[200.4,145.92,163.2,28.8]}
+{"kind":"textbox","id":"sh/krmlw7qt","slide":5,"name":"Google Shape;173;p35","text":"Paraguay","textPreview":"Paraguay","textChars":8,"textLines":1,"bbox":[200.4,215.04,163.2,24.96]}
+{"kind":"textbox","id":"sh/7ud4rmpk","slide":5,"name":"Google Shape;174;p35","text":"Res. MEC 43","textPreview":"Res. MEC 43","textChars":11,"textLines":1,"bbox":[200.4,238.08,163.2,23.04]}
+{"kind":"shape","id":"sh/6t43yh8z","slide":5,"name":"Google Shape;175;p35","bbox":[442.56,183.94,22.08,22.08]}
+{"kind":"textbox","id":"sh/twfmtw7q","slide":5,"name":"Google Shape;176;p35","text":"2020","textPreview":"2020","textChars":4,"textLines":1,"bbox":[372,145.92,163.2,28.8]}
+{"kind":"textbox","id":"sh/8v650rq5","slide":5,"name":"Google Shape;177;p35","text":"Paraguay","textPreview":"Paraguay","textChars":8,"textLines":1,"bbox":[372,215.04,163.2,24.96]}
+{"kind":"textbox","id":"sh/vyx4v6pg","slide":5,"name":"Google Shape;178;p35","text":"Ley 6530 — LSPy","textPreview":"Ley 6530 — LSPy","textChars":15,"textLines":1,"bbox":[372,238.08,163.2,23.04]}
+{"kind":"shape","id":"sh/uxon218b","slide":5,"name":"Google Shape;179;p35","bbox":[617.04,186.82,16.32,16.32]}
+{"kind":"textbox","id":"sh/2547ql4f","slide":5,"name":"Google Shape;180;p35","text":"2023","textPreview":"2023","textChars":4,"textLines":1,"bbox":[543.6,145.92,163.2,28.8]}
+{"kind":"textbox","id":"sh/36d8jql0","slide":5,"name":"Google Shape;181;p35","text":"Argentina","textPreview":"Argentina","textChars":9,"textLines":1,"bbox":[543.6,215.04,163.2,24.96]}
+{"kind":"textbox","id":"sh/47mpsvml","slide":5,"name":"Google Shape;182;p35","text":"Ley 27.710 — LSA","textPreview":"Ley 27.710 — LSA","textChars":16,"textLines":1,"bbox":[543.6,238.08,163.2,23.04]}
+{"kind":"shape","id":"sh/p8vql036","slide":5,"name":"Google Shape;183;p35","bbox":[788.64,186.82,16.32,16.32]}
+{"kind":"textbox","id":"sh/q9o7u54b","slide":5,"name":"Google Shape;184;p35","text":"2025","textPreview":"2025","textChars":4,"textLines":1,"bbox":[715.2,145.92,163.2,28.8]}
+{"kind":"textbox","id":"sh/rax8nalw","slide":5,"name":"Google Shape;185;p35","text":"Bolivia","textPreview":"Bolivia","textChars":7,"textLines":1,"bbox":[715.2,215.04,163.2,24.96]}
+{"kind":"textbox","id":"sh/cb6pwvmh","slide":5,"name":"Google Shape;186;p35","text":"Ley 1658 — LSB oficial","textPreview":"Ley 1658 — LSB oficial","textChars":22,"textLines":1,"bbox":[715.2,238.08,163.2,23.04]}
+{"kind":"shape","id":"sh/dcfqp032","slide":5,"name":"Google Shape;187;p35","bbox":[52.8,291.84,417.6,136.32]}
+{"kind":"textbox","id":"sh/edo7y54n","slide":5,"name":"Google Shape;188;p35","text":"Brasil: un marco ya consolidado","textPreview":"Brasil: un marco ya consolidado","textChars":31,"textLines":1,"bbox":[77.76,309.12,374.4,26.88]}
+{"kind":"textbox","id":"sh/zyx8ral8","slide":5,"name":"Google Shape;189;p35","text":"Garantiza por ley la enseñanza de la Lengua Brasileña de Señas (Libras) en instituciones públicas, junto con programas nacionales de accesibilidad educativa.","textPreview":"Garantiza por ley la enseñanza de la Lengua Brasileña de Señas (Libras) en instituciones públicas, junto con programas nacionales de acce...","textChars":157,"textLines":1,"bbox":[77.76,341.76,369.6,74.88]}
+{"kind":"shape","id":"sh/9szax4na","slide":5,"name":"Google Shape;190;p35","bbox":[489.6,291.84,417.6,136.32]}
+{"kind":"textbox","id":"sh/o7qtoz6p","slide":5,"name":"Google Shape;191;p35","text":"Qué muestra el panorama","textPreview":"Qué muestra el panorama","textChars":23,"textLines":1,"bbox":[514.56,309.12,374.4,26.88]}
+{"kind":"textbox","id":"sh/n6hsvu54","slide":5,"name":"Google Shape;192;p35","text":"No hubo un proceso regional coordinado: cada país llegó por su cuenta.\nParaguay reconoció la LSPy veinte años después que Uruguay, y Bolivia todavía más tarde.","textPreview":"No hubo un proceso regional coordinado: cada país llegó por su cuenta. | Paraguay reconoció la LSPy veinte años después que Uruguay, y Bo...","textChars":159,"textLines":2,"bbox":[520.32,341.76,369.6,76.8]}
+{"kind":"textbox","id":"sh/m58bm9oj","slide":5,"name":"Google Shape;193;p35","text":"Paraguay está dentro de la tendencia regional, pero llegó tarde: el retraso normativo explica en parte el retraso en herramientas.","textPreview":"Paraguay está dentro de la tendencia regional, pero llegó tarde: el retraso normativo explica en parte el retraso en herramientas.","textChars":130,"textLines":1,"bbox":[52.8,443.52,854.4,28.8]}
+{"kind":"textbox","id":"sh/xwja1on6","slide":5,"name":"Google Shape;194;p35","text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"image","id":"im/x8rq1cny","slide":5,"name":"Google Shape;161;p35","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/i107q5of","slide":5,"text":""}
+{"kind":"slide","id":"sl/x8f69ofe","slide":6,"title":"Antecedente técnico directo","textShapes":10}
+{"kind":"textbox","id":"sh/mhgn2pk3","slide":6,"name":"Google Shape;200;p6","text":"Antecedente técnico directo","textPreview":"Antecedente técnico directo","textChars":27,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/nipobu1o","slide":6,"name":"Google Shape;201;p6","text":"Un trabajo previo en la FP-UNA y la decisión de diseño que distingue a Pojoaju","textPreview":"Un trabajo previo en la FP-UNA y la decisión de diseño que distingue a Pojoaju","textChars":78,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/9476d4ju","slide":6,"name":"Google Shape;203;p6","text":"6","textPreview":"6","textChars":1,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/a5g769kf","slide":6,"name":"Google Shape;204;p6","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/b6pofe10","slide":6,"name":"Google Shape;205;p6","bbox":[52.8,113.28,854.4,136.32]}
+{"kind":"textbox","id":"sh/w7yp8j25","slide":6,"name":"Google Shape;206;p6","text":"Gutiérrez, Alfonzo, Paciello & Von Lücken (FP-UNA, 2024)","textPreview":"Gutiérrez, Alfonzo, Paciello & Von Lücken (FP-UNA, 2024)","textChars":56,"textLines":1,"bbox":[79.68,130.56,796.8,24.96]}
+{"kind":"textbox","id":"sh/x8r6hojq","slide":6,"name":"Google Shape;207;p6","text":"Es el primer trabajo académico documentado de reconocimiento automático de LSPy con aprendizaje profundo: una arquitectura CNN + RNN que opera directamente sobre las imágenes de video. Abrió esta línea de investigación para el proyecto y fija el punto de partida de nuestro trabajo.","textPreview":"Es el primer trabajo académico documentado de reconocimiento automático de LSPy con aprendizaje profundo: una arquitectura CNN + RNN que ...","textChars":282,"textLines":1,"bbox":[79.68,163.2,800.64,91.2]}
+{"kind":"shape","id":"sh/y907a90b","slide":6,"name":"Google Shape;208;p6","bbox":[52.8,268.8,417.6,161.28]}
+{"kind":"textbox","id":"sh/ja9oje1w","slide":6,"name":"Google Shape;209;p6","text":"Pojoaju parte de otra representación","textPreview":"Pojoaju parte de otra representación","textChars":36,"textLines":1,"bbox":[75.84,287.04,374.4,24.96]}
+{"kind":"textbox","id":"sh/t4bq983y","slide":6,"name":"Google Shape;210;p6","text":"En lugar de clasificar imágenes, extrae primero los puntos clave del cuerpo y clasifica la secuencia de coordenadas. Es un camino distinto pero que aborda el mismo problema.","textPreview":"En lugar de clasificar imágenes, extrae primero los puntos clave del cuerpo y clasifica la secuencia de coordenadas. Es un camino distint...","textChars":173,"textLines":1,"bbox":[75.84,319.68,371.52,94.08]}
+{"kind":"shape","id":"sh/83290nmd","slide":6,"name":"Google Shape;211;p6","bbox":[489.6,268.8,417.6,161.28]}
+{"kind":"textbox","id":"sh/72t87il8","slide":6,"name":"Google Shape;212;p6","text":"En qué se diferencia","textPreview":"En qué se diferencia","textChars":20,"textLines":1,"bbox":[512.64,287.04,374.4,24.96]}
+{"kind":"textbox","id":"sh/61kryd4n","slide":6,"name":"Google Shape;213;p6","text":"Keypoints de MediaPipe, no imágenes\nSegmentación automática sobre video en vivo\nTexto y voz ↔ seña animada\nCorrección gramatical de frases","textPreview":"Keypoints de MediaPipe, no imágenes | Segmentación automática sobre video en vivo | Texto y voz ↔ seña animada | Corrección gramatical de...","textChars":138,"textLines":4,"bbox":[518.4,316.8,369.6,100.8]}
+{"kind":"image","id":"im/gj69sjyl","slide":6,"name":"Google Shape;202;p6","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/x8f69ofe","slide":6,"text":""}
+{"kind":"slide","id":"sl/gnmp4jqx","slide":7,"title":"La lengua de señas tiene gramática propia","textShapes":16}
+{"kind":"textbox","id":"sh/2t4ne1cz","slide":7,"name":"Google Shape;242;p8","text":"La lengua de señas tiene gramática propia","textPreview":"La lengua de señas tiene gramática propia","textChars":41,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/3uxo76dk","slide":7,"name":"Google Shape;243;p8","text":"Es una lengua natural, con fonología y gramática propias","textPreview":"Es una lengua natural, con fonología y gramática propias","textChars":56,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/1svm5wve","slide":7,"name":"Google Shape;245;p8","text":"7","textPreview":"7","textChars":1,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/e54na1cn","slide":7,"name":"Google Shape;246;p8","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/f6d436d8","slide":7,"name":"Google Shape;247;p8","bbox":[52.8,113.28,417.6,235.2]}
+{"kind":"textbox","id":"sh/t4vm1wv2","slide":7,"name":"Google Shape;249;p8","text":"De qué está hecha una seña","textPreview":"De qué está hecha una seña","textChars":26,"textLines":1,"bbox":[120,129.6,336,24.96]}
+{"kind":"textbox","id":"sh/vytobmx4","slide":7,"name":"Google Shape;250;p8","text":"Forma de la mano\nUbicación\nMovimiento\nOrientación de la palma\nGestos no manuales","textPreview":"Forma de la mano | Ubicación | Movimiento | Orientación de la palma | Gestos no manuales","textChars":80,"textLines":5,"bbox":[81.6,164.64,374.39,115.21]}
+{"kind":"textbox","id":"sh/uxknihgj","slide":7,"name":"Google Shape;251;p8","text":"Cambiar uno solo de estos elementos puede cambiar el significado por completo, como cambiar una letra en una palabra.","textPreview":"Cambiar uno solo de estos elementos puede cambiar el significado por completo, como cambiar una letra en una palabra.","textChars":117,"textLines":1,"bbox":[75.84,283.21,371.53,49.92]}
+{"kind":"shape","id":"sh/h0b6dwfa","slide":7,"name":"Google Shape;252;p8","bbox":[489.6,113.28,417.6,235.2]}
+{"kind":"textbox","id":"sh/j2tofmx0","slide":7,"name":"Google Shape;254;p8","text":"Gramática propia (LSPy)","textPreview":"Gramática propia (LSPy)","textChars":23,"textLines":1,"bbox":[556.8,129.6,336,24.96]}
+{"kind":"textbox","id":"sh/i1k7mhgf","slide":7,"name":"Google Shape;255;p8","text":"Los artículos y \"ser/estar\" se omiten en la seña\nLa posesión va después: MAMÁ + MÍA = \"mi mamá\"\nEl tiempo va primero: AYER + CASA + IR = \"ayer fui a casa\"","textPreview":"Los artículos y \"ser/estar\" se omiten en la seña | La posesión va después: MAMÁ + MÍA = \"mi mamá\" | El tiempo va primero: AYER + CASA + I...","textChars":154,"textLines":3,"bbox":[518.4,172.8,369.6,110.4]}
+{"kind":"textbox","id":"sh/54v6hwf6","slide":7,"name":"Google Shape;256;p8","text":"Estas son las reglas que el sistema debe aplicar al traducir frases completas.","textPreview":"Estas son las reglas que el sistema debe aplicar al traducir frases completas.","textChars":78,"textLines":1,"bbox":[512.64,289.92,371.52,49.92]}
+{"kind":"shape","id":"sh/rqdoj6xc","slide":7,"name":"Google Shape;258;p8","bbox":[52.8,364.8,854.4,82.56]}
+{"kind":"shape","id":"sh/6p47q1gr","slide":7,"name":"Google Shape;259;p8","bbox":[79.68,384,97.92,44.16]}
+{"kind":"textbox","id":"sh/2lori50z","slide":7,"name":"Google Shape;260;p8","text":"MAMÁ","textPreview":"MAMÁ","textChars":4,"textLines":1,"bbox":[79.68,384,97.92,44.16]}
+{"kind":"shape","id":"sh/3mh8rahk","slide":7,"name":"Google Shape;261;p8","bbox":[187.2,384,97.92,44.16]}
+{"kind":"textbox","id":"sh/onq9kfi5","slide":7,"name":"Google Shape;262;p8","text":"MÍA","textPreview":"MÍA","textChars":3,"textLines":1,"bbox":[187.2,384,97.92,44.16]}
+{"kind":"shape","id":"sh/pozatkzq","slide":7,"name":"Google Shape;263;p8","bbox":[294.72,384,97.92,44.16]}
+{"kind":"textbox","id":"sh/exorel0n","slide":7,"name":"Google Shape;264;p8","text":"LINDA","textPreview":"LINDA","textChars":5,"textLines":1,"bbox":[294.72,384,97.92,44.16]}
+{"kind":"shape","id":"sh/fyx8nqh8","slide":7,"name":"Google Shape;265;p8","bbox":[402.24,384,97.92,44.16]}
+{"kind":"textbox","id":"sh/gj69gvit","slide":7,"name":"Google Shape;266;p8","text":"MUCHO","textPreview":"MUCHO","textChars":5,"textLines":1,"bbox":[402.24,384,97.92,44.16]}
+{"kind":"textbox","id":"sh/1kfqp0ze","slide":7,"name":"Google Shape;267;p8","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[505.92,384,48,44.16]}
+{"kind":"textbox","id":"sh/yt8rqpg7","slide":7,"name":"Google Shape;268;p8","text":"\"Mi mamá es muy linda\"","textPreview":"\"Mi mamá es muy linda\"","textChars":22,"textLines":1,"bbox":[509.76,384.96,388.79,44.16]}
+{"kind":"image","id":"im/apkn2pcv","slide":7,"name":"Google Shape;244;p8","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/0vilcvat","slide":7,"name":"Google Shape;248;p8","bbox":[75.84,132.48,28.8,28.8]}
+{"kind":"image","id":"im/lwrm50re","slide":7,"name":"Google Shape;253;p8","bbox":[512.64,132.48,28.8,28.8]}
+{"kind":"notes","id":"nt/gnmp4jqx","slide":7,"text":""}
+{"kind":"slide","id":"sl/fu1gfa1s","slide":8,"title":"Objetivo general","textShapes":16}
+{"kind":"textbox","id":"sh/tkjuxwja","slide":8,"name":"Google Shape;297;p10","text":"Objetivo general","textPreview":"Objetivo general","textChars":16,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/be5c7q1o","slide":8,"name":"Google Shape;299;p10","text":"8","textPreview":"8","textChars":1,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/ojqd0fa5","slide":8,"name":"Google Shape;300;p10","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/pkze9krq","slide":8,"name":"Google Shape;301;p10","bbox":[52.8,100.8,854.4,122.88]}
+{"kind":"textbox","id":"sh/2h8vy5sz","slide":8,"name":"Google Shape;302;p10","text":"Desarrollar un sistema de reconocimiento automático de la Lengua de Señas Paraguaya basado en redes neuronales recurrentes, capaz de traducir señas a texto y voz en tiempo real —y de hacer también el camino inverso— sobre una base técnica expansible.","textPreview":"Desarrollar un sistema de reconocimiento automático de la Lengua de Señas Paraguaya basado en redes neuronales recurrentes, capaz de trad...","textChars":250,"textLines":1,"bbox":[86.4,119.04,787.2,91.2]}
+{"kind":"shape","id":"sh/0f6dwvat","slide":8,"name":"Google Shape;304;p10","bbox":[52.8,244.8,854.4,97.92]}
+{"kind":"textbox","id":"sh/edovuls3","slide":8,"name":"Google Shape;306;p10","text":"Persona haciendo una seña (cámara)","textPreview":"Persona haciendo una seña (cámara)","textChars":34,"textLines":1,"bbox":[129.6,267.84,230.4,57.6]}
+{"kind":"textbox","id":"sh/fexc3qt8","slide":8,"name":"Google Shape;307;p10","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[364.8,267.84,48,52.8]}
+{"kind":"textbox","id":"sh/kbad8zad","slide":8,"name":"Google Shape;308;p10","text":"POJOAJU","textPreview":"POJOAJU","textChars":7,"textLines":1,"bbox":[408,273.6,153.6,40.32]}
+{"kind":"textbox","id":"sh/lcjeh4ry","slide":8,"name":"Google Shape;309;p10","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[561.6,267.84,48,52.8]}
+{"kind":"textbox","id":"sh/u5cfytcf","slide":8,"name":"Google Shape;311;p10","text":"Texto y voz en español","textPreview":"Texto y voz en español","textChars":22,"textLines":1,"bbox":[657.6,267.84,220.8,57.6]}
+{"kind":"textbox","id":"sh/h8ny98b6","slide":8,"name":"Google Shape;312;p10","text":"reconoce","textPreview":"reconoce","textChars":8,"textLines":1,"bbox":[408,308.16,153.6,24.96]}
+{"kind":"shape","id":"sh/3a5gbytw","slide":8,"name":"Google Shape;314;p10","bbox":[52.8,357.12,854.4,97.92]}
+{"kind":"textbox","id":"sh/5cnyd8b2","slide":8,"name":"Google Shape;316;p10","text":"Palabra escrita o hablada","textPreview":"Palabra escrita o hablada","textChars":25,"textLines":1,"bbox":[129.6,380.16,230.4,57.6]}
+{"kind":"textbox","id":"sh/4beh43uh","slide":8,"name":"Google Shape;317;p10","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[364.8,380.16,48,52.8]}
+{"kind":"textbox","id":"sh/je1gzeds","slide":8,"name":"Google Shape;318;p10","text":"POJOAJU","textPreview":"POJOAJU","textChars":7,"textLines":1,"bbox":[408,385.92,153.6,40.32]}
+{"kind":"textbox","id":"sh/ydsfq9c7","slide":8,"name":"Google Shape;319;p10","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[561.6,380.16,48,52.8]}
+{"kind":"textbox","id":"sh/n6tsn6hc","slide":8,"name":"Google Shape;321;p10","text":"Animación de la seña (stickman)","textPreview":"Animación de la seña (stickman)","textChars":31,"textLines":1,"bbox":[657.6,380.16,220.8,57.6]}
+{"kind":"textbox","id":"sh/o72twbix","slide":8,"name":"Google Shape;322;p10","text":"genera","textPreview":"genera","textChars":6,"textLines":1,"bbox":[408,420.48,153.6,24.96]}
+{"kind":"image","id":"im/ormhszax","slide":8,"name":"Google Shape;298;p10","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/bud0nuto","slide":8,"name":"Google Shape;305;p10","bbox":[86.4,279.36,28.8,28.8]}
+{"kind":"image","id":"im/qt4zups3","slide":8,"name":"Google Shape;310;p10","bbox":[614.4,279.36,28.8,28.8]}
+{"kind":"image","id":"im/dwfip4bu","slide":8,"name":"Google Shape;315;p10","bbox":[86.4,391.68,28.8,28.8]}
+{"kind":"image","id":"im/cvmhwza9","slide":8,"name":"Google Shape;320;p10","bbox":[614.4,391.68,28.8,28.8]}
+{"kind":"notes","id":"nt/fu1gfa1s","slide":8,"text":""}
+{"kind":"slide","id":"sl/udsvah03","slide":9,"title":"Objetivos específicos","textShapes":12}
+{"kind":"textbox","id":"sh/2xczy9ob","slide":9,"name":"Google Shape;328;p11","text":"Objetivos específicos","textPreview":"Objetivos específicos","textChars":21,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/3yl07upw","slide":9,"name":"Google Shape;329;p11","text":"Corresponden a las cuatro etapas técnicas del proyecto","textPreview":"Corresponden a las cuatro etapas técnicas del proyecto","textChars":54,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/cre1o3at","slide":9,"name":"Google Shape;331;p11","text":"9","textPreview":"9","textChars":1,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/bq5kvy98","slide":9,"name":"Google Shape;332;p11","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/lw7218ra","slide":9,"name":"Google Shape;334;p11","bbox":[52.8,120,417.6,148.8]}
+{"kind":"textbox","id":"sh/zupkzy94","slide":9,"name":"Google Shape;336;p11","text":"Pipeline de datos","textPreview":"Pipeline de datos","textChars":17,"textLines":1,"bbox":[120,139.2,326.4,24.96]}
+{"kind":"textbox","id":"sh/ytgjqdsj","slide":9,"name":"Google Shape;337;p11","text":"Capturar muestras de video y extraer los puntos clave corporales (pose, rostro y manos) con visión por computadora.","textPreview":"Capturar muestras de video y extraer los puntos clave corporales (pose, rostro y manos) con visión por computadora.","textChars":115,"textLines":1,"bbox":[75.84,183.36,371.52,72]}
+{"kind":"shape","id":"sh/8zylwnql","slide":9,"name":"Google Shape;339;p11","bbox":[489.6,120,417.6,148.8]}
+{"kind":"textbox","id":"sh/5gbmxwbe","slide":9,"name":"Google Shape;341;p11","text":"Modelo LSTM","textPreview":"Modelo LSTM","textChars":11,"textLines":1,"bbox":[556.8,139.2,326.4,24.96]}
+{"kind":"textbox","id":"sh/itknmhc3","slide":9,"name":"Google Shape;342;p11","text":"Entrenar una red recurrente que reconozca la seña a partir de una secuencia de puntos clave.","textPreview":"Entrenar una red recurrente que reconozca la seña a partir de una secuencia de puntos clave.","textChars":92,"textLines":1,"bbox":[512.64,183.36,371.52,72]}
+{"kind":"shape","id":"sh/wr25k7ux","slide":9,"name":"Google Shape;344;p11","bbox":[52.8,289.92,417.6,148.8]}
+{"kind":"textbox","id":"sh/ap0nixcr","slide":9,"name":"Google Shape;346;p11","text":"Traducción en tiempo real","textPreview":"Traducción en tiempo real","textChars":25,"textLines":1,"bbox":[120,309.12,326.4,24.96]}
+{"kind":"textbox","id":"sh/vq94r2tc","slide":9,"name":"Google Shape;347;p11","text":"Reconocer señas desde la cámara y convertirlas en texto y voz, más los módulos de texto a seña y voz a seña.","textPreview":"Reconocer señas desde la cámara y convertirlas en texto y voz, más los módulos de texto a seña y voz a seña.","textChars":108,"textLines":1,"bbox":[75.84,353.28,371.52,72]}
+{"kind":"shape","id":"sh/1ov65gbm","slide":9,"name":"Google Shape;349;p11","bbox":[489.6,289.92,417.6,148.8]}
+{"kind":"textbox","id":"sh/at8zipgf","slide":9,"name":"Google Shape;351;p11","text":"Evaluación cuantitativa","textPreview":"Evaluación cuantitativa","textChars":23,"textLines":1,"bbox":[556.8,309.12,326.4,24.96]}
+{"kind":"textbox","id":"sh/xgjyd4z6","slide":9,"name":"Google Shape;352;p11","text":"Medir el desempeño con accuracy, matriz de confusión y análisis de las confusiones más frecuentes.","textPreview":"Medir el desempeño con accuracy, matriz de confusión y análisis de las confusiones más frecuentes.","textChars":98,"textLines":1,"bbox":[512.64,353.28,371.52,72]}
+{"kind":"image","id":"im/twja1cbe","slide":9,"name":"Google Shape;330;p11","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/y58rmdcr","slide":9,"name":"Google Shape;335;p11","bbox":[75.84,143.04,28.8,28.8]}
+{"kind":"image","id":"im/jqhsvitc","slide":9,"name":"Google Shape;340;p11","bbox":[512.64,143.04,28.8,28.8]}
+{"kind":"image","id":"im/krq9onux","slide":9,"name":"Google Shape;345;p11","bbox":[75.84,312.96,28.8,28.8]}
+{"kind":"image","id":"im/lszaxsbi","slide":9,"name":"Google Shape;350;p11","bbox":[512.64,312.96,28.8,28.8]}
+{"kind":"notes","id":"nt/udsvah03","slide":9,"text":""}
+{"kind":"slide","id":"sl/m90b6t0r","slide":10,"title":"Metodología","textShapes":19}
+{"kind":"textbox","id":"sh/r6xcfu50","slide":10,"name":"Google Shape;358;p12","text":"Metodología","textPreview":"Metodología","textChars":11,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/q5obmp4f","slide":10,"name":"Google Shape;359;p12","text":"Ciclo Regulatorio (Wieringa, 2009) — Investigación de la Ciencia del Diseño","textPreview":"Ciclo Regulatorio (Wieringa, 2009) — Investigación de la Ciencia del Diseño","textChars":75,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/vm5gn25o","slide":10,"name":"Google Shape;361;p12","text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/gnexw769","slide":10,"name":"Google Shape;362;p12","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/honypcnu","slide":10,"name":"Google Shape;363;p12","bbox":[52.8,153.28,159.37,88.31]}
+{"kind":"textbox","id":"sh/mxcfqdo7","slide":10,"name":"Google Shape;364;p12","text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[62.4,157.12,28.79,23.06]}
+{"kind":"textbox","id":"sh/7y5wji5c","slide":10,"name":"Google Shape;365;p12","text":"Investigación\ndel Problema","textPreview":"Investigación | del Problema","textChars":26,"textLines":2,"bbox":[52.8,164.8,159.37,69.13]}
+{"kind":"textbox","id":"sh/8jexsn6x","slide":10,"name":"Google Shape;366;p12","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[208.32,153.28,21.61,88.31]}
+{"kind":"shape","id":"sh/9knylsni","slide":10,"name":"Google Shape;367;p12","bbox":[226.08,153.28,159.37,88.31]}
+{"kind":"textbox","id":"sh/ytcfmdov","slide":10,"name":"Google Shape;368;p12","text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[235.68,157.12,28.79,23.06]}
+{"kind":"textbox","id":"sh/zulwfi5g","slide":10,"name":"Google Shape;369;p12","text":"Diseño de\nla Solución","textPreview":"Diseño de | la Solución","textChars":21,"textLines":2,"bbox":[226.08,164.8,159.37,69.13]}
+{"kind":"textbox","id":"sh/1orilg7y","slide":10,"name":"Google Shape;370;p12","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[381.6,153.28,21.61,88.31]}
+{"kind":"shape","id":"sh/0ni1sbqd","slide":10,"name":"Google Shape;371;p12","bbox":[399.36,153.28,159.37,88.31]}
+{"kind":"textbox","id":"sh/fm90j6ps","slide":10,"name":"Google Shape;372;p12","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[408.96,157.12,28.79,23.06]}
+{"kind":"textbox","id":"sh/el0zq187","slide":10,"name":"Google Shape;373;p12","text":"Validación de\nla Solución","textPreview":"Validación de | la Solución","textChars":25,"textLines":2,"bbox":[399.36,164.8,159.37,69.13]}
+{"kind":"textbox","id":"sh/dkrihw72","slide":10,"name":"Google Shape;374;p12","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[554.88,153.28,21.61,88.31]}
+{"kind":"shape","id":"sh/sjihobqh","slide":10,"name":"Google Shape;375;p12","bbox":[572.64,153.28,159.37,88.31]}
+{"kind":"textbox","id":"sh/ri90f6pw","slide":10,"name":"Google Shape;376;p12","text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[582.24,157.12,28.79,23.06]}
+{"kind":"textbox","id":"sh/qh0zm18b","slide":10,"name":"Google Shape;377;p12","text":"Implementación","textPreview":"Implementación","textChars":14,"textLines":1,"bbox":[572.64,164.8,159.37,69.13]}
+{"kind":"textbox","id":"sh/5g7idw7q","slide":10,"name":"Google Shape;378;p12","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[728.16,153.28,21.61,88.31]}
+{"kind":"shape","id":"sh/4fyhkrq5","slide":10,"name":"Google Shape;379;p12","bbox":[745.92,153.28,159.37,88.31]}
+{"kind":"textbox","id":"sh/gva5w72d","slide":10,"name":"Google Shape;380;p12","text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[755.52,157.12,28.79,23.06]}
+{"kind":"textbox","id":"sh/hwjm5cjy","slide":10,"name":"Google Shape;381;p12","text":"Evaluación","textPreview":"Evaluación","textChars":10,"textLines":1,"bbox":[745.92,164.8,159.37,69.13]}
+{"kind":"textbox","id":"sh/utsnuxkn","slide":10,"name":"Google Shape;382;p12","text":"La Evaluación puede motivar una nueva iteración: es un ciclo, no una secuencia lineal.","textPreview":"La Evaluación puede motivar una nueva iteración: es un ciclo, no una secuencia lineal.","textChars":86,"textLines":1,"bbox":[52.8,265.44,854.39,32.63]}
+{"kind":"image","id":"im/ulw7qhsz","slide":10,"name":"Google Shape;360;p12","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/m90b6t0r","slide":10,"text":""}
+{"kind":"slide","id":"sl/jetc3ut0","slide":11,"title":"Validación de la solución","textShapes":13}
+{"kind":"textbox","id":"sh/e18nud8v","slide":11,"name":"Google Shape;416;p13","text":"Validación de la solución","textPreview":"Validación de la solución","textChars":25,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/f214ni90","slide":11,"name":"Google Shape;417;p13","text":"Las tres preguntas del esquema de Wieringa, antes de construir","textPreview":"Las tres preguntas del esquema de Wieringa, antes de construir","textChars":62,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/t0zml8ra","slide":11,"name":"Google Shape;419;p13","text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/9k7u90fm","slide":11,"name":"Google Shape;420;p13","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/8jyt0ve1","slide":11,"name":"Google Shape;421;p13","bbox":[52.8,117.12,854.4,101.76]}
+{"kind":"textbox","id":"sh/nipc7qxw","slide":11,"name":"Google Shape;422;p13","text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[73.92,136.32,40.32,40.32]}
+{"kind":"textbox","id":"sh/mhgbylgb","slide":11,"name":"Google Shape;423;p13","text":"¿Esta solución, en este contexto, satisface los criterios?","textPreview":"¿Esta solución, en este contexto, satisface los criterios?","textChars":58,"textLines":1,"bbox":[127.68,134.4,748.8,24.96]}
+{"kind":"textbox","id":"sh/lg7u50fq","slide":11,"name":"Google Shape;424;p13","text":"Sí: MediaPipe + LSTM es una combinación validada en la literatura de reconocimiento de gestos, con antecedente aplicado en Paraguay.","textPreview":"Sí: MediaPipe + LSTM es una combinación validada en la literatura de reconocimiento de gestos, con antecedente aplicado en Paraguay.","textChars":132,"textLines":1,"bbox":[127.68,167.04,753.6,46.08]}
+{"kind":"shape","id":"sh/zepc3qxk","slide":11,"name":"Google Shape;426;p13","bbox":[52.8,230.4,854.4,101.76]}
+{"kind":"textbox","id":"sh/ytgbulgz","slide":11,"name":"Google Shape;427;p13","text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[73.92,249.6,40.32,40.32]}
+{"kind":"textbox","id":"sh/5cbuhkfu","slide":11,"name":"Google Shape;428;p13","text":"¿Qué soluciones alternativas se consideraron?","textPreview":"¿Qué soluciones alternativas se consideraron?","textChars":45,"textLines":1,"bbox":[127.68,247.68,748.8,24.96]}
+{"kind":"textbox","id":"sh/4bid8fe9","slide":11,"name":"Google Shape;429;p13","text":"CNN sobre imágenes crudas (descartada por la cantidad de datos que exige) y el alfabeto dactilológico completo (decisión de alcance revisada durante el desarrollo).","textPreview":"CNN sobre imágenes crudas (descartada por la cantidad de datos que exige) y el alfabeto dactilológico completo (decisión de alcance revis...","textChars":164,"textLines":1,"bbox":[127.68,280.32,753.6,46.08]}
+{"kind":"shape","id":"sh/3yl8vmdc","slide":11,"name":"Google Shape;431;p13","bbox":[52.8,343.68,854.4,101.76]}
+{"kind":"textbox","id":"sh/ozu94rex","slide":11,"name":"Google Shape;432;p13","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[73.92,362.88,40.32,40.32]}
+{"kind":"textbox","id":"sh/pk3qxwvi","slide":11,"name":"Google Shape;433;p13","text":"¿Funciona en contextos ligeramente distintos?","textPreview":"¿Funciona en contextos ligeramente distintos?","textChars":45,"textLines":1,"bbox":[127.68,360.96,748.8,24.96]}
+{"kind":"textbox","id":"sh/etsryxwv","slide":11,"name":"Google Shape;434;p13","text":"El enfoque no es específico de la LSPy: con datos propios, la misma arquitectura sirve para otras lenguas de señas.","textPreview":"El enfoque no es específico de la LSPy: con datos propios, la misma arquitectura sirve para otras lenguas de señas.","textChars":115,"textLines":1,"bbox":[127.68,393.6,753.6,46.08]}
+{"kind":"image","id":"im/yp03i50n","slide":11,"name":"Google Shape;418;p13","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/jetc3ut0","slide":11,"text":""}
+{"kind":"slide","id":"sl/8f2psfyx","slide":12,"title":"Arquitectura del sistema","textShapes":18}
+{"kind":"textbox","id":"sh/cf6xg7ep","slide":12,"name":"Google Shape;609;p17","text":"Arquitectura del sistema","textPreview":"Arquitectura del sistema","textChars":24,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/a10ba9c7","slide":12,"name":"Google Shape;610;p17","text":"Todo pasa por Flask: el navegador nunca toca la base de datos, el pipeline ni Gemini","textPreview":"Todo pasa por Flask: el navegador nunca toca la base de datos, el pipeline ni Gemini","textChars":84,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/w3idcjud","slide":12,"name":"Google Shape;612;p17","text":"12","textPreview":"12","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/x4ru54by","slide":12,"name":"Google Shape;613;p17","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/jqtc7eto","slide":12,"name":"Google Shape;615;p17","bbox":[52.8,113.28,249.6,81.6]}
+{"kind":"textbox","id":"sh/kr2dgju9","slide":12,"name":"Google Shape;616;p17","text":"Navegador","textPreview":"Navegador","textChars":9,"textLines":1,"bbox":[52.8,122.88,249.6,32.64]}
+{"kind":"textbox","id":"sh/lsbu9obu","slide":12,"name":"Google Shape;617;p17","text":"cámara · micrófono · Web Speech","textPreview":"cámara · micrófono · Web Speech","textChars":31,"textLines":1,"bbox":[62.4,153.6,230.4,28.8]}
+{"kind":"textbox","id":"sh/6tkvitcf","slide":12,"name":"Google Shape;618;p17","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[307.2,113.28,43.2,81.6]}
+{"kind":"shape","id":"sh/7utcbyt0","slide":12,"name":"Google Shape;619;p17","bbox":[355.2,113.28,249.6,81.6]}
+{"kind":"textbox","id":"sh/3ydczy9s","slide":12,"name":"Google Shape;620;p17","text":"Flask (app/views)","textPreview":"Flask (app/views)","textChars":17,"textLines":1,"bbox":[355.2,122.88,249.6,32.64]}
+{"kind":"textbox","id":"sh/2x4bqt8n","slide":12,"name":"Google Shape;621;p17","text":"única puerta de entrada","textPreview":"única puerta de entrada","textChars":23,"textLines":1,"bbox":[364.8,153.6,230.4,28.8]}
+{"kind":"textbox","id":"sh/p0vu18ry","slide":12,"name":"Google Shape;622;p17","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[609.6,113.28,43.2,81.6]}
+{"kind":"shape","id":"sh/4zmts3qd","slide":12,"name":"Google Shape;623;p17","bbox":[657.6,113.28,249.6,81.6]}
+{"kind":"textbox","id":"sh/vutsve9w","slide":12,"name":"Google Shape;624;p17","text":"Gemini API","textPreview":"Gemini API","textChars":10,"textLines":1,"bbox":[657.6,122.88,249.6,32.64]}
+{"kind":"textbox","id":"sh/utkbm9sb","slide":12,"name":"Google Shape;625;p17","text":"traducción de frases (opcional)","textPreview":"traducción de frases (opcional)","textChars":31,"textLines":1,"bbox":[667.2,153.6,230.4,28.8]}
+{"kind":"shape","id":"sh/gbytojmp","slide":12,"name":"Google Shape;627;p17","bbox":[480,194.88,0,33.6]}
+{"kind":"shape","id":"sh/76tsre90","slide":12,"name":"Google Shape;628;p17","bbox":[355.2,228.48,249.6,69.12]}
+{"kind":"textbox","id":"sh/65kbi9sf","slide":12,"name":"Google Shape;629;p17","text":"ml/pipeline.py","textPreview":"ml/pipeline.py","textChars":14,"textLines":1,"bbox":[355.2,238.08,249.6,32.64]}
+{"kind":"textbox","id":"sh/wby9sfqx","slide":12,"name":"Google Shape;630;p17","text":"orquestador","textPreview":"orquestador","textChars":11,"textLines":1,"bbox":[364.8,268.8,230.4,28.8]}
+{"kind":"shape","id":"sh/ofids3ml","slide":12,"name":"Google Shape;632;p17","bbox":[480,297.6,0,23.04]}
+{"kind":"shape","id":"sh/ji5cnelw","slide":12,"name":"Google Shape;633;p17","bbox":[177.6,320.64,604.8,0]}
+{"kind":"shape","id":"sh/ihwbe94b","slide":12,"name":"Google Shape;634;p17","bbox":[177.6,320.64,0,21.12]}
+{"kind":"shape","id":"sh/obah8byx","slide":12,"name":"Google Shape;635;p17","bbox":[480,320.64,0,21.12]}
+{"kind":"shape","id":"sh/9cji1gfi","slide":12,"name":"Google Shape;636;p17","bbox":[782.4,320.64,0,21.12]}
+{"kind":"shape","id":"sh/jy983apo","slide":12,"name":"Google Shape;637;p17","bbox":[52.8,341.76,249.6,78.72]}
+{"kind":"textbox","id":"sh/03epkvq5","slide":12,"name":"Google Shape;638;p17","text":"ml/capture.py\nml/normalize.py\nml/keypoints.py","textPreview":"ml/capture.py | ml/normalize.py | ml/keypoints.py","textChars":45,"textLines":3,"bbox":[52.8,341.76,249.6,78.72]}
+{"kind":"shape","id":"sh/14nqt07a","slide":12,"name":"Google Shape;639;p17","bbox":[355.2,341.76,249.6,78.72]}
+{"kind":"textbox","id":"sh/t0zit07u","slide":12,"name":"Google Shape;640;p17","text":"ml/model.py\nml/train.py\nml/evaluate.py","textPreview":"ml/model.py | ml/train.py | ml/evaluate.py","textChars":38,"textLines":3,"bbox":[355.2,341.76,249.6,78.72]}
+{"kind":"shape","id":"sh/szqh0vq9","slide":12,"name":"Google Shape;641;p17","bbox":[657.6,341.76,249.6,78.72]}
+{"kind":"textbox","id":"sh/7yh0rqpo","slide":12,"name":"Google Shape;642;p17","text":"ml/predict.py\nml/sign_animator.py\nml/translator.py","textPreview":"ml/predict.py | ml/sign_animator.py | ml/translator.py","textChars":50,"textLines":3,"bbox":[657.6,341.76,249.6,78.72]}
+{"kind":"shape","id":"sh/5wzipg7i","slide":12,"name":"Google Shape;644;p17","bbox":[292.8,433.92,374.4,44.16]}
+{"kind":"textbox","id":"sh/kvqhwbqd","slide":12,"name":"Google Shape;645;p17","text":"PostgreSQL — categories · words · samples · keypoints","textPreview":"PostgreSQL — categories · words · samples · keypoints","textChars":53,"textLines":1,"bbox":[292.8,433.92,374.4,44.16]}
+{"kind":"image","id":"im/netgvqp4","slide":12,"name":"Google Shape;611;p17","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/8f2psfyx","slide":12,"text":""}
+{"kind":"slide","id":"sl/hgzapcr6","slide":13,"title":"Cómo \"ve\" el sistema","textShapes":22}
+{"kind":"textbox","id":"sh/7e94ny5s","slide":13,"name":"Google Shape;465;p15","text":"Cómo \"ve\" el sistema","textPreview":"Cómo \"ve\" el sistema","textChars":20,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/8filw3md","slide":13,"name":"Google Shape;466;p15","text":"MediaPipe Holistic convierte a la persona en un muñeco de puntos","textPreview":"MediaPipe Holistic convierte a la persona en un muñeco de puntos","textChars":64,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/qp4n6x4r","slide":13,"name":"Google Shape;468;p15","text":"13","textPreview":"13","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/rad4z25w","slide":13,"name":"Google Shape;469;p15","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/14fq5w7e","slide":13,"name":"Google Shape;470;p15","bbox":[52.8,115.2,302.4,283.2]}
+{"kind":"textbox","id":"sh/0j6pwr6t","slide":13,"name":"Google Shape;471;p15","text":"1.662","textPreview":"1.662","textChars":5,"textLines":1,"bbox":[76.8,139.2,254.4,81.6]}
+{"kind":"textbox","id":"sh/zixo3mp8","slide":13,"name":"Google Shape;472;p15","text":"valores numéricos por cada frame del video","textPreview":"valores numéricos por cada frame del video","textChars":42,"textLines":1,"bbox":[76.8,226.56,254.4,57.6]}
+{"kind":"textbox","id":"sh/eho7uhon","slide":13,"name":"Google Shape;473;p15","text":"El modelo nunca ve la imagen: solo coordenadas (x, y, z) de puntos del cuerpo. Nada de fondo, ropa ni iluminación.","textPreview":"El modelo nunca ve la imagen: solo coordenadas (x, y, z) de puntos del cuerpo. Nada de fondo, ropa ni iluminación.","textChars":114,"textLines":1,"bbox":[76.8,297.6,254.4,86.4]}
+{"kind":"shape","id":"sh/dgf61c72","slide":13,"name":"Google Shape;474;p15","bbox":[388.8,115.2,518.4,201.6]}
+{"kind":"textbox","id":"sh/cf6ps76h","slide":13,"name":"Google Shape;475;p15","text":"Desglose por zona del cuerpo","textPreview":"Desglose por zona del cuerpo","textChars":28,"textLines":1,"bbox":[412.8,130.56,480,24.96]}
+{"kind":"textbox","id":"sh/redoz2pc","slide":13,"name":"Google Shape;476;p15","text":"Postura corporal","textPreview":"Postura corporal","textChars":16,"textLines":1,"bbox":[412.8,165.12,211.2,28.8]}
+{"kind":"textbox","id":"sh/qd47qhor","slide":13,"name":"Google Shape;477;p15","text":"33 puntos × 4","textPreview":"33 puntos × 4","textChars":13,"textLines":1,"bbox":[624,165.12,153.6,28.8]}
+{"kind":"textbox","id":"sh/xczqdgnm","slide":13,"name":"Google Shape;478;p15","text":"132","textPreview":"132","textChars":3,"textLines":1,"bbox":[777.6,165.12,105.6,28.8]}
+{"kind":"textbox","id":"sh/wbqp4b61","slide":13,"name":"Google Shape;479;p15","text":"Rostro","textPreview":"Rostro","textChars":6,"textLines":1,"bbox":[412.8,200.64,211.2,28.8]}
+{"kind":"textbox","id":"sh/87utwfq9","slide":13,"name":"Google Shape;480;p15","text":"468 puntos × 3","textPreview":"468 puntos × 3","textChars":14,"textLines":1,"bbox":[624,200.64,153.6,28.8]}
+{"kind":"textbox","id":"sh/t83a5k7u","slide":13,"name":"Google Shape;481;p15","text":"1.404","textPreview":"1.404","textChars":5,"textLines":1,"bbox":[777.6,200.64,105.6,28.8]}
+{"kind":"textbox","id":"sh/65sru583","slide":13,"name":"Google Shape;482;p15","text":"Mano izquierda","textPreview":"Mano izquierda","textChars":14,"textLines":1,"bbox":[412.8,236.16,211.2,28.8]}
+{"kind":"textbox","id":"sh/76ls3a9o","slide":13,"name":"Google Shape;483;p15","text":"21 puntos × 3","textPreview":"21 puntos × 3","textChars":13,"textLines":1,"bbox":[624,236.16,153.6,28.8]}
+{"kind":"textbox","id":"sh/gvut0fq5","slide":13,"name":"Google Shape;484;p15","text":"63","textPreview":"63","textChars":2,"textLines":1,"bbox":[777.6,236.16,105.6,28.8]}
+{"kind":"textbox","id":"sh/hw3a9k7q","slide":13,"name":"Google Shape;485;p15","text":"Mano derecha","textPreview":"Mano derecha","textChars":12,"textLines":1,"bbox":[412.8,271.68,211.2,28.8]}
+{"kind":"textbox","id":"sh/u9cbyp8z","slide":13,"name":"Google Shape;486;p15","text":"21 puntos × 3","textPreview":"21 puntos × 3","textChars":13,"textLines":1,"bbox":[624,271.68,153.6,28.8]}
+{"kind":"textbox","id":"sh/vuls7apk","slide":13,"name":"Google Shape;487;p15","text":"63","textPreview":"63","textChars":2,"textLines":1,"bbox":[777.6,271.68,105.6,28.8]}
+{"kind":"shape","id":"sh/wza9ovq1","slide":13,"name":"Google Shape;488;p15","bbox":[388.8,328.32,518.4,70.08]}
+{"kind":"textbox","id":"sh/x0jax0rm","slide":13,"name":"Google Shape;489;p15","text":"Menos datos de entrenamiento  ·  robusto ante fondo e iluminación  ·  liviano de almacenar","textPreview":"Menos datos de entrenamiento  ·  robusto ante fondo e iluminación  ·  liviano de almacenar","textChars":90,"textLines":1,"bbox":[412.8,337.92,475.2,52.8]}
+{"kind":"textbox","id":"sh/zupw3y94","slide":13,"name":"Google Shape;490;p15","text":"Cada coordenada que obtenemos de MediaPipe entra a la red neuronal y se combina con pesos que el modelo aprende durante el entrenamiento, éstos determinan cuánto y en qué dirección influye cada entrada en esa neurona.","textPreview":"Cada coordenada que obtenemos de MediaPipe entra a la red neuronal y se combina con pesos que el modelo aprende durante el entrenamiento,...","textChars":217,"textLines":1,"bbox":[52.8,411.85,854.39,52.79]}
+{"kind":"image","id":"im/j694vyls","slide":13,"name":"Google Shape;467;p15","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/hgzapcr6","slide":13,"text":""}
+{"kind":"slide","id":"sl/6lsnupw7","slide":14,"title":"Pipeline de datos para entrenar","textShapes":23}
+{"kind":"textbox","id":"sh/nalcjmxc","slide":14,"name":"Shape 902","text":"Pipeline de datos para entrenar","textPreview":"Pipeline de datos para entrenar","textChars":31,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/9cnulwfi","slide":14,"name":"Shape 904","text":"De la cámara a la base: así se construye el conjunto de datos","textPreview":"De la cámara a la base: así se construye el conjunto de datos","textChars":61,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/be5cn6xo","slide":14,"name":"Shape 906","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/x0nupgfe","slide":14,"name":"Shape 908","bbox":[52.8,111.36,157.06,128.64]}
+{"kind":"textbox","id":"sh/ri1sb2x4","slide":14,"name":"Shape 910","text":"Cámara o video","textPreview":"Cámara o video","textChars":14,"textLines":1,"bbox":[60.48,132.48,141.7,44.16]}
+{"kind":"textbox","id":"sh/8vixofy1","slide":14,"name":"Shape 912","text":"muestra grabada o archivo subido","textPreview":"muestra grabada o archivo subido","textChars":32,"textLines":1,"bbox":[64.32,178.56,134.02,49.92]}
+{"kind":"textbox","id":"sh/6tgvm50b","slide":14,"name":"Shape 914","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[209.86,111.36,17.28,128.64]}
+{"kind":"shape","id":"sh/gzixsfyd","slide":14,"name":"Shape 916","bbox":[227.14,111.36,157.06,128.64]}
+{"kind":"textbox","id":"sh/ux0fq5g7","slide":14,"name":"Shape 918","text":"Captura","textPreview":"Captura","textChars":7,"textLines":1,"bbox":[234.82,132.48,141.7,44.16]}
+{"kind":"textbox","id":"sh/w3edgvi9","slide":14,"name":"Shape 920","text":"detección automática de inicio y fin","textPreview":"detección automática de inicio y fin","textChars":36,"textLines":1,"bbox":[238.66,178.56,134.02,49.92]}
+{"kind":"textbox","id":"sh/p8rep07a","slide":14,"name":"Shape 922","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[384.19,111.36,17.28,128.64]}
+{"kind":"shape","id":"sh/nm9wnqpk","slide":14,"name":"Shape 924","bbox":[401.47,111.36,157.06,128.64]}
+{"kind":"textbox","id":"sh/xcbet07m","slide":14,"name":"Shape 926","text":"Keypoints","textPreview":"Keypoints","textChars":9,"textLines":1,"bbox":[409.15,132.48,141.7,44.16]}
+{"kind":"textbox","id":"sh/batwrqpg","slide":14,"name":"Shape 928","text":"1.662 valores por cada frame","textPreview":"1.662 valores por cada frame","textChars":28,"textLines":1,"bbox":[412.99,178.56,134.02,49.92]}
+{"kind":"textbox","id":"sh/lgvexk7i","slide":14,"name":"Shape 930","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[558.53,111.36,17.28,128.64]}
+{"kind":"shape","id":"sh/ul8ratwb","slide":14,"name":"Shape 932","bbox":[575.81,111.36,157.06,128.64]}
+{"kind":"textbox","id":"sh/gnq9c3eh","slide":14,"name":"Shape 934","text":"Normalización","textPreview":"Normalización","textChars":13,"textLines":1,"bbox":[583.49,132.48,141.7,44.16]}
+{"kind":"textbox","id":"sh/6ho76twf","slide":14,"name":"Shape 936","text":"toda seña se ajusta a 15 frames","textPreview":"toda seña se ajusta a 15 frames","textChars":31,"textLines":1,"bbox":[587.33,178.56,134.02,49.92]}
+{"kind":"textbox","id":"sh/8j6p83el","slide":14,"name":"Shape 938","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[732.86,111.36,17.28,128.64]}
+{"kind":"shape","id":"sh/qdsridwj","slide":14,"name":"Shape 940","bbox":[750.14,111.36,157.06,128.64]}
+{"kind":"textbox","id":"sh/zmhcfm98","slide":14,"name":"Shape 942","text":"PostgreSQL","textPreview":"PostgreSQL","textChars":10,"textLines":1,"bbox":[757.82,132.48,141.7,44.16]}
+{"kind":"textbox","id":"sh/lozuhwre","slide":14,"name":"Shape 944","text":"se guarda la muestra","textPreview":"se guarda la muestra","textChars":20,"textLines":1,"bbox":[761.66,178.56,134.02,49.92]}
+{"kind":"shape","id":"sh/byxcb29c","slide":14,"name":"Shape 946","bbox":[52.8,257.28,417.6,184.32]}
+{"kind":"textbox","id":"sh/d0zudcri","slide":14,"name":"Shape 948","text":"Captura sin botones","textPreview":"Captura sin botones","textChars":19,"textLines":1,"bbox":[77.76,274.56,374.4,24.96]}
+{"kind":"textbox","id":"sh/vu1cn69g","slide":14,"name":"Shape 950","text":"Una máquina de estados detecta cuándo empieza y cuándo termina la seña: mano en cámara significa grabando, mano fuera significa muestra guardada. Permite hacer repeticiones seguidas sin tocar el teclado, y fue lo que hizo viable reunir entre sesenta y ochenta muestras por palabra.","textPreview":"Una máquina de estados detecta cuándo empieza y cuándo termina la seña: mano en cámara significa grabando, mano fuera significa muestra g...","textChars":281,"textLines":1,"bbox":[77.76,307.2,369.6,115.2]}
+{"kind":"shape","id":"sh/knuxkvud","slide":14,"name":"Shape 952","bbox":[489.6,257.28,417.6,184.32]}
+{"kind":"textbox","id":"sh/ilcfilc7","slide":14,"name":"Shape 954","text":"Normalización con interpolación","textPreview":"Normalización con interpolación","textChars":31,"textLines":1,"bbox":[514.56,274.56,374.4,24.96]}
+{"kind":"textbox","id":"sh/wjuxgvu1","slide":14,"name":"Shape 956","text":"Cada persona hace la misma seña a distinta velocidad, por lo que las muestras salen con distinta cantidad de frames. Si tiene menos de quince se interpola linealmente; si tiene más, se submuestrea de forma uniforme. Una seña de nueve frames y una de veintidós terminan siendo comparables.","textPreview":"Cada persona hace la misma seña a distinta velocidad, por lo que las muestras salen con distinta cantidad de frames. Si tiene menos de qu...","textChars":288,"textLines":1,"bbox":[514.56,307.2,369.6,115.2]}
+{"kind":"textbox","id":"sh/ahsfelcb","slide":14,"name":"Shape 958","text":"El video se elimina una vez extraídos los puntos clave: a la base solo llegan coordenadas.","textPreview":"El video se elimina una vez extraídos los puntos clave: a la base solo llegan coordenadas.","textChars":90,"textLines":1,"bbox":[52.8,451.2,854.4,26.88]}
+{"kind":"textbox","id":"sh/0vyxczqt","slide":14,"name":"Google Shape;739;p20","text":"14","textPreview":"14","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"image","id":"im/gvyd0fmt","slide":14,"name":"Google Shape;738;p20","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/6lsnupw7","slide":14,"text":""}
+{"kind":"slide","id":"sl/vaxsvy10","slide":15,"title":"Pesos y sesgos","textShapes":11}
+{"kind":"shape","id":"sh/el0f2dsr","slide":15,"name":"Google Shape;496;g3f6d8aeb3c0_0_264","bbox":[52.73,132.73,824.19,136.88]}
+{"kind":"textbox","id":"sh/fm9wbitc","slide":15,"name":"Google Shape;497;g3f6d8aeb3c0_0_264","text":"Pesos y sesgos","textPreview":"Pesos y sesgos","textChars":14,"textLines":1,"bbox":[52.8,24.96,796.79,48]}
+{"kind":"textbox","id":"sh/or2x8nat","slide":15,"name":"Google Shape;498;g3f6d8aeb3c0_0_264","text":"Cada coordenada extraída por MediaPipe entra a la red neuronal. La red aprende cuánto debe influir cada entrada mediante pesos y ajusta sus neuronas mediante sesgos.","textPreview":"Cada coordenada extraída por MediaPipe entra a la red neuronal. La red aprende cuánto debe influir cada entrada mediante pesos y ajusta s...","textChars":165,"textLines":1,"bbox":[52.8,72.96,796.79,44.94]}
+{"kind":"textbox","id":"sh/2xoja58f","slide":15,"name":"Google Shape;500;g3f6d8aeb3c0_0_264","text":"15","textPreview":"15","textChars":2,"textLines":1,"bbox":[840,478.08,67.21,40.31]}
+{"kind":"textbox","id":"sh/3yhkjap0","slide":15,"name":"Google Shape;501;g3f6d8aeb3c0_0_264","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.87]}
+{"kind":"shape","id":"sh/e9oj6l8j","slide":15,"name":"Google Shape;504;g3f6d8aeb3c0_0_264","bbox":[194.81,203.13,67.21,26.87]}
+{"kind":"shape","id":"sh/0be1kfel","slide":15,"name":"Google Shape;507;g3f6d8aeb3c0_0_264","bbox":[466.36,183.64,82.74,0]}
+{"kind":"textbox","id":"sh/903mhora","slide":15,"name":"Google Shape;510;g3f6d8aeb3c0_0_264","text":"(suma ponderada)","textPreview":"(suma ponderada)","textChars":16,"textLines":1,"bbox":[587.27,194.88,82.74,51.69]}
+{"kind":"textbox","id":"sh/8zul8jap","slide":15,"name":"Google Shape;511;g3f6d8aeb3c0_0_264","text":"SIN SESGO (b=0)","textPreview":"SIN SESGO (b=0)","textChars":15,"textLines":1,"bbox":[202.21,291.41,122.2,19.91]}
+{"kind":"textbox","id":"sh/nyl4fe94","slide":15,"name":"Google Shape;512;g3f6d8aeb3c0_0_264","text":"La neurona es menos exigente","textPreview":"La neurona es menos exigente","textChars":28,"textLines":1,"bbox":[171.78,302.02,183.06,26.87]}
+{"kind":"textbox","id":"sh/0val4zat","slide":15,"name":"Google Shape;515;g3f6d8aeb3c0_0_264","text":"La persona solo levanta un poco la mano.","textPreview":"La persona solo levanta un poco la mano.","textChars":40,"textLines":1,"bbox":[52.73,372.74,215.84,32.54]}
+{"kind":"textbox","id":"sh/zu14be98","slide":15,"name":"Google Shape;516;g3f6d8aeb3c0_0_264","text":"CON SESGO (b=-0.45)","textPreview":"CON SESGO (b=-0.45)","textChars":19,"textLines":1,"bbox":[653.28,281.24,141.54,19.91]}
+{"kind":"textbox","id":"sh/yts329sn","slide":15,"name":"Google Shape;517;g3f6d8aeb3c0_0_264","text":"La neurona es más exigente","textPreview":"La neurona es más exigente","textChars":26,"textLines":1,"bbox":[622.85,294.71,183.06,26.87]}
+{"kind":"textbox","id":"sh/4re5g3ax","slide":15,"name":"Google Shape;519;g3f6d8aeb3c0_0_264","text":"La persona solo levanta un poco la mano.","textPreview":"La persona solo levanta un poco la mano.","textChars":40,"textLines":1,"bbox":[503.8,372.91,215.84,32.54]}
+{"kind":"shape","id":"sh/sjil0j6h","slide":15,"name":"Google Shape;521;g3f6d8aeb3c0_0_264","bbox":[454.61,294.19,0.98,166.99]}
+{"kind":"shape","id":"sh/2t47qh03","slide":15,"name":"Google Shape;522;g3f6d8aeb3c0_0_264","bbox":[36.15,312.37,47.72,48]}
+{"kind":"shape","id":"sh/3udoj2ho","slide":15,"name":"Google Shape;523;g3f6d8aeb3c0_0_264","bbox":[498.25,314.9,25.73,26.87]}
+{"kind":"image","id":"im/0ju10ju1","slide":15,"name":"Google Shape;499;g3f6d8aeb3c0_0_264","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/zilk7etg","slide":15,"name":"Google Shape;502;g3f6d8aeb3c0_0_264","bbox":[77.4,141.16,124.8,57.6]}
+{"kind":"image","id":"im/yhcjy9cb","slide":15,"name":"Google Shape;503;g3f6d8aeb3c0_0_264","bbox":[57.31,207.29,359.52,57.6]}
+{"kind":"image","id":"im/98n2doby","slide":15,"name":"Google Shape;505;g3f6d8aeb3c0_0_264","bbox":[255.79,148.31,198.82,94.99]}
+{"kind":"image","id":"im/87e14jud","slide":15,"name":"Google Shape;506;g3f6d8aeb3c0_0_264","bbox":[593.27,148.31,222.02,63.7]}
+{"kind":"image","id":"im/765kbets","slide":15,"name":"Google Shape;508;g3f6d8aeb3c0_0_264","bbox":[50.88,403.13,372.38,63.7]}
+{"kind":"image","id":"im/m5cj29c7","slide":15,"name":"Google Shape;509;g3f6d8aeb3c0_0_264","bbox":[501.95,402.74,375.08,63.7]}
+{"kind":"image","id":"im/hcn2h8bu","slide":15,"name":"Google Shape;513;g3f6d8aeb3c0_0_264","bbox":[133.05,330.65,321.56,40.31]}
+{"kind":"image","id":"im/wbe183a9","slide":15,"name":"Google Shape;514;g3f6d8aeb3c0_0_264","bbox":[52.73,297.55,62.71,73.73]}
+{"kind":"image","id":"im/eh8z25sr","slide":15,"name":"Google Shape;518;g3f6d8aeb3c0_0_264","bbox":[503.8,297.72,62.71,73.73]}
+{"kind":"image","id":"im/fihgvq9c","slide":15,"name":"Google Shape;520;g3f6d8aeb3c0_0_264","bbox":[598.55,320.35,285.5,57.6]}
+{"kind":"notes","id":"nt/vaxsvy10","slide":15,"text":"¿Cómo procesa la neurona la información de la cámara?\"\n\"Primero, MediaPipe extrae las coordenadas de los puntos clave del cuerpo ($x_i$). Cada una de estas coordenadas entra a la red neuronal y se multiplica por un peso ($w_i$), que indica qué tan importante es esa parte del cuerpo para la seña que queremos detectar. Por ejemplo, la posición de la mano derecha va a tener mucho más peso que la posición de la cabeza.\"\n\"Al multiplicar cada entrada por su peso y sumarlas, obtenemos una suma ponderada. A este resultado le añadimos el sesgo ($b$), lo que nos da el valor final $z$, que es el número bruto sobre el cual la red va a tomar su decisión.\"\n2. Caso 1: Sin Sesgo (Abajo a la izquierda)\n\"Para entender el rol del sesgo, veamos qué pasa cuando no lo usamos, es decir, cuando $b = 0$.\"\n\"En la imagen de la izquierda, la persona solo levanta un poco la mano; la seña está incompleta. La neurona calcula la suma ponderada y nos da un resultado de $z = 0.792$. Al pasar por la función de activación, esto nos da una probabilidad del 68.8% de que la seña sea un 'HOLA'.\"\n\"¿Cuál es el problema aquí? Que la neurona es demasiado permisiva. Como no tiene un sesgo que la regule, un movimiento a medias genera una probabilidad alta y la red comete un falso positivo, creyendo que la persona saludó cuando en realidad la seña no estaba terminada.\"\n3. Caso 2: Con Sesgo (Abajo a la derecha)\n\"Ahora veamos la diferencia cuando aplicamos un sesgo negativo ($b = -0.45$).\"\n\"Con el mismo movimiento incompleto, la suma ponderada sigue siendo $0.792$, pero al restarle el sesgo, nuestro valor de $z$ baja a $0.342$.\"\n\"Al reducir $z$, la probabilidad final cae al 58.5%. Esto hace que la neurona sea más exigente y cuidadosa: ya no se 'apresura' a confirmar que es un 'HOLA', sino que espera a ver la seña completa antes de dar una respuesta afirmativa.\"\n4. Conclusión / Cierre de la diapositiva\n\"En resumen: tanto los pesos ($w$) como los sesgos ($b$) son parámetros que la red aprende sola durante el entrenamiento. Los pesos le dicen en qué fijarse y los sesgos le enseñan qué tan estricta debe ser para no equivocarse.\n"}
+{"kind":"slide","id":"sl/gny5sjyp","slide":16,"title":"Neuronas recurrentes","textShapes":5}
+{"kind":"textbox","id":"sh/87ytw7u9","slide":16,"name":"Google Shape;529;g3f6d8aeb3c0_0_321","text":"Neuronas recurrentes","textPreview":"Neuronas recurrentes","textChars":20,"textLines":1,"bbox":[52.8,24.96,796.79,48]}
+{"kind":"textbox","id":"sh/6ts7q9sr","slide":16,"name":"Google Shape;530;g3f6d8aeb3c0_0_321","text":"La recurrencia permite que el reconocimiento no dependa solamente de la posición de las manos en un frame, sino también de cómo esa posición evoluciona a lo largo del tiempo. ocurre en el tiempo: la red debe recordar el movimiento completo:","textPreview":"La recurrencia permite que el reconocimiento no dependa solamente de la posición de las manos en un frame, sino también de cómo esa posic...","textChars":240,"textLines":1,"bbox":[52.8,72.96,796.79,57.61]}
+{"kind":"textbox","id":"sh/svapsjax","slide":16,"name":"Google Shape;532;g3f6d8aeb3c0_0_321","text":"16","textPreview":"16","textChars":2,"textLines":1,"bbox":[840,478.08,67.21,40.31]}
+{"kind":"textbox","id":"sh/tgjq1obi","slide":16,"name":"Google Shape;533;g3f6d8aeb3c0_0_321","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.87]}
+{"kind":"shape","id":"sh/3ex0rmdg","slide":16,"name":"Google Shape;537;g3f6d8aeb3c0_0_321","bbox":[462.96,155.17,0.41,315.12]}
+{"kind":"textbox","id":"sh/mds3ulwf","slide":16,"name":"Google Shape;541;g3f6d8aeb3c0_0_321","text":"En una RNN convencional, la información puede perderse a medida que aumenta la secuencia. ¿Cómo lo solucionamos?","textPreview":"En una RNN convencional, la información puede perderse a medida que aumenta la secuencia. ¿Cómo lo solucionamos?","textChars":112,"textLines":1,"bbox":[43.4,430.36,419.97,54.93]}
+{"kind":"image","id":"im/lo3qp8fa","slide":16,"name":"Google Shape;531;g3f6d8aeb3c0_0_321","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/0nupw3ep","slide":16,"name":"Google Shape;534;g3f6d8aeb3c0_0_321","bbox":[76.53,155.17,325.57,52.17]}
+{"kind":"image","id":"im/c7ypc3ml","slide":16,"name":"Google Shape;535;g3f6d8aeb3c0_0_321","bbox":[76.77,219.94,325.08,24.33]}
+{"kind":"image","id":"im/d87q58n6","slide":16,"name":"Google Shape;536;g3f6d8aeb3c0_0_321","bbox":[35.05,265.57,236.93,117.19]}
+{"kind":"image","id":"im/q5w7atof","slide":16,"name":"Google Shape;538;g3f6d8aeb3c0_0_321","bbox":[484.8,125.24,445.55,346.66]}
+{"kind":"image","id":"im/r6p83y50","slide":16,"name":"Google Shape;539;g3f6d8aeb3c0_0_321","bbox":[105.95,391.26,95.12,39.11]}
+{"kind":"image","id":"im/43ep836p","slide":16,"name":"Google Shape;540;g3f6d8aeb3c0_0_321","bbox":[253.91,259.81,202.39,173.47]}
+{"kind":"notes","id":"nt/gny5sjyp","slide":16,"text":""}
+{"kind":"slide","id":"sl/14bup87q","slide":17,"title":"LSTM (Long Short-Term Memory)","textShapes":7}
+{"kind":"textbox","id":"sh/lcrexor6","slide":17,"name":"Google Shape;547;g3f6d8aeb3c0_0_352","text":"LSTM (Long Short-Term Memory) ","textPreview":"LSTM (Long Short-Term Memory)","textChars":30,"textLines":1,"bbox":[52.8,24.96,796.79,48]}
+{"kind":"textbox","id":"sh/a5gvy9sj","slide":17,"name":"Google Shape;548;g3f6d8aeb3c0_0_352","text":"Cada frame aporta información nueva, mientras la LSTM conserva información relevante de los frames anteriores.","textPreview":"Cada frame aporta información nueva, mientras la LSTM conserva información relevante de los frames anteriores.","textChars":110,"textLines":1,"bbox":[52.8,69.9,796.79,33.98]}
+{"kind":"textbox","id":"sh/d0vyxcbm","slide":17,"name":"Google Shape;550;g3f6d8aeb3c0_0_352","text":"17","textPreview":"17","textChars":2,"textLines":1,"bbox":[840,478.08,67.21,40.31]}
+{"kind":"textbox","id":"sh/szmh47u1","slide":17,"name":"Google Shape;551;g3f6d8aeb3c0_0_352","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.87]}
+{"kind":"shape","id":"sh/i58j214r","slide":17,"name":"Google Shape;557;g3f6d8aeb3c0_0_352","bbox":[402.06,149.97,82.74,0]}
+{"kind":"textbox","id":"sh/h8bypsbe","slide":17,"name":"Google Shape;558;g3f6d8aeb3c0_0_352","text":"¿Qué recordamos?","textPreview":"¿Qué recordamos?","textChars":16,"textLines":1,"bbox":[373.25,122.94,123.43,23.97]}
+{"kind":"shape","id":"sh/7yxsfa9c","slide":17,"name":"Google Shape;559;g3f6d8aeb3c0_0_352","bbox":[712.7,229.59,55.62,0.41]}
+{"kind":"textbox","id":"sh/8b6hcn2p","slide":17,"name":"Google Shape;560;g3f6d8aeb3c0_0_352","text":"Actualizar memoria","textPreview":"Actualizar memoria","textChars":18,"textLines":1,"bbox":[743.45,203.71,123.43,23.97]}
+{"kind":"shape","id":"sh/tkfahkri","slide":17,"name":"Google Shape;561;g3f6d8aeb3c0_0_352","bbox":[390.18,309.87,82.74,0]}
+{"kind":"textbox","id":"sh/m9ozaxkj","slide":17,"name":"Google Shape;562;g3f6d8aeb3c0_0_352","text":"Generar el nuevo estado","textPreview":"Generar el nuevo estado","textChars":23,"textLines":1,"bbox":[338.57,282.84,146.24,23.97]}
+{"kind":"image","id":"im/72x0r29g","slide":17,"name":"Google Shape;549;g3f6d8aeb3c0_0_352","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/m1ozyh8b","slide":17,"name":"Google Shape;552;g3f6d8aeb3c0_0_352","bbox":[16,352.65,928,111.68]}
+{"kind":"image","id":"im/94fitcrm","slide":17,"name":"Google Shape;553;g3f6d8aeb3c0_0_352","bbox":[40.58,121.42,273.89,213.7]}
+{"kind":"image","id":"im/836h07q1","slide":17,"name":"Google Shape;554;g3f6d8aeb3c0_0_352","bbox":[441.59,122.94,304.95,78.85]}
+{"kind":"image","id":"im/v6h0vm9s","slide":17,"name":"Google Shape;555;g3f6d8aeb3c0_0_352","bbox":[433.22,205.92,289.02,57.6]}
+{"kind":"image","id":"im/u5oz2h87","slide":17,"name":"Google Shape;556;g3f6d8aeb3c0_0_352","bbox":[496.68,279.36,181.25,33.98]}
+{"kind":"notes","id":"nt/14bup87q","slide":17,"text":""}
+{"kind":"slide","id":"sl/y5wne50z","slide":18,"title":"Ejemplo (HOLA)","textShapes":3}
+{"kind":"textbox","id":"sh/1o7u5kvu","slide":18,"name":"Google Shape;568;g3f6d8aeb3c0_0_385","text":"Ejemplo (HOLA)","textPreview":"Ejemplo (HOLA)","textChars":14,"textLines":1,"bbox":[52.8,24.96,796.79,48]}
+{"kind":"textbox","id":"sh/y9srqhcr","slide":18,"name":"Google Shape;570;g3f6d8aeb3c0_0_385","text":"18","textPreview":"18","textChars":2,"textLines":1,"bbox":[840,478.08,67.21,40.31]}
+{"kind":"textbox","id":"sh/za18jmdc","slide":18,"name":"Google Shape;571;g3f6d8aeb3c0_0_385","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.87]}
+{"kind":"image","id":"im/58fetgre","slide":18,"name":"Google Shape;569;g3f6d8aeb3c0_0_385","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/k76xkbat","slide":18,"name":"Google Shape;572;g3f6d8aeb3c0_0_385","bbox":[173.15,76.8,615.68,206.59]}
+{"kind":"image","id":"im/vixwnm9w","slide":18,"name":"Google Shape;573;g3f6d8aeb3c0_0_385","bbox":[137.01,287.23,720.49,86.68]}
+{"kind":"image","id":"im/ah4fehsr","slide":18,"name":"Google Shape;574;g3f6d8aeb3c0_0_385","bbox":[137.01,389.32,725.63,73.36]}
+{"kind":"notes","id":"nt/y5wne50z","slide":18,"text":""}
+{"kind":"slide","id":"sl/nid43ytk","slide":19,"title":"Cómo reconoce una seña","textShapes":15}
+{"kind":"textbox","id":"sh/2twr65gb","slide":19,"name":"Google Shape;580;p16","text":"Cómo reconoce una seña","textPreview":"Cómo reconoce una seña","textChars":22,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/3u58zahw","slide":19,"name":"Google Shape;581;p16","text":"Una seña ocurre en el tiempo: la red debe recordar el movimiento completo","textPreview":"Una seña ocurre en el tiempo: la red debe recordar el movimiento completo","textChars":73,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/pgnq1kz2","slide":19,"name":"Google Shape;583;p16","text":"19","textPreview":"19","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/epcr2l0f","slide":19,"name":"Google Shape;584;p16","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/gre94vil","slide":19,"name":"Google Shape;586;p16","bbox":[52.8,115.2,271.68,105.6]}
+{"kind":"textbox","id":"sh/1snqx0zq","slide":19,"name":"Google Shape;587;p16","text":"Secuencia","textPreview":"Secuencia","textChars":9,"textLines":1,"bbox":[52.8,126.72,271.68,30.72]}
+{"kind":"textbox","id":"sh/ylgrepgj","slide":19,"name":"Google Shape;588;p16","text":"15 frames × 1.662 valores por seña","textPreview":"15 frames × 1.662 valores por seña","textChars":34,"textLines":1,"bbox":[73.92,161.28,229.44,49.92]}
+{"kind":"textbox","id":"sh/zmps7uh4","slide":19,"name":"Google Shape;589;p16","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[324.48,115.2,19.2,105.6]}
+{"kind":"shape","id":"sh/9gbuxoj6","slide":19,"name":"Google Shape;590;p16","bbox":[343.68,115.2,271.68,105.6]}
+{"kind":"textbox","id":"sh/ne9cve1g","slide":19,"name":"Google Shape;592;p16","text":"Red LSTM","textPreview":"Red LSTM","textChars":8,"textLines":1,"bbox":[343.68,126.72,271.68,30.72]}
+{"kind":"textbox","id":"sh/md0b290v","slide":19,"name":"Google Shape;593;p16","text":"memoria interna con compuertas de control","textPreview":"memoria interna con compuertas de control","textChars":41,"textLines":1,"bbox":[364.8,161.28,229.44,49.92]}
+{"kind":"textbox","id":"sh/lcrut4ja","slide":19,"name":"Google Shape;594;p16","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[615.36,115.2,19.2,105.6]}
+{"kind":"shape","id":"sh/za9sre14","slide":19,"name":"Google Shape;596;p16","bbox":[634.56,115.2,271.68,105.6]}
+{"kind":"textbox","id":"sh/y90by9kj","slide":19,"name":"Google Shape;597;p16","text":"Función de Activación","textPreview":"Función de Activación","textChars":21,"textLines":1,"bbox":[634.56,126.72,271.68,30.72]}
+{"kind":"textbox","id":"sh/58vu58je","slide":19,"name":"Google Shape;598;p16","text":"una probabilidad por cada palabra conocida","textPreview":"una probabilidad por cada palabra conocida","textChars":42,"textLines":1,"bbox":[655.68,161.28,229.44,49.92]}
+{"kind":"textbox","id":"sh/472tc3it","slide":19,"name":"Google Shape;599;p16","text":"HOLA → 91 %","textPreview":"HOLA → 91 %","textChars":11,"textLines":1,"bbox":[622.08,226.56,271.68,30.72]}
+{"kind":"shape","id":"sh/8vat8bqd","slide":19,"name":"Google Shape;601;p16","bbox":[52.8,273.6,854.39,212.16]}
+{"kind":"textbox","id":"sh/7u1cz6ps","slide":19,"name":"Google Shape;602;p16","text":"Un modelo chico y muy regularizado, a propósito","textPreview":"Un modelo chico y muy regularizado, a propósito","textChars":47,"textLines":1,"bbox":[79.68,289.92,796.8,24.96]}
+{"kind":"textbox","id":"sh/6tsb6187","slide":19,"name":"Google Shape;603;p16","text":"Dos capas LSTM (48 y 64 unidades) y capas Dense; dropout, Batch Normalization, regularización L2 y label smoothing.\nCon pocas muestras por palabra un modelo grande memoriza; uno chico se queda con los patrones generales del movimiento.\nLa predicción solo se acepta si la confianza supera el umbral de 0,7; si no, se descarta en silencio.\nPeso grande → “prestale más atención a esta información”. Peso chico → “esta información influye menos acá”.","textPreview":"Dos capas LSTM (48 y 64 unidades) y capas Dense; dropout, Batch Normalization, regularización L2 y label smoothing. | Con pocas muestras ...","textChars":446,"textLines":4,"bbox":[85.44,324.48,787.21,127.56]}
+{"kind":"image","id":"im/07ah8nm5","slide":19,"name":"Google Shape;582;p16","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/nid43ytk","slide":19,"text":""}
+{"kind":"slide","id":"sl/zyxsni5k","slide":20,"title":"La arquitectura del modelo","textShapes":26}
+{"kind":"textbox","id":"sh/4bad0fqh","slide":20,"name":"Shape 902","text":"La arquitectura del modelo","textPreview":"La arquitectura del modelo","textChars":26,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/29svyp8b","slide":20,"name":"Shape 904","text":"Cuatro capas que aprenden, más la capa de salida — ml/model.py","textPreview":"Cuatro capas que aprenden, más la capa de salida — ml/model.py","textChars":62,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/g7adwfql","slide":20,"name":"Shape 906","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/ulsvu58f","slide":20,"name":"Shape 908","bbox":[52.8,105.6,854.4,42.24]}
+{"kind":"textbox","id":"sh/03ud8zqp","slide":20,"name":"Shape 910","text":"Entrada","textPreview":"Entrada","textChars":7,"textLines":1,"bbox":[73.92,105.6,100.8,42.24]}
+{"kind":"textbox","id":"sh/jqxsv65s","slide":20,"name":"Shape 912","text":"Secuencia normalizada de la seña","textPreview":"Secuencia normalizada de la seña","textChars":32,"textLines":1,"bbox":[179.52,105.6,532.8,42.24]}
+{"kind":"textbox","id":"sh/5sfaxgny","slide":20,"name":"Shape 914","text":"15 × 1.662","textPreview":"15 × 1.662","textChars":10,"textLines":1,"bbox":[720,105.6,165.12,42.24]}
+{"kind":"shape","id":"sh/vmxsr65g","slide":20,"name":"Shape 916","bbox":[52.8,156.48,854.4,42.24]}
+{"kind":"textbox","id":"sh/xofatwnm","slide":20,"name":"Shape 918","text":"Capa 1","textPreview":"Capa 1","textChars":6,"textLines":1,"bbox":[73.92,156.48,100.8,42.24]}
+{"kind":"textbox","id":"sh/fihs3q50","slide":20,"name":"Shape 920","text":"LSTM · 48 unidades · devuelve la secuencia completa","textPreview":"LSTM · 48 unidades · devuelve la secuencia completa","textChars":51,"textLines":1,"bbox":[179.52,156.48,532.8,42.24]}
+{"kind":"textbox","id":"sh/qpgf6t0f","slide":20,"name":"Shape 922","text":"15 × 48","textPreview":"15 × 48","textChars":7,"textLines":1,"bbox":[720,156.48,165.12,42.24]}
+{"kind":"textbox","id":"sh/srix8jil","slide":20,"name":"Shape 924","text":"BatchNormalization  ·  Dropout","textPreview":"BatchNormalization  ·  Dropout","textChars":30,"textLines":1,"bbox":[179.52,198.72,532.8,23.04]}
+{"kind":"shape","id":"sh/ed0fat0r","slide":20,"name":"Shape 926","bbox":[52.8,221.76,854.4,42.24]}
+{"kind":"textbox","id":"sh/0fixc3ih","slide":20,"name":"Shape 928","text":"Capa 2","textPreview":"Capa 2","textChars":6,"textLines":1,"bbox":[73.92,221.76,100.8,42.24]}
+{"kind":"textbox","id":"sh/2hkzed0n","slide":20,"name":"Shape 930","text":"LSTM · 64 unidades · condensa la secuencia en un vector","textPreview":"LSTM · 64 unidades · condensa la secuencia en un vector","textChars":55,"textLines":1,"bbox":[179.52,221.76,532.8,42.24]}
+{"kind":"textbox","id":"sh/lovexsfm","slide":20,"name":"Shape 932","text":"64","textPreview":"64","textChars":2,"textLines":1,"bbox":[720,221.76,165.12,42.24]}
+{"kind":"textbox","id":"sh/zmtwvixg","slide":20,"name":"Shape 934","text":"BatchNormalization  ·  Dropout","textPreview":"BatchNormalization  ·  Dropout","textChars":30,"textLines":1,"bbox":[179.52,264,532.8,23.04]}
+{"kind":"shape","id":"sh/xkbet8fa","slide":20,"name":"Shape 936","bbox":[52.8,287.04,854.4,42.24]}
+{"kind":"textbox","id":"sh/bitw7yx4","slide":20,"name":"Shape 938","text":"Capa 3","textPreview":"Capa 3","textChars":6,"textLines":1,"bbox":[73.92,287.04,100.8,42.24]}
+{"kind":"textbox","id":"sh/pgre58fe","slide":20,"name":"Shape 940","text":"Dense · 64 neuronas · ReLU","textPreview":"Dense · 64 neuronas · ReLU","textChars":26,"textLines":1,"bbox":[179.52,287.04,532.8,42.24]}
+{"kind":"textbox","id":"sh/szyt4zel","slide":20,"name":"Shape 942","text":"64","textPreview":"64","textChars":2,"textLines":1,"bbox":[720,287.04,165.12,42.24]}
+{"kind":"textbox","id":"sh/qxwb2pwf","slide":20,"name":"Shape 944","text":"BatchNormalization  ·  Dropout","textPreview":"BatchNormalization  ·  Dropout","textChars":30,"textLines":1,"bbox":[179.52,329.28,532.8,23.04]}
+{"kind":"shape","id":"sh/0nyd8zuh","slide":20,"name":"Shape 946","bbox":[52.8,352.32,854.4,42.24]}
+{"kind":"textbox","id":"sh/elgb6pcb","slide":20,"name":"Shape 948","text":"Capa 4","textPreview":"Capa 4","textChars":6,"textLines":1,"bbox":[73.92,352.32,100.8,42.24]}
+{"kind":"textbox","id":"sh/gretwfed","slide":20,"name":"Shape 950","text":"Dense · 32 neuronas · ReLU","textPreview":"Dense · 32 neuronas · ReLU","textChars":26,"textLines":1,"bbox":[179.52,352.32,532.8,42.24]}
+{"kind":"textbox","id":"sh/7yl8z6tg","slide":20,"name":"Shape 952","text":"32","textPreview":"32","textChars":2,"textLines":1,"bbox":[720,352.32,165.12,42.24]}
+{"kind":"shape","id":"sh/t03a1gbm","slide":20,"name":"Shape 954","bbox":[52.8,403.2,854.4,42.24]}
+{"kind":"textbox","id":"sh/v2ls3qts","slide":20,"name":"Shape 956","text":"Salida","textPreview":"Salida","textChars":6,"textLines":1,"bbox":[73.92,403.2,100.8,42.24]}
+{"kind":"textbox","id":"sh/h43a50by","slide":20,"name":"Shape 958","text":"Dense · una neurona por palabra · softmax","textPreview":"Dense · una neurona por palabra · softmax","textChars":41,"textLines":1,"bbox":[179.52,403.2,532.8,42.24]}
+{"kind":"textbox","id":"sh/b6h8rmto","slide":20,"name":"Shape 960","text":"n palabras","textPreview":"n palabras","textChars":10,"textLines":1,"bbox":[720,403.2,165.12,42.24]}
+{"kind":"textbox","id":"sh/e9on6xsv","slide":20,"name":"Shape 962","text":"Todas las capas llevan regularización L2 de 0,003. Optimizador Adam con tasa de aprendizaje 0,0005 y pérdida con label smoothing de 0,05.","textPreview":"Todas las capas llevan regularización L2 de 0,003. Optimizador Adam con tasa de aprendizaje 0,0005 y pérdida con label smoothing de 0,05.","textChars":137,"textLines":1,"bbox":[52.8,443.52,854.4,28.8]}
+{"kind":"textbox","id":"sh/jap4nut0","slide":20,"name":"Shape 8001","text":"20","textPreview":"20","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"image","id":"im/7uhgjehk","slide":20,"name":"Google Shape;108;p34","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/zyxsni5k","slide":20,"text":""}
+{"kind":"slide","id":"sl/m1wvqtk3","slide":21,"title":"Entrenamiento del modelo","textShapes":12}
+{"kind":"textbox","id":"sh/j2t4jm1o","slide":21,"name":"Google Shape;783;p21","text":"Entrenamiento del modelo","textPreview":"Entrenamiento del modelo","textChars":24,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/87m5gbil","slide":21,"name":"Google Shape;784;p21","text":"Cuatro mecanismos para aprender bien con pocos datos","textPreview":"Cuatro mecanismos para aprender bien con pocos datos","textChars":52,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/65kne10f","slide":21,"name":"Google Shape;786;p21","text":"21","textPreview":"21","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/76don610","slide":21,"name":"Google Shape;787;p21","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/hcv6tgz2","slide":21,"name":"Google Shape;789;p21","bbox":[52.8,117.12,417.6,155.52]}
+{"kind":"textbox","id":"sh/q587a5kj","slide":21,"name":"Google Shape;791;p21","text":"Aumento de datos","textPreview":"Aumento de datos","textChars":16,"textLines":1,"bbox":[120,136.32,326.4,24.96]}
+{"kind":"textbox","id":"sh/dszqlkja","slide":21,"name":"Google Shape;792;p21","text":"Por cada muestra real, dos variantes artificiales: ruido leve en los puntos clave y desplazamiento temporal de ±2 frames. Solo en entrenamiento: la validación queda intacta.","textPreview":"Por cada muestra real, dos variantes artificiales: ruido leve en los puntos clave y desplazamiento temporal de ±2 frames. Solo en entrena...","textChars":173,"textLines":1,"bbox":[75.84,180.48,371.52,81.6]}
+{"kind":"shape","id":"sh/32x8fal8","slide":21,"name":"Google Shape;794;p21","bbox":[489.6,117.12,417.6,155.52]}
+{"kind":"textbox","id":"sh/54fqhk3y","slide":21,"name":"Google Shape;796;p21","text":"Balanceo de clases","textPreview":"Balanceo de clases","textChars":18,"textLines":1,"bbox":[556.8,136.32,326.4,24.96]}
+{"kind":"textbox","id":"sh/436p8f2t","slide":21,"name":"Google Shape;797;p21","text":"Peso inversamente proporcional a la cantidad de muestras: los errores en palabras con pocos datos \"duelen más\", y el modelo les presta la misma atención.","textPreview":"Peso inversamente proporcional a la cantidad de muestras: los errores en palabras con pocos datos \"duelen más\", y el modelo les presta la...","textChars":153,"textLines":1,"bbox":[512.64,180.48,371.52,81.6]}
+{"kind":"shape","id":"sh/mxsripkr","slide":21,"name":"Google Shape;799;p21","bbox":[52.8,291.84,417.6,155.52]}
+{"kind":"textbox","id":"sh/6hwn6xwz","slide":21,"name":"Google Shape;801;p21","text":"Control automático","textPreview":"Control automático","textChars":18,"textLines":1,"bbox":[120,311.04,326.4,24.96]}
+{"kind":"textbox","id":"sh/tk7m1cvq","slide":21,"name":"Google Shape;802;p21","text":"EarlyStopping (corta si no mejora en 40 épocas), ReduceLROnPlateau (reduce el paso de aprendizaje) y ModelCheckpoint (guarda solo la mejor versión).","textPreview":"EarlyStopping (corta si no mejora en 40 épocas), ReduceLROnPlateau (reduce el paso de aprendizaje) y ModelCheckpoint (guarda solo la mejo...","textChars":148,"textLines":1,"bbox":[75.84,355.2,371.52,81.6]}
+{"kind":"shape","id":"sh/ju54vid8","slide":21,"name":"Google Shape;804;p21","bbox":[489.6,291.84,417.61,155.53]}
+{"kind":"textbox","id":"sh/lwnmxsve","slide":21,"name":"Google Shape;806;p21","text":"Semillas aleatorias fijas en Python, NumPy y TensorFlow: entrenar dos veces con los mismos datos da el mismo resultado. Los números reportados son repetibles.","textPreview":"Semillas aleatorias fijas en Python, NumPy y TensorFlow: entrenar dos veces con los mismos datos da el mismo resultado. Los números repor...","textChars":158,"textLines":1,"bbox":[512.64,355.2,371.53,81.61]}
+{"kind":"textbox","id":"sh/kve54net","slide":21,"name":"Google Shape;807;p21","text":"Reproducibilidad","textPreview":"Reproducibilidad","textChars":16,"textLines":1,"bbox":[552.72,316.8,326.39,24.94]}
+{"kind":"image","id":"im/ilcbetk3","slide":21,"name":"Google Shape;785;p21","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/3mls7y1o","slide":21,"name":"Google Shape;790;p21","bbox":[75.84,140.16,28.8,28.8]}
+{"kind":"image","id":"im/l0redw36","slide":21,"name":"Google Shape;795;p21","bbox":[512.64,140.16,28.8,28.8]}
+{"kind":"image","id":"im/kzidkrml","slide":21,"name":"Google Shape;800;p21","bbox":[75.84,314.88,28.8,28.8]}
+{"kind":"image","id":"im/jy9wbml0","slide":21,"name":"Google Shape;805;p21","bbox":[512.64,314.88,28.8,28.8]}
+{"kind":"notes","id":"nt/m1wvqtk3","slide":21,"text":""}
+{"kind":"slide","id":"sl/5onypobq","slide":22,"title":"Pipeline de datos para predecir","textShapes":23}
+{"kind":"textbox","id":"sh/v2hw3mxc","slide":22,"name":"Shape 960","text":"Pipeline de datos para predecir","textPreview":"Pipeline de datos para predecir","textChars":31,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/q58vi1cz","slide":22,"name":"Shape 962","text":"El mismo camino, ahora en vivo y sin guardar nada","textPreview":"El mismo camino, ahora en vivo y sin guardar nada","textChars":49,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/s7adkru5","slide":22,"name":"Shape 964","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/i18vehc3","slide":22,"name":"Shape 966","bbox":[52.8,111.36,157.06,128.64]}
+{"kind":"textbox","id":"sh/43qdgrut","slide":22,"name":"Shape 968","text":"Cámara en vivo","textPreview":"Cámara en vivo","textChars":14,"textLines":1,"bbox":[60.48,132.48,141.7,44.16]}
+{"kind":"textbox","id":"sh/udovahwr","slide":22,"name":"Shape 970","text":"flujo continuo, sin cortes","textPreview":"flujo continuo, sin cortes","textChars":26,"textLines":1,"bbox":[64.32,178.56,134.02,49.92]}
+{"kind":"textbox","id":"sh/l4vat8ba","slide":22,"name":"Shape 972","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[209.86,111.36,17.28,128.64]}
+{"kind":"shape","id":"sh/zidsrit4","slide":22,"name":"Shape 974","bbox":[227.14,111.36,157.06,128.64]}
+{"kind":"textbox","id":"sh/98faxsb6","slide":22,"name":"Shape 976","text":"Detección","textPreview":"Detección","textChars":9,"textLines":1,"bbox":[234.82,132.48,141.7,44.16]}
+{"kind":"textbox","id":"sh/76xsvit0","slide":22,"name":"Shape 978","text":"cuándo empieza y termina la seña","textPreview":"cuándo empieza y termina la seña","textChars":32,"textLines":1,"bbox":[238.66,178.56,134.02,49.92]}
+{"kind":"textbox","id":"sh/pcbalob2","slide":22,"name":"Shape 980","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[384.19,111.36,17.28,128.64]}
+{"kind":"shape","id":"sh/s3yh4v6x","slide":22,"name":"Shape 982","bbox":[401.47,111.36,157.06,128.64]}
+{"kind":"textbox","id":"sh/6hwz2lor","slide":22,"name":"Shape 984","text":"Keypoints","textPreview":"Keypoints","textChars":9,"textLines":1,"bbox":[409.15,132.48,141.7,44.16]}
+{"kind":"textbox","id":"sh/4feh0b61","slide":22,"name":"Shape 986","text":"1.662 valores por cada frame","textPreview":"1.662 valores por cada frame","textChars":28,"textLines":1,"bbox":[412.99,178.56,134.02,49.92]}
+{"kind":"textbox","id":"sh/idwzylov","slide":22,"name":"Shape 988","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[558.53,111.36,17.28,128.64]}
+{"kind":"shape","id":"sh/obihcfm5","slide":22,"name":"Shape 990","bbox":[575.81,111.36,157.06,128.64]}
+{"kind":"textbox","id":"sh/ni1wzml8","slide":22,"name":"Shape 992","text":"Normalización","textPreview":"Normalización","textChars":13,"textLines":1,"bbox":[583.49,132.48,141.7,44.16]}
+{"kind":"textbox","id":"sh/9k3e1c3e","slide":22,"name":"Shape 994","text":"la misma función que al entrenar","textPreview":"la misma función que al entrenar","textChars":32,"textLines":1,"bbox":[587.33,178.56,134.02,49.92]}
+{"kind":"textbox","id":"sh/ze1wv2lw","slide":22,"name":"Shape 996","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[732.86,111.36,17.28,128.64]}
+{"kind":"shape","id":"sh/lgjexc32","slide":22,"name":"Shape 998","bbox":[750.14,111.36,157.06,128.64]}
+{"kind":"textbox","id":"sh/jalw76lg","slide":22,"name":"Shape 1000","text":"Modelo LSTM","textPreview":"Modelo LSTM","textChars":11,"textLines":1,"bbox":[757.82,132.48,141.7,44.16]}
+{"kind":"textbox","id":"sh/wfyxw7ah","slide":22,"name":"Shape 1002","text":"probabilidad por palabra","textPreview":"probabilidad por palabra","textChars":24,"textLines":1,"bbox":[761.66,178.56,134.02,49.92]}
+{"kind":"shape","id":"sh/udgfuxsb","slide":22,"name":"Shape 1004","bbox":[52.8,257.28,417.6,184.32]}
+{"kind":"textbox","id":"sh/8ryxsna5","slide":22,"name":"Shape 1006","text":"Las tres etapas del medio son el mismo código","textPreview":"Las tres etapas del medio son el mismo código","textChars":45,"textLines":1,"bbox":[77.76,274.56,374.4,24.96]}
+{"kind":"textbox","id":"sh/mpwfqxsf","slide":22,"name":"Shape 1008","text":"No es una versión equivalente: es literalmente el mismo extractor de keypoints y la misma función normalize_sequence(). Si no lo fueran, el modelo estaría prediciendo sobre datos con una distribución distinta de la que aprendió, y la accuracy real caería sin que ninguna métrica lo avisara.","textPreview":"No es una versión equivalente: es literalmente el mismo extractor de keypoints y la misma función normalize_sequence(). Si no lo fueran, ...","textChars":290,"textLines":1,"bbox":[77.76,307.2,369.6,115.2]}
+{"kind":"shape","id":"sh/snix4rqp","slide":22,"name":"Shape 1010","bbox":[489.6,257.28,417.6,184.32]}
+{"kind":"textbox","id":"sh/bulcryps","slide":22,"name":"Shape 1012","text":"Qué cambia respecto del entrenamiento","textPreview":"Qué cambia respecto del entrenamiento","textChars":37,"textLines":1,"bbox":[514.56,274.56,374.4,24.96]}
+{"kind":"textbox","id":"sh/dw3uto7i","slide":22,"name":"Shape 1014","text":"Nada se guarda: la secuencia se descarta después de predecir.\nLa ventana corre sobre el flujo en vivo, no sobre un archivo cerrado.\nAl final hay una decisión: si la confianza no supera 0,7, no se emite ninguna palabra.","textPreview":"Nada se guarda: la secuencia se descarta después de predecir. | La ventana corre sobre el flujo en vivo, no sobre un archivo cerrado. | A...","textChars":218,"textLines":3,"bbox":[520.32,307.2,369.6,115.2]}
+{"kind":"textbox","id":"sh/3q1cnepg","slide":22,"name":"Shape 1016","text":"Esta simetría es posible gracias a la normalización única que acabamos de ver.","textPreview":"Esta simetría es posible gracias a la normalización única que acabamos de ver.","textChars":78,"textLines":1,"bbox":[52.8,451.2,854.4,26.88]}
+{"kind":"textbox","id":"sh/yd03a9sz","slide":22,"name":"Google Shape;129;p34","text":"22","textPreview":"22","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"image","id":"im/zixonq1w","slide":22,"name":"Google Shape;108;p34","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/5onypobq","slide":22,"text":""}
+{"kind":"slide","id":"sl/c7uhcr6t","slide":23,"title":"La decisión técnica más importante","textShapes":11}
+{"kind":"textbox","id":"sh/fqx8j61g","slide":23,"name":"Google Shape;813;p22","text":"La decisión técnica más importante","textPreview":"La decisión técnica más importante","textChars":34,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/snmp8ri5","slide":23,"name":"Google Shape;814;p22","text":"Un único método de normalización para todo el proyecto","textPreview":"Un único método de normalización para todo el proyecto","textChars":54,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/6l476h0z","slide":23,"name":"Google Shape;816;p22","text":"23","textPreview":"23","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/7mdofm1k","slide":23,"name":"Google Shape;817;p22","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/dkzqt0zu","slide":23,"name":"Google Shape;819;p22","bbox":[52.8,115.2,417.6,172.8]}
+{"kind":"textbox","id":"sh/1obyhwnm","slide":23,"name":"Google Shape;820;p22","text":"Antes","textPreview":"Antes","textChars":5,"textLines":1,"bbox":[77.76,132.48,374.4,24.96]}
+{"kind":"textbox","id":"sh/032hor61","slide":23,"name":"Google Shape;821;p22","text":"Tres implementaciones distintas de normalización —una para entrenar, otra para predecir, otra para evaluar— con pequeñas diferencias entre sí.","textPreview":"Tres implementaciones distintas de normalización —una para entrenar, otra para predecir, otra para evaluar— con pequeñas diferencias entr...","textChars":142,"textLines":1,"bbox":[77.76,163.2,369.6,72]}
+{"kind":"textbox","id":"sh/z2tgfm5g","slide":23,"name":"Google Shape;822;p22","text":"El modelo aprendía con una distribución distinta a la que usaba al predecir: la accuracy real se degradaba en silencio.","textPreview":"El modelo aprendía con una distribución distinta a la que usaba al predecir: la accuracy real se degradaba en silencio.","textChars":119,"textLines":1,"bbox":[77.76,238.08,369.6,43.2]}
+{"kind":"shape","id":"sh/d0bydcnq","slide":23,"name":"Google Shape;824;p22","bbox":[489.6,115.2,417.6,172.8]}
+{"kind":"textbox","id":"sh/cz2xk765","slide":23,"name":"Google Shape;825;p22","text":"Ahora","textPreview":"Ahora","textChars":5,"textLines":1,"bbox":[514.56,132.48,374.4,24.96]}
+{"kind":"textbox","id":"sh/ry9gb25k","slide":23,"name":"Google Shape;826;p22","text":"Una sola función: normalize_sequence()\nUsada sin excepción en entrenamiento, predicción y evaluación\nRespaldada por pruebas automatizadas (pytest)","textPreview":"Una sola función: normalize_sequence() | Usada sin excepción en entrenamiento, predicción y evaluación | Respaldada por pruebas automatiz...","textChars":146,"textLines":3,"bbox":[520.32,165.12,369.6,110.4]}
+{"kind":"shape","id":"sh/pwry9cne","slide":23,"name":"Google Shape;828;p22","bbox":[52.8,307.2,854.4,124.8]}
+{"kind":"textbox","id":"sh/4vixg76t","slide":23,"name":"Google Shape;829;p22","text":"Otras decisiones del mismo tipo","textPreview":"Otras decisiones del mismo tipo","textChars":31,"textLines":1,"bbox":[79.68,324.48,796.8,24.96]}
+{"kind":"textbox","id":"sh/u1gvqd4r","slide":23,"name":"Google Shape;830;p22","text":"Una sola implementación de texto a voz en todo el sistema (antes había dos, escritas por separado).\nCorrección del reparto de datos: de 5 % a 20 % de validación en entrenamiento, y 30 % reservado para la evaluación (el código original invertía los grupos).","textPreview":"Una sola implementación de texto a voz en todo el sistema (antes había dos, escritas por separado). | Corrección del reparto de datos: de...","textChars":256,"textLines":2,"bbox":[85.44,357.12,787.2,65.28]}
+{"kind":"image","id":"im/2x8falof","slide":23,"name":"Google Shape;815;p22","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/c7uhcr6t","slide":23,"text":""}
+{"kind":"slide","id":"sl/7qto7e10","slide":24,"title":"De señas sueltas a frases en español","textShapes":14}
+{"kind":"textbox","id":"sh/raxovqd0","slide":24,"name":"Google Shape;871;p24","text":"De señas sueltas a frases en español","textPreview":"De señas sueltas a frases en español","textChars":36,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/sb65obul","slide":24,"name":"Google Shape;872;p24","text":"Las reglas gramaticales de la LSPy, aplicadas por un modelo de lenguaje","textPreview":"Las reglas gramaticales de la LSPy, aplicadas por un modelo de lenguaje","textChars":71,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/edonqlcb","slide":24,"name":"Google Shape;874;p24","text":"24","textPreview":"24","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/fexozqdw","slide":24,"name":"Google Shape;875;p24","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/0f6psvuh","slide":24,"name":"Google Shape;876;p24","bbox":[52.8,113.28,854.4,82.56]}
+{"kind":"shape","id":"sh/1gz610v2","slide":24,"name":"Google Shape;877;p24","bbox":[79.68,132.48,97.92,44.16]}
+{"kind":"textbox","id":"sh/uh4ne1w7","slide":24,"name":"Google Shape;878;p24","text":"MAMÁ","textPreview":"MAMÁ","textChars":4,"textLines":1,"bbox":[79.68,132.48,97.92,44.16]}
+{"kind":"shape","id":"sh/vidon6ds","slide":24,"name":"Google Shape;879;p24","bbox":[187.2,132.48,97.92,44.16]}
+{"kind":"textbox","id":"sh/zq1gjmp8","slide":24,"name":"Google Shape;880;p24","text":"MÍA","textPreview":"MÍA","textChars":3,"textLines":1,"bbox":[187.2,132.48,97.92,44.16]}
+{"kind":"shape","id":"sh/ypsfqh8n","slide":24,"name":"Google Shape;881;p24","bbox":[294.72,132.48,97.92,44.16]}
+{"kind":"textbox","id":"sh/ls3ylw7y","slide":24,"name":"Google Shape;882;p24","text":"LINDA","textPreview":"LINDA","textChars":5,"textLines":1,"bbox":[294.72,132.48,97.92,44.16]}
+{"kind":"shape","id":"sh/0raxsrqt","slide":24,"name":"Google Shape;883;p24","bbox":[402.24,132.48,97.92,44.16]}
+{"kind":"textbox","id":"sh/nulgn6p4","slide":24,"name":"Google Shape;884;p24","text":"MUCHO","textPreview":"MUCHO","textChars":5,"textLines":1,"bbox":[402.24,132.48,97.92,44.16]}
+{"kind":"textbox","id":"sh/mtczu18j","slide":24,"name":"Google Shape;885;p24","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[505.92,132.48,48,44.16]}
+{"kind":"textbox","id":"sh/9w3ypw7a","slide":24,"name":"Google Shape;886;p24","text":"\"Mi mamá es muy linda\"","textPreview":"\"Mi mamá es muy linda\"","textChars":22,"textLines":1,"bbox":[557.76,132.48,388.8,44.16]}
+{"kind":"shape","id":"sh/8vuhwbqp","slide":24,"name":"Google Shape;887;p24","bbox":[52.8,218.88,417.6,213.12]}
+{"kind":"textbox","id":"sh/3yhgb2p0","slide":24,"name":"Google Shape;888;p24","text":"Cómo se logra","textPreview":"Cómo se logra","textChars":13,"textLines":1,"bbox":[77.76,236.16,374.4,24.96]}
+{"kind":"textbox","id":"sh/2x8fix8f","slide":24,"name":"Google Shape;889;p24","text":"Gemini no sabe LSPy: Pojoaju le indica las reglas gramaticales en cada llamada, con ejemplos.\nReordena, agrega artículos y verbos sin seña propia (\"es\") y ajusta concordancias.\nFunciona en ambas direcciones: también convierte frases en español a secuencias de señas.","textPreview":"Gemini no sabe LSPy: Pojoaju le indica las reglas gramaticales en cada llamada, con ejemplos. | Reordena, agrega artículos y verbos sin s...","textChars":266,"textLines":3,"bbox":[83.52,270.72,362.88,144]}
+{"kind":"shape","id":"sh/s36ds36d","slide":24,"name":"Google Shape;890;p24","bbox":[489.6,218.88,417.6,213.12]}
+{"kind":"textbox","id":"sh/t4fel8ni","slide":24,"name":"Google Shape;891;p24","text":"Complemento opcional, no dependencia","textPreview":"Complemento opcional, no dependencia","textChars":36,"textLines":1,"bbox":[514.56,236.16,374.4,24.96]}
+{"kind":"textbox","id":"sh/614vqto7","slide":24,"name":"Google Shape;892;p24","text":"Sin clave de API o ante un error, el sistema sigue traduciendo palabra por palabra.\nLa respuesta de Gemini nunca se acepta a ciegas: cada palabra devuelta se valida contra el diccionario.\nLo único que se pierde sin Gemini es la corrección gramatical, no la traducción.","textPreview":"Sin clave de API o ante un error, el sistema sigue traduciendo palabra por palabra. | La respuesta de Gemini nunca se acepta a ciegas: ca...","textChars":268,"textLines":3,"bbox":[520.32,270.72,362.88,144]}
+{"kind":"image","id":"im/ehs3u9wv","slide":24,"name":"Google Shape;873;p24","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/7qto7e10","slide":24,"text":""}
+{"kind":"slide","id":"sl/69wfm9o7","slide":25,"title":"Módulos de la aplicación","textShapes":17}
+{"kind":"textbox","id":"sh/gbedw32t","slide":25,"name":"Google Shape;836;p23","text":"Módulos de la aplicación","textPreview":"Módulos de la aplicación","textChars":24,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/1cne58je","slide":25,"name":"Google Shape;837;p23","text":"Seis módulos construidos sobre el mismo pipeline","textPreview":"Seis módulos construidos sobre el mismo pipeline","textChars":48,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/ve1crul4","slide":25,"name":"Google Shape;839;p23","text":"25","textPreview":"25","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/bytkzm9g","slide":25,"name":"Google Shape;840;p23","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/qxkj618v","slide":25,"name":"Google Shape;841;p23","bbox":[52.8,117.12,271.68,129.6]}
+{"kind":"textbox","id":"sh/cz218rq1","slide":25,"name":"Google Shape;843;p23","text":"Diccionario","textPreview":"Diccionario","textChars":11,"textLines":1,"bbox":[110.4,135.36,194.88,24.96]}
+{"kind":"textbox","id":"sh/z2tk369s","slide":25,"name":"Google Shape;844;p23","text":"Vocabulario, categorías y cantidad de muestras por palabra.","textPreview":"Vocabulario, categorías y cantidad de muestras por palabra.","textChars":59,"textLines":1,"bbox":[73.92,176.64,229.44,59.52]}
+{"kind":"shape","id":"sh/y1kja187","slide":25,"name":"Google Shape;845;p23","bbox":[343.68,117.12,271.68,129.6]}
+{"kind":"textbox","id":"sh/032lcbqd","slide":25,"name":"Google Shape;847;p23","text":"Captura de muestras","textPreview":"Captura de muestras","textChars":19,"textLines":1,"bbox":[401.28,135.36,194.88,24.96]}
+{"kind":"textbox","id":"sh/n6dk769o","slide":25,"name":"Google Shape;848;p23","text":"Cámara en vivo con keypoints superpuestos, o video subido.","textPreview":"Cámara en vivo con keypoints superpuestos, o video subido.","textChars":58,"textLines":1,"bbox":[364.8,176.64,229.44,59.52]}
+{"kind":"shape","id":"sh/m543el83","slide":25,"name":"Google Shape;849;p23","bbox":[634.56,117.12,271.68,129.6]}
+{"kind":"textbox","id":"sh/5wf2xgn2","slide":25,"name":"Google Shape;851;p23","text":"Entrenar modelo","textPreview":"Entrenar modelo","textChars":15,"textLines":1,"bbox":[692.16,135.36,194.88,24.96]}
+{"kind":"textbox","id":"sh/it4j2lob","slide":25,"name":"Google Shape;852;p23","text":"Ejecuta el pipeline y reporta accuracy, pérdida y épocas.","textPreview":"Ejecuta el pipeline y reporta accuracy, pérdida y épocas.","textChars":57,"textLines":1,"bbox":[655.68,176.64,229.44,59.52]}
+{"kind":"shape","id":"sh/jud0vq5w","slide":25,"name":"Google Shape;853;p23","bbox":[52.8,265.92,271.68,129.6]}
+{"kind":"textbox","id":"sh/xsvitgnq","slide":25,"name":"Google Shape;855;p23","text":"Seña → Texto / Voz","textPreview":"Seña → Texto / Voz","textChars":18,"textLines":1,"bbox":[110.4,284.16,194.88,24.96]}
+{"kind":"textbox","id":"sh/a54jy1of","slide":25,"name":"Google Shape;856;p23","text":"Módulo principal: reconocimiento en tiempo real con nivel de confianza.","textPreview":"Módulo principal: reconocimiento en tiempo real con nivel de confianza.","textChars":71,"textLines":1,"bbox":[73.92,325.44,229.44,59.52]}
+{"kind":"shape","id":"sh/v6d0r65k","slide":25,"name":"Google Shape;857;p23","bbox":[343.68,265.92,271.68,129.6]}
+{"kind":"textbox","id":"sh/94bipwnu","slide":25,"name":"Google Shape;859;p23","text":"Texto → Seña","textPreview":"Texto → Seña","textChars":12,"textLines":1,"bbox":[401.28,284.16,194.88,24.96]}
+{"kind":"textbox","id":"sh/p03ytszi","slide":25,"name":"Google Shape;860;p23","text":"Anima la muestra más representativa (centroide) como stickman.","textPreview":"Anima la muestra más representativa (centroide) como stickman.","textChars":62,"textLines":1,"bbox":[364.8,325.44,229.44,59.52]}
+{"kind":"shape","id":"sh/ozuhknyx","slide":25,"name":"Google Shape;861;p23","bbox":[634.56,265.92,271.68,129.6]}
+{"kind":"textbox","id":"sh/2xczidg7","slide":25,"name":"Google Shape;863;p23","text":"Voz → Seña","textPreview":"Voz → Seña","textChars":10,"textLines":1,"bbox":[692.16,284.16,194.88,24.96]}
+{"kind":"textbox","id":"sh/1w3ypszm","slide":25,"name":"Google Shape;864;p23","text":"Reconocimiento de voz del navegador en español paraguayo.","textPreview":"Reconocimiento de voz del navegador en español paraguayo.","textChars":57,"textLines":1,"bbox":[655.68,325.44,229.44,59.52]}
+{"kind":"textbox","id":"sh/0vuhgny1","slide":25,"name":"Google Shape;865;p23","text":"Más el panel de evaluación: matriz de confusión, accuracy general y confusiones más frecuentes.","textPreview":"Más el panel de evaluación: matriz de confusión, accuracy general y confusiones más frecuentes.","textChars":95,"textLines":1,"bbox":[52.8,424.32,854.4,32.64]}
+{"kind":"image","id":"im/2pgbqtgb","slide":25,"name":"Google Shape;838;p23","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/3qpcjexw","slide":25,"name":"Google Shape;842;p23","bbox":[73.92,138.24,26.88,26.88]}
+{"kind":"image","id":"im/cvitw3yd","slide":25,"name":"Google Shape;846;p23","bbox":[364.8,138.24,26.88,26.88]}
+{"kind":"image","id":"im/dwrup8fy","slide":25,"name":"Google Shape;850;p23","bbox":[655.68,138.24,26.88,26.88]}
+{"kind":"image","id":"im/72d4bmlc","slide":25,"name":"Google Shape;854;p23","bbox":[73.92,287.04,26.88,26.88]}
+{"kind":"image","id":"im/m14n214r","slide":25,"name":"Google Shape;858;p23","bbox":[364.8,287.04,26.88,26.88]}
+{"kind":"image","id":"im/94fmdw3i","slide":25,"name":"Google Shape;862;p23","bbox":[655.68,287.04,26.88,26.88]}
+{"kind":"notes","id":"nt/69wfm9o7","slide":25,"text":""}
+{"kind":"slide","id":"sl/l0bepsfm","slide":26,"title":"Contenido","textShapes":17}
+{"kind":"textbox","id":"sh/jm9gzy5o","slide":26,"name":"Google Shape;898;p25","text":"Contenido","textPreview":"Contenido","textChars":9,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/5gnuhg7i","slide":26,"name":"Google Shape;900;p25","text":"26","textPreview":"26","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/kfutobqx","slide":26,"name":"Google Shape;901;p25","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"textbox","id":"sh/jelsf6pc","slide":26,"name":"Google Shape;902;p25","text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[52.8,139.2,153.6,153.6]}
+{"kind":"textbox","id":"sh/idcbm18r","slide":26,"name":"Google Shape;903;p25","text":"Evaluación del modelo","textPreview":"Evaluación del modelo","textChars":21,"textLines":1,"bbox":[48,292.8,249.6,86.4]}
+{"kind":"textbox","id":"sh/xc3adw76","slide":26,"name":"Google Shape;904;p25","text":"1.","textPreview":"1.","textChars":2,"textLines":1,"bbox":[336,129.6,40.32,40.32]}
+{"kind":"textbox","id":"sh/wbutkbql","slide":26,"name":"Google Shape;905;p25","text":"El problema y su contexto","textPreview":"El problema y su contexto","textChars":25,"textLines":1,"bbox":[376.32,129.6,530.88,40.32]}
+{"kind":"textbox","id":"sh/valsb6p0","slide":26,"name":"Google Shape;906;p25","text":"2.","textPreview":"2.","textChars":2,"textLines":1,"bbox":[336,183.36,40.32,40.32]}
+{"kind":"textbox","id":"sh/a9cbi18v","slide":26,"name":"Google Shape;907;p25","text":"La lengua de señas","textPreview":"La lengua de señas","textChars":18,"textLines":1,"bbox":[376.32,183.36,530.88,40.32]}
+{"kind":"textbox","id":"sh/h87up07q","slide":26,"name":"Google Shape;908;p25","text":"3.","textPreview":"3.","textChars":2,"textLines":1,"bbox":[336,237.12,40.32,40.32]}
+{"kind":"textbox","id":"sh/g7etwv65","slide":26,"name":"Google Shape;909;p25","text":"Objetivos y metodología","textPreview":"Objetivos y metodología","textChars":23,"textLines":1,"bbox":[376.32,237.12,530.88,40.32]}
+{"kind":"textbox","id":"sh/yt8rqxon","slide":26,"name":"Google Shape;910;p25","text":"4.","textPreview":"4.","textChars":2,"textLines":1,"bbox":[336,290.88,40.32,40.32]}
+{"kind":"textbox","id":"sh/zeh8j25s","slide":26,"name":"Google Shape;911;p25","text":"Pojoaju: diseño e implementación","textPreview":"Pojoaju: diseño e implementación","textChars":32,"textLines":1,"bbox":[376.32,290.88,530.88,40.32]}
+{"kind":"textbox","id":"sh/0fq9s76d","slide":26,"name":"Google Shape;912;p25","text":"5.","textPreview":"5.","textChars":2,"textLines":1,"bbox":[336,344.64,40.32,40.32]}
+{"kind":"textbox","id":"sh/lgzqlcny","slide":26,"name":"Google Shape;913;p25","text":"Evaluación del modelo","textPreview":"Evaluación del modelo","textChars":21,"textLines":1,"bbox":[376.32,344.64,530.88,40.32]}
+{"kind":"textbox","id":"sh/qpo7mdob","slide":26,"name":"Google Shape;914;p25","text":"6.","textPreview":"6.","textChars":2,"textLines":1,"bbox":[336,398.4,40.32,40.32]}
+{"kind":"textbox","id":"sh/bqh8fi5w","slide":26,"name":"Google Shape;915;p25","text":"Conclusiones y líneas futuras","textPreview":"Conclusiones y líneas futuras","textChars":29,"textLines":1,"bbox":[376.32,398.4,530.88,40.32]}
+{"kind":"image","id":"im/9072x07e","slide":26,"name":"Google Shape;899;p25","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/l0bepsfm","slide":26,"text":""}
+{"kind":"slide","id":"sl/4vyxknqp","slide":27,"title":"Evaluación del modelo","textShapes":17}
+{"kind":"textbox","id":"sh/fyt8fepo","slide":27,"name":"Google Shape;940;p26","text":"Evaluación del modelo","textPreview":"Evaluación del modelo","textChars":21,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/edk76t83","slide":27,"name":"Google Shape;941;p26","text":"Caso de estudio cuantitativo — Capítulo 6 de la tesis","textPreview":"Caso de estudio cuantitativo — Capítulo 6 de la tesis","textChars":53,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/gz2p8jq9","slide":27,"name":"Google Shape;943;p26","text":"27","textPreview":"27","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/ra98bepc","slide":27,"name":"Google Shape;944;p26","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/69072987","slide":27,"name":"Google Shape;945;p26","bbox":[52.8,115.2,417.6,209.28]}
+{"kind":"textbox","id":"sh/tcrqdo7i","slide":27,"name":"Google Shape;946;p26","text":"Configuración del experimento","textPreview":"Configuración del experimento","textChars":29,"textLines":1,"bbox":[77.76,132.48,374.4,24.96]}
+{"kind":"textbox","id":"sh/sbip4jqx","slide":27,"name":"Google Shape;947;p26","text":"Vocabulario actual de la base, con 60 a 80 muestras reales por palabra\nPartición estratificada por palabra: 20 % de validación y 30 % reservado para la evaluación\nAumento de datos solo en el conjunto de entrenamiento\nBalanceo de clases y semillas fijas: resultados reproducibles","textPreview":"Vocabulario actual de la base, con 60 a 80 muestras reales por palabra | Partición estratificada por palabra: 20 % de validación y 30 % r...","textChars":278,"textLines":4,"bbox":[83.52,172.8,362.88,136.32]}
+{"kind":"shape","id":"sh/j6987upg","slide":27,"name":"Google Shape;948;p26","bbox":[489.6,115.2,417.6,209.28]}
+{"kind":"textbox","id":"sh/i5g7y98v","slide":27,"name":"Google Shape;949;p26","text":"Resultados","textPreview":"Resultados","textChars":10,"textLines":1,"bbox":[514.56,132.48,374.4,24.96]}
+{"kind":"textbox","id":"sh/8be58v6t","slide":27,"name":"Google Shape;950;p26","text":"Accuracy (validación)","textPreview":"Accuracy (validación)","textChars":21,"textLines":1,"bbox":[514.56,174.72,273.6,28.8]}
+{"kind":"textbox","id":"sh/9cnmh0ne","slide":27,"name":"Google Shape;951;p26","text":"pendiente","textPreview":"pendiente","textChars":9,"textLines":1,"bbox":[792,174.72,96,28.8]}
+{"kind":"textbox","id":"sh/m9wn65on","slide":27,"name":"Google Shape;952;p26","text":"Épocas ejecutadas","textPreview":"Épocas ejecutadas","textChars":17,"textLines":1,"bbox":[514.56,209.28,273.6,28.8]}
+{"kind":"textbox","id":"sh/na54fq58","slide":27,"name":"Google Shape;953;p26","text":"pendiente","textPreview":"pendiente","textChars":9,"textLines":1,"bbox":[792,209.28,96,28.8]}
+{"kind":"textbox","id":"sh/wfy5cf6p","slide":27,"name":"Google Shape;954;p26","text":"Matriz de confusión","textPreview":"Matriz de confusión","textChars":19,"textLines":1,"bbox":[514.56,243.84,273.6,28.8]}
+{"kind":"textbox","id":"sh/hg76lkna","slide":27,"name":"Google Shape;955;p26","text":"pendiente","textPreview":"pendiente","textChars":9,"textLines":1,"bbox":[792,243.84,96,28.8]}
+{"kind":"textbox","id":"sh/udwna5oz","slide":27,"name":"Google Shape;956;p26","text":"Precisión · Recall · F1 por palabra","textPreview":"Precisión · Recall · F1 por palabra","textChars":35,"textLines":1,"bbox":[514.56,278.4,273.6,28.8]}
+{"kind":"textbox","id":"sh/vepoja54","slide":27,"name":"Google Shape;957;p26","text":"pendiente","textPreview":"pendiente","textChars":9,"textLines":1,"bbox":[792,278.4,96,28.8]}
+{"kind":"shape","id":"sh/cju50b6l","slide":27,"name":"Google Shape;958;p26","bbox":[52.8,339.84,854.4,111.36]}
+{"kind":"textbox","id":"sh/dk3m9gn6","slide":27,"name":"Google Shape;959;p26","text":"Qué mide —y qué no— esta evaluación","textPreview":"Qué mide —y qué no— esta evaluación","textChars":35,"textLines":1,"bbox":[79.68,355.2,796.8,24.96]}
+{"kind":"textbox","id":"sh/dgv2xczu","slide":27,"name":"Google Shape;960;p26","text":"Es una evaluación técnica, no de uso real: las muestras provienen de un grupo reducido de personas y no incluyeron hablantes nativos ni intérpretes de LSPy. La accuracy mide el desempeño sobre este conjunto de datos, no la comprensibilidad de las señas; eso queda como línea futura.","textPreview":"Es una evaluación técnica, no de uso real: las muestras provienen de un grupo reducido de personas y no incluyeron hablantes nativos ni i...","textChars":282,"textLines":1,"bbox":[79.68,385.92,800.64,59.52]}
+{"kind":"image","id":"im/9036x0fe","slide":27,"name":"Google Shape;942;p26","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/4vyxknqp","slide":27,"text":""}
+{"kind":"slide","id":"sl/3mdove10","slide":28,"title":"28","textShapes":4}
+{"kind":"textbox","id":"sh/jmhw3qt8","slide":28,"name":"Google Shape;1020;g3f6c61ccebc_0_85","text":"28","textPreview":"28","textChars":2,"textLines":1,"bbox":[840,478.08,67.21,40.31]}
+{"kind":"textbox","id":"sh/i18valc3","slide":28,"name":"Google Shape;1021;g3f6c61ccebc_0_85","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.87]}
+{"kind":"textbox","id":"sh/5oje50be","slide":28,"name":"Google Shape;1022;g3f6c61ccebc_0_85","text":"VIDEO DEMO","textPreview":"VIDEO DEMO","textChars":10,"textLines":1,"bbox":[48,196.8,864,67.21]}
+{"kind":"textbox","id":"sh/4nqdcvat","slide":28,"name":"Google Shape;1023;g3f6c61ccebc_0_85","text":"Diccionario  ·  Seña a Texto/Voz  ·  Traducción de frases  ·  Texto a Seña  ·  Voz a Seña  ·  Matriz de confusión","textPreview":"Diccionario  ·  Seña a Texto/Voz  ·  Traducción de frases  ·  Texto a Seña  ·  Voz a Seña  ·  Matriz de confusión","textChars":113,"textLines":1,"bbox":[76.8,268.8,806.39,38.39]}
+{"kind":"image","id":"im/wn65cnup","slide":28,"name":"Google Shape;1019;g3f6c61ccebc_0_85","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/3mdove10","slide":28,"text":""}
+{"kind":"slide","id":"sl/i5o3q10v","slide":29,"title":"29","textShapes":4}
+{"kind":"textbox","id":"sh/hwj2dk3q","slide":29,"name":"Google Shape;1030;p30","text":"29","textPreview":"29","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/wva1kfm5","slide":29,"name":"Google Shape;1031;p30","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"textbox","id":"sh/vuhkbulk","slide":29,"name":"Google Shape;1032;p30","text":"DEMOSTRACIÓN EN VIVO","textPreview":"DEMOSTRACIÓN EN VIVO","textChars":20,"textLines":1,"bbox":[48,196.8,864,67.2]}
+{"kind":"textbox","id":"sh/ut8jip4z","slide":29,"name":"Google Shape;1033;p30","text":"Diccionario  ·  Seña a Texto/Voz  ·  Traducción de frases  ·  Texto a Seña  ·  Voz a Seña  ·  Matriz de confusión","textPreview":"Diccionario  ·  Seña a Texto/Voz  ·  Traducción de frases  ·  Texto a Seña  ·  Voz a Seña  ·  Matriz de confusión","textChars":113,"textLines":1,"bbox":[76.8,268.8,806.4,38.4]}
+{"kind":"image","id":"im/y5gve9sf","slide":29,"name":"Google Shape;1029;p30","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/i5o3q10v","slide":29,"text":""}
+{"kind":"slide","id":"sl/wnqh07ex","slide":30,"title":"Contenido","textShapes":17}
+{"kind":"textbox","id":"sh/kre5s721","slide":30,"name":"Google Shape;1039;p27","text":"Contenido","textPreview":"Contenido","textChars":9,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/98vq9kna","slide":30,"name":"Google Shape;1041;p27","text":"30","textPreview":"30","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/m54rep4j","slide":30,"name":"Google Shape;1042;p27","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"textbox","id":"sh/n6d87u54","slide":30,"name":"Google Shape;1043;p27","text":"6","textPreview":"6","textChars":1,"textLines":1,"bbox":[52.8,139.2,153.6,153.6]}
+{"kind":"textbox","id":"sh/0j29cfmd","slide":30,"name":"Google Shape;1044;p27","text":"Conclusiones y líneas futuras","textPreview":"Conclusiones y líneas futuras","textChars":29,"textLines":1,"bbox":[48,292.8,249.6,86.4]}
+{"kind":"textbox","id":"sh/lkbq5kny","slide":30,"name":"Google Shape;1045;p27","text":"1.","textPreview":"1.","textChars":2,"textLines":1,"bbox":[336,129.6,40.32,40.32]}
+{"kind":"textbox","id":"sh/yhkra54n","slide":30,"name":"Google Shape;1046;p27","text":"El problema y su contexto","textPreview":"El problema y su contexto","textChars":25,"textLines":1,"bbox":[376.32,129.6,530.88,40.32]}
+{"kind":"textbox","id":"sh/zit83a5s","slide":30,"name":"Google Shape;1047;p27","text":"2.","textPreview":"2.","textChars":2,"textLines":1,"bbox":[336,183.36,40.32,40.32]}
+{"kind":"textbox","id":"sh/cf2p8vmh","slide":30,"name":"Google Shape;1048;p27","text":"La lengua de señas","textPreview":"La lengua de señas","textChars":18,"textLines":1,"bbox":[376.32,183.36,530.88,40.32]}
+{"kind":"textbox","id":"sh/dgbq10n2","slide":30,"name":"Google Shape;1049;p27","text":"3.","textPreview":"3.","textChars":2,"textLines":1,"bbox":[336,237.12,40.32,40.32]}
+{"kind":"textbox","id":"sh/fa9sbqpo","slide":30,"name":"Google Shape;1050;p27","text":"Objetivos y metodología","textPreview":"Objetivos y metodología","textChars":23,"textLines":1,"bbox":[376.32,237.12,530.88,40.32]}
+{"kind":"textbox","id":"sh/e90ril83","slide":30,"name":"Google Shape;1051;p27","text":"4.","textPreview":"4.","textChars":2,"textLines":1,"bbox":[336,290.88,40.32,40.32]}
+{"kind":"textbox","id":"sh/1crad07u","slide":30,"name":"Google Shape;1052;p27","text":"Pojoaju: diseño e implementación","textPreview":"Pojoaju: diseño e implementación","textChars":32,"textLines":1,"bbox":[376.32,290.88,530.88,40.32]}
+{"kind":"textbox","id":"sh/gbi9kvq9","slide":30,"name":"Google Shape;1053;p27","text":"5.","textPreview":"5.","textChars":2,"textLines":1,"bbox":[336,344.64,40.32,40.32]}
+{"kind":"textbox","id":"sh/3etsfap0","slide":30,"name":"Google Shape;1054;p27","text":"Evaluación del modelo","textPreview":"Evaluación del modelo","textChars":21,"textLines":1,"bbox":[376.32,344.64,530.88,40.32]}
+{"kind":"textbox","id":"sh/2d0rm58f","slide":30,"name":"Google Shape;1055;p27","text":"6.","textPreview":"6.","textChars":2,"textLines":1,"bbox":[336,398.4,40.32,40.32]}
+{"kind":"textbox","id":"sh/pgbahk7q","slide":30,"name":"Google Shape;1056;p27","text":"Conclusiones y líneas futuras","textPreview":"Conclusiones y líneas futuras","textChars":29,"textLines":1,"bbox":[376.32,398.4,530.88,40.32]}
+{"kind":"image","id":"im/365gbudg","slide":30,"name":"Google Shape;1040;p27","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/wnqh07ex","slide":30,"text":""}
+{"kind":"slide","id":"sl/lcn6tkb6","slide":31,"title":"Conclusiones","textShapes":14}
+{"kind":"textbox","id":"sh/cve1gnad","slide":31,"name":"Google Shape;1062;p28","text":"Conclusiones","textPreview":"Conclusiones","textChars":12,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/dwni9sry","slide":31,"name":"Google Shape;1063;p28","text":"Los cuatro objetivos específicos, cumplidos","textPreview":"Los cuatro objetivos específicos, cumplidos","textChars":43,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/36503y9w","slide":31,"name":"Google Shape;1065;p28","text":"31","textPreview":"31","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/o7e1c3ah","slide":31,"name":"Google Shape;1066;p28","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/m1gjmx8f","slide":31,"name":"Google Shape;1068;p28","bbox":[52.8,117.12,417.6,110.4]}
+{"kind":"textbox","id":"sh/h8bu10fe","slide":31,"name":"Google Shape;1070;p28","text":"Pipeline de captura y procesamiento","textPreview":"Pipeline de captura y procesamiento","textChars":35,"textLines":1,"bbox":[110.4,134.4,336,32.64]}
+{"kind":"textbox","id":"sh/g72dsvyt","slide":31,"name":"Google Shape;1071;p28","text":"Funciona de punta a punta: es el mismo con el que se construyó el conjunto de datos.","textPreview":"Funciona de punta a punta: es el mismo con el que se construyó el conjunto de datos.","textChars":84,"textLines":1,"bbox":[75.84,174.72,371.52,46.08]}
+{"kind":"shape","id":"sh/u5kbqlg3","slide":31,"name":"Google Shape;1073;p28","bbox":[489.6,117.12,417.6,110.4]}
+{"kind":"textbox","id":"sh/832tobyx","slide":31,"name":"Google Shape;1075;p28","text":"Modelo LSTM entrenado y en producción","textPreview":"Modelo LSTM entrenado y en producción","textChars":37,"textLines":1,"bbox":[547.2,134.4,336,32.64]}
+{"kind":"textbox","id":"sh/72tcv6xc","slide":31,"name":"Google Shape;1076;p28","text":"Se entrena, se guarda y se usa para la predicción en tiempo real.","textPreview":"Se entrena, se guarda y se usa para la predicción en tiempo real.","textChars":65,"textLines":1,"bbox":[512.64,174.72,371.52,46.08]}
+{"kind":"shape","id":"sh/d0vu9kfm","slide":31,"name":"Google Shape;1078;p28","bbox":[52.8,244.8,417.6,110.4]}
+{"kind":"textbox","id":"sh/ovqxsjy9","slide":31,"name":"Google Shape;1080;p28","text":"Traducción en tiempo real y módulos inversos","textPreview":"Traducción en tiempo real y módulos inversos","textChars":44,"textLines":1,"bbox":[110.4,262.08,336,32.64]}
+{"kind":"textbox","id":"sh/pwzy1ozu","slide":31,"name":"Google Shape;1081;p28","text":"Seña a texto/voz, texto a seña y voz a seña implementados y funcionando.","textPreview":"Seña a texto/voz, texto a seña y voz a seña implementados y funcionando.","textChars":72,"textLines":1,"bbox":[75.84,302.4,371.52,46.08]}
+{"kind":"shape","id":"sh/nuhgzeh4","slide":31,"name":"Google Shape;1083;p28","bbox":[489.6,244.8,417.6,110.4]}
+{"kind":"textbox","id":"sh/xkjy5oz6","slide":31,"name":"Google Shape;1085;p28","text":"Herramienta de evaluación cuantitativa","textPreview":"Herramienta de evaluación cuantitativa","textChars":38,"textLines":1,"bbox":[547.2,262.08,336,32.64]}
+{"kind":"textbox","id":"sh/ax8futgf","slide":31,"name":"Google Shape;1086;p28","text":"Matriz de confusión, métricas por palabra y confusiones más frecuentes.","textPreview":"Matriz de confusión, métricas por palabra y confusiones más frecuentes.","textChars":71,"textLines":1,"bbox":[512.64,302.4,371.52,46.08]}
+{"kind":"shape","id":"sh/sn6xkzi1","slide":31,"name":"Google Shape;1088;p28","bbox":[52.8,374.4,854.4,94.08]}
+{"kind":"textbox","id":"sh/dofet4zm","slide":31,"name":"Google Shape;1089;p28","text":"Sobre el alcance","textPreview":"Sobre el alcance","textChars":16,"textLines":1,"bbox":[79.68,387.84,796.8,24.96]}
+{"kind":"textbox","id":"sh/vil0z214","slide":31,"name":"Google Shape;1090;p28","text":"El alfabeto dactilológico del anteproyecto quedó fuera del alcance final: se priorizó el reconocimiento de palabras completas, un problema más natural para una LSTM porque las palabras tienen movimiento y las letras son mayormente posiciones fijas. La decisión está documentada en la validación metodológica.","textPreview":"El alfabeto dactilológico del anteproyecto quedó fuera del alcance final: se priorizó el reconocimiento de palabras completas, un problem...","textChars":308,"textLines":1,"bbox":[79.68,414.72,796.8,46.08]}
+{"kind":"image","id":"im/5czu5cb6","slide":31,"name":"Google Shape;1064;p28","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/yp8buhsf","slide":31,"name":"Google Shape;1069;p28","bbox":[75.84,138.24,24.96,24.96]}
+{"kind":"image","id":"im/jqhc3mt0","slide":31,"name":"Google Shape;1074;p28","bbox":[512.64,138.24,24.96,24.96]}
+{"kind":"image","id":"im/sfqd0rah","slide":31,"name":"Google Shape;1079;p28","bbox":[75.84,265.92,24.96,24.96]}
+{"kind":"image","id":"im/tgjutwb2","slide":31,"name":"Google Shape;1084;p28","bbox":[512.64,265.92,24.96,24.96]}
+{"kind":"notes","id":"nt/lcn6tkb6","slide":31,"text":""}
+{"kind":"slide","id":"sl/6l0j294r","slide":32,"title":"Líneas futuras","textShapes":16}
+{"kind":"textbox","id":"sh/a5ofalcf","slide":32,"name":"Google Shape;1096;p29","text":"Líneas futuras","textPreview":"Líneas futuras","textChars":14,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/v6xg3qd0","slide":32,"name":"Google Shape;1097;p29","text":"El proyecto queda preparado para continuar","textPreview":"El proyecto queda preparado para continuar","textChars":42,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/5wzy90b2","slide":32,"name":"Google Shape;1099;p29","text":"32","textPreview":"32","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/ihwjids3","slide":32,"name":"Google Shape;1100;p29","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/kje1kna9","slide":32,"name":"Google Shape;1102;p29","bbox":[52.8,120,271.68,139.2]}
+{"kind":"textbox","id":"sh/adcjets7","slide":32,"name":"Google Shape;1104;p29","text":"Ampliar el vocabulario","textPreview":"Ampliar el vocabulario","textChars":22,"textLines":1,"bbox":[110.4,138.24,194.88,24.96]}
+{"kind":"textbox","id":"sh/velknyts","slide":32,"name":"Google Shape;1105;p29","text":"Ya hay unas 50 palabras previstas en 7 categorías; falta capturar muestras, no desarrollar código.","textPreview":"Ya hay unas 50 palabras previstas en 7 categorías; falta capturar muestras, no desarrollar código.","textChars":98,"textLines":1,"bbox":[73.92,179.52,229.44,69.12]}
+{"kind":"shape","id":"sh/xgn2p8ri","slide":32,"name":"Google Shape;1107;p29","bbox":[343.68,120,271.68,139.2]}
+{"kind":"textbox","id":"sh/fapkz29w","slide":32,"name":"Google Shape;1109;p29","text":"Diversificar los datos","textPreview":"Diversificar los datos","textChars":22,"textLines":1,"bbox":[401.28,138.24,194.88,24.96]}
+{"kind":"textbox","id":"sh/p4rmpwby","slide":32,"name":"Google Shape;1110;p29","text":"Capturar con hablantes nativos de distintas regiones para validar la generalización.","textPreview":"Capturar con hablantes nativos de distintas regiones para validar la generalización.","textChars":84,"textLines":1,"bbox":[364.8,179.52,229.44,69.12]}
+{"kind":"shape","id":"sh/3294nmts","slide":32,"name":"Google Shape;1112;p29","bbox":[634.56,120,271.68,139.2]}
+{"kind":"textbox","id":"sh/hgrmlcb2","slide":32,"name":"Google Shape;1114;p29","text":"Aprendizaje incremental","textPreview":"Aprendizaje incremental","textChars":23,"textLines":1,"bbox":[692.16,138.24,194.88,24.96]}
+{"kind":"textbox","id":"sh/gfi5cruh","slide":32,"name":"Google Shape;1115;p29","text":"Agregar palabras sin reentrenar el modelo completo (fine-tuning dirigido).","textPreview":"Agregar palabras sin reentrenar el modelo completo (fine-tuning dirigido).","textChars":74,"textLines":1,"bbox":[655.68,179.52,229.44,69.12]}
+{"kind":"shape","id":"sh/udg3ahcb","slide":32,"name":"Google Shape;1117;p29","bbox":[52.8,280.32,271.68,139.2]}
+{"kind":"textbox","id":"sh/0b25obul","slide":32,"name":"Google Shape;1119;p29","text":"API pública de datos","textPreview":"API pública de datos","textChars":20,"textLines":1,"bbox":[110.4,298.56,194.88,24.96]}
+{"kind":"textbox","id":"sh/kfapkf2x","slide":32,"name":"Google Shape;1120;p29","text":"Exponer el conjunto de datos de LSPy para otros investigadores y proyectos.","textPreview":"Exponer el conjunto de datos de LSPy para otros investigadores y proyectos.","textChars":75,"textLines":1,"bbox":[73.92,339.84,229.44,69.12]}
+{"kind":"shape","id":"sh/yds7ipkr","slide":32,"name":"Google Shape;1122;p29","bbox":[343.68,280.32,271.68,139.2]}
+{"kind":"textbox","id":"sh/cbapgf2l","slide":32,"name":"Google Shape;1124;p29","text":"Perfiles de usuario","textPreview":"Perfiles de usuario","textChars":19,"textLines":1,"bbox":[401.28,298.56,194.88,24.96]}
+{"kind":"textbox","id":"sh/xcj6pkj6","slide":32,"name":"Google Shape;1125;p29","text":"Cuentas e historial individual: base para cualquier experiencia personalizada.","textPreview":"Cuentas e historial individual: base para cualquier experiencia personalizada.","textChars":78,"textLines":1,"bbox":[364.8,339.84,229.44,69.12]}
+{"kind":"shape","id":"sh/ba1ona1g","slide":32,"name":"Google Shape;1127;p29","bbox":[634.56,280.32,271.68,139.2]}
+{"kind":"textbox","id":"sh/p8z6l0ja","slide":32,"name":"Google Shape;1129;p29","text":"Módulo de enseñanza","textPreview":"Módulo de enseñanza","textChars":19,"textLines":1,"bbox":[692.16,298.56,194.88,24.96]}
+{"kind":"textbox","id":"sh/rix8vq5w","slide":32,"name":"Google Shape;1130;p29","text":"Lecciones guiadas con práctica frente a la cámara y retroalimentación inmediata.","textPreview":"Lecciones guiadas con práctica frente a la cámara y retroalimentación inmediata.","textChars":80,"textLines":1,"bbox":[655.68,339.84,229.44,69.12]}
+{"kind":"image","id":"im/l8vut8rm","slide":32,"name":"Google Shape;1098;p29","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/y5kvyd8v","slide":32,"name":"Google Shape;1103;p29","bbox":[73.92,141.12,26.88,26.88]}
+{"kind":"image","id":"im/z6dcri9g","slide":32,"name":"Google Shape;1108;p29","bbox":[364.8,141.12,26.88,26.88]}
+{"kind":"image","id":"im/8vmd4nqx","slide":32,"name":"Google Shape;1113;p29","bbox":[655.68,141.12,26.88,26.88]}
+{"kind":"image","id":"im/9wvuxsri","slide":32,"name":"Google Shape;1118;p29","bbox":[73.92,301.44,26.88,26.88]}
+{"kind":"image","id":"im/m94v2d87","slide":32,"name":"Google Shape;1123;p29","bbox":[364.8,301.44,26.88,26.88]}
+{"kind":"image","id":"im/nudcvi9s","slide":32,"name":"Google Shape;1128;p29","bbox":[655.68,301.44,26.88,26.88]}
+{"kind":"notes","id":"nt/6l0j294r","slide":32,"text":""}
+{"kind":"slide","id":"sl/nax4b2dk","slide":33,"title":"33","textShapes":6}
+{"kind":"textbox","id":"sh/fe903mlw","slide":33,"name":"Google Shape;1137;p31","text":"33","textPreview":"33","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/gjeh0nmx","slide":33,"name":"Google Shape;1138;p31","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"textbox","id":"sh/9sjipc7y","slide":33,"name":"Google Shape;1140;p31","text":"POJOAJU","textPreview":"POJOAJU","textChars":7,"textLines":1,"bbox":[48,168,864,59.52]}
+{"kind":"textbox","id":"sh/8ra1w7qd","slide":33,"name":"Google Shape;1141;p31","text":"Una respuesta concreta a un problema social real, construida sobre una base\ntécnica prolija, probada y pensada para crecer.","textPreview":"Una respuesta concreta a un problema social real, construida sobre una base | técnica prolija, probada y pensada para crecer.","textChars":123,"textLines":2,"bbox":[96,232.32,768,57.6]}
+{"kind":"textbox","id":"sh/nq10n2p8","slide":33,"name":"Google Shape;1142;p31","text":"¿Preguntas?","textPreview":"¿Preguntas?","textChars":11,"textLines":1,"bbox":[48,305.28,864,40.32]}
+{"kind":"textbox","id":"sh/mpsjuh8n","slide":33,"name":"Google Shape;1143;p31","text":"Valentina María Cano López  ·  Sergio Nicolás Espinola Bogado\nOrientador: Prof. MSc. Luis Gilberto Salinas  —  FP-UNA, 2026","textPreview":"Valentina María Cano López  ·  Sergio Nicolás Espinola Bogado | Orientador: Prof. MSc. Luis Gilberto Salinas  —  FP-UNA, 2026","textChars":123,"textLines":2,"bbox":[48,388.8,864,67.2]}
+{"kind":"image","id":"im/65knah4n","slide":33,"name":"Google Shape;1136;p31","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/76tojm58","slide":33,"name":"Google Shape;1139;p31","bbox":[456,76.8,48,72]}
+{"kind":"notes","id":"nt/nax4b2dk","slide":33,"text":""}
+{"kind":"slide","id":"sl/ofu103u5","slide":34,"title":"Marco legal e institucional en Paraguay","textShapes":16}
+{"kind":"textbox","id":"sh/3atozi9o","slide":34,"name":"Google Shape;109;p34","text":"Marco legal e institucional en Paraguay","textPreview":"Marco legal e institucional en Paraguay","textChars":39,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/54ja5gb6","slide":34,"name":"Google Shape;110;p34","text":"Un reconocimiento reciente, apoyado sobre una base normativa más amplia","textPreview":"Un reconocimiento reciente, apoyado sobre una base normativa más amplia","textChars":71,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/k3atwbul","slide":34,"name":"Google Shape;111;p34","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/j21s36t0","slide":34,"name":"Google Shape;112;p34","bbox":[52.8,109.44,854.4,144]}
+{"kind":"textbox","id":"sh/i1sbu1cf","slide":34,"name":"Google Shape;113;p34","text":"Ley N.° 6530/2020 — Reconocimiento de la LSPy","textPreview":"Ley N.° 6530/2020 — Reconocimiento de la LSPy","textChars":45,"textLines":1,"bbox":[79.68,124.8,796.8,26.88]}
+{"kind":"textbox","id":"sh/t8ja9gb2","slide":34,"name":"Google Shape;114;p34","text":"Establece la LSPy como medio de comunicación, instrucción y promoción de la identidad cultural de las personas sordas. Obliga a los organismos estatales y privados que prestan servicios públicos a contar con intérpretes.","textPreview":"Establece la LSPy como medio de comunicación, instrucción y promoción de la identidad cultural de las personas sordas. Obliga a los organ...","textChars":220,"textLines":1,"bbox":[79.68,159.36,800.64,65.28]}
+{"kind":"textbox","id":"sh/s7at0vuh","slide":34,"name":"Google Shape;115;p34","text":"El reconocimiento llegó once años después del primer intento de integrarla en lo educativo.","textPreview":"El reconocimiento llegó once años después del primer intento de integrarla en lo educativo.","textChars":91,"textLines":1,"bbox":[79.68,224.64,800.64,23.04]}
+{"kind":"shape","id":"sh/761s7qtw","slide":34,"name":"Google Shape;116;p34","bbox":[52.8,268.8,201.6,134.4]}
+{"kind":"textbox","id":"sh/65sbylcr","slide":34,"name":"Google Shape;117;p34","text":"Res. MEC 43/2009","textPreview":"Res. MEC 43/2009","textChars":16,"textLines":1,"bbox":[70.08,282.24,167.04,26.88]}
+{"kind":"textbox","id":"sh/9czaxwby","slide":34,"name":"Google Shape;118;p34","text":"Dispuso el uso de la lengua de señas en instituciones educativas públicas y privadas.","textPreview":"Dispuso el uso de la lengua de señas en instituciones educativas públicas y privadas.","textChars":85,"textLines":1,"bbox":[70.08,312.96,167.04,82.56]}
+{"kind":"shape","id":"sh/8bq9orud","slide":34,"name":"Google Shape;119;p34","bbox":[270.4,268.8,201.6,134.4]}
+{"kind":"textbox","id":"sh/0ru10v6l","slide":34,"name":"Google Shape;120;p34","text":"Ley N.° 3585/2008","textPreview":"Ley N.° 3585/2008","textChars":17,"textLines":1,"bbox":[287.68,282.24,167.04,26.88]}
+{"kind":"textbox","id":"sh/lsn2t0nq","slide":34,"name":"Google Shape;121;p34","text":"Fija condiciones de accesibilidad en espacios públicos y privados.","textPreview":"Fija condiciones de accesibilidad en espacios públicos y privados.","textChars":66,"textLines":1,"bbox":[287.68,312.96,167.04,82.56]}
+{"kind":"shape","id":"sh/y5cjylof","slide":34,"name":"Google Shape;122;p34","bbox":[488.01,268.8,201.6,134.4]}
+{"kind":"textbox","id":"sh/zqlkrq50","slide":34,"name":"Google Shape;123;p34","text":"Ley N.° 4251/2010","textPreview":"Ley N.° 4251/2010","textChars":17,"textLines":1,"bbox":[505.29,282.24,167.04,26.88]}
+{"kind":"textbox","id":"sh/8ve14v6h","slide":34,"name":"Google Shape;124;p34","text":"Ley de Lenguas: reconoce la diversidad lingüística del país, incluida la comunicación viso-gestual.","textPreview":"Ley de Lenguas: reconoce la diversidad lingüística del país, incluida la comunicación viso-gestual.","textChars":99,"textLines":1,"bbox":[505.29,312.96,167.04,82.56]}
+{"kind":"shape","id":"sh/9wn2x0n2","slide":34,"name":"Google Shape;125;p34","bbox":[705.61,268.8,201.6,134.4]}
+{"kind":"textbox","id":"sh/mtwj25ob","slide":34,"name":"Google Shape;126;p34","text":"Ley N.° 2479/2004","textPreview":"Ley N.° 2479/2004","textChars":17,"textLines":1,"bbox":[722.89,282.24,167.04,26.88]}
+{"kind":"textbox","id":"sh/nu5kvq5w","slide":34,"name":"Google Shape;127;p34","text":"Estipula un cupo del 2 % en los empleos públicos para personas con discapacidad.","textPreview":"Estipula un cupo del 2 % en los empleos públicos para personas con discapacidad.","textChars":80,"textLines":1,"bbox":[722.89,312.96,167.04,82.56]}
+{"kind":"textbox","id":"sh/wze18f6d","slide":34,"name":"Google Shape;128;p34","text":"Hay una brecha entre el reconocimiento legal de la LSPy y la disponibilidad de herramientas que permitan aplicarla en la vida diaria. Esa brecha es el punto de partida de este proyecto.","textPreview":"Hay una brecha entre el reconocimiento legal de la LSPy y la disponibilidad de herramientas que permitan aplicarla en la vida diaria. Esa...","textChars":185,"textLines":1,"bbox":[52.8,416.64,854.4,49.92]}
+{"kind":"textbox","id":"sh/x0721kny","slide":34,"name":"Google Shape;129;p34","text":"34","textPreview":"34","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"image","id":"im/ul0nulwb","slide":34,"name":"Google Shape;108;p34","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/ofu103u5","slide":34,"text":""}
+{"kind":"slide","id":"sl/1obmtofm","slide":35,"title":"Stack tecnológico","textShapes":25}
+{"kind":"textbox","id":"sh/wv6p4bid","slide":35,"name":"Google Shape;651;p18","text":"Stack tecnológico","textPreview":"Stack tecnológico","textChars":17,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/vux8v61s","slide":35,"name":"Google Shape;652;p18","text":"Python 3.10 de punta a punta","textPreview":"Python 3.10 de punta a punta","textChars":28,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/9sfqtgjm","slide":35,"name":"Google Shape;654;p18","text":"35","textPreview":"35","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/8r6p0bi1","slide":35,"name":"Google Shape;655;p18","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/nqx8r61g","slide":35,"name":"Google Shape;656;p18","bbox":[52.8,115.2,854.4,48.96]}
+{"kind":"textbox","id":"sh/l4vqpwjq","slide":35,"name":"Google Shape;658;p18","text":"Interfaz web","textPreview":"Interfaz web","textChars":12,"textLines":1,"bbox":[110.4,115.2,201.6,48.96]}
+{"kind":"textbox","id":"sh/03mpwri5","slide":35,"name":"Google Shape;659;p18","text":"Flask 3.0","textPreview":"Flask 3.0","textChars":9,"textLines":1,"bbox":[316.8,115.2,249.6,48.96]}
+{"kind":"textbox","id":"sh/c7qpcrq1","slide":35,"name":"Google Shape;660;p18","text":"Rutas, vistas y streaming de video","textPreview":"Rutas, vistas y streaming de video","textChars":34,"textLines":1,"bbox":[576,115.2,316.8,48.96]}
+{"kind":"shape","id":"sh/d8zq5wr6","slide":35,"name":"Google Shape;661;p18","bbox":[52.8,167.52,854.4,48.96]}
+{"kind":"textbox","id":"sh/r6h8369g","slide":35,"name":"Google Shape;663;p18","text":"Base de datos","textPreview":"Base de datos","textChars":13,"textLines":1,"bbox":[110.4,167.52,201.6,48.96]}
+{"kind":"textbox","id":"sh/4j6p8rqp","slide":35,"name":"Google Shape;664;p18","text":"PostgreSQL + psycopg2","textPreview":"PostgreSQL + psycopg2","textChars":21,"textLines":1,"bbox":[316.8,167.52,249.6,48.96]}
+{"kind":"textbox","id":"sh/p4zq1wra","slide":35,"name":"Google Shape;665;p18","text":"Palabras, muestras y keypoints (JSONB)","textPreview":"Palabras, muestras y keypoints (JSONB)","textChars":38,"textLines":1,"bbox":[576,167.52,316.8,48.96]}
+{"kind":"shape","id":"sh/2ho76h8j","slide":35,"name":"Google Shape;666;p18","bbox":[52.8,219.84,854.4,48.96]}
+{"kind":"textbox","id":"sh/ofa9kbqt","slide":35,"name":"Google Shape;668;p18","text":"Visión por computadora","textPreview":"Visión por computadora","textChars":22,"textLines":1,"bbox":[110.4,219.84,201.6,48.96]}
+{"kind":"textbox","id":"sh/90jqdgre","slide":35,"name":"Google Shape;669;p18","text":"MediaPipe 0.10 + OpenCV 4.9","textPreview":"MediaPipe 0.10 + OpenCV 4.9","textChars":27,"textLines":1,"bbox":[316.8,219.84,249.6,48.96]}
+{"kind":"textbox","id":"sh/ju5sjatw","slide":35,"name":"Google Shape;670;p18","text":"Extracción de puntos clave y procesamiento de video","textPreview":"Extracción de puntos clave y procesamiento de video","textChars":51,"textLines":1,"bbox":[576,219.84,316.8,48.96]}
+{"kind":"shape","id":"sh/y9cbapsb","slide":35,"name":"Google Shape;671;p18","bbox":[52.8,272.16,854.4,48.96]}
+{"kind":"textbox","id":"sh/kvetcfa1","slide":35,"name":"Google Shape;673;p18","text":"Aprendizaje automático","textPreview":"Aprendizaje automático","textChars":22,"textLines":1,"bbox":[110.4,272.16,201.6,48.96]}
+{"kind":"textbox","id":"sh/7y5snuts","slide":35,"name":"Google Shape;674;p18","text":"TensorFlow/Keras + scikit-learn","textPreview":"TensorFlow/Keras + scikit-learn","textChars":31,"textLines":1,"bbox":[316.8,272.16,249.6,48.96]}
+{"kind":"textbox","id":"sh/6xwbeps7","slide":35,"name":"Google Shape;675;p18","text":"Arquitectura, entrenamiento y evaluación del LSTM","textPreview":"Arquitectura, entrenamiento y evaluación del LSTM","textChars":49,"textLines":1,"bbox":[576,272.16,316.8,48.96]}
+{"kind":"shape","id":"sh/t0nup4by","slide":35,"name":"Google Shape;676;p18","bbox":[52.8,324.48,854.4,48.96]}
+{"kind":"textbox","id":"sh/n21sbqto","slide":35,"name":"Google Shape;678;p18","text":"IA generativa","textPreview":"IA generativa","textChars":13,"textLines":1,"bbox":[110.4,324.48,201.6,48.96]}
+{"kind":"textbox","id":"sh/m1sb25s3","slide":35,"name":"Google Shape;679;p18","text":"Gemini 2.5 Flash Lite","textPreview":"Gemini 2.5 Flash Lite","textChars":21,"textLines":1,"bbox":[316.8,324.48,249.6,48.96]}
+{"kind":"textbox","id":"sh/qt8jm9g3","slide":35,"name":"Google Shape;680;p18","text":"Traducción gramatical bidireccional de frases","textPreview":"Traducción gramatical bidireccional de frases","textChars":45,"textLines":1,"bbox":[576,324.48,316.8,48.96]}
+{"kind":"shape","id":"sh/buh0fexo","slide":35,"name":"Google Shape;681;p18","bbox":[52.8,376.8,854.4,48.96]}
+{"kind":"textbox","id":"sh/dgzihofe","slide":35,"name":"Google Shape;683;p18","text":"Audio","textPreview":"Audio","textChars":5,"textLines":1,"bbox":[110.4,376.8,201.6,48.96]}
+{"kind":"textbox","id":"sh/yh8jqtgz","slide":35,"name":"Google Shape;684;p18","text":"pyttsx3 + Web Speech API","textPreview":"pyttsx3 + Web Speech API","textChars":24,"textLines":1,"bbox":[316.8,376.8,249.6,48.96]}
+{"kind":"textbox","id":"sh/zi10jexk","slide":35,"name":"Google Shape;685;p18","text":"Texto a voz local; reconocimiento de voz del navegador","textPreview":"Texto a voz local; reconocimiento de voz del navegador","textChars":54,"textLines":1,"bbox":[576,376.8,316.8,48.96]}
+{"kind":"shape","id":"sh/0ja1sjy5","slide":35,"name":"Google Shape;686;p18","bbox":[52.8,429.12,854.4,48.96]}
+{"kind":"textbox","id":"sh/elozepgv","slide":35,"name":"Google Shape;688;p18","text":"Calidad","textPreview":"Calidad","textChars":7,"textLines":1,"bbox":[110.4,429.12,201.6,48.96]}
+{"kind":"textbox","id":"sh/fmx07uhg","slide":35,"name":"Google Shape;689;p18","text":"pytest · black · pyflakes · Sphinx","textPreview":"pytest · black · pyflakes · Sphinx","textChars":34,"textLines":1,"bbox":[316.8,429.12,249.6,48.96]}
+{"kind":"textbox","id":"sh/xg3mdszy","slide":35,"name":"Google Shape;690;p18","text":"Pruebas automatizadas, formateo y documentación técnica","textPreview":"Pruebas automatizadas, formateo y documentación técnica","textChars":55,"textLines":1,"bbox":[576,429.12,316.8,48.96]}
+{"kind":"image","id":"im/l8v2pwbi","slide":35,"name":"Google Shape;653;p18","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/yl43e1sr","slide":35,"name":"Google Shape;657;p18","bbox":[72,127.68,24,24]}
+{"kind":"image","id":"im/jmdknmtc","slide":35,"name":"Google Shape;662;p18","bbox":[72,180,24,24]}
+{"kind":"image","id":"im/sb6lkbat","slide":35,"name":"Google Shape;667;p18","bbox":[72,232.32,24,24]}
+{"kind":"image","id":"im/tcf2tgbe","slide":35,"name":"Google Shape;672;p18","bbox":[72,284.64,24,24]}
+{"kind":"image","id":"im/6943i1s3","slide":35,"name":"Google Shape;677;p18","bbox":[72,336.96,24,24]}
+{"kind":"image","id":"im/7adkr6to","slide":35,"name":"Google Shape;682;p18","bbox":[72,389.28,24,24]}
+{"kind":"image","id":"im/of2187ap","slide":35,"name":"Google Shape;687;p18","bbox":[72,441.6,24,24]}
+{"kind":"notes","id":"nt/1obmtofm","slide":35,"text":""}
+{"kind":"slide","id":"sl/m9s3ehgf","slide":36,"title":"Modelo de datos","textShapes":20}
+{"kind":"textbox","id":"sh/czyh8fid","slide":36,"name":"Google Shape;696;p19","text":"Modelo de datos","textPreview":"Modelo de datos","textChars":15,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/d0ri1kjy","slide":36,"name":"Google Shape;697;p19","text":"Una categoría agrupa palabras, cada palabra tiene muestras y cada muestra tiene frames","textPreview":"Una categoría agrupa palabras, cada palabra tiene muestras y cada muestra tiene frames","textChars":86,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/3apgva1w","slide":36,"name":"Google Shape;699;p19","text":"36","textPreview":"36","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"textbox","id":"sh/cnih43mh","slide":36,"name":"Google Shape;700;p19","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/al0z2t4b","slide":36,"name":"Google Shape;702;p19","bbox":[52.8,115.2,192,76.8]}
+{"kind":"textbox","id":"sh/bm9gbylw","slide":36,"name":"Google Shape;703;p19","text":"categories","textPreview":"categories","textChars":10,"textLines":1,"bbox":[52.8,122.88,192,28.8]}
+{"kind":"textbox","id":"sh/ojyh03m5","slide":36,"name":"Google Shape;704;p19","text":"categorías temáticas","textPreview":"categorías temáticas","textChars":20,"textLines":1,"bbox":[60.48,151.68,176.64,32.64]}
+{"kind":"textbox","id":"sh/2hgzyt4f","slide":36,"name":"Google Shape;706;p19","text":"1:N","textPreview":"1:N","textChars":3,"textLines":1,"bbox":[244.8,115.2,28.8,76.8]}
+{"kind":"shape","id":"sh/nipg7ylk","slide":36,"name":"Google Shape;707;p19","bbox":[273.6,115.2,192,76.8]}
+{"kind":"textbox","id":"sh/0fyhwjm9","slide":36,"name":"Google Shape;708;p19","text":"words","textPreview":"words","textChars":5,"textLines":1,"bbox":[273.6,122.88,192,28.8]}
+{"kind":"textbox","id":"sh/1g7y5o3u","slide":36,"name":"Google Shape;709;p19","text":"word_id = SHA-256","textPreview":"word_id = SHA-256","textChars":17,"textLines":1,"bbox":[281.28,151.68,176.64,32.64]}
+{"kind":"textbox","id":"sh/ipwz69ov","slide":36,"name":"Google Shape;711;p19","text":"1:N","textPreview":"1:N","textChars":3,"textLines":1,"bbox":[465.6,115.2,28.8,76.8]}
+{"kind":"shape","id":"sh/5cniho7m","slide":36,"name":"Google Shape;712;p19","bbox":[494.4,115.2,192,76.8]}
+{"kind":"textbox","id":"sh/4reh8j61","slide":36,"name":"Google Shape;713;p19","text":"samples","textPreview":"samples","textChars":7,"textLines":1,"bbox":[494.4,122.88,192,28.8]}
+{"kind":"textbox","id":"sh/rep0jyps","slide":36,"name":"Google Shape;714;p19","text":"una fila por grabación","textPreview":"una fila por grabación","textChars":22,"textLines":1,"bbox":[502.08,151.68,176.64,32.64]}
+{"kind":"textbox","id":"sh/sfyhcj6x","slide":36,"name":"Google Shape;717;p19","text":"1:N","textPreview":"1:N","textChars":3,"textLines":1,"bbox":[686.4,115.2,28.8,76.8]}
+{"kind":"shape","id":"sh/fip0nypo","slide":36,"name":"Google Shape;718;p19","bbox":[715.2,115.2,192,76.8]}
+{"kind":"textbox","id":"sh/ehgjeto3","slide":36,"name":"Google Shape;719;p19","text":"keypoints","textPreview":"keypoints","textChars":9,"textLines":1,"bbox":[715.2,122.88,192,28.8]}
+{"kind":"textbox","id":"sh/apkb21cn","slide":36,"name":"Google Shape;720;p19","text":"un frame por fila (JSONB)","textPreview":"un frame por fila (JSONB)","textChars":25,"textLines":1,"bbox":[722.88,151.68,176.64,32.64]}
+{"kind":"textbox","id":"sh/bqdcv6d8","slide":36,"name":"Google Shape;721;p19","text":"Una relación uno a muchos en cadena: borrar una palabra arrastra sus muestras y sus keypoints.","textPreview":"Una relación uno a muchos en cadena: borrar una palabra arrastra sus muestras y sus keypoints.","textChars":94,"textLines":1,"bbox":[52.8,197.76,854.4,32.64]}
+{"kind":"shape","id":"sh/xsvuxwve","slide":36,"name":"Google Shape;723;p19","bbox":[52.8,244.8,417.6,187.2]}
+{"kind":"textbox","id":"sh/nmtcrmdw","slide":36,"name":"Google Shape;725;p19","text":"Identificadores determinísticos","textPreview":"Identificadores determinísticos","textChars":31,"textLines":1,"bbox":[120,261.12,336,24.96]}
+{"kind":"textbox","id":"sh/on2t0ruh","slide":36,"name":"Google Shape;726;p19","text":"El word_id es el hash SHA-256 de la palabra: \"mamá\" produce siempre el mismo identificador en cualquier computadora. Eso permitió exportar e importar muestras entre las bases de los dos integrantes sin reconciliar IDs.","textPreview":"El word_id es el hash SHA-256 de la palabra: \"mamá\" produce siempre el mismo identificador en cualquier computadora. Eso permitió exporta...","textChars":218,"textLines":1,"bbox":[75.84,307.2,371.52,110.4]}
+{"kind":"shape","id":"sh/9obutwv2","slide":36,"name":"Google Shape;727;p19","bbox":[489.6,244.8,417.6,187.2]}
+{"kind":"textbox","id":"sh/7ixc3qtg","slide":36,"name":"Google Shape;729;p19","text":"Privacidad por diseño","textPreview":"Privacidad por diseño","textChars":21,"textLines":1,"bbox":[556.8,261.12,336,24.96]}
+{"kind":"textbox","id":"sh/hczetkfi","slide":36,"name":"Google Shape;730;p19","text":"Tras extraer los puntos clave, los videos se eliminan: la base solo guarda coordenadas numéricas, de las que no se puede reconstruir el rostro ni la apariencia de nadie.","textPreview":"Tras extraer los puntos clave, los videos se eliminan: la base solo guarda coordenadas numéricas, de las que no se puede reconstruir el r...","textChars":169,"textLines":1,"bbox":[512.64,307.2,371.52,110.4]}
+{"kind":"image","id":"im/dwvixo3u","slide":36,"name":"Google Shape;698;p19","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/qtkjm9kj","slide":36,"name":"Google Shape;724;p19","bbox":[75.84,264.96,28.8,28.8]}
+{"kind":"image","id":"im/rud0vel4","slide":36,"name":"Google Shape;728;p19","bbox":[512.64,264.96,28.8,28.8]}
+{"kind":"notes","id":"nt/m9s3ehgf","slide":36,"text":""}
+{"kind":"slide","id":"sl/jyhsreh4","slide":37,"title":"Capa 1 — LSTM de 48 unidades","textShapes":17}
+{"kind":"textbox","id":"sh/ofm9wnql","slide":37,"name":"Shape 902","text":"Capa 1 — LSTM de 48 unidades","textPreview":"Capa 1 — LSTM de 48 unidades","textChars":28,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/mt4rud8f","slide":37,"name":"Shape 904","text":"Lee la seña frame por frame y resume cada frame en 48 rasgos de movimiento","textPreview":"Lee la seña frame por frame y resume cada frame en 48 rasgos de movimiento","textChars":74,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/0r29snq9","slide":37,"name":"Shape 906","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/epkrqd8j","slide":37,"name":"Shape 908","bbox":[52.8,107.52,244.8,78.72]}
+{"kind":"textbox","id":"sh/cn29o3qd","slide":37,"name":"Shape 910","text":"Recibe","textPreview":"Recibe","textChars":6,"textLines":1,"bbox":[52.8,113.28,244.8,23.04]}
+{"kind":"textbox","id":"sh/3u9o7epw","slide":37,"name":"Shape 912","text":"15 × 1.662","textPreview":"15 × 1.662","textChars":10,"textLines":1,"bbox":[67.2,138.24,216,36.48]}
+{"kind":"textbox","id":"sh/pwr69o7m","slide":37,"name":"Shape 914","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[305.28,107.52,48,78.72]}
+{"kind":"shape","id":"sh/fqpo3upk","slide":37,"name":"Shape 916","bbox":[355.2,107.52,249.6,78.72]}
+{"kind":"textbox","id":"sh/hs76547q","slide":37,"name":"Shape 918","text":"LSTM de 48 unidades","textPreview":"LSTM de 48 unidades","textChars":19,"textLines":1,"bbox":[355.2,107.52,249.6,78.72]}
+{"kind":"textbox","id":"sh/72pozupo","slide":37,"name":"Shape 920","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[606.72,107.52,48,78.72]}
+{"kind":"shape","id":"sh/atsvi10j","slide":37,"name":"Shape 922","bbox":[662.4,107.52,244.8,78.72]}
+{"kind":"textbox","id":"sh/wvadkrip","slide":37,"name":"Shape 924","text":"Entrega","textPreview":"Entrega","textChars":7,"textLines":1,"bbox":[662.4,113.28,244.8,23.04]}
+{"kind":"textbox","id":"sh/yxcvm10f","slide":37,"name":"Shape 926","text":"15 × 48","textPreview":"15 × 48","textChars":7,"textLines":1,"bbox":[676.8,138.24,216,36.48]}
+{"kind":"shape","id":"sh/kjudobil","slide":37,"name":"Shape 928","bbox":[52.8,197.76,854.4,132.48]}
+{"kind":"textbox","id":"sh/e18bax0b","slide":37,"name":"Shape 930","text":"Qué hace","textPreview":"Qué hace","textChars":8,"textLines":1,"bbox":[79.68,211.2,796.8,24.96]}
+{"kind":"textbox","id":"sh/58fad8zu","slide":37,"name":"Shape 932","text":"Recorre los quince frames en orden, aplicando en cada paso las tres compuertas que vimos: qué olvidar, qué incorporar y qué pasar al frame siguiente. Comprime las 1.662 coordenadas crudas de cada frame a 48 valores que describen el movimiento en ese instante.","textPreview":"Recorre los quince frames en orden, aplicando en cada paso las tres compuertas que vimos: qué olvidar, qué incorporar y qué pasar al fram...","textChars":259,"textLines":1,"bbox":[79.68,240,800.64,80.64]}
+{"kind":"shape","id":"sh/36xsbyho","slide":37,"name":"Shape 934","bbox":[52.8,337.92,532.8,122.88]}
+{"kind":"textbox","id":"sh/h4vq98zi","slide":37,"name":"Shape 936","text":"Por qué así","textPreview":"Por qué así","textChars":11,"textLines":1,"bbox":[77.76,351.36,489.6,24.96]}
+{"kind":"textbox","id":"sh/v2d87yhs","slide":37,"name":"Shape 938","text":"Lleva return_sequences=True: entrega la secuencia completa y no solo el último paso. Tiene que ser así porque su salida alimenta a otra LSTM, que necesita una secuencia para recorrer.","textPreview":"Lleva return_sequences=True: entrega la secuencia completa y no solo el último paso. Tiene que ser así porque su salida alimenta a otra L...","textChars":183,"textLines":1,"bbox":[77.76,378.24,487.68,78.72]}
+{"kind":"shape","id":"sh/10zalsz2","slide":37,"name":"Shape 940","bbox":[609.6,337.92,297.6,122.88]}
+{"kind":"textbox","id":"sh/wjip4fet","slide":37,"name":"Shape 942","text":"Regularización","textPreview":"Regularización","textChars":14,"textLines":1,"bbox":[632.64,351.36,259.2,24.96]}
+{"kind":"textbox","id":"sh/ah0n2pwn","slide":37,"name":"Shape 944","text":"dropout 0,25 en las entradas\nrecurrent_dropout 0,15 en la memoria\nL2 0,003 · luego BN y Dropout 0,3","textPreview":"dropout 0,25 en las entradas | recurrent_dropout 0,15 en la memoria | L2 0,003 · luego BN y Dropout 0,3","textChars":99,"textLines":3,"bbox":[638.4,378.24,257.28,74.88]}
+{"kind":"textbox","id":"sh/83ypwvm5","slide":37,"name":"Shape 8002","text":"37","textPreview":"37","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"image","id":"im/adc7ydg7","slide":37,"name":"Google Shape;108;p34","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/jyhsreh4","slide":37,"text":""}
+{"kind":"slide","id":"sl/ofahkri5","slide":38,"title":"Capa 2 — LSTM de 64 unidades","textShapes":17}
+{"kind":"textbox","id":"sh/yp4n2l4z","slide":38,"name":"Shape 946","text":"Capa 2 — LSTM de 64 unidades","textPreview":"Capa 2 — LSTM de 64 unidades","textChars":28,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/krm54vmp","slide":38,"name":"Shape 948","text":"Condensa toda la secuencia en un único vector: acá desaparece el tiempo","textPreview":"Condensa toda la secuencia en un único vector: acá desaparece el tiempo","textChars":71,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/a1knyl4n","slide":38,"name":"Shape 950","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/18rm1c36","slide":38,"name":"Shape 952","bbox":[52.8,107.52,244.8,78.72]}
+{"kind":"textbox","id":"sh/f694zml0","slide":38,"name":"Shape 954","text":"Recibe","textPreview":"Recibe","textChars":6,"textLines":1,"bbox":[52.8,113.28,244.8,23.04]}
+{"kind":"textbox","id":"sh/pwbm5w32","slide":38,"name":"Shape 956","text":"15 × 48","textPreview":"15 × 48","textChars":7,"textLines":1,"bbox":[67.2,138.24,216,36.48]}
+{"kind":"textbox","id":"sh/nu943mlw","slide":38,"name":"Shape 958","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[305.28,107.52,48,78.72]}
+{"kind":"shape","id":"sh/5072ts3y","slide":38,"name":"Shape 960","bbox":[355.2,107.52,249.6,78.72]}
+{"kind":"textbox","id":"sh/kj698za5","slide":38,"name":"Shape 962","text":"LSTM de 64 unidades","textPreview":"LSTM de 64 unidades","textChars":19,"textLines":1,"bbox":[355.2,107.52,249.6,78.72]}
+{"kind":"textbox","id":"sh/yhor6psz","slide":38,"name":"Shape 964","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[606.72,107.52,48,78.72]}
+{"kind":"shape","id":"sh/8nqtcza1","slide":38,"name":"Shape 966","bbox":[662.4,107.52,244.8,78.72]}
+{"kind":"textbox","id":"sh/6lorapsv","slide":38,"name":"Shape 968","text":"Entrega","textPreview":"Entrega","textChars":7,"textLines":1,"bbox":[662.4,113.28,244.8,23.04]}
+{"kind":"textbox","id":"sh/grqtgjqx","slide":38,"name":"Shape 970","text":"64","textPreview":"64","textChars":2,"textLines":1,"bbox":[676.8,138.24,216,36.48]}
+{"kind":"shape","id":"sh/fytoj6p0","slide":38,"name":"Shape 972","bbox":[52.8,197.76,854.4,132.48]}
+{"kind":"textbox","id":"sh/10bqlg76","slide":38,"name":"Shape 974","text":"Qué hace","textPreview":"Qué hace","textChars":8,"textLines":1,"bbox":[79.68,211.2,796.8,24.96]}
+{"kind":"textbox","id":"sh/nmt8nqpc","slide":38,"name":"Shape 976","text":"Vuelve a recorrer la secuencia, ahora sobre los rasgos que resumió la capa anterior, y entrega solamente el estado del último paso. Ese vector de 64 valores ya no representa un frame: representa la seña completa, con su trayectoria.","textPreview":"Vuelve a recorrer la secuencia, ahora sobre los rasgos que resumió la capa anterior, y entrega solamente el estado del último paso. Ese v...","textChars":232,"textLines":1,"bbox":[79.68,240,800.64,80.64]}
+{"kind":"shape","id":"sh/povqp072","slide":38,"name":"Shape 978","bbox":[52.8,337.92,532.8,122.88]}
+{"kind":"textbox","id":"sh/bqd8rqp8","slide":38,"name":"Shape 980","text":"Por qué así","textPreview":"Por qué así","textChars":11,"textLines":1,"bbox":[77.76,351.36,489.6,24.96]}
+{"kind":"textbox","id":"sh/uhk3exs3","slide":38,"name":"Shape 982","text":"Lleva return_sequences=False porque es la última capa que trabaja sobre el tiempo. Tiene más unidades que la primera porque debe describir la seña entera, no un solo frame.","textPreview":"Lleva return_sequences=False porque es la última capa que trabaja sobre el tiempo. Tiene más unidades que la primera porque debe describi...","textChars":172,"textLines":1,"bbox":[77.76,378.24,487.68,78.72]}
+{"kind":"shape","id":"sh/wj2lg7a9","slide":38,"name":"Shape 984","bbox":[609.6,337.92,297.6,122.88]}
+{"kind":"textbox","id":"sh/ilk3ixsf","slide":38,"name":"Shape 986","text":"Regularización","textPreview":"Regularización","textChars":14,"textLines":1,"bbox":[632.64,351.36,259.2,24.96]}
+{"kind":"textbox","id":"sh/4n2lk7a5","slide":38,"name":"Shape 988","text":"dropout 0,25 en las entradas\nrecurrent_dropout 0,15 en la memoria\nL2 0,003 · luego BN y Dropout 0,35","textPreview":"dropout 0,25 en las entradas | recurrent_dropout 0,15 en la memoria | L2 0,003 · luego BN y Dropout 0,35","textChars":100,"textLines":3,"bbox":[638.4,378.24,257.28,74.88]}
+{"kind":"textbox","id":"sh/vm947als","slide":38,"name":"Shape 8003","text":"38","textPreview":"38","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"image","id":"im/nuh8v654","slide":38,"name":"Google Shape;108;p34","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/ofahkri5","slide":38,"text":""}
+{"kind":"slide","id":"sl/twb2lg7e","slide":39,"title":"Capa 4 — Dense de 32 neuronas, y la salida","textShapes":17}
+{"kind":"textbox","id":"sh/yh4zi5kb","slide":39,"name":"Shape 1034","text":"Capa 4 — Dense de 32 neuronas, y la salida","textPreview":"Capa 4 — Dense de 32 neuronas, y la salida","textChars":42,"textLines":1,"bbox":[52.8,24.96,796.8,48]}
+{"kind":"textbox","id":"sh/8n6hof2d","slide":39,"name":"Shape 1036","text":"Estrecha la representación y la convierte en probabilidades por palabra","textPreview":"Estrecha la representación y la convierte en probabilidades por palabra","textChars":71,"textLines":1,"bbox":[52.8,72.96,796.8,28.8]}
+{"kind":"textbox","id":"sh/6lozm5kn","slide":39,"name":"Shape 1038","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.88]}
+{"kind":"shape","id":"sh/ormhcv29","slide":39,"name":"Shape 1040","bbox":[52.8,107.52,244.8,78.72]}
+{"kind":"textbox","id":"sh/d8j2doni","slide":39,"name":"Shape 1042","text":"Recibe","textPreview":"Recibe","textChars":6,"textLines":1,"bbox":[52.8,113.28,244.8,23.04]}
+{"kind":"textbox","id":"sh/r61kby5c","slide":39,"name":"Shape 1044","text":"64","textPreview":"64","textChars":2,"textLines":1,"bbox":[67.2,138.24,216,36.48]}
+{"kind":"textbox","id":"sh/54j29on6","slide":39,"name":"Shape 1046","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[305.28,107.52,48,78.72]}
+{"kind":"shape","id":"sh/321k7e50","slide":39,"name":"Shape 1048","bbox":[355.2,107.52,249.6,78.72]}
+{"kind":"textbox","id":"sh/hgz254na","slide":39,"name":"Shape 1050","text":"Dense de 32 neuronas, y la salida","textPreview":"Dense de 32 neuronas, y la salida","textChars":33,"textLines":1,"bbox":[355.2,107.52,249.6,78.72]}
+{"kind":"textbox","id":"sh/y9o3m98b","slide":39,"name":"Shape 1052","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[606.72,107.52,48,78.72]}
+{"kind":"shape","id":"sh/kbqlozqh","slide":39,"name":"Shape 1054","bbox":[662.4,107.52,244.8,78.72]}
+{"kind":"textbox","id":"sh/6d83q9on","slide":39,"name":"Shape 1056","text":"Entrega","textPreview":"Entrega","textChars":7,"textLines":1,"bbox":[662.4,113.28,244.8,23.04]}
+{"kind":"textbox","id":"sh/8fqlsj6d","slide":39,"name":"Shape 1058","text":"32 → n","textPreview":"32 → n","textChars":6,"textLines":1,"bbox":[676.8,138.24,216,36.48]}
+{"kind":"shape","id":"sh/u183utoj","slide":39,"name":"Shape 1060","bbox":[52.8,197.76,854.4,132.48]}
+{"kind":"textbox","id":"sh/rylovi9c","slide":39,"name":"Shape 1062","text":"Qué hace","textPreview":"Qué hace","textChars":8,"textLines":1,"bbox":[79.68,211.2,796.8,24.96]}
+{"kind":"textbox","id":"sh/d036xsri","slide":39,"name":"Shape 1064","text":"Reduce de 64 a 32 valores: es un embudo que obliga a la red a quedarse solo con lo que sirve para decidir. De ahí pasa a la capa de salida, que tiene una neurona por cada palabra del vocabulario y aplica softmax, la función que convierte esos números en probabilidades que suman uno.","textPreview":"Reduce de 64 a 32 valores: es un embudo que obliga a la red a quedarse solo con lo que sirve para decidir. De ahí pasa a la capa de salid...","textChars":283,"textLines":1,"bbox":[79.68,240,800.64,80.64]}
+{"kind":"shape","id":"sh/3ulori9g","slide":39,"name":"Shape 1066","bbox":[52.8,337.92,532.8,122.88]}
+{"kind":"textbox","id":"sh/5w36tsr6","slide":39,"name":"Shape 1068","text":"Por qué así","textPreview":"Por qué así","textChars":11,"textLines":1,"bbox":[77.76,351.36,489.6,24.96]}
+{"kind":"textbox","id":"sh/nq5o329k","slide":39,"name":"Shape 1070","text":"Es la última capa antes de la salida, por eso ya no lleva dropout: apagar neuronas justo antes de decidir agregaría ruido a la predicción en lugar de evitar la memorización.","textPreview":"Es la última capa antes de la salida, por eso ya no lleva dropout: apagar neuronas justo antes de decidir agregaría ruido a la predicción...","textChars":173,"textLines":1,"bbox":[77.76,378.24,487.68,78.72]}
+{"kind":"shape","id":"sh/wjy9kba1","slide":39,"name":"Shape 1072","bbox":[609.6,337.92,297.6,122.88]}
+{"kind":"textbox","id":"sh/axgri1sb","slide":39,"name":"Shape 1074","text":"Regularización","textPreview":"Regularización","textChars":14,"textLines":1,"bbox":[632.64,351.36,259.2,24.96]}
+{"kind":"textbox","id":"sh/ovy9gra5","slide":39,"name":"Shape 1076","text":"L2 0,003 en los pesos\nSin dropout ni BN\nSalida: softmax sobre n palabras","textPreview":"L2 0,003 en los pesos | Sin dropout ni BN | Salida: softmax sobre n palabras","textChars":72,"textLines":3,"bbox":[638.4,378.24,257.28,74.88]}
+{"kind":"textbox","id":"sh/qh8jetsz","slide":39,"name":"Shape 8005","text":"39","textPreview":"39","textChars":2,"textLines":1,"bbox":[840,478.08,67.2,40.32]}
+{"kind":"image","id":"im/6hgr6lwn","slide":39,"name":"Google Shape;108;p34","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"notes","id":"nt/twb2lg7e","slide":39,"text":""}
+{"kind":"slide","id":"sl/5ojatgfe","slide":40,"title":"Accuracy del Modelo","textShapes":7}
+{"kind":"textbox","id":"sh/6xkzmh0j","slide":40,"name":"Google Shape;921;g3f6d8aeb3c0_0_0","text":"Accuracy del Modelo","textPreview":"Accuracy del Modelo","textChars":19,"textLines":1,"bbox":[52.8,24.96,796.79,48]}
+{"kind":"textbox","id":"sh/t0bixcja","slide":40,"name":"Google Shape;922;g3f6d8aeb3c0_0_0","text":"Caso de estudio cuantitativo — Capítulo 6 de la tesis","textPreview":"Caso de estudio cuantitativo — Capítulo 6 de la tesis","textChars":53,"textLines":1,"bbox":[52.8,72.96,796.79,28.79]}
+{"kind":"textbox","id":"sh/f2t0jm1g","slide":40,"name":"Google Shape;924;g3f6d8aeb3c0_0_0","text":"40","textPreview":"40","textChars":2,"textLines":1,"bbox":[840,478.08,67.21,40.31]}
+{"kind":"textbox","id":"sh/u1kzqh0v","slide":40,"name":"Google Shape;925;g3f6d8aeb3c0_0_0","text":"Pojoaju  ·  Trabajo Final de Grado","textPreview":"Pojoaju  ·  Trabajo Final de Grado","textChars":34,"textLines":1,"bbox":[52.8,485.76,432,26.87]}
+{"kind":"shape","id":"sh/hovilwz6","slide":40,"name":"Google Shape;926;g3f6d8aeb3c0_0_0","bbox":[52.8,117.38,854.39,80.35]}
+{"kind":"textbox","id":"sh/g321sril","slide":40,"name":"Google Shape;927;g3f6d8aeb3c0_0_0","text":"Objetivo","textPreview":"Objetivo","textChars":8,"textLines":1,"bbox":[79.69,126.28,796.79,24.94]}
+{"kind":"textbox","id":"sh/3qd0n6hc","slide":40,"name":"Google Shape;928;g3f6d8aeb3c0_0_0","text":"Medir qué tan bien reconoce el modelo las señas sobre datos no utilizados directamente para el entrenamiento.","textPreview":"Medir qué tan bien reconoce el modelo las señas sobre datos no utilizados directamente para el entrenamiento.","textChars":109,"textLines":1,"bbox":[79.69,157,800.63,24.94]}
+{"kind":"shape","id":"sh/x07e58v2","slide":40,"name":"Google Shape;930;g3f6d8aeb3c0_0_0","bbox":[322.8,256.52,68.6,0.09]}
+{"kind":"shape","id":"sh/mlwb69cf","slide":40,"name":"Google Shape;932;g3f6d8aeb3c0_0_0","bbox":[572.36,256.52,68.6,0.09]}
+{"kind":"textbox","id":"sh/crmhgryt","slide":40,"name":"Google Shape;934;g3f6d8aeb3c0_0_0","text":"TP — True Positive: el video realmente era “HOLA” y el modelo predijo “HOLA”. \nFP — False Positive: el video realmente era “CASA”, pero el modelo dijo “HOLA”. \nFN — False Negative : el video realmente era “HOLA”, pero el modelo dijo “CASA”. \nTN — True Negative: el video no era “HOLA” y el modelo correctamente predijo otra seña.","textPreview":"TP — True Positive: el video realmente era “HOLA” y el modelo predijo “HOLA”.  | FP — False Positive: el video realmente era “CASA”, pero...","textChars":329,"textLines":4,"bbox":[57.29,300.61,854.39,121.61]}
+{"kind":"image","id":"im/u583ydob","slide":40,"name":"Google Shape;923;g3f6d8aeb3c0_0_0","bbox":[866.88,19.2,38.4,57.6]}
+{"kind":"image","id":"im/hsj2tsnm","slide":40,"name":"Google Shape;929;g3f6d8aeb3c0_0_0","bbox":[52.8,232.52,270,48]}
+{"kind":"image","id":"im/wrql0n61","slide":40,"name":"Google Shape;931;g3f6d8aeb3c0_0_0","bbox":[406.48,232.52,165.88,48]}
+{"kind":"image","id":"im/ju1kv25s","slide":40,"name":"Google Shape;933;g3f6d8aeb3c0_0_0","bbox":[656.03,230.14,159.91,52.77]}
+{"kind":"notes","id":"nt/5ojatgfe","slide":40,"text":""}
